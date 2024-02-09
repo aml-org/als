@@ -3,12 +3,12 @@ package org.mulesoft.als.server.modules.configuration
 import org.mulesoft.als.configuration.ProjectConfiguration
 import org.mulesoft.als.server.RequestModule
 import org.mulesoft.als.server.feature.configuration.workspace._
-import org.mulesoft.als.server.modules.workspace.WorkspaceContentManager
+import org.mulesoft.als.server.modules.workspace.{UnitNotFoundException, WorkspaceContentManager}
 import org.mulesoft.als.server.workspace.WorkspaceManager
 import org.mulesoft.amfintegration.amfconfiguration.ALSConfigurationState
 import org.mulesoft.lsp.ConfigType
+import org.mulesoft.lsp.feature.telemetry.MessageTypes
 import org.mulesoft.lsp.feature.telemetry.MessageTypes.MessageTypes
-import org.mulesoft.lsp.feature.telemetry.{MessageTypes, TelemetryProvider}
 import org.mulesoft.lsp.feature.{RequestType, TelemeteredRequestHandler}
 import org.mulesoft.lsp.textsync.KnownDependencyScopes._
 import org.mulesoft.lsp.textsync.{DependencyConfiguration, DidChangeConfigurationNotificationParams}
@@ -37,12 +37,18 @@ class WorkspaceConfigurationManager(
   def getWorkspaceConfiguration(uri: String): Future[(WorkspaceContentManager, ProjectConfiguration)] =
     workspaceManager
       .getWorkspace(uri)
-      .flatMap(w => w.getConfigurationState.map(c => (w, c.projectState.config)))
+      .flatMap {
+        case wcm: WorkspaceContentManager => wcm.getConfigurationState.map(c => (wcm, c.projectState.config))
+        case _                            => Future.failed(UnitNotFoundException(uri, ""))
+      }
 
   def getConfigurationState(uri: String): Future[ALSConfigurationState] =
     workspaceManager
       .getWorkspace(uri)
-      .flatMap(w => w.getConfigurationState)
+      .flatMap {
+        case wcm: WorkspaceContentManager => wcm.getConfigurationState
+        case _                            => Future.failed(UnitNotFoundException(uri, ""))
+      }
 }
 
 class GetWorkspaceConfigurationRequestHandler(

@@ -21,6 +21,7 @@ trait ClientAlsInitializeParams extends js.Object {
   def trace: UndefOr[String]                            = js.native
   def workspaceFolders: js.Array[ClientWorkspaceFolder] = js.native // Nullable
   def hotReload: UndefOr[Boolean]                       = js.native
+  def maxFileSize: UndefOr[Int]                         = js.native
 }
 
 object ClientAlsInitializeParams {
@@ -37,7 +38,8 @@ object ClientAlsInitializeParams {
           internal.workspaceFolders.map(_.map(_.toClient)).map(_.toJSArray).getOrElse(null).asInstanceOf[js.Any],
         rootPath = internal.rootPath.orUndefined,
         initializationOptions = internal.initializationOptions.collect { case js: js.Object => js }.orUndefined,
-        hotReload = internal.hotReload.orUndefined
+        hotReload = internal.hotReload.orUndefined,
+        hotReload = internal.maxFileSize.orUndefined
       )
       .asInstanceOf[ClientAlsInitializeParams]
   }

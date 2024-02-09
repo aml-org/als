@@ -8,6 +8,7 @@ public class AlsInitializeParams extends InitializeParams {
     private AlsClientCapabilities alsClientCapabilities;
     private AlsConfiguration configuration;
     private Boolean hotReload;
+    private Integer maxFileSize;
 
     @Override
     public AlsClientCapabilities getCapabilities() {
@@ -41,6 +42,14 @@ public class AlsInitializeParams extends InitializeParams {
 
     public void setHotReload(Boolean hotReload) {
         this.hotReload = hotReload;
+    }
+
+    public Integer getMaxFileSize() {
+        return maxFileSize;
+    }
+
+    public void setMaxFileSize(Integer maxFileSize) {
+        this.maxFileSize = maxFileSize;
     }
 
 }

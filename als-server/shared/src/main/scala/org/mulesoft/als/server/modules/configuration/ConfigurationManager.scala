@@ -35,6 +35,14 @@ class ConfigurationManager
     */
   def setHotReloadDialects(p: Boolean): Unit = hotReloadDialects = p
 
+  private var maxFileSize: Option[Int] = None
+
+  override def getMaxFileSize: Option[Int] = maxFileSize
+
+  /** Should only be called from initialization
+    */
+  def setMaxFileSize(p: Option[Int]): Unit = maxFileSize = p
+
   def updateDocumentChangesSupport(support: Boolean): Unit = configuration.supportsDocumentChanges(support)
 
   def getConfiguration: AlsConfigurationReader = configuration

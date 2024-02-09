@@ -107,7 +107,8 @@ object LspConversions {
         rootPath = Option(p.getRootPath),
         initializationOptions = Option(p.getInitializationOptions),
         configuration = Option(p.getConfiguration),
-        hotReload = Option(p.getHotReload)
+        hotReload = Option(p.getHotReload),
+        maxFileSize = Option(p.getMaxFileSize).map(_.toInt)
       )
     } getOrElse AlsInitializeParams.default
 

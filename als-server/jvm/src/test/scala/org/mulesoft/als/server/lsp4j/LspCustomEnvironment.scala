@@ -58,6 +58,7 @@ class LspCustomEnvironment extends AsyncFunSuite with Matchers with PlatformSecr
       r1 <- notifier.nextCall
       r2 <- notifier.nextCall
     } yield {
+      println(r1)
       r2.uri should be("jar:/api.raml")
       calledRL should be(true)
     }
