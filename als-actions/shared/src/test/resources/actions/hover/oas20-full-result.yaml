@@ -100,9 +100,9 @@ hovers:
   (27,8):
     - Request information for an operation
   (28,8):
-    - Request information for an operation
+    - Categorical information provided by some API spec format. Tags are extensions to the model supported directly in the input API spec format.
   (28,11):
-    - Request information for an operation
+    - Categorical information provided by some API spec format. Tags are extensions to the model supported directly in the input API spec format.
   (29,12):
     - Categorical information provided by some API spec format. Tags are extensions to the model supported directly in the input API spec format.
   (30,11):
@@ -188,9 +188,9 @@ hovers:
   (52,20):
     - Marks the operation as deprecated
   (53,10):
-    - Request information for an operation
+    - Flow for an OAuth2 security scheme setting
   (53,15):
-    - Request information for an operation
+    - Flow for an OAuth2 security scheme setting
   (54,16):
     - Settings for an OAuth2 security scheme
   (54,24):
@@ -198,7 +198,7 @@ hovers:
   (55,19): []
   (56,18): []
   (57,10):
-    - Request information for an operation
+    - Response information for an operation
   (57,16):
     - Response information for an operation
   (58,10):
