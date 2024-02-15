@@ -135,8 +135,7 @@ hovers:
     - Human readable description of an element
   (40,8):
     - Bindings for this endpoint
-  (40,13):
-    - Action that can be executed using a particular HTTP invocation
+  (40,13): []
   (41,8):
     - Binding for a corresponding known type
   (41,11): []
@@ -202,7 +201,7 @@ hovers:
   (57,33):
     - Action that can be executed using a particular HTTP invocation
   (58,9):
-    - Action that can be executed using a particular HTTP invocation
+    - Piece of data required or returned by an Operation
   (58,15):
     - Piece of data required or returned by an Operation
   (59,9):
