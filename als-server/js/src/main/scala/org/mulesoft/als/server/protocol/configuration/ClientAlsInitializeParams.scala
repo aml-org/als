@@ -39,7 +39,7 @@ object ClientAlsInitializeParams {
         rootPath = internal.rootPath.orUndefined,
         initializationOptions = internal.initializationOptions.collect { case js: js.Object => js }.orUndefined,
         hotReload = internal.hotReload.orUndefined,
-        hotReload = internal.maxFileSize.orUndefined
+        maxFileSize = internal.maxFileSize.orUndefined
       )
       .asInstanceOf[ClientAlsInitializeParams]
   }
