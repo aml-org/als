@@ -4,6 +4,7 @@ import org.mulesoft.als.server.modules.ast.FOCUS_FILE
 import org.mulesoft.als.server.workspace.WorkspaceManager
 import org.yaml.model.YMap
 import amf.core.internal.parser._
+import org.mulesoft.als.server.modules.workspace.WorkspaceContentManager
 import org.mulesoft.als.server.protocol.textsync.DidFocusParams
 
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -21,5 +22,8 @@ class DidFocusCommandExecutor(wsc: WorkspaceManager) extends CommandExecutor[Did
   }
 
   override protected def runCommand(param: DidFocusParams): Future[Unit] =
-    wsc.getWorkspace(param.uri).flatMap(_.stage(param.uri, FOCUS_FILE))
+    wsc.getWorkspace(param.uri).flatMap {
+      case wcm: WorkspaceContentManager => wcm.stage(param.uri, FOCUS_FILE)
+      case _                            => Future.successful()
+    }
 }

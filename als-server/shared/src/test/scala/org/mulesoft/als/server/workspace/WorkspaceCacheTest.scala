@@ -70,7 +70,7 @@ class WorkspaceCacheTest extends AsyncFunSuite with Matchers with PlatformSecret
     val env = TextDocumentContainer()
     for {
       configAdapter <- newConfigurationAdapter(folderUri, env, rl)
-      ws            <- WorkspaceContentManager(folderUri, env, () => Nil, configAdapter)
+      ws            <- WorkspaceContentManager(folderUri, env, () => Nil, configAdapter, (_: String) => {})
       _             <- ws.initialized
       _ <- ws
         .withConfiguration(ProjectConfiguration(folderUri, mainApiName, cacheUris))
@@ -134,7 +134,7 @@ class WorkspaceCacheTest extends AsyncFunSuite with Matchers with PlatformSecret
     Logger.withTelemetry(DummyTelemetryProvider)
     for {
       configAdapter <- newConfigurationAdapter(folderUri, env, rl)
-      ws            <- WorkspaceContentManager(folderUri, env, () => Nil, configAdapter)
+      ws            <- WorkspaceContentManager(folderUri, env, () => Nil, configAdapter, (_: String) => {})
       _             <- ws.initialized
       _ <- ws
         .withConfiguration(ProjectConfiguration(folderUri, mainApiName, cacheUris))
@@ -189,7 +189,7 @@ class WorkspaceCacheTest extends AsyncFunSuite with Matchers with PlatformSecret
     Logger.withTelemetry(DummyTelemetryProvider)
     for {
       configAdapter <- newConfigurationAdapter(folderUri, env, rl)
-      ws            <- WorkspaceContentManager(folderUri, env, () => Nil, configAdapter)
+      ws            <- WorkspaceContentManager(folderUri, env, () => Nil, configAdapter, (_: String) => {})
       _             <- ws.initialized
       _ <- ws
         .withConfiguration(ProjectConfiguration(folderUri, mainApiName))
@@ -245,7 +245,7 @@ class WorkspaceCacheTest extends AsyncFunSuite with Matchers with PlatformSecret
     Logger.withTelemetry(DummyTelemetryProvider)
     for {
       configAdapter <- newConfigurationAdapter(folderUri, env, rl)
-      ws            <- WorkspaceContentManager(folderUri, env, () => Nil, configAdapter)
+      ws            <- WorkspaceContentManager(folderUri, env, () => Nil, configAdapter, (_: String) => {})
       _             <- ws.initialized
       _ <- ws
         .withConfiguration(ProjectConfiguration(folderUri, mainApiName, cacheUris))
@@ -317,7 +317,7 @@ class WorkspaceCacheTest extends AsyncFunSuite with Matchers with PlatformSecret
     Logger.withTelemetry(DummyTelemetryProvider)
     for {
       configAdapter <- newConfigurationAdapter(folderUri, env, rl)
-      ws            <- WorkspaceContentManager(folderUri, env, () => Nil, configAdapter)
+      ws            <- WorkspaceContentManager(folderUri, env, () => Nil, configAdapter, (_: String) => {})
       _             <- ws.initialized
       _ <- ws
         .withConfiguration(ProjectConfiguration(folderUri, mainApiName, cacheUris))

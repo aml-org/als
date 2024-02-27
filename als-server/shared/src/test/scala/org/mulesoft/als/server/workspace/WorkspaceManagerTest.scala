@@ -7,6 +7,7 @@ import org.mulesoft.als.configuration.ProjectConfiguration
 import org.mulesoft.als.server.client.platform.ClientNotifier
 import org.mulesoft.als.server.client.scala.LanguageServerBuilder
 import org.mulesoft.als.server.modules.WorkspaceManagerFactoryBuilder
+import org.mulesoft.als.server.modules.workspace.WorkspaceContentManager
 import org.mulesoft.als.server.protocol.LanguageServer
 import org.mulesoft.als.server.protocol.configuration.AlsInitializeParams
 import org.mulesoft.als.server.workspace.command.Commands
@@ -365,9 +366,11 @@ class WorkspaceManagerTest extends LanguageServerBaseTest {
           ExecuteCommandParams(Commands.DID_CHANGE_CONFIGURATION, List(changeConfigArgs(Some(apiRoot), root)))
         )
         // api.raml, fragment.raml
-        _       <- diagnosticClientNotifier.nextCall
-        _       <- diagnosticClientNotifier.nextCall
-        config1 <- wm.getWorkspace(filePath("ws4")).flatMap(_.getConfigurationState)
+        _ <- diagnosticClientNotifier.nextCall
+        _ <- diagnosticClientNotifier.nextCall
+        config1 <- wm.getWorkspace(filePath("ws4")).flatMap { case wcm: WorkspaceContentManager =>
+          wcm.getConfigurationState
+        }
         _ <- server.workspaceService.executeCommand(
           ExecuteCommandParams(
             Commands.DID_CHANGE_CONFIGURATION,
@@ -375,8 +378,10 @@ class WorkspaceManagerTest extends LanguageServerBaseTest {
           )
         )
         // api2.raml
-        _       <- diagnosticClientNotifier.nextCall
-        config2 <- wm.getWorkspace(filePath("ws4")).flatMap(_.getConfigurationState)
+        _ <- diagnosticClientNotifier.nextCall
+        config2 <- wm.getWorkspace(filePath("ws4")).flatMap { case wcm: WorkspaceContentManager =>
+          wcm.getConfigurationState
+        }
         _ <- server.workspaceService.executeCommand(
           ExecuteCommandParams(
             Commands.DID_CHANGE_CONFIGURATION,
@@ -384,8 +389,10 @@ class WorkspaceManagerTest extends LanguageServerBaseTest {
           )
         )
         // api2.raml
-        _       <- diagnosticClientNotifier.nextCall
-        config3 <- wm.getWorkspace(filePath("ws4")).flatMap(_.getConfigurationState)
+        _ <- diagnosticClientNotifier.nextCall
+        config3 <- wm.getWorkspace(filePath("ws4")).flatMap { case wcm: WorkspaceContentManager =>
+          wcm.getConfigurationState
+        }
         _ <- server.workspaceService.executeCommand(
           ExecuteCommandParams(
             Commands.DID_CHANGE_CONFIGURATION,
@@ -393,8 +400,10 @@ class WorkspaceManagerTest extends LanguageServerBaseTest {
           )
         )
         // api2.raml
-        _       <- diagnosticClientNotifier.nextCall
-        config4 <- wm.getWorkspace(filePath("ws4")).flatMap(_.getConfigurationState)
+        _ <- diagnosticClientNotifier.nextCall
+        config4 <- wm.getWorkspace(filePath("ws4")).flatMap { case wcm: WorkspaceContentManager =>
+          wcm.getConfigurationState
+        }
 
       } yield {
         server.shutdown()
