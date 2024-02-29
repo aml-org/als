@@ -1,4 +1,3 @@
-@@ -1,12 +0,0 @@
 #!/bin/bash
 
 mkdir -p dist
