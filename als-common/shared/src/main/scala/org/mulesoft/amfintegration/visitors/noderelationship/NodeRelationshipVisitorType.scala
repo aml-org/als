@@ -1,7 +1,7 @@
 package org.mulesoft.amfintegration.visitors.noderelationship
 
 import amf.core.client.scala.model.domain.{AmfElement, AmfObject, NamedDomainElement}
-import amf.core.internal.annotations.{LexicalInformation, SourceAST}
+import amf.core.internal.annotations.LexicalInformation
 import amf.core.internal.metamodel.domain.LinkableElementModel
 import amf.shapes.client.scala.model.domain.NodeShape
 import org.mulesoft.als.common.SemanticNamedElement.ElementNameExtractor
@@ -10,9 +10,8 @@ import org.mulesoft.amfintegration.VirtualYPart
 import org.mulesoft.amfintegration.relationships.RelationshipLink
 import org.mulesoft.amfintegration.visitors.AmfElementVisitor
 import org.mulesoft.common.client.lexical.SourceLocation
-import org.mulesoft.lexer.AstToken
 import org.yaml.lexer.YamlToken.Text
-import org.yaml.model.{YMapEntry, YNode, YNonContent, YPart, YScalar, YTag, YType}
+import org.yaml.model._
 
 trait NodeRelationshipVisitorType extends AmfElementVisitor[RelationshipLink] {
   protected def extractTarget(obj: AmfObject): Option[AmfElement] =

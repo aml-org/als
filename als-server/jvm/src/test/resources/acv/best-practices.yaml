@@ -1,0 +1,35 @@
+#%Validation Profile 1.0
+
+profile: Test13
+
+violation:
+  - lack-of-resources-and-rate-limiting-too-many-requests
+
+validations:
+
+  lack-of-resources-and-rate-limiting-too-many-requests:
+    message: |
+      Notify the client when the limit is exceeded by providing the limit number and the time at which the limit will
+      be reset.
+    targetClass: apiContract.Operation
+    or:
+      - not:
+          not:
+            propertyConstraints:
+              apiContract.returns:
+                atLeast:
+                  count: 1
+                  validation:
+                    propertyConstraints:
+                      apiContract.statusCode:
+                        in:
+                          - "200"
+      - propertyConstraints:
+          apiContract.returns:
+            atLeast:
+              count: 1
+              validation:
+                propertyConstraints:
+                  apiContract.statusCode:
+                    in:
+                      - "403"
