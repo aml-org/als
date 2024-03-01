@@ -125,6 +125,51 @@ class SerializationTest extends LanguageServerBaseTest with ChangesWorkspaceConf
         }
       } yield {
         assertSimpleApi(parsed.baseUnit)
+        assert(!s.contains("sourcemaps"))
+      }
+    }
+  }
+
+  test("Request serialized model - clean with sourcemaps") {
+    val alsClient: MockAlsClientNotifier = new MockAlsClientNotifier
+    val serializationProps: SerializationProps[StringWriter] =
+      new SerializationProps[StringWriter](alsClient) {
+        override def newDocBuilder(prettyPrint: Boolean): DocBuilder[StringWriter] =
+          JsonOutputBuilder(prettyPrint)
+      }
+    withServer(buildServer(serializationProps)) { server =>
+      val content =
+        """#%RAML 1.0
+          |title: test
+          |description: missing title
+          |""".stripMargin
+
+      val api = "file://api.raml"
+      openFile(server)(api, content)
+
+      for {
+        _ <- alsClient.nextCall.map(_.model.toString)
+        s <- serialize(server, api, serializationProps, clean = true, sourcemaps = true)
+        parsed <- {
+          val rl = new ResourceLoader {
+
+            /** Fetch specified resource and return associated content. Resource should have benn previously accepted.
+              */
+            override def fetch(resource: String): Future[Content] =
+              Future.successful(new Content(s, api))
+
+            /** Accepts specified resource. */
+            override def accepts(resource: String): Boolean = resource == api
+          }
+          WebAPIConfiguration
+            .WebAPI()
+            .withResourceLoader(rl)
+            .baseUnitClient()
+            .parse(api)
+        }
+      } yield {
+        assertSimpleApi(parsed.baseUnit)
+        assert(s.contains("sourcemaps"))
       }
     }
   }
@@ -733,6 +778,7 @@ class SerializationTest extends LanguageServerBaseTest with ChangesWorkspaceConf
         factory.resolutionTaskManager
       )
     builder.addInitializableModule(serializationManager)
+    serializationManager.withWorkspaceConfigurationManager(factory.workspaceConfigurationManager)
     if (withDiagnostics) dm.foreach(m => builder.addInitializableModule(m))
     builder.addRequestModule(serializationManager)
     builder.build()

@@ -6670,7 +6670,9 @@ declare module '@aml-org/als-node-client' {
   }
 
   export interface SerializationParams {
-    documentIdentifier: TextDocumentIdentifier
+    documentIdentifier: TextDocumentIdentifier,
+    clean?: boolean,
+    sourcemaps?: boolean
   }
 
   export type SerializationRequestType = {

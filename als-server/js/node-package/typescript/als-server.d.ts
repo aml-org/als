@@ -6671,7 +6671,9 @@ declare module '@aml-org/als-server' {
   }
 
   export interface SerializationParams {
-    documentIdentifier: TextDocumentIdentifier
+    documentIdentifier: TextDocumentIdentifier,
+    clean?: boolean,
+    sourcemaps?: boolean
   }
 
   export type SerializationRequestType = {

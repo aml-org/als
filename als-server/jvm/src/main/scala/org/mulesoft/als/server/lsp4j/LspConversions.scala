@@ -184,7 +184,7 @@ object LspConversions {
   }
 
   implicit def jvmSerializationParams(params: extension.SerializationParams): SerializationParams = {
-    SerializationParams(params.getDocumentIdentifier)
+    SerializationParams(params.getDocumentIdentifier, params.getClean, params.getSourcemaps)
   }
 
   implicit def jvmRenameFileActionParams(params: extension.RenameFileActionParams): RenameFileActionParams =

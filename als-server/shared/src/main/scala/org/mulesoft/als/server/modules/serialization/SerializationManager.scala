@@ -3,18 +3,22 @@ package org.mulesoft.als.server.modules.serialization
 import amf.aml.client.scala.AMLConfiguration
 import amf.apicontract.client.scala.model.document.{Extension, Overlay}
 import amf.core.client.scala.model.document.{BaseUnit, Document}
+import org.mulesoft.als.common.URIImplicits.StringUriImplicits
 import org.mulesoft.als.configuration.AlsConfigurationReader
 import org.mulesoft.als.logger.Logger
 import org.mulesoft.als.server.feature.serialization._
+import org.mulesoft.als.server.modules.CleanAmfProcess
 import org.mulesoft.als.server.modules.ast.ResolvedUnitListener
 import org.mulesoft.als.server.modules.common.reconciler.Runnable
+import org.mulesoft.als.server.modules.configuration.WorkspaceConfigurationManager
 import org.mulesoft.als.server.{RequestModule, SerializationProps}
 import org.mulesoft.amfintegration.AmfImplicits._
 import org.mulesoft.amfintegration.AmfResolvedUnit
 import org.mulesoft.amfintegration.amfconfiguration.EditorConfiguration
 import org.mulesoft.lsp.feature.TelemeteredRequestHandler
+import org.mulesoft.lsp.feature.telemetry.MessageTypes
 import org.mulesoft.lsp.feature.telemetry.MessageTypes.MessageTypes
-import org.mulesoft.lsp.feature.telemetry.{MessageTypes, TelemetryProvider}
+import org.mulesoft.lsp.workspace.WorkspaceFoldersChangeEvent
 
 import java.util.UUID
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -27,8 +31,16 @@ class SerializationManager[S](
     props: SerializationProps[S]
 ) extends BaseSerializationNotifier[S](props, configurationReader)
     with ResolvedUnitListener
-    with RequestModule[SerializationClientCapabilities, SerializationServerOptions] {
+    with RequestModule[SerializationClientCapabilities, SerializationServerOptions]
+    with CleanAmfProcess {
   type RunType = SerializationRunnable
+
+  private var workspaceConfigurationManager: Option[WorkspaceConfigurationManager] = None
+
+  def withWorkspaceConfigurationManager(wcm: WorkspaceConfigurationManager): SerializationManager[S] = {
+    workspaceConfigurationManager = Option(wcm)
+    this
+  }
 
   override val `type`: SerializationConfigType.type = SerializationConfigType
 
@@ -51,7 +63,20 @@ class SerializationManager[S](
         .find(_.identifier == uri)
         .getOrElse(throw new Exception(s"Unreachable code - getUnitFromResolved $uri in BaseUnit ${unit.id}"))
 
-  private def processRequest(uri: String): Future[SerializationResult[S]] = {
+  private def cleanSerialize(uri: String, sourcemaps: Boolean): Future[SerializationResult[S]] = {
+    workspaceConfigurationManager match {
+      case Some(wcm) =>
+        val refinedUri = uri.toAmfDecodedUri(EditorConfiguration.platform)
+        for {
+          state                             <- wcm.getConfigurationState(refinedUri)
+          (_, resolved, configurationState) <- parseAndResolve(refinedUri, state)
+        } yield serialize(resolved.baseUnit, configurationState.getAmfConfig, sourcemaps)
+      case _ =>
+        Future.failed(new RuntimeException("no workspaceConfigurationManager set"))
+    }
+  }
+
+  private def processRequest(uri: String, sourcemaps: Boolean): Future[SerializationResult[S]] = {
     val result: Future[(BaseUnit, AMLConfiguration)] = unitAccessor match {
       case Some(ua) =>
         ua.getLastUnit(uri, UUID.randomUUID().toString)
@@ -70,7 +95,7 @@ class SerializationManager[S](
         Logger.warning("Unit accessor not configured", "SerializationManager", "RequestSerialization")
         Future.successful((Document().withId("error"), AMLConfiguration.predefined()))
     }
-    result.map(r => serialize(r._1, r._2))
+    result.map(r => serialize(r._1, r._2, sourcemaps))
   }
 
   override def initialize(): Future[Unit] = Future.successful()
@@ -80,7 +105,8 @@ class SerializationManager[S](
       override def `type`: props.requestType.type = props.requestType
 
       override def task(params: SerializationParams): Future[SerializationResult[S]] =
-        processRequest(params.documentIdentifier.uri)
+        if (params.clean) cleanSerialize(params.documentIdentifier.uri, params.sourcemaps)
+        else processRequest(params.documentIdentifier.uri, params.sourcemaps)
 
       override protected def code(params: SerializationParams): String = "SerializationManager"
 
