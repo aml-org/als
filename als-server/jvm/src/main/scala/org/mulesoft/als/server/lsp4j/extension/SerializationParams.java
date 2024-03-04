@@ -4,10 +4,10 @@ import org.eclipse.lsp4j.TextDocumentIdentifier;
 
 public class SerializationParams {
     private TextDocumentIdentifier documentIdentifier;
-    private Boolean clean;
-    private Boolean sourcemaps;
+    private boolean clean;
+    private boolean sourcemaps;
 
-    public SerializationParams(TextDocumentIdentifier documentIdentifier, Boolean clean, Boolean sourcemaps) {
+    public SerializationParams(TextDocumentIdentifier documentIdentifier, boolean clean, boolean sourcemaps) {
         this.documentIdentifier = documentIdentifier;
         this.clean = clean;
         this.sourcemaps = sourcemaps;
@@ -27,19 +27,19 @@ public class SerializationParams {
         this.documentIdentifier = documentIdentifier;
     }
 
-    public Boolean getSourcemaps() {
+    public boolean getSourcemaps() {
         return sourcemaps;
     }
 
-    public void setSourcemaps(Boolean sourcemaps) {
+    public void setSourcemaps(boolean sourcemaps) {
         this.sourcemaps = sourcemaps;
     }
 
-    public Boolean getClean() {
+    public boolean getClean() {
         return clean;
     }
 
-    public void setClean(Boolean clean) {
+    public void setClean(boolean clean) {
         this.clean = clean;
     }
 }
