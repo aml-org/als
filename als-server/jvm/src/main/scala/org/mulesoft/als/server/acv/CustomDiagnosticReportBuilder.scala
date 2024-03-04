@@ -1,43 +1,38 @@
 package org.mulesoft.als.server.acv
 
-import amf.custom.validation.client.scala.report.model.{
-  AMLLocation,
-  AMLOpaReport,
-  AMLOpaResult,
-  AMLPosition,
-  AMLRange,
-  OpaTrace
-}
+import amf.custom.validation.client.scala.report.model._
 import org.eclipse.lsp4j.{Location, Position, Range}
-import org.mulesoft.als.server.modules.diagnostic.custom.ResultParser
+import org.mulesoft.als.server.modules.diagnostic.custom.TraceValueParser
 
 import scala.collection.JavaConverters._
 import scala.language.{implicitConversions, postfixOps}
 object CustomDiagnosticReportBuilder {
-  def toDiagnosticReport(opaReport: AMLOpaReport): CustomDiagnosticReport = {
-
-    val parsedResult = new ResultParser(opaResult = ???, rootUri = ???)
-
-    parsedResult.buildStack()
+  def toDiagnosticReport(opaReport: AMLOpaReport, apiUri: String): CustomDiagnosticReport =
     new CustomDiagnosticReport(
       opaReport.profileName.profile,
-      opaReport.results.map(toDiagnosticEntry).toList.asJava
+      opaReport.results.map(toDiagnosticEntry(_, apiUri)).toList.asJava
     )
-  }
-  def toDiagnosticEntry(opaResult: AMLOpaResult): CustomDiagnosticEntry =
+  def toDiagnosticEntry(opaResult: AMLOpaResult, apiUri: String): CustomDiagnosticEntry =
     new CustomDiagnosticEntry(
       opaResult.level,
       opaResult.validationId.orNull,
       opaResult.validationName.orNull,
       opaResult.message,
       opaResult.location.map(toLocation).orNull,
-      opaResult.trace.map(toTrace).toList.asJava
+      opaResult.trace.flatMap(toTrace(_, apiUri)).toList.asJava
     )
-  def toTrace(trace: OpaTrace): TraceEntry = new TraceEntry()
-  private def toLocation(location: AMLLocation): Location =
+  def toTrace(trace: OpaTrace, apiUri: String): Seq[TraceEntry] = trace.traceValue.map { tv =>
+    val tvp = new TraceValueParser(tv, apiUri)
+    new TraceEntry(
+      tvp.buildMessage(None).getOrElse(""),
+      tv.subResult.flatMap(_.trace).flatMap(toTrace(_, apiUri)).toList.asJava,
+      trace.location.map(toLocation).orNull
+    )
+  }
+  private def toLocation(location: OpaLocation): Location =
     new Location(location.location.getOrElse(""), location.range.map(toRange).getOrElse(rangeZero))
-  private def toRange(range: AMLRange): Range             = new Range(toPosition(range.start), toPosition(range.end))
-  private def toPosition(position: AMLPosition): Position = new Position(position.line, position.column)
+  private def toRange(range: OpaRange): Range             = new Range(toPosition(range.start), toPosition(range.end))
+  private def toPosition(position: OpaPosition): Position = new Position(position.line, position.column)
   private val positionZero                                = new Position(0, 0)
   private val rangeZero                                   = new Range(positionZero, positionZero)
 }

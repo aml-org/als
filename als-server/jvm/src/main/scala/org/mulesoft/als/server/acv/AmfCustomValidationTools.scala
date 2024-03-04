@@ -2,10 +2,9 @@ package org.mulesoft.als.server.acv
 
 import amf.aml.client.scala.AMLConfiguration
 import amf.aml.client.scala.model.document.DialectInstance
-import amf.custom.validation.client.scala.report.OPAValidatorReportLoader
 import amf.custom.validation.client.scala.report.model.{AMLOpaReport, ValidationProfileWrapper}
 import amf.custom.validation.internal.report.loaders.ProfileDialectLoader
-import amf.custom.validation.internal.report.parser.{AMFValidationOpaAdapter, OpaValidatorReportParser}
+import amf.custom.validation.internal.report.parser.OpaValidatorReportParser
 import org.mulesoft.als.logger.Logger
 
 import java.util.concurrent.CompletableFuture
@@ -37,7 +36,7 @@ object AmfCustomValidationTools {
               Logger.error(errorMsg, "AmfCustomValidationTools", "parseReport")
               Future.failed(new RuntimeException(errorMsg))
           }
-          .map(CustomDiagnosticReportBuilder.toDiagnosticReport)
+          .map(CustomDiagnosticReportBuilder.toDiagnosticReport(_, apiUri))
           .recover { case e: Exception =>
             Logger.error(e.getMessage, "AmfCustomValidationTools", "parseReport")
             throw e
