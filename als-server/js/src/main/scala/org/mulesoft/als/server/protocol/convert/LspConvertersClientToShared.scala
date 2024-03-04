@@ -193,7 +193,8 @@ object LspConvertersClientToShared {
   }
 
   implicit class SerializationParamsConverter(v: ClientSerializationParams) {
-    def toShared: SerializationParams = SerializationParams(v.documentIdentifier.toShared)
+    def toShared: SerializationParams =
+      SerializationParams(v.documentIdentifier.toShared, v.clean.getOrElse(false), v.sourcemaps.getOrElse(false))
   }
 
   implicit class ClientRenameFileActionClientCapabilitiesConverter(i: ClientRenameFileActionClientCapabilities) {

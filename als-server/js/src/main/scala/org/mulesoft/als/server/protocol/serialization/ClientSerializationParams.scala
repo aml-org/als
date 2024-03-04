@@ -11,13 +11,17 @@ import scala.scalajs.js
 @js.native
 trait ClientSerializationParams extends js.Object {
   def documentIdentifier: ClientTextDocumentIdentifier = js.native
+  def clean: js.UndefOr[Boolean]                       = js.native
+  def sourcemaps: js.UndefOr[Boolean]                  = js.native
 }
 
 object ClientSerializationParams {
   def apply(internal: SerializationParams): ClientSerializationParams =
     js.Dynamic
       .literal(
-        documentIdentifier = internal.documentIdentifier.toClient
+        documentIdentifier = internal.documentIdentifier.toClient,
+        clean = internal.clean,
+        sourcemaps = internal.sourcemaps
       )
       .asInstanceOf[ClientSerializationParams]
 }
