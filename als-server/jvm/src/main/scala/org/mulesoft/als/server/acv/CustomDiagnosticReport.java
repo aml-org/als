@@ -3,8 +3,8 @@ package org.mulesoft.als.server.acv;
 import java.util.List;
 
 public class CustomDiagnosticReport {
-    String profileName;
-    List<CustomDiagnosticEntry> entries;
+    private String profileName;
+    private List<CustomDiagnosticEntry> entries;
 
     public CustomDiagnosticReport(String profileName, List<CustomDiagnosticEntry> entries) {
         this.profileName = profileName;

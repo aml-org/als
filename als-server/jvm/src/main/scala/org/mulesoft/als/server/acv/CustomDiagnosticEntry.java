@@ -5,12 +5,12 @@ import org.eclipse.lsp4j.Location;
 import java.util.List;
 
 public class CustomDiagnosticEntry {
-    String level;
-    String id;
-    String name;
-    String message;
-    Location location;
-    List<TraceEntry> trace;
+    private String level;
+    private String id;
+    private String name;
+    private String message;
+    private Location location;
+    private List<TraceEntry> trace;
 
     public CustomDiagnosticEntry(String level, String id, String name, String message, Location location, List<TraceEntry> trace) {
         this.level = level;

@@ -18,9 +18,9 @@ class AmfCustomValidationToolsTest extends AsyncFunSuite with PlatformSecrets {
         .parseReport(reportContent.toString, "file:///api.raml", profileContent.toString)
         .toScala
     } yield {
-      assert(parsed.entries.size() == 1)
-      assert(parsed.entries.get(0).getLevel == "Violation")
-      assert(parsed.entries.get(0).getName == "validation1")
+      assert(parsed.getEntries.size() == 1)
+      assert(parsed.getEntries.get(0).getLevel == "Violation")
+      assert(parsed.getEntries.get(0).getName == "validation1")
     }
   }
 
@@ -32,13 +32,13 @@ class AmfCustomValidationToolsTest extends AsyncFunSuite with PlatformSecrets {
         .parseReport(reportContent.toString, "file:///acv-test.raml", profileContent.toString)
         .toScala
     } yield {
-      assert(parsed.profileName == "Test13")
-      assert(parsed.entries.size() == 1)
+      assert(parsed.getProfileName == "Test13")
+      assert(parsed.getEntries.size() == 1)
       val entry =
-        parsed.entries.asScala.find(c => c.name == "lack-of-resources-and-rate-limiting-too-many-requests").get
-      assert(entry.location.getUri == "file://./test/data/integration/profile13/negative.data.yaml")
-      assert(entry.location.getRange == new Range(new Position(19, 4), new Position(25, 28)))
-      val traces = entry.trace.asScala
+        parsed.getEntries.asScala.find(c => c.getName == "lack-of-resources-and-rate-limiting-too-many-requests").get
+      assert(entry.getLocation.getUri == "file://./test/data/integration/profile13/negative.data.yaml")
+      assert(entry.getLocation.getRange == new Range(new Position(19, 4), new Position(25, 28)))
+      val traces = entry.getTrace.asScala
       assert(traces.size == 2)
       val trace200 = traces.find(
         _.getTraces.asScala.head.getMessage.contains("Error expected [\"200\"] but got actual (actual=429)")
