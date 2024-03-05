@@ -6595,6 +6595,7 @@ declare module '@aml-org/als-node-client' {
     workspaceFolders: WorkspaceFolder[] | null
     configuration?: AlsConfiguration
     hotReload?: boolean
+    maxFileSize?: number
   }
 
   export type DidFocusParams = {

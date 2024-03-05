@@ -120,9 +120,8 @@ class ResultParser(opaResult: OpaResult, rootUri: String) {
     new AlsValidationResult(amfValidationResult, stack)
   }
 
-  def buildStack(): Seq[DiagnosticRelatedInformation] = {
+  def buildStack(): Seq[DiagnosticRelatedInformation] =
     if (trace.size > 1) Seq() else trace.headOption.map(_.buildStack()).getOrElse(Seq())
-  }
 
   private def dtoToParserRange(core: Range): PositionRange =
     PositionRange(
