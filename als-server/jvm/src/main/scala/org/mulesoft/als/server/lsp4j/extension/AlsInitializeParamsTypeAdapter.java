@@ -9,7 +9,6 @@ import com.google.gson.stream.JsonToken;
 import com.google.gson.stream.JsonWriter;
 import org.eclipse.lsp4j.ClientCapabilities;
 import org.eclipse.lsp4j.ClientInfo;
-import org.eclipse.lsp4j.InitializeParams;
 import org.eclipse.lsp4j.adapters.InitializeParamsTypeAdapter;
 import org.eclipse.lsp4j.generator.TypeAdapterImpl;
 
@@ -96,6 +95,9 @@ public class AlsInitializeParamsTypeAdapter extends InitializeParamsTypeAdapter 
                 case "hotReload":
                     result.setHotReload(readHotReload(in));
                     break;
+                case "maxFileSize":
+                    result.setMaxFileSize(readMaxFileSize(in));
+                    break;
                 default:
                     in.skipValue();
             }
@@ -106,6 +108,10 @@ public class AlsInitializeParamsTypeAdapter extends InitializeParamsTypeAdapter 
 
     private Boolean readHotReload(JsonReader in) {
         return gson.fromJson(in, Boolean.class);
+    }
+
+    private Integer readMaxFileSize(JsonReader in) {
+        return gson.fromJson(in, Integer.class);
     }
 
     @Override

@@ -44,17 +44,38 @@ lazy val customValidatorWebJVMRef =
   ProjectRef(workspaceDirectory / "amf-custom-validator-scalajs", "amfCustomValidatorWebJVM")
 lazy val customValidatorWebJSRef =
   ProjectRef(workspaceDirectory / "amf-custom-validator-scalajs", "amfCustomValidatorWebJS")
-lazy val customValidatorWebLibJVM = "com.github.amlorg" %% "amf-custom-validator-web" % amfCustomValidatorScalaJSVersion
+lazy val customValidatorWebLibJVM = "com.github.amlorg" %% "amf-custom-validator-web" % amfCustomValidatorScalaJSVersion excludeAll(
+  ExclusionRule(organization = "com.github.amlorg", name = "amf-api-contract_2.12"),
+  ExclusionRule(organization = "com.github.amlorg", name = "amf-aml_sjs1_2.12"),
+  ExclusionRule(organization = "com.github.amlorg", name = "amf-shapes_sjs1_2.12"),
+  ExclusionRule(organization = "com.github.amlorg", name = "amf-core_sjs1_2.12"),
+)
+
 lazy val customValidatorWebLibJS =
-  "com.github.amlorg" %% "amf-custom-validator-web_sjs1" % amfCustomValidatorScalaJSVersion
+  "com.github.amlorg" %% "amf-custom-validator-web_sjs1" % amfCustomValidatorScalaJSVersion excludeAll(
+    ExclusionRule(organization = "com.github.amlorg", name = "amf-api-contract_2.12"),
+    ExclusionRule(organization = "com.github.amlorg", name = "amf-aml_sjs1_2.12"),
+    ExclusionRule(organization = "com.github.amlorg", name = "amf-shapes_sjs1_2.12"),
+    ExclusionRule(organization = "com.github.amlorg", name = "amf-core_sjs1_2.12"),
+  )
 lazy val customValidatorNodeJVMRef =
   ProjectRef(workspaceDirectory / "amf-custom-validator-scalajs", "amfCustomValidatorNodeJVM")
 lazy val customValidatorNodeJSRef =
   ProjectRef(workspaceDirectory / "amf-custom-validator-scalajs", "amfCustomValidatorNodeJS")
 lazy val customValidatorNodeLibJVM =
-  "com.github.amlorg" %% "amf-custom-validator-node" % amfCustomValidatorScalaJSVersion
+  "com.github.amlorg" %% "amf-custom-validator-node" % amfCustomValidatorScalaJSVersion excludeAll(
+    ExclusionRule(organization = "com.github.amlorg", name = "amf-api-contract_2.12"),
+    ExclusionRule(organization = "com.github.amlorg", name = "amf-aml_sjs1_2.12"),
+    ExclusionRule(organization = "com.github.amlorg", name = "amf-shapes_sjs1_2.12"),
+    ExclusionRule(organization = "com.github.amlorg", name = "amf-core_sjs1_2.12"),
+  )
 lazy val customValidatorNodeLibJS =
-  "com.github.amlorg" %% "amf-custom-validator-node_sjs1" % amfCustomValidatorScalaJSVersion
+  "com.github.amlorg" %% "amf-custom-validator-node_sjs1" % amfCustomValidatorScalaJSVersion excludeAll(
+    ExclusionRule(organization = "com.github.amlorg", name = "amf-api-contract_2.12"),
+    ExclusionRule(organization = "com.github.amlorg", name = "amf-aml_sjs1_2.12"),
+    ExclusionRule(organization = "com.github.amlorg", name = "amf-shapes_sjs1_2.12"),
+    ExclusionRule(organization = "com.github.amlorg", name = "amf-core_sjs1_2.12"),
+  )
 
 lazy val npmDependencyAmfCustomValidatorWeb = s"@aml-org/amf-custom-validator-web@$amfCustomValidatorJSVersion"
 lazy val npmDependencyAmfCustomValidator    = s"@aml-org/amf-custom-validator@$amfCustomValidatorJSVersion"

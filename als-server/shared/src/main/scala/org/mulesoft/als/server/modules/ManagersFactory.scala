@@ -244,13 +244,14 @@ case class WorkspaceManagerFactory(
   lazy val documentRangeFormattingManager: DocumentRangeFormattingManager =
     new DocumentRangeFormattingManager(workspaceManager)
 
-  lazy val serializationManager: Option[SerializationManager[_]] =
-    resolutionDependencies.collectFirst({ case s: SerializationManager[_] =>
-      s.withUnitAccessor(resolutionTaskManager) // is this redundant with the initialization of workspace manager?
-      s
-    })
-
   lazy val workspaceConfigurationManager: WorkspaceConfigurationManager =
     new WorkspaceConfigurationManager(workspaceManager)
+
+  lazy val serializationManager: Option[SerializationManager[_]] =
+    resolutionDependencies.collectFirst({ case s: SerializationManager[_] =>
+      s.withUnitAccessor(resolutionTaskManager)
+      s.withWorkspaceConfigurationManager(workspaceConfigurationManager)
+      s
+    })
 
 }

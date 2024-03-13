@@ -24,6 +24,7 @@ class LanguageServerImpl(
   override def initialize(params: AlsInitializeParams): Future[AlsInitializeResult] = {
     logParams(params)
     params.hotReload.foreach(configuration.setHotReloadDialects)
+    configuration.setMaxFileSize(params.maxFileSize)
     params.configuration.foreach(c => {
       updateConfiguration(
         UpdateConfigurationParams(

@@ -7,6 +7,7 @@ import org.mulesoft.als.common.edits.codeaction.AbstractCodeAction
 import org.mulesoft.als.configuration.AlsConfigurationReader
 import org.mulesoft.als.logger.Logger
 import org.mulesoft.als.server.RequestModule
+import org.mulesoft.als.server.modules.workspace.{DummyWorkspaceFolderManager, WorkspaceContentManager}
 import org.mulesoft.als.server.workspace.WorkspaceManager
 import org.mulesoft.lsp.feature.TelemeteredRequestHandler
 import org.mulesoft.lsp.feature.codeactions._
@@ -40,49 +41,54 @@ class CodeActionManager(
         */
       override def task(params: CodeActionParams): Future[Seq[CodeAction]] = {
         val uuid = UUID.randomUUID().toString
-        for {
-          (bu, allr) <- workspaceManager.getRelationships(params.textDocument.uri, uuid)
-          configurationBuilder <- workspaceManager
-            .getWorkspace(params.textDocument.uri)
-            .flatMap(_.getConfigurationState)
-          results: Seq[Seq[AbstractCodeAction]] <- {
-            val requestParams = params.toRequestParams(
-              bu.unit,
-              bu.tree,
-              bu.astPartBranch,
-              bu.definedBy,
-              configuration,
-              allr,
-              configurationBuilder,
-              uuid,
-              directoryResolver
-            )
-            Future.sequence {
-              usedActions
-                .map(_(requestParams))
-                .filter(_.isApplicable)
-                .map(ca =>
-                  ca.run(requestParams)
-                    .recoverWith { case e: Exception =>
-                      Logger.debug(s"CodeAction: ${ca.getClass}", "CodeActionManager", "task")
-                      Logger.error(s"Error executing CodeAction: ${e.getMessage}", "CodeActionManager", "task")
-                      Future.successful(Seq.empty)
-                    }
-                )
-            }
+        workspaceManager
+          .getWorkspace(params.textDocument.uri)
+          .flatMap {
+            case manager: WorkspaceContentManager =>
+              for {
+                (bu, allr)           <- workspaceManager.getRelationships(params.textDocument.uri, uuid)
+                configurationBuilder <- manager.getConfigurationState
+                results: Seq[Seq[AbstractCodeAction]] <- {
+                  val requestParams = params.toRequestParams(
+                    bu.unit,
+                    bu.tree,
+                    bu.astPartBranch,
+                    bu.definedBy,
+                    configuration,
+                    allr,
+                    configurationBuilder,
+                    uuid,
+                    directoryResolver
+                  )
+                  Future.sequence {
+                    usedActions
+                      .map(_(requestParams))
+                      .filter(_.isApplicable)
+                      .map(ca =>
+                        ca.run(requestParams)
+                          .recoverWith { case e: Exception =>
+                            Logger.debug(s"CodeAction: ${ca.getClass}", "CodeActionManager", "task")
+                            Logger.error(s"Error executing CodeAction: ${e.getMessage}", "CodeActionManager", "task")
+                            Future.successful(Seq.empty)
+                          }
+                      )
+                  }
+                }
+              } yield {
+                val flatResults =
+                  results.flatten
+                    .filter(_.edit.exists(_.hasChanges))
+                val finalResults = {
+                  if (!configuration.supportsDocumentChanges)
+                    flatResults.filterNot(_.needsWorkspaceEdit)
+                  else flatResults
+                }
+                finalResults
+                  .map(_.toCodeAction(configuration.supportsDocumentChanges))
+              }
+            case _ => Future.successful(Seq.empty)
           }
-        } yield {
-          val flatResults =
-            results.flatten
-              .filter(_.edit.exists(_.hasChanges))
-          val finalResults = {
-            if (!configuration.supportsDocumentChanges)
-              flatResults.filterNot(_.needsWorkspaceEdit)
-            else flatResults
-          }
-          finalResults
-            .map(_.toCodeAction(configuration.supportsDocumentChanges))
-        }
+
       }
 
       override protected def code(params: CodeActionParams): String = "CodeActionsManager"

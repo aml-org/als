@@ -118,7 +118,8 @@ object LspConvertersClientToShared {
         rootPath = v.rootPath.toOption.flatMap(Option(_)), // (it may come as `Some(null)`)
         initializationOptions = v.initializationOptions.toOption,
         configuration = v.configuration.toOption.map(_.toShared),
-        hotReload = v.hotReload.toOption
+        hotReload = v.hotReload.toOption,
+        maxFileSize = v.maxFileSize.toOption
       )
   }
 
@@ -192,7 +193,8 @@ object LspConvertersClientToShared {
   }
 
   implicit class SerializationParamsConverter(v: ClientSerializationParams) {
-    def toShared: SerializationParams = SerializationParams(v.documentIdentifier.toShared)
+    def toShared: SerializationParams =
+      SerializationParams(v.documentIdentifier.toShared, v.clean.getOrElse(false), v.sourcemaps.getOrElse(false))
   }
 
   implicit class ClientRenameFileActionClientCapabilitiesConverter(i: ClientRenameFileActionClientCapabilities) {

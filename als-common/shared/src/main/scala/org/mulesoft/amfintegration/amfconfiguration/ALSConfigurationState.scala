@@ -16,6 +16,7 @@ import amf.shapes.client.scala.config.JsonSchemaConfiguration
 import amf.shapes.client.scala.model.document.JsonSchemaDocument
 import amf.shapes.client.scala.model.domain.AnyShape
 import amf.shapes.client.scala.render.JsonSchemaShapeRenderer
+import org.mulesoft.als.configuration.{MaxSizeException, MaxSizeResourceLoader}
 import org.mulesoft.amfintegration.AmfImplicits._
 import org.mulesoft.amfintegration.ValidationProfile
 import org.mulesoft.amfintegration.dialect.dialects.ExternalFragmentDialect
@@ -115,21 +116,31 @@ case class ALSConfigurationState(
   def findSemanticByName(name: String): Option[(SemanticExtension, Dialect)] =
     configForSpec(Spec.AML).config.configurationState().findSemanticByName(name)
 
-  def parse(url: String): Future[AmfParseResult] =
-    parse(getAmfConfig(url), url)
+  def parse(url: String, maxFileSize: Option[Int] = None): Future[AmfParseResult] =
+    parse(getAmfConfig(url), url, maxFileSize)
 
-  private def parse(amfConfiguration: AMFConfiguration, uri: String) =
-    amfConfiguration
+  private def parse(amfConfiguration: AMFConfiguration, uri: String, maxFileSize: Option[Int]): Future[AmfParseResult] =
+    wrapLoadersIfNeeded(amfConfiguration, maxFileSize)
       .baseUnitClient()
       .parse(uri)
       .map { r =>
         toResult(uri, r)
       }
-  // todo: just for debugging purposes, but maybe we should have some sort of recovery or at least logging
-//      .recover { case t: Throwable =>
-//        println(t)
-//        new AmfParseResult(null, null, null, null)
-//      }
+
+  private def wrapLoadersIfNeeded(amfConfiguration: AMFConfiguration, maxFileSize: Option[Int]) =
+    maxFileSize match {
+      case Some(maxSize) if maxSize > 0 =>
+        amfConfiguration
+          .withResourceLoaders(
+            amfConfiguration
+              .configurationState()
+              .getResourceLoaders()
+              .map(MaxSizeResourceLoader(_, maxSize))
+              .toList
+          )
+      case _ =>
+        amfConfiguration
+    }
 
   def toResult(uri: String, r: AMFParsingResult): AmfParseResult = new AmfParseResult(
     r,

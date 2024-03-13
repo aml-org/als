@@ -173,12 +173,14 @@ abstract class LanguageServerBaseTest
   protected def serialize(
       server: LanguageServer,
       api: String,
-      serializationProps: SerializationProps[StringWriter]
+      serializationProps: SerializationProps[StringWriter],
+      clean: Boolean = false,
+      sourcemaps: Boolean = false
   ): Future[String] =
     server
       .resolveHandler(serializationProps.requestType)
       .value
-      .apply(SerializationParams(TextDocumentIdentifier(api)))
+      .apply(SerializationParams(TextDocumentIdentifier(api), clean, sourcemaps))
       .map(_.model.toString)
 }
 

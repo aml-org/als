@@ -17,6 +17,7 @@ import org.mulesoft.als.server.client.scala.LanguageServerBuilder
 import org.mulesoft.als.server.lsp4j.extension.AlsInitializeParams
 import org.mulesoft.als.server.modules.WorkspaceManagerFactoryBuilder
 import org.mulesoft.als.server.modules.telemetry.TelemetryManager
+import org.mulesoft.als.server.modules.workspace.WorkspaceContentManager
 import org.mulesoft.als.server.protocol.LanguageServer
 import org.mulesoft.als.server.textsync.{EnvironmentProvider, TextDocument}
 import org.mulesoft.als.server.workspace.command.{CommandExecutor, Commands, DidChangeConfigurationCommandExecutor}
@@ -128,8 +129,11 @@ class Lsp4jLanguageServerImplTest extends AMFValidatorTest with ChangesWorkspace
         """.stripMargin
 
       for {
-        _      <- executeCommandIndexDialect(server)(dialectPath, dialectContent)
-        config <- wm.getWorkspace(dialectPath).flatMap(_.getConfigurationState)
+        _ <- executeCommandIndexDialect(server)(dialectPath, dialectContent)
+        config <- wm
+          .getWorkspace(dialectPath)
+          .map { case wcm: WorkspaceContentManager => wcm }
+          .flatMap(_.getConfigurationState)
       } yield {
         server.shutdown()
         assert(config.dialects.map(_.id).contains("file://api.raml"))
