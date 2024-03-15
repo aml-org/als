@@ -1,0 +1,6 @@
+swagger: '2.0'
+definitions:
+  a:
+    type: string
+  name:
+    $ref: #*
