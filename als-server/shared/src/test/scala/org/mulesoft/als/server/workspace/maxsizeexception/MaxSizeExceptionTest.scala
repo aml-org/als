@@ -118,4 +118,48 @@ class MaxSizeExceptionTest extends LanguageServerBaseTest {
       }
     }
   }
+
+  test("Max Size limit should return empty response for requests - Completion - Max size acc by multiple files") {
+    withServer(buildServer()) { server =>
+      val url = filePath("api.raml")
+      for {
+        _ <- server.testInitialize(
+          AlsInitializeParams(None, Some(TraceKind.Off), rootUri = Some(s"${filePath("")}"), maxFileSize = Some(1200))
+        )
+        content <- platform.fetchContent(url, AMLConfiguration.predefined())
+        _ <- server.textDocumentSyncConsumer.didOpen(
+          DidOpenTextDocumentParams(TextDocumentItem(url, "RAML", 0, content.stream.toString))
+        )
+        s <- {
+          val handler = server.resolveHandler(CompletionRequestType).value
+          handler(CompletionParams(TextDocumentIdentifier(url), Position(2, 0)))
+        }
+      } yield {
+        server.shutdown()
+        assert(s.left.get.isEmpty)
+      }
+    }
+  }
+
+  test(
+    "Max Size for Workspace Manager check validation Stack - Performance case - Clean Diagnostic - Max size acc by multiple files"
+  ) {
+    withServer(buildServer()) { server =>
+      val rootFolder = "file://als-server/shared/src/test/resources/workspace/performance-stack/"
+      val url        = s"$rootFolder/references.raml"
+      for {
+        _ <- server.testInitialize(
+          AlsInitializeParams(None, Some(TraceKind.Off), rootUri = Some(rootFolder), maxFileSize = Some(1000))
+        )
+        _ <- setMainFile(server)(rootFolder, "references.raml")
+        s <- {
+          val handler = server.resolveHandler(CleanDiagnosticTreeRequestType).value
+          handler(CleanDiagnosticTreeParams(TextDocumentIdentifier(url)))
+        }
+      } yield {
+        server.shutdown()
+        assert(s.nonEmpty)
+      }
+    }
+  }
 }
