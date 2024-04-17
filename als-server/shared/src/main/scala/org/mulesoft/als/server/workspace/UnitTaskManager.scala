@@ -61,7 +61,7 @@ trait UnitTaskManager[UnitType, ResultUnit <: UnitWithNextReference, StagingArea
   def stage(uri: String, parameter: StagingAreaNotifications): Future[Unit] =
     sync(() => {
       Future.successful {
-        if (state == NotAvailable) throw new UnavailableTaskManagerException
+        if (state == NotAvailable) throw new UnavailableTaskManagerException(uri)
         stagingArea.enqueue(uri, parameter)
         if (canProcess) {
           changeState(ProcessingStaged)
@@ -103,6 +103,7 @@ trait UnitTaskManager[UnitType, ResultUnit <: UnitWithNextReference, StagingArea
   protected def getNext(uri: String): Option[Future[ResultUnit]] =
     if (canProcess)
       None
+    else if (state == NotAvailable) Some(Future.failed(new UnavailableTaskManagerException(uri)))
     else Some(current.flatMap(_ => getUnit(uri)))
 
   protected def fail(uri: String): Nothing = {

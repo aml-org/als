@@ -13,6 +13,7 @@ import org.mulesoft.als.server.textsync.EnvironmentProvider
 import org.mulesoft.als.server.workspace.UnitTaskManager
 import org.mulesoft.amfintegration.AmfImplicits.BaseUnitImp
 import org.mulesoft.amfintegration.amfconfiguration.{ALSConfigurationState, AmfParseResult, ProjectConfigurationState}
+import org.mulesoft.exceptions.AlsException
 import org.mulesoft.lsp.feature.telemetry.MessageTypes
 
 import java.util.UUID
@@ -20,13 +21,16 @@ import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
 class WorkspaceContentManager private (
-    val folderUri: String,
+    override val folderUri: String,
     environmentProvider: EnvironmentProvider,
     subscribers: () => List[WorkspaceContentListener[_]],
     override val repository: WorkspaceParserRepository,
     val projectConfigAdapter: ProjectConfigurationAdapter,
-    hotReload: Boolean
+    hotReload: Boolean,
+    maxFileSize: Option[Int],
+    switchWorkspace: String => Unit
 ) extends UnitTaskManager[ParsedUnit, CompilableUnit, NotificationKind]
+    with WorkspaceFolderManager
     with PlatformSecrets {
 
   def getConfigurationState: Future[ALSConfigurationState] =
@@ -48,7 +52,7 @@ class WorkspaceContentManager private (
         )
     })
 
-  def containsFile(uri: String): Future[Boolean] =
+  override def containsFile(uri: String): Future[Boolean] =
     projectConfigAdapter.getProjectConfiguration.map(_.containsInDependencies(uri) || uri.startsWith(folderUri))
 
   implicit val currentPlatform: Platform = this.platform
@@ -278,9 +282,7 @@ class WorkspaceContentManager private (
     (mainFileUri match {
       case Some(mainFile) if mainFile.nonEmpty => processMFChanges(mainFile, snapshot, uuid)
       case _                                   => Future(repository.cleanTree())
-    }).map(_ =>
-      revalidateIsolatedUnits(config.profiles.map(_.path).toSet)
-    ) // TODO eascona: isolated profiles validation could be a config listener?
+    }).map(_ => revalidateIsolatedUnits(config.profiles.map(_.path).toSet))
   }
 
   private def revalidateIsolatedUnits(validationProfiles: Set[String]): Future[Unit] = Future {
@@ -355,7 +357,7 @@ class WorkspaceContentManager private (
     Logger.debug(s"Sent uri: $decodedUri", "WorkspaceContentManager", "innerParse")
     (for {
       state <- projectConfigAdapter.getConfigurationState
-      r     <- state.parse(decodedUri)
+      r     <- state.parse(decodedUri, maxFileSize)
       newConfig <- projectConfigAdapter.getProjectConfiguration.map(config => {
         new ProjectConfiguration(
           config.folder,
@@ -375,7 +377,14 @@ class WorkspaceContentManager private (
           Logger.debug(s"Done with uri: $decodedUri", "WorkspaceContentManager", "innerParse")
           Future(r)
       }
-    }).flatten
+    }).flatten.recoverWith { case e: AlsException =>
+      Logger.error(e.getMessage, "WorkspaceContentManager", "innerParse")
+      repository.cleanTree()
+      repository.getAllFilesUris.foreach(repository.removeUnit)
+      switchWorkspace(folderUri)
+
+      Future.failed(e)
+    }
   }
 
   def getRelationships(uri: String): Future[Relationships] =
@@ -402,7 +411,9 @@ object WorkspaceContentManager {
       environmentProvider: EnvironmentProvider,
       subscribers: () => List[WorkspaceContentListener[_]],
       projectConfigAdapter: ProjectConfigurationAdapter,
-      hotReload: Boolean = false
+      switchWorkspace: String => Unit,
+      hotReload: Boolean = false,
+      maxFileSize: Option[Int] = None
   ): Future[WorkspaceContentManager] = {
     val repository = new WorkspaceParserRepository()
     val wcm = new WorkspaceContentManager(
@@ -411,9 +422,11 @@ object WorkspaceContentManager {
       subscribers,
       repository,
       projectConfigAdapter.withRepository(repository),
-      hotReload
+      hotReload,
+      maxFileSize,
+      switchWorkspace
     )
     wcm.init()
-    Future.successful(wcm) // TODO: ????
+    Future.successful(wcm)
   }
 }

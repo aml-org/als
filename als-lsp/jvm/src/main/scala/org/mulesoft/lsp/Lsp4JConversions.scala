@@ -1,10 +1,10 @@
 package org.mulesoft.lsp
 
 import org.eclipse.lsp4j
-import org.mulesoft.lsp.converter.{Middle => Middle3, SEither3, Left => Left3, Right => Right3}
-import org.eclipse.lsp4j.{MarkedString, PrepareRenameDefaultBehavior => EPrepareRenameDefaultBehavior}
+import org.eclipse.lsp4j.MarkedString
 import org.eclipse.lsp4j.jsonrpc.messages.{Either => JEither, Either3 => JEither3}
 import org.mulesoft.lsp.configuration.{StaticRegistrationOptions, WorkDoneProgressOptions}
+import org.mulesoft.lsp.converter.{SEither3, Left => Left3, Middle => Middle3, Right => Right3}
 import org.mulesoft.lsp.edit._
 import org.mulesoft.lsp.feature.codeactions.CodeActionKind.CodeActionKind
 import org.mulesoft.lsp.feature.codeactions.{CodeAction, CodeActionKind, CodeActionOptions}
@@ -22,7 +22,7 @@ import org.mulesoft.lsp.feature.highlight.DocumentHighlight
 import org.mulesoft.lsp.feature.highlight.DocumentHighlightKind.DocumentHighlightKind
 import org.mulesoft.lsp.feature.hover.Hover
 import org.mulesoft.lsp.feature.link.{DocumentLink, DocumentLinkOptions, DocumentLinkParams}
-import org.mulesoft.lsp.feature.rename.{PrepareRenameResult, RenameOptions, PrepareRenameDefaultBehavior}
+import org.mulesoft.lsp.feature.rename.{PrepareRenameDefaultBehavior, PrepareRenameResult, RenameOptions}
 import org.mulesoft.lsp.feature.selectionRange.SelectionRange
 import org.mulesoft.lsp.textsync.TextDocumentSyncKind.TextDocumentSyncKind
 import org.mulesoft.lsp.textsync.{SaveOptions, TextDocumentSyncKind, TextDocumentSyncOptions}

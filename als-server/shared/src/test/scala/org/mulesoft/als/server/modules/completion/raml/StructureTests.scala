@@ -6,6 +6,14 @@ class StructureTests extends RAMLSuggestionTestServer {
 
   override implicit val executionContext = ExecutionContext.Implicits.global
 
+  test("test trait") {
+    runTest("structure/trait.raml", Set("#%RAML 1.0 Trait"))
+  }
+
+  test("test ResourceType") {
+    runTest("structure/resource.raml", Set("#%RAML 1.0 ResourceType"))
+  }
+
   test("test 01") {
     runTest("structure/test01.raml", Set("responses:\n  "))
   }

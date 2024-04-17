@@ -3,6 +3,7 @@ package org.mulesoft.als.server.workspace.command
 import amf.core.internal.parser._
 import org.mulesoft.als.configuration.ProjectConfiguration
 import org.mulesoft.als.logger.Logger
+import org.mulesoft.als.server.modules.workspace.{DummyWorkspaceFolderManager, WorkspaceContentManager}
 import org.mulesoft.als.server.workspace.WorkspaceManager
 import org.mulesoft.lsp.textsync.KnownDependencyScopes._
 import org.mulesoft.lsp.textsync.{DependencyConfiguration, DidChangeConfigurationNotificationParams}
@@ -92,7 +93,11 @@ class DidChangeConfigurationCommandExecutor(wsc: WorkspaceManager)
         "WorkspaceManager",
         "contentManagerConfiguration"
       )
-      manager.withConfiguration(projectConfiguration)
+      manager match {
+        case manager: WorkspaceContentManager =>
+          manager.withConfiguration(projectConfiguration)
+        case _ => Future.successful()
+      }
 
     }
 

@@ -6595,6 +6595,7 @@ declare module '@aml-org/als-server' {
     workspaceFolders: WorkspaceFolder[] | null
     configuration?: AlsConfiguration
     hotReload?: boolean
+    maxFileSize?: number
   }
 
   export type DidFocusParams = {
@@ -6670,7 +6671,9 @@ declare module '@aml-org/als-server' {
   }
 
   export interface SerializationParams {
-    documentIdentifier: TextDocumentIdentifier
+    documentIdentifier: TextDocumentIdentifier,
+    clean?: boolean,
+    sourcemaps?: boolean
   }
 
   export type SerializationRequestType = {
@@ -6682,7 +6685,7 @@ declare module '@aml-org/als-server' {
   }
 
   export const ClientNotifierFactory: {
-    createWithClientAware(logger: ClientLogger): ClientNotifier & LanguageClientAware & AlsClientNotifier & AlsLanguageClientAware
+    createWithClientAware(): ClientNotifier & LanguageClientAware & AlsClientNotifier & AlsLanguageClientAware
   }
 }
 

@@ -7,10 +7,11 @@ import org.mulesoft.als.convert.LspRangeConverter
 import org.mulesoft.als.logger.Logger
 import org.mulesoft.als.server.RequestModule
 import org.mulesoft.als.server.modules.configuration.ConfigurationProvider
+import org.mulesoft.als.server.modules.workspace.{DummyWorkspaceFolderManager, WorkspaceContentManager}
 import org.mulesoft.als.server.textsync.TextDocumentContainer
 import org.mulesoft.als.server.workspace.WorkspaceManager
 import org.mulesoft.als.suggestions.client.{Suggestions, UnitBundle}
-import org.mulesoft.als.suggestions.interfaces.CompletionProvider
+import org.mulesoft.als.suggestions.interfaces.{CompletionProvider, EmptyCompletionProvider}
 import org.mulesoft.lsp.ConfigType
 import org.mulesoft.lsp.feature.TelemeteredRequestHandler
 import org.mulesoft.lsp.feature.completion._
@@ -108,15 +109,18 @@ class SuggestionsManager(
   }
 
   def buildCompletionProviderAST(uri: String, position: Int): Future[CompletionProvider] =
-    for {
-      wcm     <- workspace.getWorkspace(uri)
-      rootUri <- wcm.getRootFolderFor(uri)
-      bundle  <- accessBundle(uri)
-    } yield suggestions.buildProvider(
-      bundle,
-      position,
-      uri,
-      snippetSupport,
-      rootUri
-    )
+    workspace.getWorkspace(uri).flatMap {
+      case wcm: WorkspaceContentManager =>
+        for {
+          rootUri <- wcm.getRootFolderFor(uri)
+          bundle  <- accessBundle(uri)
+        } yield suggestions.buildProvider(
+          bundle,
+          position,
+          uri,
+          snippetSupport,
+          rootUri
+        )
+      case _ => Future.successful(EmptyCompletionProvider)
+    }
 }

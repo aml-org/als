@@ -1,0 +1,236 @@
+{
+"@graph": [
+{
+"@id": "#16",
+"@type": [
+"doc:APIContractProcessingData"
+],
+"apiContract:modelVersion": "3.9.0",
+"doc:transformed": true,
+"doc:sourceSpec": "RAML 1.0"
+},
+{
+"@id": "",
+"doc:references": [
+{
+"@id": "#1"
+}
+],
+"doc:declares": [
+{
+"@id": "#15"
+}
+],
+"@type": [
+"doc:Module",
+"doc:Unit"
+],
+"doc:usage": "test",
+"doc:root": true,
+"doc:processingData": {
+"@id": "#16"
+}
+},
+{
+"@id": "#1",
+"@type": [
+"apiContract:TraitFragment",
+"doc:Fragment",
+"doc:Unit"
+],
+"doc:encodes": {
+"@id": "#2"
+},
+"doc:root": false,
+"doc:processingData": {
+"@id": "#14"
+}
+},
+{
+"@id": "#15",
+"@type": [
+"apiContract:Trait",
+"doc:AbstractDeclaration",
+"doc:DomainElement"
+],
+"core:name": "myTrait",
+"doc:dataNode": {
+"@id": "#3"
+}
+},
+{
+"@id": "#2",
+"@type": [
+"apiContract:Trait",
+"doc:AbstractDeclaration",
+"doc:DomainElement"
+],
+"doc:dataNode": {
+"@id": "#3"
+}
+},
+{
+"@id": "#14",
+"@type": [
+"doc:APIContractProcessingData"
+],
+"apiContract:modelVersion": "3.9.0",
+"doc:sourceSpec": "RAML 1.0"
+},
+{
+"@id": "#3",
+"@type": [
+"data:Object",
+"data:Node",
+"doc:DomainElement"
+],
+"data:responses": {
+"@id": "#4"
+},
+"core:name": "object_1"
+},
+{
+"@id": "#4",
+"@type": [
+"data:Object",
+"data:Node",
+"doc:DomainElement"
+],
+"data:403": {
+"@id": "#5"
+},
+"core:name": "responses"
+},
+{
+"@id": "#5",
+"@type": [
+"data:Object",
+"data:Node",
+"doc:DomainElement"
+],
+"data:headers": {
+"@id": "#6"
+},
+"data:body": {
+"@id": "#9"
+},
+"core:name": "403"
+},
+{
+"@id": "#6",
+"@type": [
+"data:Object",
+"data:Node",
+"doc:DomainElement"
+],
+"data:content-type": {
+"@id": "#7"
+},
+"core:name": "headers"
+},
+{
+"@id": "#9",
+"@type": [
+"data:Object",
+"data:Node",
+"doc:DomainElement"
+],
+"data:application%2Fjson": {
+"@id": "#10"
+},
+"core:name": "body"
+},
+{
+"@id": "#7",
+"@type": [
+"data:Object",
+"data:Node",
+"doc:DomainElement"
+],
+"data:description": {
+"@id": "#8"
+},
+"core:name": "content-type"
+},
+{
+"@id": "#10",
+"@type": [
+"data:Object",
+"data:Node",
+"doc:DomainElement"
+],
+"data:type": {
+"@id": "#11"
+},
+"data:example": {
+"@id": "#12"
+},
+"core:name": "application/json"
+},
+{
+"@id": "#8",
+"@type": [
+"data:Scalar",
+"data:Node",
+"doc:DomainElement"
+],
+"data:value": "Access to the requested resource has error.",
+"sh:datatype": [
+{
+"@id": "http://www.w3.org/2001/XMLSchema#string"
+}
+],
+"core:name": "description"
+},
+{
+"@id": "#11",
+"@type": [
+"data:Scalar",
+"data:Node",
+"doc:DomainElement"
+],
+"data:value": "any",
+"sh:datatype": [
+{
+"@id": "http://www.w3.org/2001/XMLSchema#string"
+}
+],
+"core:name": "type"
+},
+{
+"@id": "#12",
+"@type": [
+"data:Object",
+"data:Node",
+"doc:DomainElement"
+],
+"data:error": {
+"@id": "#13"
+},
+"core:name": "example"
+},
+{
+"@id": "#13",
+"@type": [
+"data:Scalar",
+"data:Node",
+"doc:DomainElement"
+],
+"data:value": "myError",
+"sh:datatype": [
+{
+"@id": "http://www.w3.org/2001/XMLSchema#string"
+}
+],
+"core:name": "error"
+}
+],
+"@context": {
+"@base": "amf://id",
+"data": "http://a.ml/vocabularies/data#",
+"doc": "http://a.ml/vocabularies/document#",
+"apiContract": "http://a.ml/vocabularies/apiContract#",
+"core": "http://a.ml/vocabularies/core#",
+"sh": "http://www.w3.org/ns/shacl#"
+}
+}

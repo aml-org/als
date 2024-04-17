@@ -88,6 +88,7 @@ object AmfSonElementFinder {
             // check also head in case that is a built in array element
             (rangeFor(a), rangeFor(b)) match {
               case (Some(ra), Some(rb)) if ra.contains(rb) => b // most specific
+              case (Some(ra), Some(rb)) if rb.contains(ra) => a // most specific
               case (Some(_), Some(_)) =>
                 if (!a.obj.containsYPart(astBranch) && b.obj.containsYPart(astBranch)) b else a // most specific
               //                  case (Some(_), None) => a (same as default)

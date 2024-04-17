@@ -3,7 +3,6 @@ package org.mulesoft.als.suggestions.plugins.aml.pathnavigation
 import amf.core.client.scala.errorhandling.DefaultErrorHandler
 import amf.core.client.scala.parse.document.{ParserContext, SyamlParsedDocument}
 import amf.core.internal.parser.ParseConfig
-import amf.core.internal.remote.{FileNotFound, UnsupportedUrlScheme}
 import org.mulesoft.als.suggestions.RawSuggestion
 import org.mulesoft.amfintegration.amfconfiguration.ALSConfigurationState
 import org.yaml.model.{YMap, YNode, YSequence, YType}
@@ -78,7 +77,7 @@ private[pathnavigation] case class PathNavigation(
           case _ => None
         }
       }
-      .recoverWith { case _ @(_: UnsupportedUrlScheme | _: FileNotFound) =>
+      .recoverWith { case _ => // wildcard to avoid unnecessary errors in suggestions - W-14277188/W-14279644
         Future.successful(None)
       }
 }

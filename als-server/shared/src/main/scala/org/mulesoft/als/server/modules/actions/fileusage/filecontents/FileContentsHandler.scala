@@ -1,6 +1,7 @@
 package org.mulesoft.als.server.modules.actions.fileusage.filecontents
 
 import org.mulesoft.als.server.feature.fileusage.filecontents.{FileContentsRequestType, FileContentsResponse}
+import org.mulesoft.als.server.modules.workspace.WorkspaceContentManager
 import org.mulesoft.als.server.workspace.WorkspaceManager
 import org.mulesoft.lsp.feature.TelemeteredRequestHandler
 import org.mulesoft.lsp.feature.common.TextDocumentIdentifier
@@ -18,7 +19,9 @@ class FileContentsHandler(workspace: WorkspaceManager)
     workspace.getLastUnit(params.uri, uuid(params)).flatMap { _ => // be sure the unit is done being parsed
       workspace
         .getWorkspace(params.uri)
-        .map(wcm => wcm.repository.getAllFilesUrisWithContents)
+        .map { case wcm: WorkspaceContentManager =>
+          wcm.repository.getAllFilesUrisWithContents
+        }
         .map(fs => FileContentsResponse(fs))
     }
 
