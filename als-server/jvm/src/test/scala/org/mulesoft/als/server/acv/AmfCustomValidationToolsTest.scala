@@ -37,7 +37,7 @@ class AmfCustomValidationToolsTest extends AsyncFunSuite with PlatformSecrets {
       val entry =
         parsed.getEntries.asScala.find(c => c.getName == "lack-of-resources-and-rate-limiting-too-many-requests").get
       assert(entry.getLocation.getUri == "file://./test/data/integration/profile13/negative.data.yaml")
-      assert(entry.getLocation.getRange == new Range(new Position(19, 4), new Position(25, 28)))
+      assert(entry.getLocation.getRange == new Range(new Position(18, 4), new Position(24, 28)))
       val traces = entry.getTrace.asScala
       assert(traces.size == 2)
       val trace200 = traces.find(
@@ -48,12 +48,12 @@ class AmfCustomValidationToolsTest extends AsyncFunSuite with PlatformSecrets {
       )
       assert(
         trace200.exists(
-          _.getTraces.asScala.exists(_.getLocation.getRange == new Range(new Position(21, 8), new Position(25, 28)))
+          _.getTraces.asScala.exists(_.getLocation.getRange == new Range(new Position(20, 8), new Position(24, 28)))
         )
       )
       assert(
         trace403.exists(
-          _.getTraces.asScala.exists(_.getLocation.getRange == new Range(new Position(21, 8), new Position(25, 28)))
+          _.getTraces.asScala.exists(_.getLocation.getRange == new Range(new Position(20, 8), new Position(24, 28)))
         )
       )
     }
