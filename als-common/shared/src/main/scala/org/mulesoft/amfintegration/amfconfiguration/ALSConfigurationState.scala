@@ -16,7 +16,7 @@ import amf.shapes.client.scala.config.JsonSchemaConfiguration
 import amf.shapes.client.scala.model.document.JsonSchemaDocument
 import amf.shapes.client.scala.model.domain.AnyShape
 import amf.shapes.client.scala.render.JsonSchemaShapeRenderer
-import org.mulesoft.als.configuration.{MaxSizeException, MaxSizeResourceLoader}
+import org.mulesoft.als.configuration.{MaxSizeCounter, MaxSizeException, MaxSizeResourceLoader}
 import org.mulesoft.amfintegration.AmfImplicits._
 import org.mulesoft.amfintegration.ValidationProfile
 import org.mulesoft.amfintegration.dialect.dialects.ExternalFragmentDialect
@@ -130,12 +130,13 @@ case class ALSConfigurationState(
   private def wrapLoadersIfNeeded(amfConfiguration: AMFConfiguration, maxFileSize: Option[Int]) =
     maxFileSize match {
       case Some(maxSize) if maxSize > 0 =>
+        val counter = new MaxSizeCounter(maxSize)
         amfConfiguration
           .withResourceLoaders(
             amfConfiguration
               .configurationState()
               .getResourceLoaders()
-              .map(MaxSizeResourceLoader(_, maxSize))
+              .map(MaxSizeResourceLoader(_, counter))
               .toList
           )
       case _ =>
