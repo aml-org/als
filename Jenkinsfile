@@ -56,6 +56,7 @@ pipeline {
                     anyOf {
                         branch 'master'
                         branch 'rc/*'
+                        branch 'W-15053193-test-new-amf-snapshot-sof'
                     }
                 }
             }
@@ -148,6 +149,7 @@ pipeline {
                     branch 'master'
                     branch 'develop'
                     branch 'rc/*'
+                    branch 'W-15053193-test-new-amf-snapshot-sof'
                 }
             }
             steps {
@@ -169,6 +171,7 @@ pipeline {
                     branch 'master'
                     branch 'develop'
                     branch 'rc/*'
+                    branch 'W-15053193-test-new-amf-snapshot-sof'
                 }
             }
             steps {
@@ -198,6 +201,7 @@ pipeline {
                     branch 'master'
                     branch 'develop'
                     branch 'rc/*'
+                    branch 'W-15053193-test-new-amf-snapshot-sof'
                 }
             }
             steps {

@@ -98,12 +98,7 @@ object RoutingKeyAmqpChannelBinding extends DialectNode {
       .withId(location + s"#/declarations/$name/autoDelete")
       .withName("autoDelete")
       .withNodePropertyMapping(Amqp091ChannelExchangeModel.AutoDelete.value.iri())
-      .withLiteralRange(xsdBoolean.iri()),
-    PropertyMapping()
-      .withId(location + s"#/declarations/$name/vhost")
-      .withName("vhost")
-      .withNodePropertyMapping(Amqp091ChannelExchangeModel.VHost.value.iri())
-      .withLiteralRange(xsdString.iri())
+      .withLiteralRange(xsdBoolean.iri())
   )
 }
 
@@ -132,11 +127,6 @@ object QueueAmqpChannelBinding extends DialectNode {
       .withId(location + s"#/declarations/$name/autoDelete")
       .withName("autoDelete")
       .withNodePropertyMapping(Amqp091QueueModel.AutoDelete.value.iri())
-      .withLiteralRange(xsdBoolean.iri()),
-    PropertyMapping()
-      .withId(location + s"#/declarations/$name/vhost")
-      .withName("vhost")
-      .withNodePropertyMapping(Amqp091QueueModel.VHost.value.iri())
-      .withLiteralRange(xsdString.iri())
+      .withLiteralRange(xsdBoolean.iri())
   )
 }

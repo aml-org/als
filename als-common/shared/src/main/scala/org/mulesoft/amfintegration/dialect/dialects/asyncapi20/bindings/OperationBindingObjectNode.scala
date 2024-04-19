@@ -122,11 +122,6 @@ object AmqpOperationBindingObjectNode extends DialectNode {
       .withAllowMultiple(true)
       .withLiteralRange(xsdString.iri()),
     PropertyMapping()
-      .withId(location + s"#/declarations/$name/replyTo")
-      .withName("replyTo")
-      .withNodePropertyMapping(Amqp091OperationBindingModel.ReplyTo.value.iri()) // todo: http node mappings?
-      .withLiteralRange(xsdString.iri()),
-    PropertyMapping()
       .withId(location + s"#/declarations/$name/timestamp")
       .withName("timestamp")
       .withNodePropertyMapping(Amqp091OperationBindingModel.Timestamp.value.iri()) // todo: http node mappings?

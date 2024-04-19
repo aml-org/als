@@ -1,6 +1,0 @@
-asyncapi: 2.0.0
-channels:
-  user/{paramName}/signedup:
-    bindings:
-      sns:
-        *
