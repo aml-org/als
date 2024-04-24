@@ -1,0 +1,10 @@
+asyncapi: 2.6.0
+info:
+  title: Async 2.2 new fields
+  version: 1.0.0
+  description: Async 2.2 new fields
+
+components:
+  servers:
+    myServer:
+      *

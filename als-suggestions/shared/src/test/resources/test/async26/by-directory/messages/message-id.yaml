@@ -1,0 +1,29 @@
+asyncapi: 2.6.0
+info:
+  title: Async 2.4 new fields
+  version: 1.0.0
+  description: Async 2.4 new fields
+servers:
+  production:
+    url: some.com
+    protocol: ibmmq
+    security:
+      -
+        oauth2:
+          - write:pets
+          - read:pets
+channels:
+  first-channel:
+    subscribe:
+      security:
+        -
+          oauth2:
+            - read:pets
+      summary: Subscribe to market updates
+
+components:
+  messages:
+    marketData:
+      name: messageName
+      summary: Message with market data information.
+      *

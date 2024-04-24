@@ -3,7 +3,7 @@ package org.mulesoft.amfintegration.dialect.dialects.asyncapi20
 import amf.aml.client.scala.model.domain.PropertyMapping
 import amf.apicontract.internal.metamodel.domain.{MessageModel, OperationModel}
 
-object OperationObject extends OperationAbstractObjectNode {
+trait OperationObject extends OperationAbstractObjectNode {
   override def name: String = "OperationObject"
 
   override def properties: Seq[PropertyMapping] = super.properties ++ Seq(
@@ -20,3 +20,5 @@ object OperationObject extends OperationAbstractObjectNode {
       .withObjectRange(Seq(MessageObjectNode.id))
   )
 }
+
+object Operation20Object extends OperationObject

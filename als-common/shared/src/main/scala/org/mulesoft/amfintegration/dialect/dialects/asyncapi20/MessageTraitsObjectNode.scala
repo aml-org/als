@@ -3,6 +3,7 @@ package org.mulesoft.amfintegration.dialect.dialects.asyncapi20
 import amf.aml.client.scala.model.domain.PropertyMapping
 import amf.apicontract.internal.metamodel.domain.{MessageModel, PayloadModel}
 import amf.core.client.scala.vocabulary.Namespace.XsdTypes.xsdString
+import org.mulesoft.amfintegration.dialect.dialects.asyncapi20.MessageTraitsObjectNode.location
 import org.mulesoft.amfintegration.dialect.dialects.asyncapi20.bindings.MessageBindingsObjectNode
 import org.mulesoft.amfintegration.dialect.dialects.asyncapi20.schema.NodeShapeAsync2Node
 import org.mulesoft.amfintegration.dialect.dialects.oas.nodes.{
@@ -12,6 +13,8 @@ import org.mulesoft.amfintegration.dialect.dialects.oas.nodes.{
 }
 
 trait MessageAbstractObjectNode extends DialectNode {
+
+  val exampleProperty: PropertyMapping
 
   val schemaFormatProp: PropertyMapping = PropertyMapping()
     .withId(location + "#/declarations/Message/schemaFormat")
@@ -84,11 +87,7 @@ trait MessageAbstractObjectNode extends DialectNode {
       .withName("bindings")
       .withNodePropertyMapping(MessageModel.Bindings.value.iri())
       .withObjectRange(Seq(MessageBindingsObjectNode.id)),
-    PropertyMapping()
-      .withId(location + "#/declarations/Message/examples")
-      .withName("examples")
-      .withNodePropertyMapping(MessageModel.Examples.value.iri())
-      .withObjectRange(Seq(AsyncMessageExampleNode.id))
+    exampleProperty
   )
 }
 
@@ -98,4 +97,10 @@ object MessageTraitsObjectNode extends MessageAbstractObjectNode {
   override def isAbstract: Boolean = true
 
   override def nodeTypeMapping: String = MessageModel.`type`.head.iri()
+
+  override val exampleProperty: PropertyMapping = PropertyMapping()
+    .withId(location + "#/declarations/Message/examples")
+    .withName("examples")
+    .withNodePropertyMapping(MessageModel.Examples.value.iri())
+    .withObjectRange(Seq(Async20MessageExampleNode.id))
 }

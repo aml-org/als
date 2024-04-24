@@ -14,72 +14,71 @@ import amf.apicontract.internal.metamodel.domain.security.{
 import amf.core.client.scala.vocabulary.Namespace.XsdTypes.{xsdString, xsdUri}
 import org.mulesoft.amfintegration.dialect.dialects.oas.nodes.{DialectNode, Oauth2Properties}
 
-object AsyncApi20SecuritySchemeObject extends DialectNode {
+trait SecurityTypes {
+  protected def types: Seq[String] = Seq(
+    "userPassword",
+    "apiKey",
+    "X509",
+    "symmetricEncryption",
+    "asymmetricEncryption",
+    "httpApiKey",
+    "http",
+    "oauth2",
+    "openIdConnect"
+  )
+}
+
+trait AsyncApiSecuritySchemeObject extends DialectNode with SecurityTypes {
   override def name: String = "SecuritySchemeNode"
 
   override def nodeTypeMapping: String = SecuritySchemeModel.`type`.head.iri()
 
+  protected val baseLocation: String = AsyncApi20Dialect.DialectLocation
+
   val `type`: PropertyMapping = PropertyMapping()
-    .withId(AsyncApi20Dialect.DialectLocation + "#/declarations/securityScheme/type")
+    .withId(baseLocation + "#/declarations/securityScheme/type")
     .withName("type")
     .withMinCount(1)
     .withNodePropertyMapping(SecuritySchemeModel.Type.value.iri())
     .withEnum(
-      Seq(
-        "userPassword",
-        "apiKey",
-        "X509",
-        "symmetricEncryption",
-        "asymmetricEncryption",
-        "httpApiKey",
-        "http",
-        "oauth2",
-        "openIdConnect"
-      )
+      types
     )
     .withLiteralRange(xsdString.iri())
   override def properties: Seq[PropertyMapping] = Seq(
     `type`,
     PropertyMapping()
-      .withId(AsyncApi20Dialect.DialectLocation + "#/declarations/securityScheme/description")
+      .withId(baseLocation + "#/declarations/securityScheme/description")
       .withName("description")
       .withNodePropertyMapping(SecuritySchemeModel.Description.value.iri())
       .withLiteralRange(xsdString.iri())
   )
 }
 
-object AsyncApi20SecuritySettingsObject extends DialectNode {
+object AsyncApi20SecuritySchemeObject extends AsyncApiSecuritySchemeObject
+trait AsyncApiSecuritySettingsObject extends DialectNode with SecurityTypes {
   override def name: String = "SecuritySettingsNode"
 
   override def nodeTypeMapping: String = SecuritySchemeModel.`type`.head.iri()
 
-  override def properties: Seq[PropertyMapping] = Seq(
-    PropertyMapping()
-      .withId(AsyncApi20Dialect.DialectLocation + "#/declarations/securitySettings/type")
-      .withName("type")
-      .withMinCount(1)
-      .withNodePropertyMapping(SecuritySchemeModel.Type.value.iri())
-      .withEnum(
-        Seq(
-          "userPassword",
-          "apiKey",
-          "X509",
-          "symmetricEncryption",
-          "asymmetricEncryption",
-          "httpApiKey",
-          "http",
-          "oauth2",
-          "openIdConnect"
+  override def properties: Seq[PropertyMapping] =
+    Seq(
+      PropertyMapping()
+        .withId(AsyncApi20Dialect.DialectLocation + "#/declarations/securitySettings/type")
+        .withName("type")
+        .withMinCount(1)
+        .withNodePropertyMapping(SecuritySchemeModel.Type.value.iri())
+        .withEnum(
+          types
         )
-      )
-      .withLiteralRange(xsdString.iri()),
-    PropertyMapping()
-      .withId(AsyncApi20Dialect.DialectLocation + "#/declarations/securityScheme/description")
-      .withName("description")
-      .withNodePropertyMapping(SecuritySchemeModel.Description.value.iri())
-      .withLiteralRange(xsdString.iri())
-  )
+        .withLiteralRange(xsdString.iri()),
+      PropertyMapping()
+        .withId(AsyncApi20Dialect.DialectLocation + "#/declarations/securityScheme/description")
+        .withName("description")
+        .withNodePropertyMapping(SecuritySchemeModel.Description.value.iri())
+        .withLiteralRange(xsdString.iri())
+    )
 }
+object AsyncApi20SecuritySettingsObject extends AsyncApiSecuritySettingsObject
 
 object AsyncAPI20ApiKeySecurityObject extends DialectNode {
   override def name: String            = "ApiKeySecurityObject"

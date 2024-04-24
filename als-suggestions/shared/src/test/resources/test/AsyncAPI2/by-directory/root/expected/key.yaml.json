@@ -396,6 +396,42 @@
     "command": null
   },
   {
+    "label": "asyncapi: \"2.6.0\"",
+    "kind": [
+      
+    ],
+    "detail": "unknown",
+    "documentation": "Define a asyncapi 2.6.0 file",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "11asyncapi: \"2.6.0\"",
+    "filterText": "asyncapi: \"2.6.0\"",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 0,
+          "character": 0
+        },
+        "end": {
+          "line": 0,
+          "character": 0
+        }
+      },
+      "newText": "asyncapi: \"2.6.0\""
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
     "label": "openapi: \"3.0.0\"",
     "kind": [
       

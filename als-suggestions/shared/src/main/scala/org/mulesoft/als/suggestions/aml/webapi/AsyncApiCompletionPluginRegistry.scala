@@ -14,8 +14,9 @@ import org.mulesoft.als.suggestions.plugins.aml.webapi.oas.structure.ResolveInfo
 import org.mulesoft.als.suggestions.plugins.aml.webapi.raml.RamlTypeDeclarationReferenceCompletionPlugin
 import org.mulesoft.als.suggestions.plugins.aml.{ResolveDefault, StructureCompletionPlugin}
 import org.mulesoft.amfintegration.dialect.dialects.asyncapi20.AsyncApi20Dialect
+import org.mulesoft.amfintegration.dialect.dialects.asyncapi26.AsyncApi26Dialect
 
-object AsyncApiCompletionPluginRegistry extends WebApiCompletionPluginRegistry {
+trait AsyncApiCompletionPluginRegistry extends WebApiCompletionPluginRegistry {
   private lazy val all: Seq[AMLCompletionPlugin] =
     AMLBaseCompletionPlugins.all :+
       Async20SecuredByCompletionPlugin :+
@@ -53,6 +54,10 @@ object AsyncApiCompletionPluginRegistry extends WebApiCompletionPluginRegistry {
       Async2ExamplesPlugin
 
   override def plugins: Seq[AMLCompletionPlugin] = all
-
+}
+object AsyncApi2CompletionPluginRegistry extends AsyncApiCompletionPluginRegistry {
   override def dialect: Dialect = AsyncApi20Dialect()
+}
+object AsyncApi26CompletionPluginRegistry extends AsyncApiCompletionPluginRegistry {
+  override def dialect: Dialect = AsyncApi26Dialect()
 }

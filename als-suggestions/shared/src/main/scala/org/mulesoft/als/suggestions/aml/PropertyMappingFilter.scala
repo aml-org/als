@@ -58,7 +58,7 @@ case class PropertyMappingFilter(objectInTree: ObjectInTree, actualDialect: Dial
 
 object DialectNodeFinder {
   def find(amfObject: AmfObject, fieldEntry: Option[FieldEntry], actualDialect: Dialect): Option[NodeMapping] = {
-    amfObject.metaURIs
+    val elements = amfObject.metaURIs
       .flatMap { v =>
         actualDialect.declares.find {
           case s: NodeMapping =>
@@ -66,6 +66,7 @@ object DialectNodeFinder {
           case _ => false
         }
       }
+    elements
       .collectFirst({ case nm: NodeMapping => nm })
       .orElse(findById(amfObject, fieldEntry, actualDialect))
   }

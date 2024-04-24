@@ -5,6 +5,7 @@ import amf.apicontract.internal.metamodel.domain.{OperationModel, ParameterModel
 import amf.shapes.internal.domain.metamodel.ExampleModel
 import org.mulesoft.als.suggestions.plugins.aml.webapi._
 import org.mulesoft.amfintegration.dialect.dialects.asyncapi20.AsyncApi20Dialect
+import org.mulesoft.amfintegration.dialect.dialects.asyncapi26.AsyncApi26Dialect
 import org.mulesoft.amfintegration.dialect.dialects.oas.{OAS20Dialect, OAS30Dialect}
 import org.mulesoft.amfintegration.dialect.dialects.raml.raml08.Raml08TypesDialect
 import org.mulesoft.amfintegration.dialect.dialects.raml.raml10.Raml10TypesDialect
@@ -102,7 +103,8 @@ object PatchedSuggestionsForDialect {
       Raml08TypesDialect.dialect.id -> ramlClasses,
       OAS20Dialect.dialect.id       -> oas20Classes,
       OAS30Dialect.dialect.id       -> oas30Classes,
-      AsyncApi20Dialect.dialect.id  -> asyncApi20Classes
+      AsyncApi20Dialect.dialect.id  -> asyncApi20Classes,
+      AsyncApi26Dialect.dialect.id  -> asyncApi20Classes
     )
 
   def getKnownValues(dialect: String, classTerm: String, propertyTerm: String): Seq[PatchedSuggestion] =

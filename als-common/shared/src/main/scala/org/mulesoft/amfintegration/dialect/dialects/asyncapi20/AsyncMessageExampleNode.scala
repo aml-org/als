@@ -5,7 +5,7 @@ import amf.apicontract.internal.metamodel.domain.MessageModel
 import amf.shapes.internal.domain.metamodel.ExampleModel
 import org.mulesoft.amfintegration.dialect.dialects.oas.nodes.DialectNode
 
-class AsyncMessageExampleNode extends DialectNode {
+trait AsyncMessageExampleNode extends DialectNode {
   override def name: String = "AsyncMessageExampleNode"
 
   override def nodeTypeMapping: String = ExampleModel.`type`.head.iri()
@@ -22,4 +22,4 @@ class AsyncMessageExampleNode extends DialectNode {
   )
 }
 
-object AsyncMessageExampleNode extends AsyncMessageExampleNode
+object Async20MessageExampleNode extends AsyncMessageExampleNode

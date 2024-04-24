@@ -1,0 +1,33 @@
+asyncapi: 2.6.0
+info:
+  title: Market Data API
+  version: 1.0.0
+  description: This API provides real-time market data updates.
+servers:
+  theName:
+    url: some.com
+    protocol: ibmmq
+    bindings:
+      ibmmq:
+        groupId: test
+        ccdtQueueManagerName: test
+        cipherSpec: test
+        multiEndpointServer: true
+        heartBeatInterval: 123
+channels:
+  user/sarasa:
+    subscribe:
+      summary: Subscribe to market updates
+      message:
+        name: errorMessage
+        summary: Message with market data information.
+        description: |
+          test
+        payload:
+          type: object
+          properties:
+            prop1:
+              type: string
+        examples:
+          -
+            *

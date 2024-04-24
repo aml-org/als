@@ -1,0 +1,254 @@
+[
+  {
+    "label": "$ref",
+    "kind": [
+      
+    ],
+    "detail": "unknown",
+    "documentation": "reference tag",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "0$ref",
+    "filterText": "$ref: ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 18,
+          "character": 4
+        },
+        "end": {
+          "line": 18,
+          "character": 4
+        }
+      },
+      "newText": "$ref: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "bindings",
+    "kind": [
+      
+    ],
+    "detail": "unknown",
+    "documentation": "bindings",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "11bindings",
+    "filterText": "bindings:\n  ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 18,
+          "character": 4
+        },
+        "end": {
+          "line": 18,
+          "character": 4
+        }
+      },
+      "newText": "bindings:\n  "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "description",
+    "kind": [
+      
+    ],
+    "detail": "docs",
+    "documentation": "description",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "11description",
+    "filterText": "description: ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 18,
+          "character": 4
+        },
+        "end": {
+          "line": 18,
+          "character": 4
+        }
+      },
+      "newText": "description: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "parameters",
+    "kind": [
+      
+    ],
+    "detail": "unknown",
+    "documentation": "parameters",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "11parameters",
+    "filterText": "parameters:\n  ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 18,
+          "character": 4
+        },
+        "end": {
+          "line": 18,
+          "character": 4
+        }
+      },
+      "newText": "parameters:\n  "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "publish",
+    "kind": [
+      
+    ],
+    "detail": "unknown",
+    "documentation": "publish",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "11publish",
+    "filterText": "publish:\n  ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 18,
+          "character": 4
+        },
+        "end": {
+          "line": 18,
+          "character": 4
+        }
+      },
+      "newText": "publish:\n  "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "servers",
+    "kind": [
+      
+    ],
+    "detail": "unknown",
+    "documentation": "servers",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "11servers",
+    "filterText": "servers:\n  - ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 18,
+          "character": 4
+        },
+        "end": {
+          "line": 18,
+          "character": 4
+        }
+      },
+      "newText": "servers:\n  - "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "subscribe",
+    "kind": [
+      
+    ],
+    "detail": "unknown",
+    "documentation": "subscribe",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "11subscribe",
+    "filterText": "subscribe:\n  ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 18,
+          "character": 4
+        },
+        "end": {
+          "line": 18,
+          "character": 4
+        }
+      },
+      "newText": "subscribe:\n  "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  }
+]

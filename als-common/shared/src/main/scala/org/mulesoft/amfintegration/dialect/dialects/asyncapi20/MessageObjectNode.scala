@@ -24,12 +24,24 @@ object RequestMessageObjectNode extends ConcreteMessageObjectNode {
   override def name: String = "RequestMessageObjectNode"
 
   override def nodeTypeMapping: String = RequestModel.`type`.head.iri()
+
+  override val exampleProperty: PropertyMapping = PropertyMapping()
+    .withId(location + "#/declarations/Message/examples")
+    .withName("examples")
+    .withNodePropertyMapping(MessageModel.Examples.value.iri())
+    .withObjectRange(Seq(Async20MessageExampleNode.id))
 }
 
 object ResponseMessageObjectNode extends ConcreteMessageObjectNode {
   override def name: String = "ResponseMessageObjectNode"
 
   override def nodeTypeMapping: String = ResponseModel.`type`.head.iri()
+
+  override val exampleProperty: PropertyMapping = PropertyMapping()
+    .withId(location + "#/declarations/Message/examples")
+    .withName("examples")
+    .withNodePropertyMapping(MessageModel.Examples.value.iri())
+    .withObjectRange(Seq(Async20MessageExampleNode.id))
 }
 
 object MessageObjectNode extends ConcreteMessageObjectNode {
@@ -37,4 +49,10 @@ object MessageObjectNode extends ConcreteMessageObjectNode {
   override def nodeTypeMapping: String = MessageModel.`type`.head.iri()
 
   override def name: String = "MessageObjectNode"
+
+  override val exampleProperty: PropertyMapping = PropertyMapping()
+    .withId(location + "#/declarations/Message/examples")
+    .withName("examples")
+    .withNodePropertyMapping(MessageModel.Examples.value.iri())
+    .withObjectRange(Seq(Async20MessageExampleNode.id))
 }

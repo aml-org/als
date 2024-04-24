@@ -5,18 +5,17 @@ import amf.apicontract.client.scala.model.domain.templates.{ResourceType, Trait}
 import amf.apicontract.client.scala.transform.AbstractElementTransformer
 import amf.apicontract.internal.spec.common.transformation.ExtendsHelper
 import amf.apicontract.internal.transformation.BaseUnitSourceLocationIndex
-import org.mulesoft.als.logger.Logger
-
-import scala.collection.mutable
-//import amf.apicontract.internal.transformation.BaseUnitSourceLocationIndex
 import amf.core.client.scala.errorhandling.UnhandledErrorHandler
 import amf.core.client.scala.model.document.BaseUnit
 import amf.core.client.scala.model.domain.DomainElement
 import amf.core.client.scala.model.domain.templates.AbstractDeclaration
-import amf.core.internal.annotations.{SourceAST, SourceYPart}
+import amf.core.internal.annotations.SourceYPart
+import org.mulesoft.als.logger.Logger
 import org.mulesoft.amfintegration.AmfImplicits._
 import org.mulesoft.amfintegration.amfconfiguration.ProfileMatcher.profile
 import org.yaml.model.{YMap, YMapEntry, YNode}
+
+import scala.collection.mutable
 
 object AbstractDeclarationInformation {
 
