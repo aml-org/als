@@ -1,7 +1,17 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": [
-    "config:base",
-    "docker:enableMajor"
+    "config:recommended"
+  ],
+  "prConcurrentLimit": 10,
+  "prCreation": "status-success",
+  "stabilityDays": 7,
+  "schedule": [
+    "every weekend"
+  ],
+  "packageRules": [
+    {
+      "matchUpdateTypes": ["patch"]
+    }
   ]
 }
