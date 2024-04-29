@@ -1,0 +1,3854 @@
+[
+  {
+    "label": "http://vocabularies/aml_doc.yaml#AbstractDeclaration",
+    "kind": [
+      
+    ],
+    "detail": "unknown",
+    "documentation": "http://vocabularies/aml_doc.yaml#AbstractDeclaration",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "11http://vocabularies/aml_doc.yaml#AbstractDeclaration",
+    "filterText": "http://vocabularies/aml_doc.yaml#AbstractDeclaration",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 3,
+          "character": 17
+        },
+        "end": {
+          "line": 3,
+          "character": 17
+        }
+      },
+      "newText": "http://vocabularies/aml_doc.yaml#AbstractDeclaration"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "http://vocabularies/aml_doc.yaml#Document",
+    "kind": [
+      
+    ],
+    "detail": "unknown",
+    "documentation": "http://vocabularies/aml_doc.yaml#Document",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "11http://vocabularies/aml_doc.yaml#Document",
+    "filterText": "http://vocabularies/aml_doc.yaml#Document",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 3,
+          "character": 17
+        },
+        "end": {
+          "line": 3,
+          "character": 17
+        }
+      },
+      "newText": "http://vocabularies/aml_doc.yaml#Document"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "http://vocabularies/aml_doc.yaml#DocumentExtension",
+    "kind": [
+      
+    ],
+    "detail": "unknown",
+    "documentation": "http://vocabularies/aml_doc.yaml#DocumentExtension",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "11http://vocabularies/aml_doc.yaml#DocumentExtension",
+    "filterText": "http://vocabularies/aml_doc.yaml#DocumentExtension",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 3,
+          "character": 17
+        },
+        "end": {
+          "line": 3,
+          "character": 17
+        }
+      },
+      "newText": "http://vocabularies/aml_doc.yaml#DocumentExtension"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "http://vocabularies/aml_doc.yaml#DomainProperty",
+    "kind": [
+      
+    ],
+    "detail": "unknown",
+    "documentation": "http://vocabularies/aml_doc.yaml#DomainProperty",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "11http://vocabularies/aml_doc.yaml#DomainProperty",
+    "filterText": "http://vocabularies/aml_doc.yaml#DomainProperty",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 3,
+          "character": 17
+        },
+        "end": {
+          "line": 3,
+          "character": 17
+        }
+      },
+      "newText": "http://vocabularies/aml_doc.yaml#DomainProperty"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "http://vocabularies/aml_doc.yaml#ExternalDomainElement",
+    "kind": [
+      
+    ],
+    "detail": "unknown",
+    "documentation": "http://vocabularies/aml_doc.yaml#ExternalDomainElement",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "11http://vocabularies/aml_doc.yaml#ExternalDomainElement",
+    "filterText": "http://vocabularies/aml_doc.yaml#ExternalDomainElement",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 3,
+          "character": 17
+        },
+        "end": {
+          "line": 3,
+          "character": 17
+        }
+      },
+      "newText": "http://vocabularies/aml_doc.yaml#ExternalDomainElement"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "http://vocabularies/aml_doc.yaml#ExternalFragment",
+    "kind": [
+      
+    ],
+    "detail": "unknown",
+    "documentation": "http://vocabularies/aml_doc.yaml#ExternalFragment",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "11http://vocabularies/aml_doc.yaml#ExternalFragment",
+    "filterText": "http://vocabularies/aml_doc.yaml#ExternalFragment",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 3,
+          "character": 17
+        },
+        "end": {
+          "line": 3,
+          "character": 17
+        }
+      },
+      "newText": "http://vocabularies/aml_doc.yaml#ExternalFragment"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "http://vocabularies/aml_doc.yaml#ExternalSource",
+    "kind": [
+      
+    ],
+    "detail": "unknown",
+    "documentation": "http://vocabularies/aml_doc.yaml#ExternalSource",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "11http://vocabularies/aml_doc.yaml#ExternalSource",
+    "filterText": "http://vocabularies/aml_doc.yaml#ExternalSource",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 3,
+          "character": 17
+        },
+        "end": {
+          "line": 3,
+          "character": 17
+        }
+      },
+      "newText": "http://vocabularies/aml_doc.yaml#ExternalSource"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "http://vocabularies/aml_doc.yaml#Fragment",
+    "kind": [
+      
+    ],
+    "detail": "unknown",
+    "documentation": "http://vocabularies/aml_doc.yaml#Fragment",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "11http://vocabularies/aml_doc.yaml#Fragment",
+    "filterText": "http://vocabularies/aml_doc.yaml#Fragment",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 3,
+          "character": 17
+        },
+        "end": {
+          "line": 3,
+          "character": 17
+        }
+      },
+      "newText": "http://vocabularies/aml_doc.yaml#Fragment"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "http://vocabularies/aml_doc.yaml#Module",
+    "kind": [
+      
+    ],
+    "detail": "unknown",
+    "documentation": "http://vocabularies/aml_doc.yaml#Module",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "11http://vocabularies/aml_doc.yaml#Module",
+    "filterText": "http://vocabularies/aml_doc.yaml#Module",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 3,
+          "character": 17
+        },
+        "end": {
+          "line": 3,
+          "character": 17
+        }
+      },
+      "newText": "http://vocabularies/aml_doc.yaml#Module"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "http://vocabularies/aml_doc.yaml#ParametrizedDeclaration",
+    "kind": [
+      
+    ],
+    "detail": "unknown",
+    "documentation": "http://vocabularies/aml_doc.yaml#ParametrizedDeclaration",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "11http://vocabularies/aml_doc.yaml#ParametrizedDeclaration",
+    "filterText": "http://vocabularies/aml_doc.yaml#ParametrizedDeclaration",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 3,
+          "character": 17
+        },
+        "end": {
+          "line": 3,
+          "character": 17
+        }
+      },
+      "newText": "http://vocabularies/aml_doc.yaml#ParametrizedDeclaration"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "http://vocabularies/aml_doc.yaml#Unit",
+    "kind": [
+      
+    ],
+    "detail": "unknown",
+    "documentation": "http://vocabularies/aml_doc.yaml#Unit",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "11http://vocabularies/aml_doc.yaml#Unit",
+    "filterText": "http://vocabularies/aml_doc.yaml#Unit",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 3,
+          "character": 17
+        },
+        "end": {
+          "line": 3,
+          "character": 17
+        }
+      },
+      "newText": "http://vocabularies/aml_doc.yaml#Unit"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "http://vocabularies/aml_doc.yaml#VariableValue",
+    "kind": [
+      
+    ],
+    "detail": "unknown",
+    "documentation": "http://vocabularies/aml_doc.yaml#VariableValue",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "11http://vocabularies/aml_doc.yaml#VariableValue",
+    "filterText": "http://vocabularies/aml_doc.yaml#VariableValue",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 3,
+          "character": 17
+        },
+        "end": {
+          "line": 3,
+          "character": 17
+        }
+      },
+      "newText": "http://vocabularies/aml_doc.yaml#VariableValue"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "http://vocabularies/api_binding.yaml#Amqp091ChannelBinding",
+    "kind": [
+      
+    ],
+    "detail": "unknown",
+    "documentation": "http://vocabularies/api_binding.yaml#Amqp091ChannelBinding",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "11http://vocabularies/api_binding.yaml#Amqp091ChannelBinding",
+    "filterText": "http://vocabularies/api_binding.yaml#Amqp091ChannelBinding",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 3,
+          "character": 17
+        },
+        "end": {
+          "line": 3,
+          "character": 17
+        }
+      },
+      "newText": "http://vocabularies/api_binding.yaml#Amqp091ChannelBinding"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "http://vocabularies/api_binding.yaml#Amqp091ChannelExchange",
+    "kind": [
+      
+    ],
+    "detail": "unknown",
+    "documentation": "http://vocabularies/api_binding.yaml#Amqp091ChannelExchange",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "11http://vocabularies/api_binding.yaml#Amqp091ChannelExchange",
+    "filterText": "http://vocabularies/api_binding.yaml#Amqp091ChannelExchange",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 3,
+          "character": 17
+        },
+        "end": {
+          "line": 3,
+          "character": 17
+        }
+      },
+      "newText": "http://vocabularies/api_binding.yaml#Amqp091ChannelExchange"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "http://vocabularies/api_binding.yaml#Amqp091ChannelQueue",
+    "kind": [
+      
+    ],
+    "detail": "unknown",
+    "documentation": "http://vocabularies/api_binding.yaml#Amqp091ChannelQueue",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "11http://vocabularies/api_binding.yaml#Amqp091ChannelQueue",
+    "filterText": "http://vocabularies/api_binding.yaml#Amqp091ChannelQueue",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 3,
+          "character": 17
+        },
+        "end": {
+          "line": 3,
+          "character": 17
+        }
+      },
+      "newText": "http://vocabularies/api_binding.yaml#Amqp091ChannelQueue"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "http://vocabularies/api_binding.yaml#Amqp091MessageBinding",
+    "kind": [
+      
+    ],
+    "detail": "unknown",
+    "documentation": "http://vocabularies/api_binding.yaml#Amqp091MessageBinding",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "11http://vocabularies/api_binding.yaml#Amqp091MessageBinding",
+    "filterText": "http://vocabularies/api_binding.yaml#Amqp091MessageBinding",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 3,
+          "character": 17
+        },
+        "end": {
+          "line": 3,
+          "character": 17
+        }
+      },
+      "newText": "http://vocabularies/api_binding.yaml#Amqp091MessageBinding"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "http://vocabularies/api_binding.yaml#Amqp091OperationBinding",
+    "kind": [
+      
+    ],
+    "detail": "unknown",
+    "documentation": "http://vocabularies/api_binding.yaml#Amqp091OperationBinding",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "11http://vocabularies/api_binding.yaml#Amqp091OperationBinding",
+    "filterText": "http://vocabularies/api_binding.yaml#Amqp091OperationBinding",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 3,
+          "character": 17
+        },
+        "end": {
+          "line": 3,
+          "character": 17
+        }
+      },
+      "newText": "http://vocabularies/api_binding.yaml#Amqp091OperationBinding"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "http://vocabularies/api_binding.yaml#ChannelBinding",
+    "kind": [
+      
+    ],
+    "detail": "unknown",
+    "documentation": "http://vocabularies/api_binding.yaml#ChannelBinding",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "11http://vocabularies/api_binding.yaml#ChannelBinding",
+    "filterText": "http://vocabularies/api_binding.yaml#ChannelBinding",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 3,
+          "character": 17
+        },
+        "end": {
+          "line": 3,
+          "character": 17
+        }
+      },
+      "newText": "http://vocabularies/api_binding.yaml#ChannelBinding"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "http://vocabularies/api_binding.yaml#ChannelBindings",
+    "kind": [
+      
+    ],
+    "detail": "unknown",
+    "documentation": "http://vocabularies/api_binding.yaml#ChannelBindings",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "11http://vocabularies/api_binding.yaml#ChannelBindings",
+    "filterText": "http://vocabularies/api_binding.yaml#ChannelBindings",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 3,
+          "character": 17
+        },
+        "end": {
+          "line": 3,
+          "character": 17
+        }
+      },
+      "newText": "http://vocabularies/api_binding.yaml#ChannelBindings"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "http://vocabularies/api_binding.yaml#EmptyBinding",
+    "kind": [
+      
+    ],
+    "detail": "unknown",
+    "documentation": "http://vocabularies/api_binding.yaml#EmptyBinding",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "11http://vocabularies/api_binding.yaml#EmptyBinding",
+    "filterText": "http://vocabularies/api_binding.yaml#EmptyBinding",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 3,
+          "character": 17
+        },
+        "end": {
+          "line": 3,
+          "character": 17
+        }
+      },
+      "newText": "http://vocabularies/api_binding.yaml#EmptyBinding"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "http://vocabularies/api_binding.yaml#HttpMessageBinding",
+    "kind": [
+      
+    ],
+    "detail": "unknown",
+    "documentation": "http://vocabularies/api_binding.yaml#HttpMessageBinding",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "11http://vocabularies/api_binding.yaml#HttpMessageBinding",
+    "filterText": "http://vocabularies/api_binding.yaml#HttpMessageBinding",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 3,
+          "character": 17
+        },
+        "end": {
+          "line": 3,
+          "character": 17
+        }
+      },
+      "newText": "http://vocabularies/api_binding.yaml#HttpMessageBinding"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "http://vocabularies/api_binding.yaml#HttpOperationBinding",
+    "kind": [
+      
+    ],
+    "detail": "unknown",
+    "documentation": "http://vocabularies/api_binding.yaml#HttpOperationBinding",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "11http://vocabularies/api_binding.yaml#HttpOperationBinding",
+    "filterText": "http://vocabularies/api_binding.yaml#HttpOperationBinding",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 3,
+          "character": 17
+        },
+        "end": {
+          "line": 3,
+          "character": 17
+        }
+      },
+      "newText": "http://vocabularies/api_binding.yaml#HttpOperationBinding"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "http://vocabularies/api_binding.yaml#KafkaMessageBinding",
+    "kind": [
+      
+    ],
+    "detail": "unknown",
+    "documentation": "http://vocabularies/api_binding.yaml#KafkaMessageBinding",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "11http://vocabularies/api_binding.yaml#KafkaMessageBinding",
+    "filterText": "http://vocabularies/api_binding.yaml#KafkaMessageBinding",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 3,
+          "character": 17
+        },
+        "end": {
+          "line": 3,
+          "character": 17
+        }
+      },
+      "newText": "http://vocabularies/api_binding.yaml#KafkaMessageBinding"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "http://vocabularies/api_binding.yaml#KafkaOperationBinding",
+    "kind": [
+      
+    ],
+    "detail": "unknown",
+    "documentation": "http://vocabularies/api_binding.yaml#KafkaOperationBinding",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "11http://vocabularies/api_binding.yaml#KafkaOperationBinding",
+    "filterText": "http://vocabularies/api_binding.yaml#KafkaOperationBinding",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 3,
+          "character": 17
+        },
+        "end": {
+          "line": 3,
+          "character": 17
+        }
+      },
+      "newText": "http://vocabularies/api_binding.yaml#KafkaOperationBinding"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "http://vocabularies/api_binding.yaml#MessageBinding",
+    "kind": [
+      
+    ],
+    "detail": "unknown",
+    "documentation": "http://vocabularies/api_binding.yaml#MessageBinding",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "11http://vocabularies/api_binding.yaml#MessageBinding",
+    "filterText": "http://vocabularies/api_binding.yaml#MessageBinding",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 3,
+          "character": 17
+        },
+        "end": {
+          "line": 3,
+          "character": 17
+        }
+      },
+      "newText": "http://vocabularies/api_binding.yaml#MessageBinding"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "http://vocabularies/api_binding.yaml#MessageBindings",
+    "kind": [
+      
+    ],
+    "detail": "unknown",
+    "documentation": "http://vocabularies/api_binding.yaml#MessageBindings",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "11http://vocabularies/api_binding.yaml#MessageBindings",
+    "filterText": "http://vocabularies/api_binding.yaml#MessageBindings",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 3,
+          "character": 17
+        },
+        "end": {
+          "line": 3,
+          "character": 17
+        }
+      },
+      "newText": "http://vocabularies/api_binding.yaml#MessageBindings"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "http://vocabularies/api_binding.yaml#MqttMessageBinding",
+    "kind": [
+      
+    ],
+    "detail": "unknown",
+    "documentation": "http://vocabularies/api_binding.yaml#MqttMessageBinding",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "11http://vocabularies/api_binding.yaml#MqttMessageBinding",
+    "filterText": "http://vocabularies/api_binding.yaml#MqttMessageBinding",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 3,
+          "character": 17
+        },
+        "end": {
+          "line": 3,
+          "character": 17
+        }
+      },
+      "newText": "http://vocabularies/api_binding.yaml#MqttMessageBinding"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "http://vocabularies/api_binding.yaml#MqttOperationBinding",
+    "kind": [
+      
+    ],
+    "detail": "unknown",
+    "documentation": "http://vocabularies/api_binding.yaml#MqttOperationBinding",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "11http://vocabularies/api_binding.yaml#MqttOperationBinding",
+    "filterText": "http://vocabularies/api_binding.yaml#MqttOperationBinding",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 3,
+          "character": 17
+        },
+        "end": {
+          "line": 3,
+          "character": 17
+        }
+      },
+      "newText": "http://vocabularies/api_binding.yaml#MqttOperationBinding"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "http://vocabularies/api_binding.yaml#MqttServerBinding",
+    "kind": [
+      
+    ],
+    "detail": "unknown",
+    "documentation": "http://vocabularies/api_binding.yaml#MqttServerBinding",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "11http://vocabularies/api_binding.yaml#MqttServerBinding",
+    "filterText": "http://vocabularies/api_binding.yaml#MqttServerBinding",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 3,
+          "character": 17
+        },
+        "end": {
+          "line": 3,
+          "character": 17
+        }
+      },
+      "newText": "http://vocabularies/api_binding.yaml#MqttServerBinding"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "http://vocabularies/api_binding.yaml#MqttServerLastWill",
+    "kind": [
+      
+    ],
+    "detail": "unknown",
+    "documentation": "http://vocabularies/api_binding.yaml#MqttServerLastWill",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "11http://vocabularies/api_binding.yaml#MqttServerLastWill",
+    "filterText": "http://vocabularies/api_binding.yaml#MqttServerLastWill",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 3,
+          "character": 17
+        },
+        "end": {
+          "line": 3,
+          "character": 17
+        }
+      },
+      "newText": "http://vocabularies/api_binding.yaml#MqttServerLastWill"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "http://vocabularies/api_binding.yaml#OperationBinding",
+    "kind": [
+      
+    ],
+    "detail": "unknown",
+    "documentation": "http://vocabularies/api_binding.yaml#OperationBinding",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "11http://vocabularies/api_binding.yaml#OperationBinding",
+    "filterText": "http://vocabularies/api_binding.yaml#OperationBinding",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 3,
+          "character": 17
+        },
+        "end": {
+          "line": 3,
+          "character": 17
+        }
+      },
+      "newText": "http://vocabularies/api_binding.yaml#OperationBinding"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "http://vocabularies/api_binding.yaml#OperationBindings",
+    "kind": [
+      
+    ],
+    "detail": "unknown",
+    "documentation": "http://vocabularies/api_binding.yaml#OperationBindings",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "11http://vocabularies/api_binding.yaml#OperationBindings",
+    "filterText": "http://vocabularies/api_binding.yaml#OperationBindings",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 3,
+          "character": 17
+        },
+        "end": {
+          "line": 3,
+          "character": 17
+        }
+      },
+      "newText": "http://vocabularies/api_binding.yaml#OperationBindings"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "http://vocabularies/api_binding.yaml#ServerBinding",
+    "kind": [
+      
+    ],
+    "detail": "unknown",
+    "documentation": "http://vocabularies/api_binding.yaml#ServerBinding",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "11http://vocabularies/api_binding.yaml#ServerBinding",
+    "filterText": "http://vocabularies/api_binding.yaml#ServerBinding",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 3,
+          "character": 17
+        },
+        "end": {
+          "line": 3,
+          "character": 17
+        }
+      },
+      "newText": "http://vocabularies/api_binding.yaml#ServerBinding"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "http://vocabularies/api_binding.yaml#ServerBindings",
+    "kind": [
+      
+    ],
+    "detail": "unknown",
+    "documentation": "http://vocabularies/api_binding.yaml#ServerBindings",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "11http://vocabularies/api_binding.yaml#ServerBindings",
+    "filterText": "http://vocabularies/api_binding.yaml#ServerBindings",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 3,
+          "character": 17
+        },
+        "end": {
+          "line": 3,
+          "character": 17
+        }
+      },
+      "newText": "http://vocabularies/api_binding.yaml#ServerBindings"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "http://vocabularies/api_binding.yaml#WebSocketsChannelBinding",
+    "kind": [
+      
+    ],
+    "detail": "unknown",
+    "documentation": "http://vocabularies/api_binding.yaml#WebSocketsChannelBinding",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "11http://vocabularies/api_binding.yaml#WebSocketsChannelBinding",
+    "filterText": "http://vocabularies/api_binding.yaml#WebSocketsChannelBinding",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 3,
+          "character": 17
+        },
+        "end": {
+          "line": 3,
+          "character": 17
+        }
+      },
+      "newText": "http://vocabularies/api_binding.yaml#WebSocketsChannelBinding"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "http://vocabularies/api_contract.yaml#API",
+    "kind": [
+      
+    ],
+    "detail": "unknown",
+    "documentation": "http://vocabularies/api_contract.yaml#API",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "11http://vocabularies/api_contract.yaml#API",
+    "filterText": "http://vocabularies/api_contract.yaml#API",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 3,
+          "character": 17
+        },
+        "end": {
+          "line": 3,
+          "character": 17
+        }
+      },
+      "newText": "http://vocabularies/api_contract.yaml#API"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "http://vocabularies/api_contract.yaml#AnnotationTypeDeclarationFragment",
+    "kind": [
+      
+    ],
+    "detail": "unknown",
+    "documentation": "http://vocabularies/api_contract.yaml#AnnotationTypeDeclarationFragment",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "11http://vocabularies/api_contract.yaml#AnnotationTypeDeclarationFragment",
+    "filterText": "http://vocabularies/api_contract.yaml#AnnotationTypeDeclarationFragment",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 3,
+          "character": 17
+        },
+        "end": {
+          "line": 3,
+          "character": 17
+        }
+      },
+      "newText": "http://vocabularies/api_contract.yaml#AnnotationTypeDeclarationFragment"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "http://vocabularies/api_contract.yaml#AsyncAPI",
+    "kind": [
+      
+    ],
+    "detail": "unknown",
+    "documentation": "http://vocabularies/api_contract.yaml#AsyncAPI",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "11http://vocabularies/api_contract.yaml#AsyncAPI",
+    "filterText": "http://vocabularies/api_contract.yaml#AsyncAPI",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 3,
+          "character": 17
+        },
+        "end": {
+          "line": 3,
+          "character": 17
+        }
+      },
+      "newText": "http://vocabularies/api_contract.yaml#AsyncAPI"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "http://vocabularies/api_contract.yaml#Callback",
+    "kind": [
+      
+    ],
+    "detail": "unknown",
+    "documentation": "http://vocabularies/api_contract.yaml#Callback",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "11http://vocabularies/api_contract.yaml#Callback",
+    "filterText": "http://vocabularies/api_contract.yaml#Callback",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 3,
+          "character": 17
+        },
+        "end": {
+          "line": 3,
+          "character": 17
+        }
+      },
+      "newText": "http://vocabularies/api_contract.yaml#Callback"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "http://vocabularies/api_contract.yaml#DomainExtension",
+    "kind": [
+      
+    ],
+    "detail": "unknown",
+    "documentation": "http://vocabularies/api_contract.yaml#DomainExtension",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "11http://vocabularies/api_contract.yaml#DomainExtension",
+    "filterText": "http://vocabularies/api_contract.yaml#DomainExtension",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 3,
+          "character": 17
+        },
+        "end": {
+          "line": 3,
+          "character": 17
+        }
+      },
+      "newText": "http://vocabularies/api_contract.yaml#DomainExtension"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "http://vocabularies/api_contract.yaml#Encoding",
+    "kind": [
+      
+    ],
+    "detail": "unknown",
+    "documentation": "http://vocabularies/api_contract.yaml#Encoding",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "11http://vocabularies/api_contract.yaml#Encoding",
+    "filterText": "http://vocabularies/api_contract.yaml#Encoding",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 3,
+          "character": 17
+        },
+        "end": {
+          "line": 3,
+          "character": 17
+        }
+      },
+      "newText": "http://vocabularies/api_contract.yaml#Encoding"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "http://vocabularies/api_contract.yaml#EndPoint",
+    "kind": [
+      
+    ],
+    "detail": "unknown",
+    "documentation": "http://vocabularies/api_contract.yaml#EndPoint",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "11http://vocabularies/api_contract.yaml#EndPoint",
+    "filterText": "http://vocabularies/api_contract.yaml#EndPoint",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 3,
+          "character": 17
+        },
+        "end": {
+          "line": 3,
+          "character": 17
+        }
+      },
+      "newText": "http://vocabularies/api_contract.yaml#EndPoint"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "http://vocabularies/api_contract.yaml#Example",
+    "kind": [
+      
+    ],
+    "detail": "unknown",
+    "documentation": "http://vocabularies/api_contract.yaml#Example",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "11http://vocabularies/api_contract.yaml#Example",
+    "filterText": "http://vocabularies/api_contract.yaml#Example",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 3,
+          "character": 17
+        },
+        "end": {
+          "line": 3,
+          "character": 17
+        }
+      },
+      "newText": "http://vocabularies/api_contract.yaml#Example"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "http://vocabularies/api_contract.yaml#Extension",
+    "kind": [
+      
+    ],
+    "detail": "unknown",
+    "documentation": "http://vocabularies/api_contract.yaml#Extension",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "11http://vocabularies/api_contract.yaml#Extension",
+    "filterText": "http://vocabularies/api_contract.yaml#Extension",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 3,
+          "character": 17
+        },
+        "end": {
+          "line": 3,
+          "character": 17
+        }
+      },
+      "newText": "http://vocabularies/api_contract.yaml#Extension"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "http://vocabularies/api_contract.yaml#IriTemplateMapping",
+    "kind": [
+      
+    ],
+    "detail": "unknown",
+    "documentation": "http://vocabularies/api_contract.yaml#IriTemplateMapping",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "11http://vocabularies/api_contract.yaml#IriTemplateMapping",
+    "filterText": "http://vocabularies/api_contract.yaml#IriTemplateMapping",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 3,
+          "character": 17
+        },
+        "end": {
+          "line": 3,
+          "character": 17
+        }
+      },
+      "newText": "http://vocabularies/api_contract.yaml#IriTemplateMapping"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "http://vocabularies/api_contract.yaml#Message",
+    "kind": [
+      
+    ],
+    "detail": "unknown",
+    "documentation": "http://vocabularies/api_contract.yaml#Message",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "11http://vocabularies/api_contract.yaml#Message",
+    "filterText": "http://vocabularies/api_contract.yaml#Message",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 3,
+          "character": 17
+        },
+        "end": {
+          "line": 3,
+          "character": 17
+        }
+      },
+      "newText": "http://vocabularies/api_contract.yaml#Message"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "http://vocabularies/api_contract.yaml#NamedExampleFragment",
+    "kind": [
+      
+    ],
+    "detail": "unknown",
+    "documentation": "http://vocabularies/api_contract.yaml#NamedExampleFragment",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "11http://vocabularies/api_contract.yaml#NamedExampleFragment",
+    "filterText": "http://vocabularies/api_contract.yaml#NamedExampleFragment",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 3,
+          "character": 17
+        },
+        "end": {
+          "line": 3,
+          "character": 17
+        }
+      },
+      "newText": "http://vocabularies/api_contract.yaml#NamedExampleFragment"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "http://vocabularies/api_contract.yaml#Operation",
+    "kind": [
+      
+    ],
+    "detail": "unknown",
+    "documentation": "http://vocabularies/api_contract.yaml#Operation",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "11http://vocabularies/api_contract.yaml#Operation",
+    "filterText": "http://vocabularies/api_contract.yaml#Operation",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 3,
+          "character": 17
+        },
+        "end": {
+          "line": 3,
+          "character": 17
+        }
+      },
+      "newText": "http://vocabularies/api_contract.yaml#Operation"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "http://vocabularies/api_contract.yaml#Overlay",
+    "kind": [
+      
+    ],
+    "detail": "unknown",
+    "documentation": "http://vocabularies/api_contract.yaml#Overlay",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "11http://vocabularies/api_contract.yaml#Overlay",
+    "filterText": "http://vocabularies/api_contract.yaml#Overlay",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 3,
+          "character": 17
+        },
+        "end": {
+          "line": 3,
+          "character": 17
+        }
+      },
+      "newText": "http://vocabularies/api_contract.yaml#Overlay"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "http://vocabularies/api_contract.yaml#Parameter",
+    "kind": [
+      
+    ],
+    "detail": "unknown",
+    "documentation": "http://vocabularies/api_contract.yaml#Parameter",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "11http://vocabularies/api_contract.yaml#Parameter",
+    "filterText": "http://vocabularies/api_contract.yaml#Parameter",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 3,
+          "character": 17
+        },
+        "end": {
+          "line": 3,
+          "character": 17
+        }
+      },
+      "newText": "http://vocabularies/api_contract.yaml#Parameter"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "http://vocabularies/api_contract.yaml#ParametrizedResourceType",
+    "kind": [
+      
+    ],
+    "detail": "unknown",
+    "documentation": "http://vocabularies/api_contract.yaml#ParametrizedResourceType",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "11http://vocabularies/api_contract.yaml#ParametrizedResourceType",
+    "filterText": "http://vocabularies/api_contract.yaml#ParametrizedResourceType",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 3,
+          "character": 17
+        },
+        "end": {
+          "line": 3,
+          "character": 17
+        }
+      },
+      "newText": "http://vocabularies/api_contract.yaml#ParametrizedResourceType"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "http://vocabularies/api_contract.yaml#ParametrizedTrait",
+    "kind": [
+      
+    ],
+    "detail": "unknown",
+    "documentation": "http://vocabularies/api_contract.yaml#ParametrizedTrait",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "11http://vocabularies/api_contract.yaml#ParametrizedTrait",
+    "filterText": "http://vocabularies/api_contract.yaml#ParametrizedTrait",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 3,
+          "character": 17
+        },
+        "end": {
+          "line": 3,
+          "character": 17
+        }
+      },
+      "newText": "http://vocabularies/api_contract.yaml#ParametrizedTrait"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "http://vocabularies/api_contract.yaml#Payload",
+    "kind": [
+      
+    ],
+    "detail": "unknown",
+    "documentation": "http://vocabularies/api_contract.yaml#Payload",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "11http://vocabularies/api_contract.yaml#Payload",
+    "filterText": "http://vocabularies/api_contract.yaml#Payload",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 3,
+          "character": 17
+        },
+        "end": {
+          "line": 3,
+          "character": 17
+        }
+      },
+      "newText": "http://vocabularies/api_contract.yaml#Payload"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "http://vocabularies/api_contract.yaml#PayloadFragment",
+    "kind": [
+      
+    ],
+    "detail": "unknown",
+    "documentation": "http://vocabularies/api_contract.yaml#PayloadFragment",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "11http://vocabularies/api_contract.yaml#PayloadFragment",
+    "filterText": "http://vocabularies/api_contract.yaml#PayloadFragment",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 3,
+          "character": 17
+        },
+        "end": {
+          "line": 3,
+          "character": 17
+        }
+      },
+      "newText": "http://vocabularies/api_contract.yaml#PayloadFragment"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "http://vocabularies/api_contract.yaml#Request",
+    "kind": [
+      
+    ],
+    "detail": "unknown",
+    "documentation": "http://vocabularies/api_contract.yaml#Request",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "11http://vocabularies/api_contract.yaml#Request",
+    "filterText": "http://vocabularies/api_contract.yaml#Request",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 3,
+          "character": 17
+        },
+        "end": {
+          "line": 3,
+          "character": 17
+        }
+      },
+      "newText": "http://vocabularies/api_contract.yaml#Request"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "http://vocabularies/api_contract.yaml#ResourceType",
+    "kind": [
+      
+    ],
+    "detail": "unknown",
+    "documentation": "http://vocabularies/api_contract.yaml#ResourceType",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "11http://vocabularies/api_contract.yaml#ResourceType",
+    "filterText": "http://vocabularies/api_contract.yaml#ResourceType",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 3,
+          "character": 17
+        },
+        "end": {
+          "line": 3,
+          "character": 17
+        }
+      },
+      "newText": "http://vocabularies/api_contract.yaml#ResourceType"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "http://vocabularies/api_contract.yaml#ResourceTypeFragment",
+    "kind": [
+      
+    ],
+    "detail": "unknown",
+    "documentation": "http://vocabularies/api_contract.yaml#ResourceTypeFragment",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "11http://vocabularies/api_contract.yaml#ResourceTypeFragment",
+    "filterText": "http://vocabularies/api_contract.yaml#ResourceTypeFragment",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 3,
+          "character": 17
+        },
+        "end": {
+          "line": 3,
+          "character": 17
+        }
+      },
+      "newText": "http://vocabularies/api_contract.yaml#ResourceTypeFragment"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "http://vocabularies/api_contract.yaml#Response",
+    "kind": [
+      
+    ],
+    "detail": "unknown",
+    "documentation": "http://vocabularies/api_contract.yaml#Response",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "11http://vocabularies/api_contract.yaml#Response",
+    "filterText": "http://vocabularies/api_contract.yaml#Response",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 3,
+          "character": 17
+        },
+        "end": {
+          "line": 3,
+          "character": 17
+        }
+      },
+      "newText": "http://vocabularies/api_contract.yaml#Response"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "http://vocabularies/api_contract.yaml#Server",
+    "kind": [
+      
+    ],
+    "detail": "unknown",
+    "documentation": "http://vocabularies/api_contract.yaml#Server",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "11http://vocabularies/api_contract.yaml#Server",
+    "filterText": "http://vocabularies/api_contract.yaml#Server",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 3,
+          "character": 17
+        },
+        "end": {
+          "line": 3,
+          "character": 17
+        }
+      },
+      "newText": "http://vocabularies/api_contract.yaml#Server"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "http://vocabularies/api_contract.yaml#ShapeExtension",
+    "kind": [
+      
+    ],
+    "detail": "unknown",
+    "documentation": "http://vocabularies/api_contract.yaml#ShapeExtension",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "11http://vocabularies/api_contract.yaml#ShapeExtension",
+    "filterText": "http://vocabularies/api_contract.yaml#ShapeExtension",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 3,
+          "character": 17
+        },
+        "end": {
+          "line": 3,
+          "character": 17
+        }
+      },
+      "newText": "http://vocabularies/api_contract.yaml#ShapeExtension"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "http://vocabularies/api_contract.yaml#Tag",
+    "kind": [
+      
+    ],
+    "detail": "unknown",
+    "documentation": "http://vocabularies/api_contract.yaml#Tag",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "11http://vocabularies/api_contract.yaml#Tag",
+    "filterText": "http://vocabularies/api_contract.yaml#Tag",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 3,
+          "character": 17
+        },
+        "end": {
+          "line": 3,
+          "character": 17
+        }
+      },
+      "newText": "http://vocabularies/api_contract.yaml#Tag"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "http://vocabularies/api_contract.yaml#TemplatedLink",
+    "kind": [
+      
+    ],
+    "detail": "unknown",
+    "documentation": "http://vocabularies/api_contract.yaml#TemplatedLink",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "11http://vocabularies/api_contract.yaml#TemplatedLink",
+    "filterText": "http://vocabularies/api_contract.yaml#TemplatedLink",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 3,
+          "character": 17
+        },
+        "end": {
+          "line": 3,
+          "character": 17
+        }
+      },
+      "newText": "http://vocabularies/api_contract.yaml#TemplatedLink"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "http://vocabularies/api_contract.yaml#Trait",
+    "kind": [
+      
+    ],
+    "detail": "unknown",
+    "documentation": "http://vocabularies/api_contract.yaml#Trait",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "11http://vocabularies/api_contract.yaml#Trait",
+    "filterText": "http://vocabularies/api_contract.yaml#Trait",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 3,
+          "character": 17
+        },
+        "end": {
+          "line": 3,
+          "character": 17
+        }
+      },
+      "newText": "http://vocabularies/api_contract.yaml#Trait"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "http://vocabularies/api_contract.yaml#TraitFragment",
+    "kind": [
+      
+    ],
+    "detail": "unknown",
+    "documentation": "http://vocabularies/api_contract.yaml#TraitFragment",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "11http://vocabularies/api_contract.yaml#TraitFragment",
+    "filterText": "http://vocabularies/api_contract.yaml#TraitFragment",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 3,
+          "character": 17
+        },
+        "end": {
+          "line": 3,
+          "character": 17
+        }
+      },
+      "newText": "http://vocabularies/api_contract.yaml#TraitFragment"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "http://vocabularies/api_contract.yaml#UserDocumentationFragment",
+    "kind": [
+      
+    ],
+    "detail": "unknown",
+    "documentation": "http://vocabularies/api_contract.yaml#UserDocumentationFragment",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "11http://vocabularies/api_contract.yaml#UserDocumentationFragment",
+    "filterText": "http://vocabularies/api_contract.yaml#UserDocumentationFragment",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 3,
+          "character": 17
+        },
+        "end": {
+          "line": 3,
+          "character": 17
+        }
+      },
+      "newText": "http://vocabularies/api_contract.yaml#UserDocumentationFragment"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "http://vocabularies/api_contract.yaml#WebAPI",
+    "kind": [
+      
+    ],
+    "detail": "unknown",
+    "documentation": "http://vocabularies/api_contract.yaml#WebAPI",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "11http://vocabularies/api_contract.yaml#WebAPI",
+    "filterText": "http://vocabularies/api_contract.yaml#WebAPI",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 3,
+          "character": 17
+        },
+        "end": {
+          "line": 3,
+          "character": 17
+        }
+      },
+      "newText": "http://vocabularies/api_contract.yaml#WebAPI"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "http://vocabularies/core.yaml#CorrelationId",
+    "kind": [
+      
+    ],
+    "detail": "unknown",
+    "documentation": "http://vocabularies/core.yaml#CorrelationId",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "11http://vocabularies/core.yaml#CorrelationId",
+    "filterText": "http://vocabularies/core.yaml#CorrelationId",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 3,
+          "character": 17
+        },
+        "end": {
+          "line": 3,
+          "character": 17
+        }
+      },
+      "newText": "http://vocabularies/core.yaml#CorrelationId"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "http://vocabularies/core.yaml#CreativeWork",
+    "kind": [
+      
+    ],
+    "detail": "unknown",
+    "documentation": "http://vocabularies/core.yaml#CreativeWork",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "11http://vocabularies/core.yaml#CreativeWork",
+    "filterText": "http://vocabularies/core.yaml#CreativeWork",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 3,
+          "character": 17
+        },
+        "end": {
+          "line": 3,
+          "character": 17
+        }
+      },
+      "newText": "http://vocabularies/core.yaml#CreativeWork"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "http://vocabularies/core.yaml#License",
+    "kind": [
+      
+    ],
+    "detail": "unknown",
+    "documentation": "http://vocabularies/core.yaml#License",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "11http://vocabularies/core.yaml#License",
+    "filterText": "http://vocabularies/core.yaml#License",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 3,
+          "character": 17
+        },
+        "end": {
+          "line": 3,
+          "character": 17
+        }
+      },
+      "newText": "http://vocabularies/core.yaml#License"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "http://vocabularies/core.yaml#Organization",
+    "kind": [
+      
+    ],
+    "detail": "unknown",
+    "documentation": "http://vocabularies/core.yaml#Organization",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "11http://vocabularies/core.yaml#Organization",
+    "filterText": "http://vocabularies/core.yaml#Organization",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 3,
+          "character": 17
+        },
+        "end": {
+          "line": 3,
+          "character": 17
+        }
+      },
+      "newText": "http://vocabularies/core.yaml#Organization"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "http://vocabularies/data_model.yaml#Array",
+    "kind": [
+      
+    ],
+    "detail": "unknown",
+    "documentation": "http://vocabularies/data_model.yaml#Array",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "11http://vocabularies/data_model.yaml#Array",
+    "filterText": "http://vocabularies/data_model.yaml#Array",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 3,
+          "character": 17
+        },
+        "end": {
+          "line": 3,
+          "character": 17
+        }
+      },
+      "newText": "http://vocabularies/data_model.yaml#Array"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "http://vocabularies/data_model.yaml#Link",
+    "kind": [
+      
+    ],
+    "detail": "unknown",
+    "documentation": "http://vocabularies/data_model.yaml#Link",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "11http://vocabularies/data_model.yaml#Link",
+    "filterText": "http://vocabularies/data_model.yaml#Link",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 3,
+          "character": 17
+        },
+        "end": {
+          "line": 3,
+          "character": 17
+        }
+      },
+      "newText": "http://vocabularies/data_model.yaml#Link"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "http://vocabularies/data_model.yaml#Node",
+    "kind": [
+      
+    ],
+    "detail": "unknown",
+    "documentation": "http://vocabularies/data_model.yaml#Node",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "11http://vocabularies/data_model.yaml#Node",
+    "filterText": "http://vocabularies/data_model.yaml#Node",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 3,
+          "character": 17
+        },
+        "end": {
+          "line": 3,
+          "character": 17
+        }
+      },
+      "newText": "http://vocabularies/data_model.yaml#Node"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "http://vocabularies/data_model.yaml#Object",
+    "kind": [
+      
+    ],
+    "detail": "unknown",
+    "documentation": "http://vocabularies/data_model.yaml#Object",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "11http://vocabularies/data_model.yaml#Object",
+    "filterText": "http://vocabularies/data_model.yaml#Object",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 3,
+          "character": 17
+        },
+        "end": {
+          "line": 3,
+          "character": 17
+        }
+      },
+      "newText": "http://vocabularies/data_model.yaml#Object"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "http://vocabularies/data_model.yaml#Property",
+    "kind": [
+      
+    ],
+    "detail": "unknown",
+    "documentation": "http://vocabularies/data_model.yaml#Property",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "11http://vocabularies/data_model.yaml#Property",
+    "filterText": "http://vocabularies/data_model.yaml#Property",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 3,
+          "character": 17
+        },
+        "end": {
+          "line": 3,
+          "character": 17
+        }
+      },
+      "newText": "http://vocabularies/data_model.yaml#Property"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "http://vocabularies/data_model.yaml#Scalar",
+    "kind": [
+      
+    ],
+    "detail": "unknown",
+    "documentation": "http://vocabularies/data_model.yaml#Scalar",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "11http://vocabularies/data_model.yaml#Scalar",
+    "filterText": "http://vocabularies/data_model.yaml#Scalar",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 3,
+          "character": 17
+        },
+        "end": {
+          "line": 3,
+          "character": 17
+        }
+      },
+      "newText": "http://vocabularies/data_model.yaml#Scalar"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "http://vocabularies/data_shapes.yaml#AnyShape",
+    "kind": [
+      
+    ],
+    "detail": "unknown",
+    "documentation": "http://vocabularies/data_shapes.yaml#AnyShape",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "11http://vocabularies/data_shapes.yaml#AnyShape",
+    "filterText": "http://vocabularies/data_shapes.yaml#AnyShape",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 3,
+          "character": 17
+        },
+        "end": {
+          "line": 3,
+          "character": 17
+        }
+      },
+      "newText": "http://vocabularies/data_shapes.yaml#AnyShape"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "http://vocabularies/data_shapes.yaml#ArrayShape",
+    "kind": [
+      
+    ],
+    "detail": "unknown",
+    "documentation": "http://vocabularies/data_shapes.yaml#ArrayShape",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "11http://vocabularies/data_shapes.yaml#ArrayShape",
+    "filterText": "http://vocabularies/data_shapes.yaml#ArrayShape",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 3,
+          "character": 17
+        },
+        "end": {
+          "line": 3,
+          "character": 17
+        }
+      },
+      "newText": "http://vocabularies/data_shapes.yaml#ArrayShape"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "http://vocabularies/data_shapes.yaml#DataTypeFragment",
+    "kind": [
+      
+    ],
+    "detail": "unknown",
+    "documentation": "http://vocabularies/data_shapes.yaml#DataTypeFragment",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "11http://vocabularies/data_shapes.yaml#DataTypeFragment",
+    "filterText": "http://vocabularies/data_shapes.yaml#DataTypeFragment",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 3,
+          "character": 17
+        },
+        "end": {
+          "line": 3,
+          "character": 17
+        }
+      },
+      "newText": "http://vocabularies/data_shapes.yaml#DataTypeFragment"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "http://vocabularies/data_shapes.yaml#DiscriminatorValueMapping",
+    "kind": [
+      
+    ],
+    "detail": "unknown",
+    "documentation": "http://vocabularies/data_shapes.yaml#DiscriminatorValueMapping",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "11http://vocabularies/data_shapes.yaml#DiscriminatorValueMapping",
+    "filterText": "http://vocabularies/data_shapes.yaml#DiscriminatorValueMapping",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 3,
+          "character": 17
+        },
+        "end": {
+          "line": 3,
+          "character": 17
+        }
+      },
+      "newText": "http://vocabularies/data_shapes.yaml#DiscriminatorValueMapping"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "http://vocabularies/data_shapes.yaml#FileShape",
+    "kind": [
+      
+    ],
+    "detail": "unknown",
+    "documentation": "http://vocabularies/data_shapes.yaml#FileShape",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "11http://vocabularies/data_shapes.yaml#FileShape",
+    "filterText": "http://vocabularies/data_shapes.yaml#FileShape",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 3,
+          "character": 17
+        },
+        "end": {
+          "line": 3,
+          "character": 17
+        }
+      },
+      "newText": "http://vocabularies/data_shapes.yaml#FileShape"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "http://vocabularies/data_shapes.yaml#MatrixShape",
+    "kind": [
+      
+    ],
+    "detail": "unknown",
+    "documentation": "http://vocabularies/data_shapes.yaml#MatrixShape",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "11http://vocabularies/data_shapes.yaml#MatrixShape",
+    "filterText": "http://vocabularies/data_shapes.yaml#MatrixShape",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 3,
+          "character": 17
+        },
+        "end": {
+          "line": 3,
+          "character": 17
+        }
+      },
+      "newText": "http://vocabularies/data_shapes.yaml#MatrixShape"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "http://vocabularies/data_shapes.yaml#NilShape",
+    "kind": [
+      
+    ],
+    "detail": "unknown",
+    "documentation": "http://vocabularies/data_shapes.yaml#NilShape",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "11http://vocabularies/data_shapes.yaml#NilShape",
+    "filterText": "http://vocabularies/data_shapes.yaml#NilShape",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 3,
+          "character": 17
+        },
+        "end": {
+          "line": 3,
+          "character": 17
+        }
+      },
+      "newText": "http://vocabularies/data_shapes.yaml#NilShape"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "http://vocabularies/data_shapes.yaml#PropertyDependencies",
+    "kind": [
+      
+    ],
+    "detail": "unknown",
+    "documentation": "http://vocabularies/data_shapes.yaml#PropertyDependencies",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "11http://vocabularies/data_shapes.yaml#PropertyDependencies",
+    "filterText": "http://vocabularies/data_shapes.yaml#PropertyDependencies",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 3,
+          "character": 17
+        },
+        "end": {
+          "line": 3,
+          "character": 17
+        }
+      },
+      "newText": "http://vocabularies/data_shapes.yaml#PropertyDependencies"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "http://vocabularies/data_shapes.yaml#RecursiveShape",
+    "kind": [
+      
+    ],
+    "detail": "unknown",
+    "documentation": "http://vocabularies/data_shapes.yaml#RecursiveShape",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "11http://vocabularies/data_shapes.yaml#RecursiveShape",
+    "filterText": "http://vocabularies/data_shapes.yaml#RecursiveShape",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 3,
+          "character": 17
+        },
+        "end": {
+          "line": 3,
+          "character": 17
+        }
+      },
+      "newText": "http://vocabularies/data_shapes.yaml#RecursiveShape"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "http://vocabularies/data_shapes.yaml#ScalarShape",
+    "kind": [
+      
+    ],
+    "detail": "unknown",
+    "documentation": "http://vocabularies/data_shapes.yaml#ScalarShape",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "11http://vocabularies/data_shapes.yaml#ScalarShape",
+    "filterText": "http://vocabularies/data_shapes.yaml#ScalarShape",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 3,
+          "character": 17
+        },
+        "end": {
+          "line": 3,
+          "character": 17
+        }
+      },
+      "newText": "http://vocabularies/data_shapes.yaml#ScalarShape"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "http://vocabularies/data_shapes.yaml#SchemaDependencies",
+    "kind": [
+      
+    ],
+    "detail": "unknown",
+    "documentation": "http://vocabularies/data_shapes.yaml#SchemaDependencies",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "11http://vocabularies/data_shapes.yaml#SchemaDependencies",
+    "filterText": "http://vocabularies/data_shapes.yaml#SchemaDependencies",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 3,
+          "character": 17
+        },
+        "end": {
+          "line": 3,
+          "character": 17
+        }
+      },
+      "newText": "http://vocabularies/data_shapes.yaml#SchemaDependencies"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "http://vocabularies/data_shapes.yaml#SchemaShape",
+    "kind": [
+      
+    ],
+    "detail": "unknown",
+    "documentation": "http://vocabularies/data_shapes.yaml#SchemaShape",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "11http://vocabularies/data_shapes.yaml#SchemaShape",
+    "filterText": "http://vocabularies/data_shapes.yaml#SchemaShape",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 3,
+          "character": 17
+        },
+        "end": {
+          "line": 3,
+          "character": 17
+        }
+      },
+      "newText": "http://vocabularies/data_shapes.yaml#SchemaShape"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "http://vocabularies/data_shapes.yaml#TupleShape",
+    "kind": [
+      
+    ],
+    "detail": "unknown",
+    "documentation": "http://vocabularies/data_shapes.yaml#TupleShape",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "11http://vocabularies/data_shapes.yaml#TupleShape",
+    "filterText": "http://vocabularies/data_shapes.yaml#TupleShape",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 3,
+          "character": 17
+        },
+        "end": {
+          "line": 3,
+          "character": 17
+        }
+      },
+      "newText": "http://vocabularies/data_shapes.yaml#TupleShape"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "http://vocabularies/data_shapes.yaml#UnionShape",
+    "kind": [
+      
+    ],
+    "detail": "unknown",
+    "documentation": "http://vocabularies/data_shapes.yaml#UnionShape",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "11http://vocabularies/data_shapes.yaml#UnionShape",
+    "filterText": "http://vocabularies/data_shapes.yaml#UnionShape",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 3,
+          "character": 17
+        },
+        "end": {
+          "line": 3,
+          "character": 17
+        }
+      },
+      "newText": "http://vocabularies/data_shapes.yaml#UnionShape"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "http://vocabularies/data_shapes.yaml#XMLSerializer",
+    "kind": [
+      
+    ],
+    "detail": "unknown",
+    "documentation": "http://vocabularies/data_shapes.yaml#XMLSerializer",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "11http://vocabularies/data_shapes.yaml#XMLSerializer",
+    "filterText": "http://vocabularies/data_shapes.yaml#XMLSerializer",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 3,
+          "character": 17
+        },
+        "end": {
+          "line": 3,
+          "character": 17
+        }
+      },
+      "newText": "http://vocabularies/data_shapes.yaml#XMLSerializer"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "http://vocabularies/security.yaml#ApiKeySettings",
+    "kind": [
+      
+    ],
+    "detail": "unknown",
+    "documentation": "http://vocabularies/security.yaml#ApiKeySettings",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "11http://vocabularies/security.yaml#ApiKeySettings",
+    "filterText": "http://vocabularies/security.yaml#ApiKeySettings",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 3,
+          "character": 17
+        },
+        "end": {
+          "line": 3,
+          "character": 17
+        }
+      },
+      "newText": "http://vocabularies/security.yaml#ApiKeySettings"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "http://vocabularies/security.yaml#HttpApiKeySettings",
+    "kind": [
+      
+    ],
+    "detail": "unknown",
+    "documentation": "http://vocabularies/security.yaml#HttpApiKeySettings",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "11http://vocabularies/security.yaml#HttpApiKeySettings",
+    "filterText": "http://vocabularies/security.yaml#HttpApiKeySettings",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 3,
+          "character": 17
+        },
+        "end": {
+          "line": 3,
+          "character": 17
+        }
+      },
+      "newText": "http://vocabularies/security.yaml#HttpApiKeySettings"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "http://vocabularies/security.yaml#HttpSettings",
+    "kind": [
+      
+    ],
+    "detail": "unknown",
+    "documentation": "http://vocabularies/security.yaml#HttpSettings",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "11http://vocabularies/security.yaml#HttpSettings",
+    "filterText": "http://vocabularies/security.yaml#HttpSettings",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 3,
+          "character": 17
+        },
+        "end": {
+          "line": 3,
+          "character": 17
+        }
+      },
+      "newText": "http://vocabularies/security.yaml#HttpSettings"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "http://vocabularies/security.yaml#OAuth1Settings",
+    "kind": [
+      
+    ],
+    "detail": "unknown",
+    "documentation": "http://vocabularies/security.yaml#OAuth1Settings",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "11http://vocabularies/security.yaml#OAuth1Settings",
+    "filterText": "http://vocabularies/security.yaml#OAuth1Settings",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 3,
+          "character": 17
+        },
+        "end": {
+          "line": 3,
+          "character": 17
+        }
+      },
+      "newText": "http://vocabularies/security.yaml#OAuth1Settings"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "http://vocabularies/security.yaml#OAuth2Flow",
+    "kind": [
+      
+    ],
+    "detail": "unknown",
+    "documentation": "http://vocabularies/security.yaml#OAuth2Flow",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "11http://vocabularies/security.yaml#OAuth2Flow",
+    "filterText": "http://vocabularies/security.yaml#OAuth2Flow",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 3,
+          "character": 17
+        },
+        "end": {
+          "line": 3,
+          "character": 17
+        }
+      },
+      "newText": "http://vocabularies/security.yaml#OAuth2Flow"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "http://vocabularies/security.yaml#OAuth2Settings",
+    "kind": [
+      
+    ],
+    "detail": "unknown",
+    "documentation": "http://vocabularies/security.yaml#OAuth2Settings",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "11http://vocabularies/security.yaml#OAuth2Settings",
+    "filterText": "http://vocabularies/security.yaml#OAuth2Settings",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 3,
+          "character": 17
+        },
+        "end": {
+          "line": 3,
+          "character": 17
+        }
+      },
+      "newText": "http://vocabularies/security.yaml#OAuth2Settings"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "http://vocabularies/security.yaml#OpenIdConnectSettings",
+    "kind": [
+      
+    ],
+    "detail": "unknown",
+    "documentation": "http://vocabularies/security.yaml#OpenIdConnectSettings",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "11http://vocabularies/security.yaml#OpenIdConnectSettings",
+    "filterText": "http://vocabularies/security.yaml#OpenIdConnectSettings",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 3,
+          "character": 17
+        },
+        "end": {
+          "line": 3,
+          "character": 17
+        }
+      },
+      "newText": "http://vocabularies/security.yaml#OpenIdConnectSettings"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "http://vocabularies/security.yaml#ParametrizedSecurityScheme",
+    "kind": [
+      
+    ],
+    "detail": "unknown",
+    "documentation": "http://vocabularies/security.yaml#ParametrizedSecurityScheme",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "11http://vocabularies/security.yaml#ParametrizedSecurityScheme",
+    "filterText": "http://vocabularies/security.yaml#ParametrizedSecurityScheme",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 3,
+          "character": 17
+        },
+        "end": {
+          "line": 3,
+          "character": 17
+        }
+      },
+      "newText": "http://vocabularies/security.yaml#ParametrizedSecurityScheme"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "http://vocabularies/security.yaml#Scope",
+    "kind": [
+      
+    ],
+    "detail": "unknown",
+    "documentation": "http://vocabularies/security.yaml#Scope",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "11http://vocabularies/security.yaml#Scope",
+    "filterText": "http://vocabularies/security.yaml#Scope",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 3,
+          "character": 17
+        },
+        "end": {
+          "line": 3,
+          "character": 17
+        }
+      },
+      "newText": "http://vocabularies/security.yaml#Scope"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "http://vocabularies/security.yaml#SecurityRequirement",
+    "kind": [
+      
+    ],
+    "detail": "unknown",
+    "documentation": "http://vocabularies/security.yaml#SecurityRequirement",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "11http://vocabularies/security.yaml#SecurityRequirement",
+    "filterText": "http://vocabularies/security.yaml#SecurityRequirement",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 3,
+          "character": 17
+        },
+        "end": {
+          "line": 3,
+          "character": 17
+        }
+      },
+      "newText": "http://vocabularies/security.yaml#SecurityRequirement"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "http://vocabularies/security.yaml#SecurityScheme",
+    "kind": [
+      
+    ],
+    "detail": "unknown",
+    "documentation": "http://vocabularies/security.yaml#SecurityScheme",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "11http://vocabularies/security.yaml#SecurityScheme",
+    "filterText": "http://vocabularies/security.yaml#SecurityScheme",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 3,
+          "character": 17
+        },
+        "end": {
+          "line": 3,
+          "character": 17
+        }
+      },
+      "newText": "http://vocabularies/security.yaml#SecurityScheme"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "http://vocabularies/security.yaml#SecuritySchemeFragment",
+    "kind": [
+      
+    ],
+    "detail": "unknown",
+    "documentation": "http://vocabularies/security.yaml#SecuritySchemeFragment",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "11http://vocabularies/security.yaml#SecuritySchemeFragment",
+    "filterText": "http://vocabularies/security.yaml#SecuritySchemeFragment",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 3,
+          "character": 17
+        },
+        "end": {
+          "line": 3,
+          "character": 17
+        }
+      },
+      "newText": "http://vocabularies/security.yaml#SecuritySchemeFragment"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "http://vocabularies/security.yaml#Settings",
+    "kind": [
+      
+    ],
+    "detail": "unknown",
+    "documentation": "http://vocabularies/security.yaml#Settings",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "11http://vocabularies/security.yaml#Settings",
+    "filterText": "http://vocabularies/security.yaml#Settings",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 3,
+          "character": 17
+        },
+        "end": {
+          "line": 3,
+          "character": 17
+        }
+      },
+      "newText": "http://vocabularies/security.yaml#Settings"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "http://www.w3.org/ns/shacl#NodeShape",
+    "kind": [
+      
+    ],
+    "detail": "unknown",
+    "documentation": "http://www.w3.org/ns/shacl#NodeShape",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "11http://www.w3.org/ns/shacl#NodeShape",
+    "filterText": "http://www.w3.org/ns/shacl#NodeShape",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 3,
+          "character": 17
+        },
+        "end": {
+          "line": 3,
+          "character": 17
+        }
+      },
+      "newText": "http://www.w3.org/ns/shacl#NodeShape"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "http://www.w3.org/ns/shacl#PropertyShape",
+    "kind": [
+      
+    ],
+    "detail": "unknown",
+    "documentation": "http://www.w3.org/ns/shacl#PropertyShape",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "11http://www.w3.org/ns/shacl#PropertyShape",
+    "filterText": "http://www.w3.org/ns/shacl#PropertyShape",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 3,
+          "character": 17
+        },
+        "end": {
+          "line": 3,
+          "character": 17
+        }
+      },
+      "newText": "http://www.w3.org/ns/shacl#PropertyShape"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "http://www.w3.org/ns/shacl#Shape",
+    "kind": [
+      
+    ],
+    "detail": "unknown",
+    "documentation": "http://www.w3.org/ns/shacl#Shape",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "11http://www.w3.org/ns/shacl#Shape",
+    "filterText": "http://www.w3.org/ns/shacl#Shape",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 3,
+          "character": 17
+        },
+        "end": {
+          "line": 3,
+          "character": 17
+        }
+      },
+      "newText": "http://www.w3.org/ns/shacl#Shape"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  }
+]

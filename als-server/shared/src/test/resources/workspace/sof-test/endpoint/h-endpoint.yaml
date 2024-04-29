@@ -1,0 +1,181 @@
+openapi: "3.0.0"
+info:
+  version: 1.0.0
+  title: h-endpoint
+
+paths: {}
+
+components:
+
+  requestBodies:
+    rbh:
+      required: true
+      content:
+          application/json; charset=utf-8:
+            schema:
+                $ref: "#/components/schemas/phh"
+
+  schemas:
+    phh:
+      description: dafg
+      type: object
+      additionalProperties: false
+      properties:
+        idf:
+          description: kjbsd
+          type: string
+          minLength: 15
+          maxLength: 18
+          nullable: true
+          pattern: ^[0-9a-zA-Z]{15,18}$ 
+        uuid:
+          description: ibsjkdf
+          type: string
+          format: uuid
+          nullable: false
+          minLength: 36
+          maxLength: 36
+          pattern: ^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$
+        idfc:
+          description: kjbsd
+          type: integer
+          nullable: false
+          minimum: 1
+        fsd:
+          description: dfg.
+          type: object
+          additionalProperties: false
+          properties:
+            sdcsd:
+              description: vasd
+              type: string
+              nullable: true
+              minLength: 1
+              maxLength: 255
+            vfvac:
+              description: asd
+              type: string
+              nullable: false
+              minLength: 1
+              maxLength: 20
+            csdc:
+              description: gasd
+              type: string
+              nullable: false
+              minLength: 1
+              maxLength: 40
+            sdsadf:
+              description: adfge
+              type: string
+              nullable: true
+              maxLength: 255
+        fsdc:
+          description: tesv
+            
+          type: string
+          enum: [sdf, cdsc, fewf]
+          example: fewf
+        vagueEtude:
+          description: skjbd
+          type: string
+          nullable: true
+          minLength: 1
+          maxLength: 50
+          example: "vadfv"
+        pilote:
+          description: fbkjs
+          type: string
+          nullable: true
+          minLength: 1
+          maxLength: 255
+          example: "vsadvc"
+        equipements:
+          description: sbkj
+          type: object
+          nullable: true
+          additionalProperties: false
+          properties:
+            equipeTv:
+              description: kjbsdf
+              type: boolean
+              nullable: true
+              example: true
+            nbTv:
+              description: kbjf
+              type: integer
+              enum: [0, 1, 2, 3, 4, 5]
+              nullable: true
+              example: 1
+            nbTvTotal:
+              description: bgksjd
+              type: integer
+              enum: [0, 1, 2, 3, 4, 5]
+              nullable: true
+              example: 1
+            fsdc:
+              description: bskjdf
+              type: integer
+              nullable: true
+              example: 2
+            bree:
+              description: jkbsd
+              type: integer
+              nullable: true
+              example: 2
+            nbPc:
+              description: kjbg
+              type: integer
+              nullable: true
+              example: 2
+            ascdew:
+              description: jsdnf
+              type: integer
+              enum: [-1, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
+              nullable: true
+              example: 1
+            bteqfe:
+              description: ugkbg
+              type: integer
+              enum: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+              nullable: true
+              example: 1
+            afdnyte:
+              description: afg.
+              type: boolean
+              nullable: true
+              example: true
+            yrjrg:
+              description: asdf
+              type: integer
+              nullable: true
+              example: 1
+            dgju:
+              description: Ngf
+              type: integer
+              nullable: true
+              example: 1
+        csadfef:
+          type: array
+          minItems: 1
+          maxItems: 100
+          uniqueItems: true
+          items:
+            $ref: "mi-endpoint.yaml#/components/schemas/vfdcsd"
+
+  responses:
+    hr-201:
+      description: Success
+      headers:
+        x-correlation-id:
+          required: true
+          description: kjhasdf
+          schema:
+            type: string
+            format: uuid
+            nullable: false
+            minLength: 36
+            maxLength: 36
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/phh"

@@ -1,9 +1,9 @@
 package org.mulesoft.als.suggestions.plugins.aml
 
-import amf.core.model.document.{DeclaresModel, Document, Module}
-import amf.plugins.document.vocabularies.metamodel.domain.DocumentsModelModel
-import amf.plugins.document.vocabularies.model.document.{DialectInstance, DialectInstanceLibrary}
-import amf.plugins.document.vocabularies.model.domain.PublicNodeMapping
+import amf.aml.client.scala.model.document.DialectInstanceLibrary
+import amf.aml.client.scala.model.domain.PublicNodeMapping
+import amf.aml.internal.metamodel.domain.DocumentsModelModel
+import amf.core.client.scala.model.document.{DeclaresModel, Module}
 import org.mulesoft.als.suggestions.RawSuggestion
 import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
 import org.mulesoft.als.suggestions.interfaces.AMLCompletionPlugin
@@ -21,14 +21,14 @@ class AMLRootDeclarationsCompletionPlugin(params: AmlCompletionRequest) {
 
   private def getSuggestions: Seq[(String, String)] =
     params.baseUnit match {
-      case d: DeclaresModel if params.actualDialect.documents().declarationsPath().option().isDefined =>
+      case _: DeclaresModel if params.actualDialect.documents().declarationsPath().option().isDefined =>
         params.actualDialect
           .documents()
           .declarationsPath()
           .option()
           .map(v => (v, "\n  "))
           .toSeq // todo: should this be indentation from config?
-      case d: DeclaresModel =>
+      case _: DeclaresModel =>
         params.baseUnit match {
           case _: DialectInstanceLibrary | _: Module =>
             params.actualDialect
@@ -60,7 +60,7 @@ object AMLRootDeclarationsCompletionPlugin extends AMLCompletionPlugin {
   override def id = "AMLRootDeclarationsCompletionPlugin"
 
   override def resolve(params: AmlCompletionRequest): Future[Seq[RawSuggestion]] = {
-    if (params.yPartBranch.isAtRoot && params.yPartBranch.isKey && !isInFieldValue(params))
+    if (params.astPartBranch.isAtRoot && params.astPartBranch.isKey && !isInFieldValue(params))
       new AMLRootDeclarationsCompletionPlugin(params)
         .resolve(params.amfObject.metaURIs.head)
     else emptySuggestion

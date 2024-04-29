@@ -12,7 +12,9 @@ trait ClientCodeActionOptions extends js.Object {
 object ClientCodeActionOptions {
   def apply(internal: CodeActionOptions): ClientCodeActionOptions =
     js.Dynamic
-      .literal(codeActionKinds = internal.codeActionKinds.map(_.toJSArray).orUndefined)
+      .literal(
+        codeActionKinds = internal.codeActionKinds.map(_.map(_.toString).toJSArray).orUndefined
+      )
       .asInstanceOf[ClientCodeActionOptions]
 }
 

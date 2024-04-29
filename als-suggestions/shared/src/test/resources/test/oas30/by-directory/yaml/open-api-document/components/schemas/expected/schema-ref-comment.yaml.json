@@ -1,11 +1,17 @@
 [
   {
     "label": "#/components/schemas/a",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Reference to #/components/schemas/a",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11#/components/schemas/a",
     "filterText": "\"#/components/schemas/a\"",
     "insertText": null,

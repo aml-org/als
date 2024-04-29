@@ -1,0 +1,37 @@
+hovers:
+  (6,6):
+    range: Range(common.Position[L:5,C:2],common.Position[L:10,C:0])
+    contents:
+      - Contains declarations of reusable Callback objects
+  (11,3):
+    range: Range(common.Position[L:10,C:2],common.Position[L:13,C:0])
+    contents:
+      - Contains declarations of reusable Example objects
+  (14,7):
+    range: Range(common.Position[L:13,C:2],common.Position[L:15,C:0])
+    contents:
+      - Contains declarations for headers
+  (16,4):
+    range: Range(common.Position[L:15,C:2],common.Position[L:18,C:0])
+    contents:
+      - Contains declarations of reusable TemplatedLink objects
+  (19,5):
+    range: Range(common.Position[L:18,C:2],common.Position[L:21,C:0])
+    contents:
+      - Contains declarations of reusable Parameter objects
+  (22,6):
+    range: Range(common.Position[L:21,C:2],common.Position[L:22,C:0])
+    contents:
+      - Contains declarations of reusable Request objects
+  (23,6):
+    range: Range(common.Position[L:22,C:2],common.Position[L:23,C:0])
+    contents:
+      - Contains declarations of reusable Response objects
+  (24,4):
+    range: Range(common.Position[L:23,C:2],common.Position[L:24,C:0])
+    contents:
+      - Contains declarations of reusable Schemas
+  (25,6):
+    range: Range(common.Position[L:24,C:2],common.Position[L:25,C:0])
+    contents:
+      - Declarations of reusable authentication mechanisms to ensure secured operations

@@ -1,14 +1,16 @@
 package org.mulesoft.als.server.workspace
 
+import amf.aml.client.scala.AMLConfiguration
+import org.mulesoft.als.server.client.scala.LanguageServerBuilder
 import org.mulesoft.als.server.modules.{WorkspaceManagerFactory, WorkspaceManagerFactoryBuilder}
 import org.mulesoft.als.server.protocol.LanguageServer
 import org.mulesoft.als.server.protocol.configuration.AlsInitializeParams
-import org.mulesoft.als.server.{LanguageServerBaseTest, LanguageServerBuilder, MockDiagnosticClientNotifier}
+import org.mulesoft.als.server.{LanguageServerBaseTest, MockDiagnosticClientNotifier}
 import org.mulesoft.lsp.configuration.TraceKind
 import org.mulesoft.lsp.feature.common.{TextDocumentIdentifier, TextDocumentItem}
 import org.mulesoft.lsp.feature.documentsymbol.{DocumentSymbolParams, DocumentSymbolRequestType}
 import org.mulesoft.lsp.textsync.DidOpenTextDocumentParams
-import org.scalatest.Assertion
+import org.scalatest.compatible.Assertion
 
 import scala.concurrent.ExecutionContext
 
@@ -19,13 +21,12 @@ class WorkspaceManagerSymbolTest extends LanguageServerBaseTest {
 
   private def testStructureForFile(server: LanguageServer, url: String) = {
     for {
-      _ <- server.initialize(AlsInitializeParams(None, Some(TraceKind.Off), rootUri = Some(s"${filePath("ws1")}")))
-      _ <- {
-        platform.resolve(url).map { c =>
-          server.textDocumentSyncConsumer.didOpen(DidOpenTextDocumentParams(
-            TextDocumentItem(url, "RAML", 0, c.stream.toString))) // why clean empty lines was necessary?
-        }
-      }
+      _ <- server.testInitialize(AlsInitializeParams(None, Some(TraceKind.Off), rootUri = Some(s"${filePath("ws1")}")))
+      _ <- changeWorkspaceConfiguration(server)(changeConfigArgs(Some("api.raml"), filePath("ws1")))
+      content <- platform.fetchContent(url, AMLConfiguration.predefined())
+      _ <- server.textDocumentSyncConsumer.didOpen(
+        DidOpenTextDocumentParams(TextDocumentItem(url, "RAML", 0, content.stream.toString))
+      )
       s <- {
         val handler = server.resolveHandler(DocumentSymbolRequestType).value
 
@@ -42,20 +43,20 @@ class WorkspaceManagerSymbolTest extends LanguageServerBaseTest {
     val diagnosticClientNotifier = new MockDiagnosticClientNotifier
 
     val factory: WorkspaceManagerFactory =
-      new WorkspaceManagerFactoryBuilder(diagnosticClientNotifier, logger)
+      new WorkspaceManagerFactoryBuilder(diagnosticClientNotifier)
         .buildWorkspaceManagerFactory()
     withServer[Assertion](buildServer(factory)) { server =>
       testStructureForFile(server, s"${filePath("ws1")}/api.raml")
     }
   }
 
-  // TODO: Why is this not returning structure??
+  // todo: there is no structure for dependency files of a project
   ignore("Workspace Manager check Symbol - dependency") {
 
     val diagnosticClientNotifier = new MockDiagnosticClientNotifier
 
     val factory: WorkspaceManagerFactory =
-      new WorkspaceManagerFactoryBuilder(diagnosticClientNotifier, logger)
+      new WorkspaceManagerFactoryBuilder(diagnosticClientNotifier)
         .buildWorkspaceManagerFactory()
     withServer[Assertion](buildServer(factory)) { server =>
       testStructureForFile(server, s"${filePath("ws1")}/sub/type.raml")
@@ -67,7 +68,7 @@ class WorkspaceManagerSymbolTest extends LanguageServerBaseTest {
     val diagnosticClientNotifier = new MockDiagnosticClientNotifier
 
     val factory: WorkspaceManagerFactory =
-      new WorkspaceManagerFactoryBuilder(diagnosticClientNotifier, logger)
+      new WorkspaceManagerFactoryBuilder(diagnosticClientNotifier)
         .buildWorkspaceManagerFactory()
     withServer[Assertion](buildServer(factory)) { server =>
       testStructureForFile(server, s"${filePath("ws1")}/independent.raml")
@@ -75,10 +76,12 @@ class WorkspaceManagerSymbolTest extends LanguageServerBaseTest {
   }
 
   def buildServer(factory: WorkspaceManagerFactory): LanguageServer =
-    new LanguageServerBuilder(factory.documentManager,
-                              factory.workspaceManager,
-                              factory.configurationManager,
-                              factory.resolutionTaskManager)
+    new LanguageServerBuilder(
+      factory.documentManager,
+      factory.workspaceManager,
+      factory.configurationManager,
+      factory.resolutionTaskManager
+    )
       .addRequestModule(factory.structureManager)
       .build()
 

@@ -1,7 +1,7 @@
 package org.mulesoft.als.common.objectintree
 
 import org.mulesoft.als.common.dtoTypes.Position
-import org.scalatest.AsyncFlatSpec
+import org.scalatest.flatspec.AsyncFlatSpec
 
 import scala.concurrent.ExecutionContext
 
@@ -9,7 +9,7 @@ class ObjectInTreeArraysTests extends AsyncFlatSpec {
   override val executionContext: ExecutionContext =
     scala.concurrent.ExecutionContext.Implicits.global
 
-  private val tester = ObjectInTreeBaseTest(
+  private def tester = ObjectInTreeBaseTest(
     "instances/instance1.yaml",
     "dialects/dialect1.yaml"
   )

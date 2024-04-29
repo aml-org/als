@@ -1,43 +1,75 @@
 package org.mulesoft.amfintegration.visitors.noderelationship.plugins
 
-import amf.core.model.StrField
-import amf.core.model.document.BaseUnit
-import amf.core.model.domain.{AmfArray, AmfElement, AmfObject, AmfScalar}
-import amf.core.parser.YNodeLikeOps
-import amf.plugins.document.vocabularies.metamodel.domain.{PropertyMappingModel, UnionNodeMappingModel}
-import amf.plugins.document.vocabularies.model.document.Dialect
-import amf.plugins.document.vocabularies.model.domain.{DocumentsModel, NodeMapping, PropertyMapping, UnionNodeMapping}
+import amf.aml.client.scala.model.document.Dialect
+import amf.aml.client.scala.model.domain.{
+  AnnotationMapping,
+  DocumentsModel,
+  NodeMapping,
+  PropertyMapping,
+  SemanticExtension,
+  UnionNodeMapping
+}
+import amf.aml.internal.metamodel.domain.{PropertyMappingModel, UnionNodeMappingModel}
+import amf.core.client.scala.model.StrField
+import amf.core.client.scala.model.document.BaseUnit
+import amf.core.client.scala.model.domain.{AmfArray, AmfElement, AmfObject, AmfScalar}
+import amf.core.internal.parser.YNodeLikeOps
 import org.mulesoft.amfintegration.AmfImplicits._
 import org.mulesoft.amfintegration.relationships.RelationshipLink
 import org.mulesoft.amfintegration.visitors.DialectElementVisitorFactory
 import org.mulesoft.amfintegration.visitors.noderelationship.NodeRelationshipVisitorType
-import org.yaml.model.{YMap, YMapEntry, YNode, YSequence}
+import org.yaml.model.{YMap, YMapEntry, YNodePlain, YPart, YSequence}
 class AMLDialectVisitor(d: Dialect) extends NodeRelationshipVisitorType {
 
   override protected def innerVisit(element: AmfElement): Seq[RelationshipLink] =
     element match {
       case dm: DocumentsModel =>
         (extractDeclarations(d, dm) :+ extractEncoded(d, dm)).flatten
-      case nm: PropertyMapping => extractRanges(d, nm)
-      case o: UnionNodeMapping => extractUnions(d, o)
-      case o: NodeMapping      => extractExtends(d, o)
-      case _                   => Seq.empty
+      case nm: PropertyMapping  => extractRanges(d, nm)
+      case o: UnionNodeMapping  => extractUnions(d, o)
+      case o: NodeMapping       => extractExtends(d, o)
+      case o: AnnotationMapping => extractRanges(d, o)
+      case o: SemanticExtension => extractExtension(d, o)
+      case _                    => Seq.empty
     }
 
-  private def extractRanges(d: Dialect, nm: PropertyMapping) =
+  // TODO: Check with APIMF-3585 if this is correct or inverted
+  private def extractExtension(d: Dialect, o: SemanticExtension): Seq[RelationshipLink] = {
+    (for {
+      extensionPart     <- o.extensionMappingDefinition().annotations().yPart()
+      referencedMapping <- d.annotationMappings().find(_.id == o.extensionMappingDefinition().value())
+      referencePart     <- referencedMapping.annotations.yPart()
+    } yield {
+      Seq(RelationshipLink(extensionPart, referencePart))
+    }).getOrElse(Seq.empty)
+  }
+
+  private def extractRanges(d: Dialect, nm: AmfObject) = {
+    def extractYMap: PartialFunction[YPart, YMap] = {
+      case m: YMap         => m
+      case ynp: YNodePlain => extractYMap(ynp.value)
+      case e: YMapEntry    => extractYMap(e.value)
+    }
     nm.annotations
-      .ast()
-      .collect { case m: YMap => m }
-      .map(_.entries
-        .filter(e => e.key.asScalar.map(_.text).contains("range")))
+      .yPart()
+      .collect {
+        extractYMap
+      }
       .map(
-        s =>
-          s.flatMap(
-            e =>
-              getLink(nm)
-                .flatMap(getPositionForLink(d, _)
-                  .map(t => RelationshipLink(e, t)))))
+        _.entries
+          .filter(e => e.key.asScalar.map(_.text).contains("range"))
+      )
+      .map(s =>
+        s.flatMap(e =>
+          getLink(nm)
+            .flatMap(
+              getPositionForLink(d, _)
+                .map(t => RelationshipLink(e, t))
+            )
+        )
+      )
       .getOrElse(Seq.empty)
+  }
 
   private def extractUnions(d: Dialect, o: UnionNodeMapping) =
     o.fields.field[Seq[StrField]](UnionNodeMappingModel.ObjectRange) match {
@@ -49,7 +81,7 @@ class AMLDialectVisitor(d: Dialect) extends NodeRelationshipVisitorType {
     }
 
   private def extractUnionArray(d: Dialect, o: UnionNodeMapping, linkName: Seq[(String, String)]) =
-    o.annotations.ast().flatMap {
+    o.annotations.yPart().flatMap {
       case a: YSequence => Some(a)
       case a: YMap =>
         a.entries.find(_.key.value.toString == "union").map(_.value.value)
@@ -66,7 +98,7 @@ class AMLDialectVisitor(d: Dialect) extends NodeRelationshipVisitorType {
     }
 
   private def extractDiscriminatorTypes(d: Dialect, o: UnionNodeMapping, linkName: Seq[(String, String)]) =
-    o.annotations.ast().flatMap {
+    o.annotations.yPart().flatMap {
       case a: YMap =>
         a.entries
           .find(_.key.value.toString == "typeDiscriminator")
@@ -74,10 +106,11 @@ class AMLDialectVisitor(d: Dialect) extends NodeRelationshipVisitorType {
             t.value.value match {
               case m: YMap => Some(m.entries.map(_.value))
               case _       => None
-          })
+            }
+          )
       case _ => None
     } match {
-      case Some(a: Seq[YNode]) =>
+      case Some(a) =>
         linkName
           .flatMap(t => {
             a.find(_.toString == t._2).map(p => (t._1, p))
@@ -88,26 +121,29 @@ class AMLDialectVisitor(d: Dialect) extends NodeRelationshipVisitorType {
     }
 
   private def extractExtends(d: Dialect, o: NodeMapping): Seq[RelationshipLink] =
-    o.extend.flatMap {
-      case e: NodeMapping =>
-        o.annotations.ast().flatMap {
-          case entry: YMapEntry =>
-            entry.value
-              .toOption[YMap]
-              .map(_.entries)
-              .getOrElse(Nil)
-              .find(_.key.value.toString == "extends")
-              .map(_.value.value)
-              .flatMap(source => e.linkTarget.map(target => (source, target)))
-              .flatMap(t =>
-                getPositionForLink(d, t._2.id)
-                  .map(RelationshipLink(t._1, _)))
-          case _ => None
-        }
+    o.extend.flatMap { case e: NodeMapping =>
+      o.annotations.yPart().flatMap {
+        case entry: YMapEntry =>
+          entry.value
+            .toOption[YMap]
+            .map(_.entries)
+            .getOrElse(Nil)
+            .find(_.key.value.toString == "extends")
+            .map(_.value.value)
+            .flatMap(source => e.linkTarget.map(target => (source, target)))
+            .flatMap(t =>
+              getPositionForLink(d, t._2.id)
+                .map(RelationshipLink(t._1, _))
+            )
+        case _ => None
+      }
     }
 
   private def extractEncoded(d: Dialect, dm: DocumentsModel): Option[RelationshipLink] =
-    (Option(dm.root()).flatMap(_.encoded().annotations().ast()), Option(dm.root()).flatMap(_.encoded().option())) match {
+    (
+      Option(dm.root()).flatMap(_.encoded().annotations().yPart()),
+      Option(dm.root()).flatMap(_.encoded().option())
+    ) match {
       case (Some(entry), Some(link)) =>
         getPositionForLink(d, link).map(RelationshipLink(entry, _))
       case (_, _) => None
@@ -118,11 +154,12 @@ class AMLDialectVisitor(d: Dialect) extends NodeRelationshipVisitorType {
       .map { r =>
         r.declaredNodes()
           .map(pnm =>
-            (pnm.mappedNode().annotations().ast(), pnm.mappedNode().option()) match {
+            (pnm.mappedNode().annotations().yPart(), pnm.mappedNode().option()) match {
               case (Some(ast), Some(link)) =>
                 getPositionForLink(d, link).map(RelationshipLink(ast, _))
               case (_, _) => None
-          })
+            }
+          )
       }
       .getOrElse(Nil)
 
@@ -147,7 +184,7 @@ class AMLDialectVisitor(d: Dialect) extends NodeRelationshipVisitorType {
       .find(_.id == link)
       .flatMap(e => {
         e.annotations
-          .ast()
+          .yPart()
           .collectFirst({ case e: YMapEntry => e })
       })
 

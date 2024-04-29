@@ -1,16 +1,22 @@
 [
   {
     "label": "$ref",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "reference tag",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "0$ref",
-    "filterText": "\"$ref\"",
+    "filterText": "\"\\$ref\": \"$1\"",
     "insertText": null,
     "insertTextFormat": [
-      1
+      2
     ],
     "textEdit": {
       "range": {
@@ -20,10 +26,550 @@
         },
         "end": {
           "line": 4,
-          "character": 9
+          "character": 8
         }
       },
-      "newText": "\"$ref\""
+      "newText": "\"\\$ref\": \"$1\""
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "New delete",
+    "kind": [
+      
+    ],
+    "detail": "template",
+    "documentation": "delete",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "21New delete",
+    "filterText": "\"delete\": {\n  \"responses\": {\n    \"$1\": \"\"\n  }\n}",
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 4,
+          "character": 6
+        },
+        "end": {
+          "line": 4,
+          "character": 8
+        }
+      },
+      "newText": "\"delete\": {\n  \"responses\": {\n    \"$1\": \"\"\n  }\n}"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "New full delete",
+    "kind": [
+      
+    ],
+    "detail": "template",
+    "documentation": "delete",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "21New full delete",
+    "filterText": "\"delete\": {\n  \"responses\": {\n    \"$1\": {\n      \"description\": \"$2\"\n    }\n  }\n}",
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 4,
+          "character": 6
+        },
+        "end": {
+          "line": 4,
+          "character": 8
+        }
+      },
+      "newText": "\"delete\": {\n  \"responses\": {\n    \"$1\": {\n      \"description\": \"$2\"\n    }\n  }\n}"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "New full get",
+    "kind": [
+      
+    ],
+    "detail": "template",
+    "documentation": "get",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "21New full get",
+    "filterText": "\"get\": {\n  \"responses\": {\n    \"$1\": {\n      \"description\": \"$2\"\n    }\n  }\n}",
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 4,
+          "character": 6
+        },
+        "end": {
+          "line": 4,
+          "character": 8
+        }
+      },
+      "newText": "\"get\": {\n  \"responses\": {\n    \"$1\": {\n      \"description\": \"$2\"\n    }\n  }\n}"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "New full head",
+    "kind": [
+      
+    ],
+    "detail": "template",
+    "documentation": "head",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "21New full head",
+    "filterText": "\"head\": {\n  \"responses\": {\n    \"$1\": {\n      \"description\": \"$2\"\n    }\n  }\n}",
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 4,
+          "character": 6
+        },
+        "end": {
+          "line": 4,
+          "character": 8
+        }
+      },
+      "newText": "\"head\": {\n  \"responses\": {\n    \"$1\": {\n      \"description\": \"$2\"\n    }\n  }\n}"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "New full options",
+    "kind": [
+      
+    ],
+    "detail": "template",
+    "documentation": "options",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "21New full options",
+    "filterText": "\"options\": {\n  \"responses\": {\n    \"$1\": {\n      \"description\": \"$2\"\n    }\n  }\n}",
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 4,
+          "character": 6
+        },
+        "end": {
+          "line": 4,
+          "character": 8
+        }
+      },
+      "newText": "\"options\": {\n  \"responses\": {\n    \"$1\": {\n      \"description\": \"$2\"\n    }\n  }\n}"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "New full patch",
+    "kind": [
+      
+    ],
+    "detail": "template",
+    "documentation": "patch",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "21New full patch",
+    "filterText": "\"patch\": {\n  \"responses\": {\n    \"$1\": {\n      \"description\": \"$2\"\n    }\n  }\n}",
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 4,
+          "character": 6
+        },
+        "end": {
+          "line": 4,
+          "character": 8
+        }
+      },
+      "newText": "\"patch\": {\n  \"responses\": {\n    \"$1\": {\n      \"description\": \"$2\"\n    }\n  }\n}"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "New full post",
+    "kind": [
+      
+    ],
+    "detail": "template",
+    "documentation": "post",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "21New full post",
+    "filterText": "\"post\": {\n  \"responses\": {\n    \"$1\": {\n      \"description\": \"$2\"\n    }\n  }\n}",
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 4,
+          "character": 6
+        },
+        "end": {
+          "line": 4,
+          "character": 8
+        }
+      },
+      "newText": "\"post\": {\n  \"responses\": {\n    \"$1\": {\n      \"description\": \"$2\"\n    }\n  }\n}"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "New full put",
+    "kind": [
+      
+    ],
+    "detail": "template",
+    "documentation": "put",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "21New full put",
+    "filterText": "\"put\": {\n  \"responses\": {\n    \"$1\": {\n      \"description\": \"$2\"\n    }\n  }\n}",
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 4,
+          "character": 6
+        },
+        "end": {
+          "line": 4,
+          "character": 8
+        }
+      },
+      "newText": "\"put\": {\n  \"responses\": {\n    \"$1\": {\n      \"description\": \"$2\"\n    }\n  }\n}"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "New get",
+    "kind": [
+      
+    ],
+    "detail": "template",
+    "documentation": "get",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "21New get",
+    "filterText": "\"get\": {\n  \"responses\": {\n    \"$1\": \"\"\n  }\n}",
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 4,
+          "character": 6
+        },
+        "end": {
+          "line": 4,
+          "character": 8
+        }
+      },
+      "newText": "\"get\": {\n  \"responses\": {\n    \"$1\": \"\"\n  }\n}"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "New head",
+    "kind": [
+      
+    ],
+    "detail": "template",
+    "documentation": "head",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "21New head",
+    "filterText": "\"head\": {\n  \"responses\": {\n    \"$1\": \"\"\n  }\n}",
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 4,
+          "character": 6
+        },
+        "end": {
+          "line": 4,
+          "character": 8
+        }
+      },
+      "newText": "\"head\": {\n  \"responses\": {\n    \"$1\": \"\"\n  }\n}"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "New options",
+    "kind": [
+      
+    ],
+    "detail": "template",
+    "documentation": "options",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "21New options",
+    "filterText": "\"options\": {\n  \"responses\": {\n    \"$1\": \"\"\n  }\n}",
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 4,
+          "character": 6
+        },
+        "end": {
+          "line": 4,
+          "character": 8
+        }
+      },
+      "newText": "\"options\": {\n  \"responses\": {\n    \"$1\": \"\"\n  }\n}"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "New parameters",
+    "kind": [
+      
+    ],
+    "detail": "template",
+    "documentation": "parameters",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "21New parameters",
+    "filterText": "\"parameters\": [\n  {\n    \"in\": \"$1\",\n    \"required\": \"$2\",\n    \"description\": \"$3\",\n    \"name\": \"$4\",\n    \"type\": \"$5\"\n  }\n]",
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 4,
+          "character": 6
+        },
+        "end": {
+          "line": 4,
+          "character": 8
+        }
+      },
+      "newText": "\"parameters\": [\n  {\n    \"in\": \"$1\",\n    \"required\": \"$2\",\n    \"description\": \"$3\",\n    \"name\": \"$4\",\n    \"type\": \"$5\"\n  }\n]"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "New patch",
+    "kind": [
+      
+    ],
+    "detail": "template",
+    "documentation": "patch",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "21New patch",
+    "filterText": "\"patch\": {\n  \"responses\": {\n    \"$1\": \"\"\n  }\n}",
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 4,
+          "character": 6
+        },
+        "end": {
+          "line": 4,
+          "character": 8
+        }
+      },
+      "newText": "\"patch\": {\n  \"responses\": {\n    \"$1\": \"\"\n  }\n}"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "New post",
+    "kind": [
+      
+    ],
+    "detail": "template",
+    "documentation": "post",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "21New post",
+    "filterText": "\"post\": {\n  \"responses\": {\n    \"$1\": \"\"\n  }\n}",
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 4,
+          "character": 6
+        },
+        "end": {
+          "line": 4,
+          "character": 8
+        }
+      },
+      "newText": "\"post\": {\n  \"responses\": {\n    \"$1\": \"\"\n  }\n}"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "New put",
+    "kind": [
+      
+    ],
+    "detail": "template",
+    "documentation": "put",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "21New put",
+    "filterText": "\"put\": {\n  \"responses\": {\n    \"$1\": \"\"\n  }\n}",
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 4,
+          "character": 6
+        },
+        "end": {
+          "line": 4,
+          "character": 8
+        }
+      },
+      "newText": "\"put\": {\n  \"responses\": {\n    \"$1\": \"\"\n  }\n}"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -31,11 +577,17 @@
   },
   {
     "label": "delete",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "methods",
     "documentation": "delete",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11delete",
     "filterText": "\"delete\": {\n  \"$1\"\n}",
     "insertText": null,
@@ -50,7 +602,7 @@
         },
         "end": {
           "line": 4,
-          "character": 9
+          "character": 8
         }
       },
       "newText": "\"delete\": {\n  \"$1\"\n}"
@@ -61,11 +613,17 @@
   },
   {
     "label": "get",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "methods",
     "documentation": "get",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11get",
     "filterText": "\"get\": {\n  \"$1\"\n}",
     "insertText": null,
@@ -80,7 +638,7 @@
         },
         "end": {
           "line": 4,
-          "character": 9
+          "character": 8
         }
       },
       "newText": "\"get\": {\n  \"$1\"\n}"
@@ -91,11 +649,17 @@
   },
   {
     "label": "head",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "methods",
     "documentation": "head",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11head",
     "filterText": "\"head\": {\n  \"$1\"\n}",
     "insertText": null,
@@ -110,7 +674,7 @@
         },
         "end": {
           "line": 4,
-          "character": 9
+          "character": 8
         }
       },
       "newText": "\"head\": {\n  \"$1\"\n}"
@@ -121,11 +685,17 @@
   },
   {
     "label": "options",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "methods",
     "documentation": "options",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11options",
     "filterText": "\"options\": {\n  \"$1\"\n}",
     "insertText": null,
@@ -140,7 +710,7 @@
         },
         "end": {
           "line": 4,
-          "character": 9
+          "character": 8
         }
       },
       "newText": "\"options\": {\n  \"$1\"\n}"
@@ -151,11 +721,17 @@
   },
   {
     "label": "parameters",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "parameters",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11parameters",
     "filterText": "\"parameters\": [\n  \"$1\"\n]",
     "insertText": null,
@@ -170,7 +746,7 @@
         },
         "end": {
           "line": 4,
-          "character": 9
+          "character": 8
         }
       },
       "newText": "\"parameters\": [\n  \"$1\"\n]"
@@ -181,11 +757,17 @@
   },
   {
     "label": "patch",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "methods",
     "documentation": "patch",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11patch",
     "filterText": "\"patch\": {\n  \"$1\"\n}",
     "insertText": null,
@@ -200,7 +782,7 @@
         },
         "end": {
           "line": 4,
-          "character": 9
+          "character": 8
         }
       },
       "newText": "\"patch\": {\n  \"$1\"\n}"
@@ -211,11 +793,17 @@
   },
   {
     "label": "post",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "methods",
     "documentation": "post",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11post",
     "filterText": "\"post\": {\n  \"$1\"\n}",
     "insertText": null,
@@ -230,7 +818,7 @@
         },
         "end": {
           "line": 4,
-          "character": 9
+          "character": 8
         }
       },
       "newText": "\"post\": {\n  \"$1\"\n}"
@@ -241,11 +829,17 @@
   },
   {
     "label": "put",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "methods",
     "documentation": "put",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11put",
     "filterText": "\"put\": {\n  \"$1\"\n}",
     "insertText": null,
@@ -260,7 +854,7 @@
         },
         "end": {
           "line": 4,
-          "character": 9
+          "character": 8
         }
       },
       "newText": "\"put\": {\n  \"$1\"\n}"

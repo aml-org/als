@@ -1,0 +1,29 @@
+#%Validation Profile 1.0
+
+profile: Test profile 4
+
+violation:
+  - validation1
+
+validations:
+
+  validation1:
+    message: Endpoints must have a POST method
+    targetClass: apiContract.EndPoint
+    propertyConstraints:
+      apiContract.supportedOperation:
+        atLeast:
+          count: 1
+          validation:
+            propertyConstraints:
+              apiContract.method:
+                in: [ put, patch ]
+              apiContract.expects:
+                nested:
+                  propertyConstraints:
+                    apiContract.parameter:
+                      nested:
+                        propertyConstraints:
+                          apiContract.binding:
+                            in:
+                              - query

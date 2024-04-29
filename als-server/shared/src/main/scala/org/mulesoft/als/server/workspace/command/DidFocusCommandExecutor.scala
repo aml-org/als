@@ -1,16 +1,16 @@
 package org.mulesoft.als.server.workspace.command
 
-import org.mulesoft.als.server.logger.Logger
 import org.mulesoft.als.server.modules.ast.FOCUS_FILE
 import org.mulesoft.als.server.workspace.WorkspaceManager
 import org.yaml.model.YMap
-import amf.core.parser._
+import amf.core.internal.parser._
+import org.mulesoft.als.server.modules.workspace.WorkspaceContentManager
 import org.mulesoft.als.server.protocol.textsync.DidFocusParams
 
+import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
-class DidFocusCommandExecutor(val logger: Logger, wsc: WorkspaceManager)
-    extends CommandExecutor[DidFocusParams, Unit] {
+class DidFocusCommandExecutor(wsc: WorkspaceManager) extends CommandExecutor[DidFocusParams, Unit] {
   override protected def buildParamFromMap(m: YMap): Option[DidFocusParams] = {
     val version: Int = m.key("version").flatMap(e => e.value.toOption[Int]).getOrElse(1)
     m.key("uri").map { n =>
@@ -21,8 +21,9 @@ class DidFocusCommandExecutor(val logger: Logger, wsc: WorkspaceManager)
     }
   }
 
-  override protected def runCommand(param: DidFocusParams): Future[Unit] = {
-    wsc.getWorkspace(param.uri).stage(param.uri, FOCUS_FILE)
-    Future.unit
-  }
+  override protected def runCommand(param: DidFocusParams): Future[Unit] =
+    wsc.getWorkspace(param.uri).flatMap {
+      case wcm: WorkspaceContentManager => wcm.stage(param.uri, FOCUS_FILE)
+      case _                            => Future.successful()
+    }
 }

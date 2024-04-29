@@ -17,10 +17,12 @@ object AmlDataShapesVocabulary extends VocabularyObject {
     Seq()
 
   override protected def properties: Seq[PropertyTermObjectNode] =
-    Seq(AnyOfPropertyTerm,
-        DiscriminatorPropertyTerm,
-        FileTypePropertyTerm,
-        FormatPropertyTerm,
-        InheritsPropertyTerm,
-        ItemsPropertyTerm)
+    Seq(
+      AnyOfPropertyTerm,
+      DiscriminatorPropertyTerm,
+      FileTypePropertyTerm,
+      FormatPropertyTerm,
+      InheritsPropertyTerm,
+      ItemsPropertyTerm
+    )
 }

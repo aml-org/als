@@ -1,9 +1,9 @@
 # Sublime Text 3 with ALS
-##### Here is a quick example on how you can run ALS as a pure LSP in Sublime Text 3
-_This example requires having the [ALS jar ready](../../readme.md#java-generation), and Java 1.8 or newer in PATH, as well as Sublime 3 installed._
+##### The following section demonstrates a quick example on how you can run the ALS as a pure LSP in Sublime Text 3.
+_This example requires the [ALS jar ready](../../readme.md#java-generation), Java 1.8 or newer in PATH, and Sublime 3 installed._
 ### Steps
 - Download the LSP plugin for ST3: [instructions here](https://lsp.readthedocs.io/en/latest/#getting-started)
-- Create a new sublime syntax by going to `Tools -> Developer -> New Syntax...`. We will set the following fields:
+- Create a new sublime syntax by going to `Tools -> Developer -> New Syntax...`. The following fields are automatically set:
 ```yaml
 name: ALS
 file_extensions:
@@ -16,7 +16,7 @@ scope: source.raml
 And save it (from now on `Packages/ALS/ALS.sublime-syntax`)
 
 
-- Finally, add the server to the User's LSP Settings by going to `Command Palette -> Preferences: LSP Settings` And adding the following node:
+- Finally, add the server to the user's LSP settings by going to `Command Palette -> Preferences: LSP Settings` and adding the following node:
 ```json
 {
 	"clients":

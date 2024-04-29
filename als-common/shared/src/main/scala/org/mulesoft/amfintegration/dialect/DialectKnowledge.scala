@@ -1,8 +1,8 @@
 package org.mulesoft.amfintegration.dialect
 
-import amf.plugins.document.vocabularies.model.document.Dialect
+import amf.aml.client.scala.model.document.Dialect
 import amf.plugins.document.vocabularies.plugin.ReferenceStyles
-import org.mulesoft.als.common.YPartBranch
+import org.mulesoft.als.common.{ASTPartBranch, YPartBranch}
 
 object DialectKnowledge {
 
@@ -18,4 +18,10 @@ object DialectKnowledge {
 
   def isInclusion(yPartBranch: YPartBranch, dialect: Dialect): Boolean =
     isRamlInclusion(yPartBranch, dialect) || isJsonInclusion(yPartBranch, dialect)
+
+  def isInclusion(astPartBranch: ASTPartBranch, dialect: Dialect): Boolean = astPartBranch match {
+    case yPart: YPartBranch => isInclusion(yPart, dialect)
+    case _                  => false
+  }
+
 }

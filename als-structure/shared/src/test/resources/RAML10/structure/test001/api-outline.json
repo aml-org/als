@@ -23,7 +23,9 @@
         "character": 0
       }
     },
-    "children": []
+    "children": [
+      
+    ]
   },
   {
     "name": "/someChildUri",
@@ -174,7 +176,9 @@
                             "character": 0
                           }
                         },
-                        "children": []
+                        "children": [
+                          
+                        ]
                       }
                     ]
                   }
@@ -241,7 +245,7 @@
                 "range": {
                   "start": {
                     "line": 14,
-                    "character": 0
+                    "character": 6
                   },
                   "end": {
                     "line": 17,
@@ -251,7 +255,7 @@
                 "selectionRange": {
                   "start": {
                     "line": 14,
-                    "character": 0
+                    "character": 6
                   },
                   "end": {
                     "line": 17,
@@ -308,7 +312,9 @@
                             "character": 0
                           }
                         },
-                        "children": []
+                        "children": [
+                          
+                        ]
                       }
                     ]
                   }
@@ -344,6 +350,8 @@
         "character": 0
       }
     },
-    "children": []
+    "children": [
+      
+    ]
   }
 ]

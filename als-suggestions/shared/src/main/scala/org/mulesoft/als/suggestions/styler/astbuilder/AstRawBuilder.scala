@@ -2,12 +2,14 @@ package org.mulesoft.als.suggestions.styler.astbuilder
 
 import org.mulesoft.als.common.YPartBranch
 import org.mulesoft.als.suggestions.{BoolScalarRange, NumberScalarRange, RawSuggestion, SuggestionStructure}
+import org.mulesoft.common.client.lexical.SourceLocation
 import org.yaml.model._
 
-abstract class AstRawBuilder(raw: RawSuggestion, isSnippet: Boolean, yPartBranch: YPartBranch) {
+abstract class AstRawBuilder(val raw: RawSuggestion, isSnippet: Boolean, yPartBranch: YPartBranch) {
 
   protected def newInstance: (RawSuggestion, Boolean) => AstRawBuilder
-  protected var snippet: Boolean = false
+  protected var snippet: Boolean    = false
+  val emptyLocation: SourceLocation = SourceLocation("")
 
   def forSnippet(): Unit =
     snippet = true
@@ -20,9 +22,7 @@ abstract class AstRawBuilder(raw: RawSuggestion, isSnippet: Boolean, yPartBranch
 
   def onlyKey(key: String): YPart
 
-  def emitRootKey: YPart =
-    if (raw.newText.contains("$")) onlyKey(raw.newText)
-    else emitKey()
+  def emptyNode(): YNode
 
   lazy val keyTag: YType = if (raw.options.keyRange == NumberScalarRange) YType.Int else YType.Str
 
@@ -32,38 +32,35 @@ abstract class AstRawBuilder(raw: RawSuggestion, isSnippet: Boolean, yPartBranch
     case _                 => YType.Str
   }
 
-  private def valueNode(index: Int) = {
-    if (raw.options.isObject) valueObject(index)
+  private def valueNode(index: Int) =
+    if (raw.options.isObject || (raw.options.isArray && raw.children.nonEmpty)) valueObject(index)
     else {
       if (isSnippet) value(s"$$$index", raw.options)
       else emitEntryValue(raw.options)
     }
-  }
 
-  private def emitKey(index: Int = 0): YMapEntry = YMapEntry(scalar(raw.newText, keyTag), valueNode(index))
+  protected def emitKey(index: Int = 1): YMapEntry =
+    if (raw.children.nonEmpty && raw.newText.isEmpty) { // if entry has value but key is empty, user will need to fill out
+      snippet = true
+      YMapEntry("$" + index.toString, valueNode(index + 1))
+    } else YMapEntry(scalar(raw.newText, keyTag), valueNode(index))
 
   private def valueObject(index: Integer): YNode = {
     val list = if (raw.children.nonEmpty) {
       snippet = true
       raw.children.zipWithIndex
-        .map(t => newInstance(t._1, true).emitKey(t._2 + 1))
+        .map(t => newInstance(t._1, true).emitKey(t._2 + index))
         .toIndexedSeq
-    } else if (isSnippet) IndexedSeq(YMapEntry("$" + index.toString, ""))
+    } else if (isSnippet) IndexedSeq(YMapEntry("$" + index.toString, emptyNode()))
     else IndexedSeq.empty
 
-    val n = YNode(YMap(list, ""))
+    val n = YNode(YMap(emptyLocation, list))
 
     wrapArray(raw.options, n)
   }
 
   protected def value(text: String, options: SuggestionStructure): YNode = {
-    val node: YNode =
-      if (!options.isObject)
-        plainValue(text)
-      else if (text.isEmpty)
-        YMap.empty
-      else YMap(IndexedSeq(YMapEntry(raw.newText, "")), "")
-    wrapArray(options, node)
+    wrapArray(options, plainValue(text))
   }
 
   private def wrapArray(options: SuggestionStructure, node: YNode): YNode =
@@ -77,4 +74,5 @@ abstract class AstRawBuilder(raw: RawSuggestion, isSnippet: Boolean, yPartBranch
 
   private def scalar(text: String, yType: YType) =
     YNode(if (raw.options.nonPlain) YScalar.nonPlain(text) else YScalar(text), yType)
+
 }

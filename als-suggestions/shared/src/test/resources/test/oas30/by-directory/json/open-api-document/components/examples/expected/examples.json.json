@@ -1,16 +1,22 @@
 [
   {
     "label": "$ref",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "reference tag",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "0$ref",
-    "filterText": "\"$ref\"",
+    "filterText": "\"\\$ref\": \"$1\"",
     "insertText": null,
     "insertTextFormat": [
-      1
+      2
     ],
     "textEdit": {
       "range": {
@@ -20,10 +26,10 @@
         },
         "end": {
           "line": 5,
-          "character": 11
+          "character": 10
         }
       },
-      "newText": "\"$ref\""
+      "newText": "\"\\$ref\": \"$1\""
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -31,11 +37,17 @@
   },
   {
     "label": "description",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "docs",
     "documentation": "description",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11description",
     "filterText": "\"description\": \"$1\"",
     "insertText": null,
@@ -50,7 +62,7 @@
         },
         "end": {
           "line": 5,
-          "character": 11
+          "character": 10
         }
       },
       "newText": "\"description\": \"$1\""
@@ -61,11 +73,17 @@
   },
   {
     "label": "externalValue",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "externalValue",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11externalValue",
     "filterText": "\"externalValue\": \"$1\"",
     "insertText": null,
@@ -80,7 +98,7 @@
         },
         "end": {
           "line": 5,
-          "character": 11
+          "character": 10
         }
       },
       "newText": "\"externalValue\": \"$1\""
@@ -91,11 +109,17 @@
   },
   {
     "label": "mediaType",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "mediaType",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11mediaType",
     "filterText": "\"mediaType\": \"$1\"",
     "insertText": null,
@@ -110,7 +134,7 @@
         },
         "end": {
           "line": 5,
-          "character": 11
+          "character": 10
         }
       },
       "newText": "\"mediaType\": \"$1\""
@@ -121,11 +145,17 @@
   },
   {
     "label": "value",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "value",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11value",
     "filterText": "\"value\": \"$1\"",
     "insertText": null,
@@ -140,7 +170,7 @@
         },
         "end": {
           "line": 5,
-          "character": 11
+          "character": 10
         }
       },
       "newText": "\"value\": \"$1\""

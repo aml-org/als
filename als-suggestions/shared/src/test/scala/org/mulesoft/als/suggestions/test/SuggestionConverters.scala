@@ -48,20 +48,22 @@ object CompletionCommand {
   }
 }
 
-case class CompletionItemNode(label: String,
-                              kind: Option[Int],
-                              detail: String,
-                              documentation: String,
-                              deprecated: Option[Boolean],
-                              preselect: Option[Boolean],
-                              sortText: String,
-                              filterText: String,
-                              insertText: String,
-                              insertTextFormat: Option[Int],
-                              textEdit: TextEditNode,
-                              additionalTextEdits: Seq[TextEditNode],
-                              commitCharacters: Seq[Char],
-                              command: CompletionCommand)
+case class CompletionItemNode(
+    label: String,
+    kind: Option[Int],
+    detail: String,
+    documentation: String,
+    deprecated: Option[Boolean],
+    preselect: Option[Boolean],
+    sortText: String,
+    filterText: String,
+    insertText: String,
+    insertTextFormat: Option[Int],
+    textEdit: TextEditNode,
+    additionalTextEdits: Seq[TextEditNode],
+    commitCharacters: Seq[Char],
+    command: CompletionCommand
+)
 
 object CompletionItemNode {
 
@@ -80,7 +82,7 @@ object CompletionItemNode {
       from.filterText.orNull,
       from.insertText.orNull,
       from.insertTextFormat.map(_.id),
-      from.textEdit.map(t => TextEditNode.sharedToTransport(t)).orNull,
+      from.textEdit.flatMap(t => t.left.toOption).map(t => TextEditNode.sharedToTransport(t)).orNull,
       from.additionalTextEdits.map(_.map(t => TextEditNode.sharedToTransport(t))).orNull,
       from.commitCharacters.orNull,
       from.command.map(c => CompletionCommand.sharedToTransport(c)).orNull

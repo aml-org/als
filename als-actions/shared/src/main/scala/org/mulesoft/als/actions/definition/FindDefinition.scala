@@ -1,9 +1,9 @@
 package org.mulesoft.als.actions.definition
 
-import org.mulesoft.amfintegration.relationships.{AliasInfo, AliasRelationships, RelationshipLink}
-import org.mulesoft.als.common.cache.YPartBranchCached
+import org.mulesoft.als.common.cache.ASTPartBranchCached
 import org.mulesoft.als.common.dtoTypes.{Position, PositionRange}
 import org.mulesoft.als.convert.LspRangeConverter
+import org.mulesoft.amfintegration.relationships.{AliasInfo, AliasRelationships, RelationshipLink}
 import org.mulesoft.lsp.feature.common.{Location, LocationLink}
 
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -11,24 +11,29 @@ import scala.concurrent.Future
 
 object FindDefinition {
 
-  def getDefinition(uri: String,
-                    position: Position,
-                    allRelationships: Future[Seq[RelationshipLink]],
-                    allAliases: Future[Seq[AliasInfo]],
-                    yPartBranchCached: YPartBranchCached): Future[Seq[LocationLink]] =
+  def getDefinition(
+      uri: String,
+      position: Position,
+      allRelationships: Future[Seq[RelationshipLink]],
+      allAliases: Future[Seq[AliasInfo]],
+      astPartBranchCached: ASTPartBranchCached
+  ): Future[Seq[LocationLink]] =
     for {
       relationships <- allRelationships
       aliases       <- allAliases
-    } yield
-      findByPosition(uri,
-                     AliasRelationships.getLinks(aliases, relationships, yPartBranchCached).map(fl => (fl._1, fl._2)),
-                     position)
-        .map(toLocationLink)
-        .sortWith(sortInner)
+    } yield findByPosition(
+      uri,
+      AliasRelationships.getLinks(aliases, relationships, astPartBranchCached).map(fl => (fl.source, fl.destination)),
+      position
+    )
+      .map(toLocationLink)
+      .sortWith(sortInner)
 
-  private def findByPosition(uri: String,
-                             allRelationships: Seq[(Location, Location)],
-                             position: Position): Seq[(Location, Location)] =
+  private def findByPosition(
+      uri: String,
+      allRelationships: Seq[(Location, Location)],
+      position: Position
+  ): Seq[(Location, Location)] =
     allRelationships.filter { s =>
       val range =
         PositionRange(LspRangeConverter.toPosition(s._1.range.start), LspRangeConverter.toPosition(s._1.range.end))

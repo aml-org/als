@@ -26,11 +26,10 @@ documentChanges:
           "$ref": "#/definitions/schema",
           "definitions": {
             "schema": {
-              "type": "object",
               "example": {
                 "$ref": "aux/example.json"
               },
-              "additionalProperties": true,
+              "type": "object",
               "required": [
                 "aString",
                 "myObject"
@@ -40,19 +39,21 @@ documentChanges:
                   "type": "string"
                 },
                 "myObject": {
-                  "type": "object",
-                  "example": {
-                    "prop": "this is an example"
-                  },
-                  "additionalProperties": true,
-                  "required": [
-                    "prop"
-                  ],
-                  "properties": {
-                    "prop": {
-                      "type": "string"
-                    }
-                  }
+                  "$ref": "#/definitions/A"
+                }
+              }
+            },
+            "A": {
+              "type": "object",
+              "example": {
+                "prop": "this is an example"
+              },
+              "required": [
+                "prop"
+              ],
+              "properties": {
+                "prop": {
+                  "type": "string"
                 }
               }
             }

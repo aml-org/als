@@ -1,0 +1,12 @@
+#%RAML 1.0
+title: inlined header type
+
+types:
+  t: string
+
+/res:
+  post:
+    responses:
+      200:
+        headers:
+          Content-Encoding: *

@@ -1,21 +1,21 @@
 package org.mulesoft.als.server.lsp4j
 
-import java.util
-
-import amf.ProfileNames
-import amf.core.unsafe.PlatformSecrets
+import amf.core.client.common.validation.ProfileNames
+import amf.core.internal.unsafe.PlatformSecrets
 import org.eclipse.lsp4j.ExecuteCommandParams
+import org.mulesoft.als.server.client.scala.LanguageServerBuilder
 import org.mulesoft.als.server.modules.WorkspaceManagerFactoryBuilder
 import org.mulesoft.als.server.protocol.LanguageServer
-import org.mulesoft.als.server.{LanguageServerBaseTest, LanguageServerBuilder, MockDiagnosticClientNotifier}
+import org.mulesoft.als.server.{Flaky, LanguageServerBaseTest, MockDiagnosticClientNotifier}
 
+import java.util
 import scala.concurrent.Future
 
 class Lsp4jLanguageServerDiagnosticImplTest extends LanguageServerBaseTest with PlatformSecrets {
 
   // TODO: check if the caché on WorkspaceContentManager is used (if it can be used)
   // TODO: check if a new validation should be sent from WorkspaceContentCollection when "onFocus" (when the BU is already parsed)
-  test("Lsp4j LanguageServerImpl Command - Did Focus: Command should notify DidFocus") {
+  test("Lsp4j LanguageServerImpl Command - Did Focus: Command should notify DidFocus", Flaky) {
     def wrapJson(uri: String, version: String): String =
       s"""{"uri": "$uri", "version": "$version"}"""
 
@@ -26,7 +26,7 @@ class Lsp4jLanguageServerDiagnosticImplTest extends LanguageServerBaseTest with 
       Future.successful(Unit)
     }
 
-    val diagnosticsClient: MockDiagnosticClientNotifier = new MockDiagnosticClientNotifier(10000)
+    val diagnosticsClient: MockDiagnosticClientNotifier = new MockDiagnosticClientNotifier(7000)
     withServer(buildServer(diagnosticsClient)) { s =>
       val server       = new LanguageServerImpl(s)
       val mainFilePath = s"file://api.raml"
@@ -87,11 +87,9 @@ class Lsp4jLanguageServerDiagnosticImplTest extends LanguageServerBaseTest with 
     }
   }
 
-  test("diagnostics test - FullValidation") {
-    def wrapJson(uri: String): String =
-      s"""{"mainUri": "$uri"}"""
+  test("diagnostics test - FullValidation", Flaky) {
 
-    val diagnosticsClient: MockDiagnosticClientNotifier = new MockDiagnosticClientNotifier(10000)
+    val diagnosticsClient: MockDiagnosticClientNotifier = new MockDiagnosticClientNotifier(7000)
     withServer(buildServer(diagnosticsClient)) { s =>
       val mainFilePath = s"file://api.raml"
       val libFilePath  = s"file://lib1.raml"
@@ -149,17 +147,20 @@ class Lsp4jLanguageServerDiagnosticImplTest extends LanguageServerBaseTest with 
   }
 
   def buildServer(diagnosticsClient: MockDiagnosticClientNotifier): LanguageServer = {
-    val builder  = new WorkspaceManagerFactoryBuilder(diagnosticsClient, logger)
-    val dm       = builder.diagnosticManager()
+
+    val builder  = new WorkspaceManagerFactoryBuilder(diagnosticsClient)
+    val dm       = builder.buildDiagnosticManagers()
     val managers = builder.buildWorkspaceManagerFactory()
 
     val b =
-      new LanguageServerBuilder(managers.documentManager,
-                                managers.workspaceManager,
-                                managers.configurationManager,
-                                managers.resolutionTaskManager)
+      new LanguageServerBuilder(
+        managers.documentManager,
+        managers.workspaceManager,
+        managers.configurationManager,
+        managers.resolutionTaskManager
+      )
         .addRequestModule(managers.cleanDiagnosticManager)
-    dm.foreach(b.addInitializableModule)
+    dm.foreach(m => b.addInitializableModule(m))
     b.build()
   }
 

@@ -1,11 +1,18 @@
 package org.mulesoft.amfintegration.dialect.dialects.oas.nodes
 
-import amf.core.metamodel.domain.ShapeModel
-import amf.core.metamodel.domain.extensions.PropertyShapeModel
-import amf.core.vocabulary.Namespace.XsdTypes._
+import amf.aml.client.scala.model.domain.PropertyMapping
+import amf.core.client.scala.vocabulary.Namespace.XsdTypes.{
+  amlAnyNode,
+  xsdAnyType,
+  xsdBoolean,
+  xsdDouble,
+  xsdInteger,
+  xsdString
+}
+import amf.core.internal.metamodel.domain.ShapeModel
+import amf.core.internal.metamodel.domain.extensions.PropertyShapeModel
+import amf.shapes.internal.domain.metamodel.{AnyShapeModel, ArrayShapeModel, NodeShapeModel, ScalarShapeModel}
 import org.mulesoft.amfintegration.dialect.dialects.oas.OAS20Dialect.{DialectLocation, ImplicitField}
-import amf.plugins.document.vocabularies.model.domain.PropertyMapping
-import amf.plugins.domain.shapes.metamodel.{AnyShapeModel, ArrayShapeModel, NodeShapeModel, ScalarShapeModel}
 
 trait AMLShapeBaseProperties {
   val commonShapeFields: Seq[PropertyMapping] = Seq(
@@ -13,27 +20,27 @@ trait AMLShapeBaseProperties {
       .withId(DialectLocation + s"#/declarations/ShapeObject/multipleOf")
       .withName("multipleOf")
       .withNodePropertyMapping(ScalarShapeModel.MultipleOf.value.iri())
-      .withLiteralRange(amlNumber.iri()),
+      .withLiteralRange(xsdDouble.iri()),
     PropertyMapping()
-      .withId(DialectLocation + s"#/declarations/ShapeObject/maximume")
+      .withId(DialectLocation + s"#/declarations/ShapeObject/maximum")
       .withName("maximum")
       .withNodePropertyMapping(ScalarShapeModel.Maximum.value.iri())
-      .withLiteralRange(amlNumber.iri()),
+      .withLiteralRange(xsdDouble.iri()),
     PropertyMapping()
       .withId(DialectLocation + s"#/declarations/ShapeObject/exclusiveMaximum")
       .withName("exclusiveMaximum")
       .withNodePropertyMapping(ScalarShapeModel.ExclusiveMaximum.value.iri())
-      .withLiteralRange(amlNumber.iri()),
+      .withLiteralRange(xsdDouble.iri()),
     PropertyMapping()
       .withId(DialectLocation + s"#/declarations/ShapeObject/minimum")
       .withName("minimum")
       .withNodePropertyMapping(ScalarShapeModel.Minimum.value.iri())
-      .withLiteralRange(amlNumber.iri()),
+      .withLiteralRange(xsdDouble.iri()),
     PropertyMapping()
       .withId(DialectLocation + s"#/declarations/ShapeObject/exclusiveMinimum")
       .withName("exclusiveMinimum")
       .withNodePropertyMapping(ScalarShapeModel.ExclusiveMinimum.value.iri())
-      .withLiteralRange(amlNumber.iri()),
+      .withLiteralRange(xsdDouble.iri()),
     PropertyMapping()
       .withId(DialectLocation + s"#/declarations/ShapeObject/maxLength")
       .withName("maxLength")
@@ -76,7 +83,8 @@ trait AMLShapeBaseProperties {
       .withObjectRange(
         Seq(
           AMLSchemaBaseObject.id
-        )),
+        )
+      ),
     PropertyMapping()
       .withId(DialectLocation + s"#/declarations/ShapeObject/format")
       .withName("format")
@@ -89,6 +97,23 @@ trait AMLShapeBaseProperties {
       .withLiteralRange(xsdAnyType.iri())
   )
 
+  val typeMapping: PropertyMapping = PropertyMapping()
+    .withId(DialectLocation + "#/declarations/SchemaObject/Shape/type")
+    .withName("type")
+    .withMinCount(1)
+    .withEnum(
+      Seq(
+        "object",
+        "string",
+        "number",
+        "integer",
+        "boolean",
+        "array",
+        "file"
+      )
+    )
+    .withNodePropertyMapping(ImplicitField)
+    .withLiteralRange(xsdString.iri())
   val shapeOnly: Seq[PropertyMapping] = commonShapeFields ++ Seq(
     PropertyMapping()
       .withId(DialectLocation + "#/declarations/SchemaObject/title")
@@ -101,30 +126,17 @@ trait AMLShapeBaseProperties {
       .withName("required")
       .withNodePropertyMapping(PropertyShapeModel.MinCount.value.iri())
       .withLiteralRange(xsdBoolean.iri()),
-    PropertyMapping()
-      .withId(DialectLocation + "#/declarations/SchemaObject/Shape/type")
-      .withName("type")
-      .withMinCount(1)
-      .withEnum(
-        Seq(
-          "object",
-          "string",
-          "number",
-          "integer",
-          "boolean",
-          "array",
-          "file"
-        ))
-      .withNodePropertyMapping(ImplicitField)
-      .withLiteralRange(xsdString.iri()),
+    typeMapping,
     PropertyMapping()
       .withId(DialectLocation + s"#/declarations/SchemaObject/properties")
       .withName("properties")
       .withNodePropertyMapping(NodeShapeModel.Properties.value.iri())
       .withMapTermKeyProperty(PropertyShapeModel.Name.value.iri())
-      .withObjectRange(Seq(
-        AMLSchemaBaseObject.id
-      )),
+      .withObjectRange(
+        Seq(
+          AMLSchemaBaseObject.id
+        )
+      ),
     PropertyMapping()
       .withId(DialectLocation + s"#/declarations/SchemaObject/additionalProperties")
       .withName("additionalProperties")
@@ -150,16 +162,20 @@ trait AMLShapeBaseProperties {
       .withId(DialectLocation + "#/declarations/SchemaObject/xml")
       .withName("xml")
       .withNodePropertyMapping(AnyShapeModel.XMLSerialization.value.iri())
-      .withObjectRange(Seq(
-        XmlObject.id
-      )),
+      .withObjectRange(
+        Seq(
+          XmlObject.id
+        )
+      ),
     PropertyMapping()
       .withId(DialectLocation + "#/declarations/SchemaObject/externalDocs")
       .withName("externalDocs")
       .withNodePropertyMapping(AnyShapeModel.Documentation.value.iri())
-      .withObjectRange(Seq(
-        AMLExternalDocumentationObject.id
-      )),
+      .withObjectRange(
+        Seq(
+          AMLExternalDocumentationObject.id
+        )
+      ),
     PropertyMapping()
       .withId(DialectLocation + "#/declarations/SchemaObject/example")
       .withName("example")

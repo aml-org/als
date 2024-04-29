@@ -1,27 +1,37 @@
 package org.mulesoft.als.server.modules.diagnostic
 
-import amf.ProfileNames
-import amf.core.validation.{AMFValidationResult, SeverityLevels}
-import org.scalatest.{FunSuite, Matchers}
+import amf.core.client.common.validation.{ProfileNames, SeverityLevels}
+import amf.core.client.scala.validation.AMFValidationResult
+import org.scalatest.funsuite.AnyFunSuite
+import org.scalatest.matchers.should.Matchers
 
-class DiagnosticConverterTest extends FunSuite with Matchers {
+class DiagnosticConverterTest extends AnyFunSuite with Matchers {
 
   private val withoutLocation =
-    AMFValidationResult("A message without location", SeverityLevels.VIOLATION, "", None, "", None, None, null)
-  private val located = AMFValidationResult("LocatedMessage",
-                                            SeverityLevels.VIOLATION,
-                                            "",
-                                            None,
-                                            "",
-                                            None,
-                                            Some("file://reference.raml"),
-                                            null)
+    new AlsValidationResult(
+      AMFValidationResult("A message without location", SeverityLevels.VIOLATION, "", None, "", None, None, null)
+    )
+
+  private val located = new AlsValidationResult(
+    AMFValidationResult(
+      "LocatedMessage",
+      SeverityLevels.VIOLATION,
+      "",
+      None,
+      "",
+      None,
+      Some("file://reference.raml"),
+      null
+    )
+  )
 
   test("Test diagnostic without location") {
 
-    val reports = DiagnosticConverters.buildIssueResults(Map("file://root.raml" -> Seq(withoutLocation)),
-                                                         Map.empty,
-                                                         ProfileNames.RAML10)
+    val reports = DiagnosticConverters.buildIssueResults(
+      Map("file://root.raml" -> Seq(withoutLocation)),
+      Map.empty,
+      ProfileNames.RAML10
+    )
     reports.size should be(1)
     val report = reports.head
     report.pointOfViewUri should be("file://root.raml")
@@ -36,7 +46,8 @@ class DiagnosticConverterTest extends FunSuite with Matchers {
     val reports = DiagnosticConverters.buildIssueResults(
       Map("file://root.raml" -> Seq(withoutLocation), "file://reference.raml" -> Seq(located)),
       Map.empty,
-      ProfileNames.RAML10)
+      ProfileNames.RAML10
+    )
     reports.size should be(2)
     val report = reports.head
     report.pointOfViewUri should be("file://reference.raml")

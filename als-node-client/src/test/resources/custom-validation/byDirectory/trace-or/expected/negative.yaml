@@ -1,0 +1,9 @@
+uri: file://als-server/js/src/test/resources/custom-validation/byDirectory/trace-or/negative.data
+diagnostics:
+  -
+    message: |
+      Only get and post operations are allowed
+    range: Range(common.Position[L:8,C:2],common.Position[L:12,C:4])
+    severity: Error
+    code: profile.yaml#trace-or
+    relatedInformation: []

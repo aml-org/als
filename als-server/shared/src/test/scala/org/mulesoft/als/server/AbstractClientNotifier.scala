@@ -1,27 +1,25 @@
 package org.mulesoft.als.server
 
-import java.io.StringWriter
-
 import org.mulesoft.als.common.SyncFunction
-import org.mulesoft.als.server.client.{AlsClientNotifier, ClientNotifier}
+import org.mulesoft.als.server.client.platform.{AlsClientNotifier, ClientNotifier}
 import org.mulesoft.als.server.feature.serialization.SerializationResult
 import org.mulesoft.als.server.feature.workspace.FilesInProjectParams
 import org.mulesoft.lsp.feature.diagnostic.PublishDiagnosticsParams
 import org.mulesoft.lsp.feature.telemetry.{MessageTypes, TelemetryMessage}
-import shapeless.|∨|
 
+import java.io.StringWriter
 import scala.collection.mutable
-import scala.concurrent.{Future, Promise}
 import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.{Future, Promise}
 
 trait AbstractTestClientNotifier[T] extends SyncFunction {
   val promises: mutable.Queue[Promise[T]] = mutable.Queue.empty
 
   def notify(msg: T): Unit =
-    sync(
-      () =>
-        if (promises.forall(_.isCompleted)) promises.enqueue(Promise[T].success(msg))
-        else promises.dequeueFirst(!_.isCompleted).map(_.success(msg)))
+    sync(() =>
+      if (promises.forall(_.isCompleted)) promises.enqueue(Promise[T].success(msg))
+      else promises.dequeueFirst(!_.isCompleted).map(_.success(msg))
+    )
 
   def nextCall: Future[T] =
     sync(() =>
@@ -29,7 +27,8 @@ trait AbstractTestClientNotifier[T] extends SyncFunction {
         val promise = Promise[T]()
         promises.enqueue(promise)
         promise.future
-      } else promises.dequeue().future) match {
+      } else promises.dequeue().future
+    ) match {
       case r: Future[T] => r
       case _            => Future.failed(new Exception("Wrong notification"))
     }
@@ -43,16 +42,16 @@ class MockCompleteClientNotifier(val timeoutMillis: Int = 1000)
   val promisesD: mutable.Queue[Promise[PublishDiagnosticsParams]] = mutable.Queue.empty
 
   override def notifyDiagnostic(params: PublishDiagnosticsParams): Unit =
-    sync(
-      () =>
-        if (promisesD.forall(_.isCompleted)) promisesD.enqueue(Promise[PublishDiagnosticsParams].success(params))
-        else promisesD.dequeueFirst(!_.isCompleted).map(_.success(params)))
+    sync(() =>
+      if (promisesD.forall(_.isCompleted)) promisesD.enqueue(Promise[PublishDiagnosticsParams].success(params))
+      else promisesD.dequeueFirst(!_.isCompleted).map(_.success(params))
+    )
 
   override def notifyTelemetry(params: TelemetryMessage): Unit =
-    sync(
-      () =>
-        if (promisesT.forall(_.isCompleted)) promisesT.enqueue(Promise[TelemetryMessage].success(params))
-        else promisesT.dequeueFirst(!_.isCompleted).map(_.success(params)))
+    sync(() =>
+      if (promisesT.forall(_.isCompleted)) promisesT.enqueue(Promise[TelemetryMessage].success(params))
+      else promisesT.dequeueFirst(!_.isCompleted).map(_.success(params))
+    )
 
   def nextCallT: Future[TelemetryMessage] =
     timeoutFuture(
@@ -61,7 +60,8 @@ class MockCompleteClientNotifier(val timeoutMillis: Int = 1000)
           val promise = Promise[TelemetryMessage]()
           promisesT.enqueue(promise)
           promise.future
-        } else promisesT.dequeue().future) match {
+        } else promisesT.dequeue().future
+      ) match {
         case r: Future[TelemetryMessage] => r
         case _                           => Future.failed(new Exception("Wrong notification"))
       },
@@ -75,7 +75,8 @@ class MockCompleteClientNotifier(val timeoutMillis: Int = 1000)
           val promise = Promise[PublishDiagnosticsParams]()
           promisesD.enqueue(promise)
           promise.future
-        } else promisesD.dequeue().future) match {
+        } else promisesD.dequeue().future
+      ) match {
         case r: Future[PublishDiagnosticsParams] => r
         case _                                   => Future.failed(new Exception("Wrong notification"))
       },
@@ -83,7 +84,7 @@ class MockCompleteClientNotifier(val timeoutMillis: Int = 1000)
     )
 }
 
-class MockDiagnosticClientNotifier(val timeoutMillis: Int = 1000)
+class MockDiagnosticClientNotifier(val timeoutMillis: Int = 3000)
     extends ClientNotifier
     with AbstractTestClientNotifier[PublishDiagnosticsParams]
     with TimeoutFuture {
@@ -92,24 +93,36 @@ class MockDiagnosticClientNotifier(val timeoutMillis: Int = 1000)
 
   override def notifyTelemetry(params: TelemetryMessage): Unit = {}
 
-  override def notifyDiagnostic(msg: PublishDiagnosticsParams): Unit = notify(msg)
+  override def notifyDiagnostic(msg: PublishDiagnosticsParams): Unit =
+    notify(msg)
 }
 
-class MockAlsClientNotifier
+class MockAlsClientNotifier(val timeOutMillis: Int = 1000)
     extends AlsClientNotifier[StringWriter]
-    with AbstractTestClientNotifier[SerializationResult[StringWriter]] {
+    with AbstractTestClientNotifier[SerializationResult[StringWriter]]
+    with TimeoutFuture {
 
   override def notifySerialization(params: SerializationResult[StringWriter]): Unit = notify(params)
 
   override def notifyProjectFiles(params: FilesInProjectParams): Unit = {}
+
+  override def nextCall: Future[SerializationResult[StringWriter]] =
+    timeoutFuture(super.nextCall, timeOutMillis)
 }
 
-class MockTelemetryClientNotifier(val timeoutMillis: Int = 1000)
+class MockTelemetryClientNotifier(val timeoutMillis: Int = 1000, ignoreErrors: Boolean = true)
     extends ClientNotifier
     with AbstractTestClientNotifier[TelemetryMessage]
     with TimeoutFuture {
 
-  override def nextCall: Future[TelemetryMessage] = timeoutFuture(super.nextCall, timeoutMillis)
+  override def nextCall: Future[TelemetryMessage] =
+    timeoutFuture(super.nextCall, timeoutMillis)
+      .flatMap {
+        case m if m.messageType == MessageTypes.ERROR_MESSAGE && ignoreErrors =>
+          nextCall
+        case m =>
+          Future.successful(m)
+      }
 
   override def notifyTelemetry(msg: TelemetryMessage): Unit = notify(msg)
 

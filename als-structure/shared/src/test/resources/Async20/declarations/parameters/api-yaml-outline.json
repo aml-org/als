@@ -5,8 +5,8 @@
     "deprecated": false,
     "range": {
       "start": {
-        "line": 3,
-        "character": 4
+        "line": 2,
+        "character": 2
       },
       "end": {
         "line": 11,
@@ -15,8 +15,8 @@
     },
     "selectionRange": {
       "start": {
-        "line": 3,
-        "character": 4
+        "line": 2,
+        "character": 2
       },
       "end": {
         "line": 11,
@@ -98,7 +98,9 @@
                     "character": 0
                   }
                 },
-                "children": []
+                "children": [
+                  
+                ]
               },
               {
                 "name": "b",
@@ -124,7 +126,9 @@
                     "character": 25
                   }
                 },
-                "children": []
+                "children": [
+                  
+                ]
               }
             ]
           }

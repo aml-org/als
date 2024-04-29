@@ -1,11 +1,161 @@
 [
   {
+    "label": "New externalDocs",
+    "kind": [
+      
+    ],
+    "detail": "template",
+    "documentation": "externalDocs",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "21New externalDocs",
+    "filterText": "externalDocs:\n  url: $1",
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 4,
+          "character": 6
+        },
+        "end": {
+          "line": 4,
+          "character": 6
+        }
+      },
+      "newText": "externalDocs:\n  url: $1"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "New parameters",
+    "kind": [
+      
+    ],
+    "detail": "template",
+    "documentation": "parameters",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "21New parameters",
+    "filterText": "parameters:\n  -\n    in: $1\n    required: $2\n    description: $3\n    name: $4\n    type: $5",
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 4,
+          "character": 6
+        },
+        "end": {
+          "line": 4,
+          "character": 6
+        }
+      },
+      "newText": "parameters:\n  -\n    in: $1\n    required: $2\n    description: $3\n    name: $4\n    type: $5"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "New responses",
+    "kind": [
+      
+    ],
+    "detail": "template",
+    "documentation": "responses",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "20New responses",
+    "filterText": "responses:\n  $1:\n    description: $2",
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 4,
+          "character": 6
+        },
+        "end": {
+          "line": 4,
+          "character": 6
+        }
+      },
+      "newText": "responses:\n  $1:\n    description: $2"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "New security",
+    "kind": [
+      
+    ],
+    "detail": "template",
+    "documentation": "security",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "21New security",
+    "filterText": "security:\n  -\n    type: $1",
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 4,
+          "character": 6
+        },
+        "end": {
+          "line": 4,
+          "character": 6
+        }
+      },
+      "newText": "security:\n  -\n    type: $1"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
     "label": "consumes",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "consumes",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11consumes",
     "filterText": "consumes:\n  - ",
     "insertText": null,
@@ -31,11 +181,17 @@
   },
   {
     "label": "deprecated",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "deprecated",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11deprecated",
     "filterText": "deprecated: ",
     "insertText": null,
@@ -61,11 +217,17 @@
   },
   {
     "label": "description",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "docs",
     "documentation": "description",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11description",
     "filterText": "description: ",
     "insertText": null,
@@ -91,11 +253,17 @@
   },
   {
     "label": "externalDocs",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "docs",
     "documentation": "externalDocs",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11externalDocs",
     "filterText": "externalDocs:\n  ",
     "insertText": null,
@@ -121,11 +289,17 @@
   },
   {
     "label": "operationId",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "operationId",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11operationId",
     "filterText": "operationId: ",
     "insertText": null,
@@ -151,11 +325,17 @@
   },
   {
     "label": "parameters",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "parameters",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11parameters",
     "filterText": "parameters:\n  - ",
     "insertText": null,
@@ -181,11 +361,17 @@
   },
   {
     "label": "produces",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "produces",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11produces",
     "filterText": "produces:\n  - ",
     "insertText": null,
@@ -211,11 +397,17 @@
   },
   {
     "label": "responses",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "responses",
     "documentation": "responses",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "10responses",
     "filterText": "responses:\n  ",
     "insertText": null,
@@ -241,11 +433,17 @@
   },
   {
     "label": "schemes",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "schemes",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11schemes",
     "filterText": "schemes:\n  - ",
     "insertText": null,
@@ -271,11 +469,17 @@
   },
   {
     "label": "security",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "security",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11security",
     "filterText": "security:\n  - ",
     "insertText": null,
@@ -301,11 +505,17 @@
   },
   {
     "label": "summary",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "summary",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11summary",
     "filterText": "summary: ",
     "insertText": null,
@@ -331,11 +541,17 @@
   },
   {
     "label": "tags",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "tags",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11tags",
     "filterText": "tags:\n  - ",
     "insertText": null,

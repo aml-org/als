@@ -1,0 +1,5 @@
+hovers:
+  (10,9):
+    range: Range(common.Position[L:9,C:8],common.Position[L:9,C:14])
+    contents:
+      - Schema that defines the message key

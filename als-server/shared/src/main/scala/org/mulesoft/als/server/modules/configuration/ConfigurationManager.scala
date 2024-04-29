@@ -17,13 +17,31 @@ class ConfigurationManager
   def update(params: UpdateConfigurationParams): Unit = { // todo: is this not a Request?
     params.updateFormatOptionsParams.foreach(f => {
       configuration.updateFormattingOptions(f)
+      configuration.setTemplateType(params.templateType)
     })
     // Should move to separated GenericOptions class?
     params.genericOptions.get(GenericOptionKeys.KeepTokens) match {
       case Some(b: Boolean) => AlsSyamlSyntaxPluginHacked.withKeepTokens(b)
       case _                => // ignore
     }
+    configuration.setShouldPrettyPrintSerialization(params.prettyPrintSerialization)
   }
+
+  private var hotReloadDialects: Boolean = false
+
+  override def getHotReloadDialects: Boolean = hotReloadDialects
+
+  /** Should only be called from initialization
+    */
+  def setHotReloadDialects(p: Boolean): Unit = hotReloadDialects = p
+
+  private var maxFileSize: Option[Int] = None
+
+  override def getMaxFileSize: Option[Int] = maxFileSize
+
+  /** Should only be called from initialization
+    */
+  def setMaxFileSize(p: Option[Int]): Unit = maxFileSize = p
 
   def updateDocumentChangesSupport(support: Boolean): Unit = configuration.supportsDocumentChanges(support)
 

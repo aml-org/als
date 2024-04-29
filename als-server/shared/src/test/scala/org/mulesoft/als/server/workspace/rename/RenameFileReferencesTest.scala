@@ -1,13 +1,14 @@
 package org.mulesoft.als.server.workspace.rename
 
-import amf.client.remote.Content
-import amf.internal.environment.Environment
-import amf.internal.resource.ResourceLoader
+import amf.core.client.common.remote.Content
+import amf.core.client.scala.resource.ResourceLoader
+import org.mulesoft.als.server.client.scala.LanguageServerBuilder
 import org.mulesoft.als.server.modules.WorkspaceManagerFactoryBuilder
 import org.mulesoft.als.server.protocol.LanguageServer
 import org.mulesoft.als.server.protocol.configuration.AlsInitializeParams
 import org.mulesoft.als.server.workspace.WorkspaceManager
-import org.mulesoft.als.server.{LanguageServerBaseTest, LanguageServerBuilder, MockDiagnosticClientNotifier}
+import org.mulesoft.als.server.{LanguageServerBaseTest, MockDiagnosticClientNotifier}
+import org.mulesoft.amfintegration.amfconfiguration.EditorConfiguration
 import org.mulesoft.lsp.configuration.TraceKind
 import org.mulesoft.lsp.edit.{RenameFile, TextDocumentEdit, TextEdit, WorkspaceEdit}
 import org.mulesoft.lsp.feature.common.{Position, Range, TextDocumentIdentifier, VersionedTextDocumentIdentifier}
@@ -49,11 +50,20 @@ class RenameFileReferencesTest extends LanguageServerBaseTest {
         Some(
           List(
             Right(RenameFile("file:///root/ref.txt", "file:///root/reference.txt", None)),
-            Left(TextDocumentEdit(VersionedTextDocumentIdentifier("file:///root/api.raml", None),
-                                  List(TextEdit(Range(Position(1, 16), Position(1, 23)), "reference.txt")))),
-            Left(TextDocumentEdit(VersionedTextDocumentIdentifier("file:///root/lib.raml", None),
-                                  List(TextEdit(Range(Position(4, 22), Position(4, 29)), "reference.txt"))))
-          ))
+            Left(
+              TextDocumentEdit(
+                VersionedTextDocumentIdentifier("file:///root/api.raml", None),
+                List(TextEdit(Range(Position(1, 16), Position(1, 23)), "reference.txt"))
+              )
+            ),
+            Left(
+              TextDocumentEdit(
+                VersionedTextDocumentIdentifier("file:///root/lib.raml", None),
+                List(TextEdit(Range(Position(4, 22), Position(4, 29)), "reference.txt"))
+              )
+            )
+          )
+        )
       )
     )
   )
@@ -68,12 +78,14 @@ class RenameFileReferencesTest extends LanguageServerBaseTest {
       .map(r => assert(r.forall(_ == Succeeded)))
   }
 
-  def runTest(root: String,
-              ws: Map[String, String],
-              searchedUri: String,
-              position: Position,
-              newName: String,
-              expectedResult: WorkspaceEdit): Future[Assertion] =
+  def runTest(
+      root: String,
+      ws: Map[String, String],
+      searchedUri: String,
+      position: Position,
+      newName: String,
+      expectedResult: WorkspaceEdit
+  ): Future[Assertion] =
     for {
       (server, _) <- buildServer(root, ws)
       result      <- getServerRename(server, searchedUri, position, newName)
@@ -84,10 +96,7 @@ class RenameFileReferencesTest extends LanguageServerBaseTest {
       assertion should be(true)
     }
 
-  def getServerRename(server: LanguageServer,
-                      uri: String,
-                      position: Position,
-                      newName: String): Future[WorkspaceEdit] =
+  def getServerRename(server: LanguageServer, uri: String, position: Position, newName: String): Future[WorkspaceEdit] =
     server
       .resolveHandler(RenameRequestType)
       .map { _(RenameParams(TextDocumentIdentifier(uri), position, newName)) }
@@ -97,15 +106,17 @@ class RenameFileReferencesTest extends LanguageServerBaseTest {
     a.changes.getOrElse(Map.empty).mapValues(_.toSet) == b.changes.getOrElse(Map.empty).mapValues(_.toSet) &&
       a.documentChanges.getOrElse(Seq.empty).map(_.left) == b.documentChanges.getOrElse(Seq.empty).map(_.left)
 
-  case class TestEntry(targetUri: String,
-                       targetPosition: Position,
-                       newName: String,
-                       ws: Map[String, String],
-                       result: WorkspaceEdit,
-                       root: String = "file:///root")
+  case class TestEntry(
+      targetUri: String,
+      targetPosition: Position,
+      newName: String,
+      ws: Map[String, String],
+      result: WorkspaceEdit,
+      root: String = "file:///root"
+  )
 
   def buildServer(root: String, ws: Map[String, String]): Future[(LanguageServer, WorkspaceManager)] = {
-    val rs = new ResourceLoader {
+    val rl = new ResourceLoader {
       override def fetch(resource: String): Future[Content] =
         ws.get(resource)
           .map(c => new Content(c, resource))
@@ -115,23 +126,28 @@ class RenameFileReferencesTest extends LanguageServerBaseTest {
         ws.keySet.contains(resource)
     }
 
-    val env = Environment().withLoaders(Seq(rs))
-
     val factory =
-      new WorkspaceManagerFactoryBuilder(new MockDiagnosticClientNotifier, logger, env)
+      new WorkspaceManagerFactoryBuilder(
+        new MockDiagnosticClientNotifier,
+        EditorConfiguration.withPlatformLoaders(Seq(rl))
+      )
         .buildWorkspaceManagerFactory()
+
     val workspaceManager: WorkspaceManager = factory.workspaceManager
     val server =
-      new LanguageServerBuilder(factory.documentManager,
-                                workspaceManager,
-                                factory.configurationManager,
-                                factory.resolutionTaskManager)
+      new LanguageServerBuilder(
+        factory.documentManager,
+        workspaceManager,
+        factory.configurationManager,
+        factory.resolutionTaskManager
+      )
         .addRequestModule(factory.renameManager)
         .build()
 
     server
-      .initialize(AlsInitializeParams(None, Some(TraceKind.Off), rootUri = Some(root)))
+      .testInitialize(AlsInitializeParams(None, Some(TraceKind.Off), rootUri = Some(root)))
       .andThen { case _ => server.initialized() }
       .map(_ => (server, workspaceManager))
+
   }
 }

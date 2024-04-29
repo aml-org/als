@@ -1,16 +1,19 @@
 package org.mulesoft.lsp
 
-import java.util.{List => JList}
-
 import org.eclipse.lsp4j
+import org.eclipse.lsp4j.jsonrpc.messages.{Either => JEither}
 import org.eclipse.lsp4j.{
   DidChangeConfigurationCapabilities,
   DidChangeWatchedFilesCapabilities,
   ExecuteCommandCapabilities,
+  FileOperationOptions,
   SymbolCapabilities,
   WorkspaceEditCapabilities
 }
-import org.eclipse.lsp4j.jsonrpc.messages.{Either => JEither}
+import org.mulesoft.lsp.configuration.TraceKind.TraceKind
+import org.mulesoft.lsp.configuration._
+import org.mulesoft.lsp.feature.codeactions.CodeActionKind.CodeActionKind
+import org.mulesoft.lsp.feature.codeactions._
 import org.mulesoft.lsp.feature.common.{
   Location,
   Position,
@@ -19,16 +22,6 @@ import org.mulesoft.lsp.feature.common.{
   TextDocumentItem,
   TextDocumentPositionParams,
   VersionedTextDocumentIdentifier
-}
-import org.mulesoft.lsp.configuration.TraceKind.TraceKind
-import org.mulesoft.lsp.configuration._
-import org.mulesoft.lsp.feature.codeactions.CodeActionKind.CodeActionKind
-import org.mulesoft.lsp.feature.codeactions.{
-  CodeActionContext,
-  CodeActionKind,
-  CodeActionOptions,
-  CodeActionParams,
-  CodeActionRegistrationOptions
 }
 import org.mulesoft.lsp.feature.completion.CompletionItemKind.CompletionItemKind
 import org.mulesoft.lsp.feature.completion.CompletionTriggerKind.CompletionTriggerKind
@@ -48,9 +41,9 @@ import org.mulesoft.lsp.feature.documentsymbol.{
   SymbolKind,
   SymbolKindClientCapabilities
 }
-import org.mulesoft.lsp.feature.hover.{HoverClientCapabilities, HoverParams, MarkupKind}
 import org.mulesoft.lsp.feature.folding.{FoldingRangeCapabilities, FoldingRangeParams}
 import org.mulesoft.lsp.feature.highlight.{DocumentHighlightCapabilities, DocumentHighlightParams}
+import org.mulesoft.lsp.feature.hover.{HoverClientCapabilities, HoverParams, MarkupKind}
 import org.mulesoft.lsp.feature.implementation.{ImplementationClientCapabilities, ImplementationParams}
 import org.mulesoft.lsp.feature.link.{DocumentLinkClientCapabilities, DocumentLinkOptions, DocumentLinkParams}
 import org.mulesoft.lsp.feature.reference.{ReferenceClientCapabilities, ReferenceContext, ReferenceParams}
@@ -60,6 +53,7 @@ import org.mulesoft.lsp.feature.typedefinition.{TypeDefinitionClientCapabilities
 import org.mulesoft.lsp.textsync.TextDocumentSyncKind.TextDocumentSyncKind
 import org.mulesoft.lsp.textsync._
 
+import java.util.{List => JList}
 import scala.collection.JavaConverters._
 import scala.language.implicitConversions
 
@@ -73,7 +67,8 @@ object LspConversions {
   def booleanOrFalse(value: java.lang.Boolean): Boolean = !(value == null) && value
 
   implicit def synchronizationClientCapabilities(
-      capabilities: lsp4j.SynchronizationCapabilities): SynchronizationClientCapabilities =
+      capabilities: lsp4j.SynchronizationCapabilities
+  ): SynchronizationClientCapabilities =
     SynchronizationClientCapabilities(
       Option(capabilities.getDynamicRegistration),
       Option(capabilities.getWillSave),
@@ -82,20 +77,23 @@ object LspConversions {
     )
 
   implicit def diagnosticClientCapabilities(
-      capabilities: lsp4j.PublishDiagnosticsCapabilities): DiagnosticClientCapabilities =
+      capabilities: lsp4j.PublishDiagnosticsCapabilities
+  ): DiagnosticClientCapabilities =
     DiagnosticClientCapabilities(Option(capabilities.getRelatedInformation))
 
   implicit def completionItemKind(kind: lsp4j.CompletionItemKind): CompletionItemKind =
     CompletionItemKind(kind.getValue)
 
   implicit def completionItemKindClientCapabilities(
-      capabilities: lsp4j.CompletionItemKindCapabilities): CompletionItemKindClientCapabilities =
+      capabilities: lsp4j.CompletionItemKindCapabilities
+  ): CompletionItemKindClientCapabilities =
     CompletionItemKindClientCapabilities(
       Option(capabilities.getValueSet).map(_.asScala.map(completionItemKind).toSet).getOrElse(Set())
     )
 
   implicit def completionItemClientCapabilities(
-      capabilities: lsp4j.CompletionItemCapabilities): CompletionItemClientCapabilities =
+      capabilities: lsp4j.CompletionItemCapabilities
+  ): CompletionItemClientCapabilities =
     CompletionItemClientCapabilities(
       Option(capabilities.getSnippetSupport),
       Option(capabilities.getCommitCharactersSupport),
@@ -112,11 +110,13 @@ object LspConversions {
     )
 
   implicit def documentFormattingClientCapabilities(
-      capabilities: lsp4j.FormattingCapabilities): DocumentFormattingClientCapabilities =
+      capabilities: lsp4j.FormattingCapabilities
+  ): DocumentFormattingClientCapabilities =
     DocumentFormattingClientCapabilities(Some(capabilities.getDynamicRegistration))
 
   implicit def documentRangeFormattingClientCapabilities(
-      capabilities: lsp4j.RangeFormattingCapabilities): DocumentRangeFormattingClientCapabilities =
+      capabilities: lsp4j.RangeFormattingCapabilities
+  ): DocumentRangeFormattingClientCapabilities =
     DocumentRangeFormattingClientCapabilities(Some(capabilities.getDynamicRegistration))
 
   implicit def referenceClientCapabilities(capabilities: lsp4j.ReferencesCapabilities): ReferenceClientCapabilities =
@@ -126,11 +126,11 @@ object LspConversions {
     SymbolKind(capabilities.getValue)
 
   implicit def symbolKindClientCapabilities(capabilities: lsp4j.SymbolKindCapabilities): SymbolKindClientCapabilities =
-    SymbolKindClientCapabilities(
-      Option(capabilities.getValueSet).map(_.asScala.map(symbolKind).toSet).getOrElse(Set()))
+    SymbolKindClientCapabilities(Option(capabilities.getValueSet).map(_.asScala.map(symbolKind).toSet).getOrElse(Set()))
 
   implicit def documentSymbolClientCapabilities(
-      capabilities: lsp4j.DocumentSymbolCapabilities): DocumentSymbolClientCapabilities =
+      capabilities: lsp4j.DocumentSymbolCapabilities
+  ): DocumentSymbolClientCapabilities =
     DocumentSymbolClientCapabilities(
       Option(capabilities.getDynamicRegistration),
       Option(capabilities.getSymbolKind).map(symbolKindClientCapabilities),
@@ -141,11 +141,13 @@ object LspConversions {
     DefinitionClientCapabilities(Option(capabilities.getDynamicRegistration), None)
 
   implicit def implementationClientCapabilities(
-      capabilities: lsp4j.ImplementationCapabilities): ImplementationClientCapabilities =
+      capabilities: lsp4j.ImplementationCapabilities
+  ): ImplementationClientCapabilities =
     ImplementationClientCapabilities(Option(capabilities.getDynamicRegistration), None)
 
   implicit def typeDefinitionClientCapabilities(
-      capabilities: lsp4j.TypeDefinitionCapabilities): TypeDefinitionClientCapabilities =
+      capabilities: lsp4j.TypeDefinitionCapabilities
+  ): TypeDefinitionClientCapabilities =
     TypeDefinitionClientCapabilities(Option(capabilities.getDynamicRegistration), None)
 
   implicit def renameClientCapabilities(capabilities: lsp4j.RenameCapabilities): RenameClientCapabilities =
@@ -155,7 +157,8 @@ object LspConversions {
     )
 
   implicit def textDocumentClientCapabilities(
-      capabilities: lsp4j.TextDocumentClientCapabilities): TextDocumentClientCapabilities =
+      capabilities: lsp4j.TextDocumentClientCapabilities
+  ): TextDocumentClientCapabilities =
     TextDocumentClientCapabilities(
       Option(capabilities.getSynchronization).map(synchronizationClientCapabilities),
       Option(capabilities.getPublishDiagnostics).map(diagnosticClientCapabilities),
@@ -179,8 +182,7 @@ object LspConversions {
   def workspaceEditClientCapabilities(c: WorkspaceEditCapabilities): WorkspaceEditClientCapabilities =
     WorkspaceEditClientCapabilities(Option(c.getDocumentChanges))
 
-  def workspaceDidChangeConfiguration(
-      c: DidChangeConfigurationCapabilities): DidChangeConfigurationClientCapabilities =
+  def workspaceDidChangeConfiguration(c: DidChangeConfigurationCapabilities): DidChangeConfigurationClientCapabilities =
     DidChangeConfigurationClientCapabilities(Option(c.getDynamicRegistration))
 
   def workspaceDidChangeWatchedFiles(c: DidChangeWatchedFilesCapabilities): DidChangeWatchedFilesClientCapabilities =
@@ -193,18 +195,19 @@ object LspConversions {
     ExecuteCommandClientCapabilities(Option(c.getDynamicRegistration))
 
   implicit def workspaceClientCapabilities(
-      capabilities: lsp4j.WorkspaceClientCapabilities): WorkspaceClientCapabilities = {
+      capabilities: lsp4j.WorkspaceClientCapabilities
+  ): WorkspaceClientCapabilities = {
     Option(capabilities)
-      .map(
-        c =>
-          WorkspaceClientCapabilities(
-            Option(c.getApplyEdit),
-            Option(c.getWorkspaceEdit).map(workspaceEditClientCapabilities),
-            Option(c.getDidChangeConfiguration).map(workspaceDidChangeConfiguration),
-            Option(c.getDidChangeWatchedFiles).map(workspaceDidChangeWatchedFiles),
-            Option(c.getSymbol).map(workspaceSymbol),
-            Option(c.getExecuteCommand).map(workspaceExecuteCommand)
-        ))
+      .map(c =>
+        WorkspaceClientCapabilities(
+          Option(c.getApplyEdit),
+          Option(c.getWorkspaceEdit).map(workspaceEditClientCapabilities),
+          Option(c.getDidChangeConfiguration).map(workspaceDidChangeConfiguration),
+          Option(c.getDidChangeWatchedFiles).map(workspaceDidChangeWatchedFiles),
+          Option(c.getSymbol).map(workspaceSymbol),
+          Option(c.getExecuteCommand).map(workspaceExecuteCommand)
+        )
+      )
       .getOrElse(WorkspaceClientCapabilities())
   }
 
@@ -228,8 +231,12 @@ object LspConversions {
       Option(options.getChange).map(textDocumentSyncKind),
       Option(options.getWillSave),
       Option(options.getWillSaveWaitUntil),
-      Option(options.getSave).map(saveOptions)
+      Option(options.getSave).flatMap(eitherSaveOptions)
     )
+
+  implicit def eitherSaveOptions(options: JEither[java.lang.Boolean, lsp4j.SaveOptions]): Option[SaveOptions] =
+    either(options, booleanOrFalse, saveOptions)
+      .fold(value => Some(SaveOptions(Option(value))), Some.apply)
 
   implicit def renameOptions(options: lsp4j.RenameOptions): RenameOptions =
     RenameOptions(Option(options.getPrepareProvider))
@@ -251,13 +258,20 @@ object LspConversions {
               } catch {
                 case _: NoSuchElementException =>
                   CodeActionKind.Empty
-            })))
+              }
+            )
+        )
+    )
 
   implicit def staticRegistrationOptions(options: lsp4j.StaticRegistrationOptions): StaticRegistrationOptions =
     StaticRegistrationOptions(Option(options.getId))
 
+  implicit def workDoneProgressOptions(options: lsp4j.WorkDoneProgressOptions): WorkDoneProgressOptions =
+    WorkDoneProgressOptions(Option(options.getWorkDoneProgress))
+
   implicit def eitherCodeActionProviderOptions(
-      options: JEither[java.lang.Boolean, lsp4j.CodeActionOptions]): Option[CodeActionOptions] =
+      options: JEither[java.lang.Boolean, lsp4j.CodeActionOptions]
+  ): Option[CodeActionOptions] =
     either(options, booleanOrFalse, codeActionOptions)
       .fold(value => if (value) Some(CodeActionRegistrationOptions()) else None, Some.apply)
 
@@ -268,14 +282,50 @@ object LspConversions {
     )
 
   implicit def workspaceFolderServerCapabilities(
-      options: lsp4j.WorkspaceFoldersOptions): WorkspaceFolderServerCapabilities =
+      options: lsp4j.WorkspaceFoldersOptions
+  ): WorkspaceFolderServerCapabilities =
     WorkspaceFolderServerCapabilities(
       Option(options.getSupported),
-      Option(either(options.getChangeNotifications, (a: String) => a, (a: java.lang.Boolean) => a)))
+      Option(either(options.getChangeNotifications, (a: String) => a, (a: java.lang.Boolean) => a))
+    )
+
+  implicit def fileOperationPatternOptions(options: lsp4j.FileOperationPatternOptions): FileOperationPatternOptions =
+    FileOperationPatternOptions(
+      Option(options.getIgnoreCase)
+    )
+
+  implicit def pattern(getPattern: lsp4j.FileOperationPattern): FileOperationPattern =
+    FileOperationPattern(
+      getPattern.getGlob,
+      Option(getPattern.getMatches),
+      Option(getPattern.getOptions).map(fileOperationPatternOptions)
+    )
+
+  implicit def fileOperationFilter(filter: lsp4j.FileOperationFilter): FileOperationFilter =
+    FileOperationFilter(Option(filter.getScheme), pattern(filter.getPattern))
+
+  implicit def fileOperationOptions(options: FileOperationOptions): FileOperationRegistrationOptions =
+    FileOperationRegistrationOptions(options.getFilters.asScala.map(fileOperationFilter))
+
+  implicit def fileOperationsServerCapabilities(
+      f: lsp4j.FileOperationsServerCapabilities
+  ): FileOperationsServerCapabilities =
+    FileOperationsServerCapabilities(
+      Option(f.getDidCreate).map(fileOperationOptions),
+      Option(f.getWillCreate).map(fileOperationOptions),
+      Option(f.getDidRename).map(fileOperationOptions),
+      Option(f.getWillRename).map(fileOperationOptions),
+      Option(f.getDidDelete).map(fileOperationOptions),
+      Option(f.getWillDelete).map(fileOperationOptions)
+    )
 
   implicit def workspaceServerCapabilities(
-      capabilities: lsp4j.WorkspaceServerCapabilities): WorkspaceServerCapabilities =
-    WorkspaceServerCapabilities(Option(capabilities.getWorkspaceFolders))
+      capabilities: lsp4j.WorkspaceServerCapabilities
+  ): WorkspaceServerCapabilities =
+    WorkspaceServerCapabilities(
+      Option(capabilities.getWorkspaceFolders),
+      Option(capabilities.getFileOperations).map(f => fileOperationsServerCapabilities(f))
+    )
 
   implicit def textDocumentIdentifier(identifier: lsp4j.TextDocumentIdentifier): TextDocumentIdentifier =
     TextDocumentIdentifier(identifier.getUri)
@@ -288,11 +338,13 @@ object LspConversions {
   implicit def range(range: lsp4j.Range): Range = Range(range.getStart, range.getEnd)
 
   implicit def textDocumentContentChangeEvent(
-      event: lsp4j.TextDocumentContentChangeEvent): TextDocumentContentChangeEvent =
+      event: lsp4j.TextDocumentContentChangeEvent
+  ): TextDocumentContentChangeEvent =
     TextDocumentContentChangeEvent(event.getText, Option(event.getRange).map(range), Option(event.getRangeLength))
 
   implicit def versionedTextDocumentIdentifier(
-      identifier: lsp4j.VersionedTextDocumentIdentifier): VersionedTextDocumentIdentifier =
+      identifier: lsp4j.VersionedTextDocumentIdentifier
+  ): VersionedTextDocumentIdentifier =
     VersionedTextDocumentIdentifier(identifier.getUri, Option(identifier.getVersion))
 
   implicit def didOpenTextDocumentParams(params: lsp4j.DidOpenTextDocumentParams): DidOpenTextDocumentParams =
@@ -302,8 +354,10 @@ object LspConversions {
     DidCloseTextDocumentParams(params.getTextDocument)
 
   implicit def didChangeTextDocumentParams(params: lsp4j.DidChangeTextDocumentParams): DidChangeTextDocumentParams =
-    DidChangeTextDocumentParams(params.getTextDocument,
-                                params.getContentChanges.asScala.map(textDocumentContentChangeEvent))
+    DidChangeTextDocumentParams(
+      params.getTextDocument,
+      params.getContentChanges.asScala.map(textDocumentContentChangeEvent)
+    )
 
   implicit def referenceContext(context: lsp4j.ReferenceContext): ReferenceContext =
     ReferenceContext(context.isIncludeDeclaration)
@@ -312,7 +366,7 @@ object LspConversions {
     CompletionTriggerKind(kind.getValue)
 
   implicit def completionContext(context: lsp4j.CompletionContext): CompletionContext =
-    CompletionContext(context.getTriggerKind, Option(context.getTriggerCharacter).map(_(0)))
+    CompletionContext(context.getTriggerKind, Option(context.getTriggerCharacter).getOrElse("").lift(0))
 
   implicit def referenceParams(params: lsp4j.ReferenceParams): ReferenceParams =
     ReferenceParams(params.getTextDocument, params.getPosition, params.getContext)
@@ -335,7 +389,8 @@ object LspConversions {
   implicit def clientHoverCapabilities(params: lsp4j.HoverCapabilities): HoverClientCapabilities =
     HoverClientCapabilities(
       Option(params.getDynamicRegistration),
-      Option(params.getContentFormat).map(_.asScala.map(c => MarkupKind.withName(c))).getOrElse(Nil))
+      Option(params.getContentFormat).map(_.asScala.map(c => MarkupKind.withName(c))).getOrElse(Nil)
+    )
 
   implicit def completionParams(params: lsp4j.CompletionParams): CompletionParams =
     CompletionParams(params.getTextDocument, params.getPosition, Option(params.getContext).map(completionContext))
@@ -360,9 +415,10 @@ object LspConversions {
       diagnostic.getRange,
       diagnostic.getMessage,
       Option(diagnostic.getSeverity).map(diagnosticSeverity),
-      either(diagnostic.getCode, (s: String) => s, (n: Number) => n.toString).toOption,
+      Option(diagnostic.getCode).flatMap(c => either(c, (s: String) => s, (n: Number) => n.toString).toOption),
+      Option(diagnostic.getCodeDescription).map(_.getHref),
       Option(diagnostic.getSource),
-      Option(diagnostic.getRelatedInformation).map(_.asScala.map(diagnosticRelatedInformation)).getOrElse(Seq())
+      Option(diagnostic.getRelatedInformation).map(_.asScala.map(diagnosticRelatedInformation))
     )
 
   implicit def codeActionContext(context: lsp4j.CodeActionContext): CodeActionContext =
@@ -381,23 +437,25 @@ object LspConversions {
     DocumentLinkParams(params.getTextDocument)
 
   implicit def documentLinkClientCapabilities(
-      capabilities: lsp4j.DocumentLinkCapabilities): DocumentLinkClientCapabilities =
+      capabilities: lsp4j.DocumentLinkCapabilities
+  ): DocumentLinkClientCapabilities =
     DocumentLinkClientCapabilities(Option(capabilities.getDynamicRegistration), None)
 
   implicit def documentLinkOptions(options: lsp4j.DocumentLinkOptions): DocumentLinkOptions =
     DocumentLinkOptions(Option(options.getResolveProvider))
 
-  implicit def documentHighlightCapabilities(
-      capa: lsp4j.DocumentHighlightCapabilities): DocumentHighlightCapabilities =
+  implicit def documentHighlightCapabilities(capa: lsp4j.DocumentHighlightCapabilities): DocumentHighlightCapabilities =
     DocumentHighlightCapabilities(Option(capa.getDynamicRegistration))
 
   implicit def documentHighlightParams(inner: lsp4j.DocumentHighlightParams): DocumentHighlightParams =
     DocumentHighlightParams(inner.getTextDocument, inner.getPosition)
 
   implicit def foldingRangeCapabilities(capa: lsp4j.FoldingRangeCapabilities): FoldingRangeCapabilities =
-    FoldingRangeCapabilities(Option(capa.getDynamicRegistration),
-                             Option(capa.getRangeLimit),
-                             Option(capa.getLineFoldingOnly))
+    FoldingRangeCapabilities(
+      Option(capa.getDynamicRegistration),
+      Option(capa.getRangeLimit),
+      Option(capa.getLineFoldingOnly)
+    )
 
   implicit def foldingRangeParams(inner: lsp4j.FoldingRangeRequestParams): FoldingRangeParams =
     FoldingRangeParams(inner.getTextDocument)

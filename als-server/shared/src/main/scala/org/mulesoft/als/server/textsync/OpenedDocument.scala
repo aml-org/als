@@ -1,21 +1,17 @@
 package org.mulesoft.als.server.textsync
 
-/**
-  * Document being opened.
+/** Document being opened.
   */
 case class OpenedDocument(
-                            /**
-                              * Document URI
-                              */
-                            var uri: String,
+    /** Document URI
+      */
+    var uri: String,
 
-                            /**
-                              * Optional document version.
-                              */
-                            var version: Int,
+    /** Optional document version.
+      */
+    var version: Int,
 
-                            /**
-                              * Optional document content
-                              */
-                            var text: String
-                          )
+    /** Optional document content
+      */
+    var text: String
+)

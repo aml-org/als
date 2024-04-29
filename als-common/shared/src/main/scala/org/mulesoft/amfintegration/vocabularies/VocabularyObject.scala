@@ -1,6 +1,6 @@
 package org.mulesoft.amfintegration.vocabularies
 
-import amf.plugins.document.vocabularies.model.document.Vocabulary
+import amf.aml.client.scala.model.document.Vocabulary
 
 trait VocabularyObject {
 

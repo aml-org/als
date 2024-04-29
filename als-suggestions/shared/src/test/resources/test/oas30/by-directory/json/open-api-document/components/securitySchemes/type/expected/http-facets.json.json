@@ -1,11 +1,17 @@
 [
   {
     "label": "bearerFormat",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "bearerFormat",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11bearerFormat",
     "filterText": "\"bearerFormat\": \"$1\"",
     "insertText": null,
@@ -20,7 +26,7 @@
         },
         "end": {
           "line": 6,
-          "character": 11
+          "character": 10
         }
       },
       "newText": "\"bearerFormat\": \"$1\""
@@ -31,11 +37,17 @@
   },
   {
     "label": "description",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "docs",
     "documentation": "description",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11description",
     "filterText": "\"description\": \"$1\"",
     "insertText": null,
@@ -50,7 +62,7 @@
         },
         "end": {
           "line": 6,
-          "character": 11
+          "character": 10
         }
       },
       "newText": "\"description\": \"$1\""
@@ -61,11 +73,17 @@
   },
   {
     "label": "scheme",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "scheme",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "10scheme",
     "filterText": "\"scheme\": \"$1\"",
     "insertText": null,
@@ -80,7 +98,7 @@
         },
         "end": {
           "line": 6,
-          "character": 11
+          "character": 10
         }
       },
       "newText": "\"scheme\": \"$1\""

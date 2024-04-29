@@ -1,10 +1,10 @@
 package org.mulesoft.als.suggestions.plugins.aml.webapi.oas.oas30
 
-import amf.core.annotations.DeclaredHeader
-import amf.core.model.domain.{DomainElement, NamedDomainElement}
-import amf.plugins.document.vocabularies.model.document.Dialect
-import amf.plugins.domain.webapi.metamodel.ParameterModel
-import amf.plugins.domain.webapi.models.Parameter
+import amf.aml.client.scala.model.document.Dialect
+import amf.apicontract.client.scala.model.domain.Parameter
+import amf.apicontract.internal.metamodel.domain.ParameterModel
+import amf.core.client.scala.model.domain.{DomainElement, NamedDomainElement}
+import amf.core.internal.annotations.DeclaredHeader
 import org.mulesoft.als.suggestions.RawSuggestion
 import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
 import org.mulesoft.als.suggestions.interfaces.AMLCompletionPlugin
@@ -41,14 +41,16 @@ object RefToParameters extends AMLCompletionPlugin {
   private val headersFilter = (p: DomainElement) => p.annotations.contains(classOf[DeclaredHeader])
   private val paramsFilter  = (p: DomainElement) => !headersFilter(p)
 
-  private def composeSuggestion(request: AmlCompletionRequest,
-                                path: String,
-                                fn: DomainElement => Boolean): Seq[RawSuggestion] = {
+  private def composeSuggestion(
+      request: AmlCompletionRequest,
+      path: String,
+      fn: DomainElement => Boolean
+  ): Seq[RawSuggestion] = {
     val dcl     = declarationPath(request.actualDialect)
     val strings = declarations(request, fn).map(d => s"#/$dcl$path/$d")
 
     AMLJsonSchemaStyleDeclarationReferences
-      .resolveRoutes(strings, request.yPartBranch)
+      .resolveRoutes(strings, request.astPartBranch)
   }
 
   private def declarationPath(dialect: Dialect) = {

@@ -1,33 +1,44 @@
 {
-  "name": "@mulesoft/als-server",
-  "version": "3.3.0-SNAPSHOT.2",
+  "name": "@aml-org/als-server",
+  "version": "5.2.0-SNAPSHOT",
   "description": "ALS Server Library",
   "main": "lib/als-server.js",
   "types": "typescript/als-server.d.ts",
   "author": "als team",
   "license": "Apache-2.0",
-  "homepage": "https://github.com/mulesoft/als",
+  "homepage": "https://github.com/aml-org/als",
   "repository": {
     "type": "git",
-    "url": "https://github.com/mulesoft/als"
+    "url": "https://github.com/aml-org/als"
   },
   "scripts": {
     "build:dist": "webpack --config ./webpack.config.js"
   },
   "dependencies": {
-    "ajv": "6.5.2",
-    "amf-shacl-node": "1.1.0",
-    "vscode-jsonrpc": "5.0.1",
-    "vscode-languageserver-protocol": "3.15.3"
+    "@aml-org/amf-antlr-parsers": "0.7.25",
+    "@aml-org/amf-custom-validator": "1.7.2",
+    "@aml-org/amf-custom-validator-web": "1.7.2",
+    "ajv": "6.12.6",
+    "buffer": "^6.0.3",
+    "fs": "latest",
+    "https-browserify": "^1.0.0",
+    "os-browserify": "^0.3.0",
+    "path-browserify": "^1.0.1",
+    "stream-http": "^3.2.0",
+    "url": "^0.11.0",
+    "util": "^0.12.4",
+    "vscode-jsonrpc": "6.0.0",
+    "vscode-languageserver-protocol": "3.16.0"
   },
   "devDependencies": {
     "@babel/core": "^7.9.0",
     "@babel/polyfill": "^7.0.0",
     "@babel/preset-env": "^7.9.5",
-    "babel-loader": "^8.1.0",
-    "terser-webpack-plugin": "^2.3.5",
-    "webpack": "^4.43.0",
-    "webpack-cli": "^3.3.11",
-    "webpack-merge": "^4.2.2"
+    "babel-loader": "^8.2.2",
+    "process": "0.11.10",
+    "terser-webpack-plugin": "^2.3.6",
+    "webpack": "^5.28.0",
+    "webpack-cli": "^4.5.0",
+    "webpack-merge": "^5.7.3"
   }
 }

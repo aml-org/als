@@ -1,9 +1,8 @@
 package org.mulesoft.lsp.feature.telemetry
 
-import java.util.UUID
-
 import org.mulesoft.lsp.feature.telemetry.MessageTypes.MessageTypes
 
+import java.util.UUID
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
@@ -52,6 +51,8 @@ object MessageTypes extends Enumeration {
   val END_QUICK_FIX                             = "END_QUICK_FIX"
   val BEGIN_FILE_USAGE                          = "BEGIN_FILE_USAGE"
   val END_FILE_USAGE                            = "END_FILE_USAGE"
+  val BEGIN_FILE_CONTENTS                       = "BEGIN_FILE_CONTENTS"
+  val END_FILE_CONTENTS                         = "END_FILE_CONTENTS"
   val BEGIN_HOVER                               = "BEGIN_HOVER"
   val END_HOVER                                 = "END_HOVER"
   val BEGIN_FOLDING                             = "BEGIN_FOLDING"
@@ -82,25 +83,48 @@ object MessageTypes extends Enumeration {
   val END_JSON_SCHEMA_TO_TYPE_ACTION            = "END_JSON_SCHEMA_TO_TYPE_ACTION"
   val BEGIN_EXTERNAL_JSON_SCHEMA_TO_TYPE_ACTION = "BEGIN_EXTERNAL_JSON_SCHEMA_TO_TYPE_ACTION"
   val END_EXTERNAL_JSON_SCHEMA_TO_TYPE_ACTION   = "END_EXTERNAL_JSON_SCHEMA_TO_TYPE_ACTION"
+  val BEGIN_SYNTHESIZE_VOCABULARY               = "BEGIN_SYNTHESIZE_VOCABULARY"
+  val END_SYNTHESIZE_VOCABULARY                 = "END_SYNTHESIZE_VOCABULARY"
+  val BEGIN_EXTERNAL_VOCABULARY_TO_LOCAL        = "BEGIN_EXTERNAL_VOCABULARY_TO_LOCAL"
+  val END_EXTERNAL_VOCABULARY_TO_LOCAL          = "END_EXTERNAL_VOCABULARY_TO_LOCAL"
+  val ERROR_MESSAGE                             = "ERROR_MESSAGE"
+  val BEGIN_CUSTOM_DIAGNOSTIC                   = "BEGIN_CUSTOM_DIAGNOSTIC"
+  val END_CUSTOM_DIAGNOSTIC                     = "END_CUSTOM_DIAGNOSTIC"
+  val BEGIN_GET_WORKSPACE_CONFIGURATION         = "BEGIN_GET_WORKSPACE_CONFIGURATION"
+  val END_GET_WORKSPACE_CONFIGURATION           = "END_GET_WORKSPACE_CONFIGURATION"
+  val BEGIN_EXCHANGE_CLIENT                     = "BEGIN_EXCHANGE_CLIENT"
+  val END_EXCHANGE_CLIENT                       = "END_EXCHANGE_CLIENT"
+  val BEGIN_GET_DEPENDENCY_MODEL                = "BEGIN_GET_DEPENDENCY_MODEL"
+  val END_GET_DEPENDENCY_MODEL                  = "END_GET_DEPENDENCY_MODEL"
+  val BEGIN_GET_DESCRIPTOR                      = "BEGIN_GET_DESCRIPTOR"
+  val END_GET_DESCRIPTOR                        = "END_GET_DESCRIPTOR"
+  val BEGIN_SET_DESCRIPTOR                      = "BEGIN_SET_DESCRIPTOR"
+  val END_SET_DESCRIPTOR                        = "END_SET_DESCRIPTOR"
+  val BEGIN_GET_METADATA                        = "BEGIN_GET_METADATA"
+  val END_GET_METADATA                          = "END_GET_METADATA"
+  val BEGIN_GET_ASSET                           = "BEGIN_GET_ASSET"
+  val END_GET_ASSET                             = "END_GET_ASSET"
 }
 
 trait TelemetryProvider {
 
-  protected def addTimedMessage(code: String, messageType: MessageTypes, msg: String, uri: String, uuid: String): Unit
+  def addTimedMessage(code: String, messageType: MessageTypes, msg: String, uri: String, uuid: String): Unit
+  def addErrorMessage(code: String, msg: String, uri: String, uuid: String): Unit
 
-  final def timeProcess[T](code: String,
-                           beginType: MessageTypes,
-                           endType: MessageTypes,
-                           msg: String,
-                           uri: String,
-                           fn: () => Future[T],
-                           uuid: String = UUID.randomUUID().toString): Future[T] = {
+  final def timeProcess[T](
+      code: String,
+      beginType: MessageTypes,
+      endType: MessageTypes,
+      msg: String,
+      uri: String,
+      fn: () => Future[T],
+      uuid: String = UUID.randomUUID().toString
+  ): Future[T] = {
     val time = System.currentTimeMillis()
     addTimedMessage(code, beginType, msg, uri, uuid)
     fn()
-      .andThen {
-        case _ =>
-          addTimedMessage(code, endType, s"$msg\n\ttook ${System.currentTimeMillis() - time} millis", uri, uuid)
+      .andThen { case _ =>
+        addTimedMessage(code, endType, s"$msg \n\ttook ${System.currentTimeMillis() - time} millis", uri, uuid)
       }
   }
 }

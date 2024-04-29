@@ -1,18 +1,16 @@
 package org.mulesoft.als.server
 
+import org.mulesoft.als.server.feature.configuration.workspace.GetWorkspaceConfigurationRequestType
 import org.mulesoft.als.server.feature.diagnostic.CleanDiagnosticTreeRequestType
 import org.mulesoft.als.server.feature.fileusage.FileUsageRequestType
+import org.mulesoft.als.server.feature.fileusage.filecontents.FileContentsRequestType
 import org.mulesoft.als.server.feature.renamefile.RenameFileActionRequestType
 import org.mulesoft.als.server.feature.serialization.{ConversionRequestType, SerializationResult}
 import org.mulesoft.als.server.feature.workspace.FilesInProjectParams
 import org.mulesoft.als.server.protocol.LanguageServer
 import org.mulesoft.als.server.protocol.actions.{ClientRenameFileActionParams, ClientRenameFileActionResult}
 import org.mulesoft.als.server.protocol.client.{AlsLanguageClient, AlsLanguageClientAware}
-import org.mulesoft.als.server.protocol.configuration.{
-  ClientAlsInitializeParams,
-  ClientAlsInitializeResult,
-  ClientUpdateConfigurationParams
-}
+import org.mulesoft.als.server.protocol.configuration._
 import org.mulesoft.als.server.protocol.convert.LspConvertersClientToShared._
 import org.mulesoft.als.server.protocol.convert.LspConvertersSharedToClient._
 import org.mulesoft.als.server.protocol.diagnostic.{
@@ -20,12 +18,14 @@ import org.mulesoft.als.server.protocol.diagnostic.{
   ClientCleanDiagnosticTreeParams,
   ClientFilesInProjectParams
 }
+import org.mulesoft.als.server.protocol.filecontents.ClientFileContentsResponse
 import org.mulesoft.als.server.protocol.serialization.{
   ClientConversionParams,
   ClientSerializationParams,
   ClientSerializationResult,
   ClientSerializedDocument
 }
+import org.mulesoft.als.server.protocol.textsync.ClientDidFocusParams
 import org.mulesoft.als.vscode.{RequestHandler => ClientRequestHandler, RequestHandler0 => ClientRequestHandler0, _}
 import org.mulesoft.lsp.client.{LspLanguageClient, LspLanguageClientAware}
 import org.mulesoft.lsp.convert.LspConvertersClientToShared._
@@ -77,46 +77,58 @@ import scala.scalajs.js.JSConverters._
 import scala.scalajs.js.annotation.{JSExportAll, JSExportTopLevel}
 import scala.scalajs.js.|
 
-case class ProtocolConnectionLanguageClient(connection: ProtocolConnection)
-    extends LspLanguageClient
-    with AlsLanguageClient[js.Any] {
-  override def publishDiagnostic(params: PublishDiagnosticsParams): Unit = {
-    val clientParams: ClientPublishDiagnosticsParams = params.toClient
-    connection
-      .sendNotification[ClientPublishDiagnosticsParams, js.Any](PublishDiagnosticsNotification.`type`, clientParams)
-  }
+case class ProtocolConnectionLanguageClient(override protected val connection: ProtocolConnection)
+    extends AbstractProtocolConnectionLanguageClient
 
-  override def notifyTelemetry(params: TelemetryMessage): Unit = {
-    connection.sendNotification[ClientTelemetryMessage, js.Any](TelemetryEventNotification.`type`, params.toClient)
-  }
+trait AbstractProtocolConnectionLanguageClient extends LspLanguageClient with AlsLanguageClient[js.Any] {
+
+  protected val connection: ProtocolConnection
+
+  override def publishDiagnostic(params: PublishDiagnosticsParams): Unit =
+    connection
+      .sendNotification[ClientPublishDiagnosticsParams](PublishDiagnosticsNotification.`type`, params.toClient)
+
+  override def notifyTelemetry(params: TelemetryMessage): Unit =
+    connection.sendNotification[ClientTelemetryMessage](TelemetryEventNotification.`type`, params.toClient)
 
   override def notifySerialization(params: SerializationResult[js.Any]): Unit =
     connection
-      .sendNotification[ClientSerializationResult, js.Any](SerializationEventNotification.`type`, params.toClient)
+      .sendNotification[ClientSerializationResult](SerializationEventNotification.`type`, params.toClient)
 
-  override def notifyProjectFiles(params: FilesInProjectParams): Unit = {
+  override def notifyProjectFiles(params: FilesInProjectParams): Unit =
     connection
-      .sendNotification[ClientFilesInProjectParams, js.Any](FilesInProjectEventNotification.`type`, params.toClient)
-  }
+      .sendNotification[ClientFilesInProjectParams](FilesInProjectEventNotification.`type`, params.toClient)
 }
 
 @JSExportAll
 @JSExportTopLevel("ProtocolConnectionBinder")
-object ProtocolConnectionBinder {
-  def bind(protocolConnection: ProtocolConnection,
-           languageServer: LanguageServer,
-           clientAware: LspLanguageClientAware with AlsLanguageClientAware[js.Any],
-           serializationProps: JsSerializationProps): Unit = {
-    def resolveHandler[P, R](`type`: org.mulesoft.lsp.feature.RequestType[P, R]): RequestHandler[P, R] = {
-      val maybeHandler = languageServer.resolveHandler(`type`)
-      if (maybeHandler.isEmpty) throw new UnsupportedOperationException else maybeHandler.get
-    }
+object ProtocolConnectionBinder
+    extends AbstractProtocolConnectionBinder[LspLanguageClientAware with AlsLanguageClientAware[js.Any]] {
+  override def bind(
+      protocolConnection: ProtocolConnection,
+      languageServer: LanguageServer,
+      clientAware: LspLanguageClientAware with AlsLanguageClientAware[js.Any],
+      serializationProps: JsSerializationProps
+  ): Unit =
+    super.bind(protocolConnection, languageServer, clientAware, serializationProps)
+}
 
-    clientAware.connect(ProtocolConnectionLanguageClient(protocolConnection))
-    clientAware.connectAls(ProtocolConnectionLanguageClient(protocolConnection))
+trait AbstractProtocolConnectionBinder[ClientAware <: LspLanguageClientAware with AlsLanguageClientAware[js.Any]] {
+  def bind(
+      protocolConnection: ProtocolConnection,
+      languageServer: LanguageServer,
+      clientAware: ClientAware,
+      serializationProps: JsSerializationProps
+  ): Unit = {
+    def resolveHandler[P, R](`type`: org.mulesoft.lsp.feature.RequestType[P, R]): RequestHandler[P, R] =
+      languageServer
+        .resolveHandler(`type`)
+        .getOrElse(throw new UnsupportedOperationException)
+
+    connectClient(protocolConnection, clientAware)
 
     val initializeHandlerJs
-      : js.Function2[ClientAlsInitializeParams, CancellationToken, Thenable[ClientAlsInitializeResult]] =
+        : js.Function2[ClientAlsInitializeParams, CancellationToken, Thenable[ClientAlsInitializeResult]] =
       (param: ClientAlsInitializeParams, _: CancellationToken) =>
         languageServer
           .initialize(param.toShared)
@@ -127,23 +139,27 @@ object ProtocolConnectionBinder {
     protocolConnection.onRequest(
       InitializeRequest.`type`,
       initializeHandlerJs
-        .asInstanceOf[ClientRequestHandler[ClientAlsInitializeParams, ClientAlsInitializeResult, js.Any]])
+        .asInstanceOf[ClientRequestHandler[ClientAlsInitializeParams, ClientAlsInitializeResult, js.Any]]
+    )
 
     val initializedHandlerJs: js.Function2[js.Any, CancellationToken, Unit] = (_: js.Any, _: CancellationToken) =>
       languageServer.initialized()
 
-    protocolConnection.onNotification(InitializedNotification.`type`,
-                                      initializedHandlerJs.asInstanceOf[NotificationHandler[js.Any]])
+    protocolConnection.onNotification(
+      InitializedNotification.`type`,
+      initializedHandlerJs.asInstanceOf[NotificationHandler[js.Any]]
+    )
 
     val exitHandlerJs: js.Function1[CancellationToken, Unit] = (_: CancellationToken) => languageServer.exit()
 
     protocolConnection.onNotification(ExitNotification.`type`, exitHandlerJs.asInstanceOf[NotificationHandler0])
 
-    val shutdownHandlerJs: js.Function1[CancellationToken, js.Any] = (_: CancellationToken) =>
-      languageServer.shutdown()
+    val shutdownHandlerJs: js.Function1[CancellationToken, js.Any] = (_: CancellationToken) => languageServer.shutdown()
 
-    protocolConnection.onRequest(ShutdownRequest.`type`,
-                                 shutdownHandlerJs.asInstanceOf[ClientRequestHandler0[js.Any, js.Any]])
+    protocolConnection.onRequest(
+      ShutdownRequest.`type`,
+      shutdownHandlerJs.asInstanceOf[ClientRequestHandler0[js.Any, js.Any]]
+    )
 
     val onDidChangeHandlerJs: js.Function2[ClientDidChangeTextDocumentParams, CancellationToken, Unit] =
       (param: ClientDidChangeTextDocumentParams, _: CancellationToken) =>
@@ -151,7 +167,8 @@ object ProtocolConnectionBinder {
 
     protocolConnection.onNotification(
       DidChangeTextDocumentNotification.`type`,
-      onDidChangeHandlerJs.asInstanceOf[NotificationHandler[ClientDidChangeTextDocumentParams]])
+      onDidChangeHandlerJs.asInstanceOf[NotificationHandler[ClientDidChangeTextDocumentParams]]
+    )
 
     val onDidOpenHandlerJs: js.Function2[ClientDidOpenTextDocumentParams, CancellationToken, Unit] =
       (param: ClientDidOpenTextDocumentParams, _: CancellationToken) =>
@@ -159,7 +176,17 @@ object ProtocolConnectionBinder {
 
     protocolConnection.onNotification(
       DidOpenTextDocumentNotification.`type`,
-      onDidOpenHandlerJs.asInstanceOf[NotificationHandler[ClientDidOpenTextDocumentParams]])
+      onDidOpenHandlerJs.asInstanceOf[NotificationHandler[ClientDidOpenTextDocumentParams]]
+    )
+
+    val onDidFocusJs: js.Function2[ClientDidFocusParams, CancellationToken, Unit] =
+      (param: ClientDidFocusParams, _: CancellationToken) =>
+        languageServer.textDocumentSyncConsumer.didFocus(param.toShared)
+
+    protocolConnection.onNotification(
+      DidFocusNotification.`type`,
+      onDidFocusJs.asInstanceOf[NotificationHandler[ClientDidFocusParams]]
+    )
 
     val onUpdateClientConfigurationJs: js.Function2[ClientUpdateConfigurationParams, CancellationToken, Unit] =
       (param: ClientUpdateConfigurationParams, _: CancellationToken) =>
@@ -167,7 +194,8 @@ object ProtocolConnectionBinder {
 
     protocolConnection.onNotification(
       UpdateClientConfigurationNotification.`type`,
-      onUpdateClientConfigurationJs.asInstanceOf[NotificationHandler[ClientUpdateConfigurationParams]])
+      onUpdateClientConfigurationJs.asInstanceOf[NotificationHandler[ClientUpdateConfigurationParams]]
+    )
 
     val onDidCloseHandlerJs: js.Function2[ClientDidCloseTextDocumentParams, CancellationToken, Unit] =
       (param: ClientDidCloseTextDocumentParams, _: CancellationToken) =>
@@ -175,11 +203,12 @@ object ProtocolConnectionBinder {
 
     protocolConnection.onNotification(
       DidCloseTextDocumentNotification.`type`,
-      onDidCloseHandlerJs.asInstanceOf[NotificationHandler[ClientDidCloseTextDocumentParams]])
+      onDidCloseHandlerJs.asInstanceOf[NotificationHandler[ClientDidCloseTextDocumentParams]]
+    )
 
-    val onCompletionHandlerJs: js.Function2[ClientCompletionParams,
-                                            CancellationToken,
-                                            Thenable[ClientCompletionList | js.Array[ClientCompletionItem]]] =
+    val onCompletionHandlerJs: js.Function2[ClientCompletionParams, CancellationToken, Thenable[
+      ClientCompletionList | js.Array[ClientCompletionItem]
+    ]] =
       (param: ClientCompletionParams, _: CancellationToken) =>
         resolveHandler(CompletionRequestType)(param.toShared)
           .map(_.toClient)
@@ -189,20 +218,15 @@ object ProtocolConnectionBinder {
     protocolConnection.onRequest(
       CompletionRequest.`type`,
       onCompletionHandlerJs.asInstanceOf[
-        ClientRequestHandler[ClientCompletionParams, ClientCompletionList | js.Array[ClientCompletionItem], js.Any]]
+        ClientRequestHandler[ClientCompletionParams, ClientCompletionList | js.Array[ClientCompletionItem], js.Any]
+      ]
     )
 
     val onDocumentFormattingJs
-      : js.Function2[ClientDocumentFormattingParams, CancellationToken, Thenable[js.Array[ClientTextEdit]]] =
+        : js.Function2[ClientDocumentFormattingParams, CancellationToken, Thenable[js.Array[ClientTextEdit]]] =
       (param: ClientDocumentFormattingParams, _: CancellationToken) => {
-        println("Resolving handler")
-        println("PARAMS: " + param.textDocument.uri + " op: " + param.options)
         val handler = resolveHandler(DocumentFormattingRequestType)
         handler(param.toShared)
-          .map(edits => {
-            println("Got response from handler: " + edits.size)
-            edits
-          })
           .map(_.map(_.toClient).toJSArray)
           .toJSPromise
           .asInstanceOf[Thenable[js.Array[ClientTextEdit]]]
@@ -215,7 +239,7 @@ object ProtocolConnectionBinder {
     )
 
     val onDocumentRangeFormattingJs
-      : js.Function2[ClientDocumentRangeFormattingParams, CancellationToken, Thenable[js.Array[ClientTextEdit]]] =
+        : js.Function2[ClientDocumentRangeFormattingParams, CancellationToken, Thenable[js.Array[ClientTextEdit]]] =
       (param: ClientDocumentRangeFormattingParams, _: CancellationToken) =>
         resolveHandler(DocumentRangeFormattingRequestType)(param.toShared)
           .map(_.map(_.toClient).toJSArray)
@@ -228,10 +252,9 @@ object ProtocolConnectionBinder {
         .asInstanceOf[ClientRequestHandler[ClientDocumentRangeFormattingParams, js.Array[ClientTextEdit], js.Any]]
     )
 
-    val onDocumentSymbolHandlerJs
-      : js.Function2[ClientDocumentSymbolParams,
-                     CancellationToken,
-                     Thenable[js.Array[ClientDocumentSymbol] | js.Array[ClientSymbolInformation]]] =
+    val onDocumentSymbolHandlerJs: js.Function2[ClientDocumentSymbolParams, CancellationToken, Thenable[
+      js.Array[ClientDocumentSymbol] | js.Array[ClientSymbolInformation]
+    ]] =
       (param: ClientDocumentSymbolParams, _: CancellationToken) =>
         resolveHandler(DocumentSymbolRequestType)(param.toShared)
           .map(_.toClient)
@@ -241,9 +264,9 @@ object ProtocolConnectionBinder {
     protocolConnection.onRequest(
       DocumentSymbolRequest.`type`,
       onDocumentSymbolHandlerJs
-        .asInstanceOf[ClientRequestHandler[ClientDocumentSymbolParams,
-                                           js.Array[ClientDocumentSymbol] | js.Array[ClientSymbolInformation],
-                                           js.Any]]
+        .asInstanceOf[ClientRequestHandler[ClientDocumentSymbolParams, js.Array[ClientDocumentSymbol] | js.Array[
+          ClientSymbolInformation
+        ], js.Any]]
     )
 
     // COMMAND
@@ -264,7 +287,7 @@ object ProtocolConnectionBinder {
 
     // DocumentLink
     val onDocumentLinkHandlerJs
-      : js.Function2[ClientDocumentLinkParams, CancellationToken, Thenable[js.Array[ClientDocumentLink]]] =
+        : js.Function2[ClientDocumentLinkParams, CancellationToken, Thenable[js.Array[ClientDocumentLink]]] =
       (param: ClientDocumentLinkParams, _: CancellationToken) =>
         resolveHandler(DocumentLinkRequestType)(param.toShared)
           .map(_.map(_.toClient).toJSArray)
@@ -280,7 +303,7 @@ object ProtocolConnectionBinder {
 
     // DocumentHighlight
     val onDocumentHighlightHandlerJs
-      : js.Function2[ClientDocumentHighlightParams, CancellationToken, Thenable[js.Array[ClientDocumentHighlight]]] =
+        : js.Function2[ClientDocumentHighlightParams, CancellationToken, Thenable[js.Array[ClientDocumentHighlight]]] =
       (param: ClientDocumentHighlightParams, _: CancellationToken) =>
         resolveHandler(DocumentHighlightRequestType)(param.toShared)
           .map(_.map(_.toClient).toJSArray)
@@ -296,7 +319,7 @@ object ProtocolConnectionBinder {
 
     // FindFileUsage
     val onFindFileUsageHandlerJs
-      : js.Function2[ClientTextDocumentIdentifier, CancellationToken, Thenable[js.Array[ClientLocation]]] =
+        : js.Function2[ClientTextDocumentIdentifier, CancellationToken, Thenable[js.Array[ClientLocation]]] =
       (param: ClientTextDocumentIdentifier, _: CancellationToken) =>
         resolveHandler(FileUsageRequestType)(param.toShared)
           .map(_.map(_.toClient).toJSArray)
@@ -310,11 +333,26 @@ object ProtocolConnectionBinder {
     )
     // End FindFileUsage
 
+    // FindFileContents
+    val onFindFileContentsHandlerJs
+        : js.Function2[ClientTextDocumentIdentifier, CancellationToken, Thenable[ClientFileContentsResponse]] =
+      (param: ClientTextDocumentIdentifier, _: CancellationToken) =>
+        resolveHandler(FileContentsRequestType)(param.toShared)
+          .map(_.toClient)
+          .toJSPromise
+          .asInstanceOf[Thenable[ClientFileContentsResponse]]
+
+    protocolConnection.onRequest(
+      FileContentsRequest.`type`,
+      onFindFileContentsHandlerJs
+        .asInstanceOf[ClientRequestHandler[ClientTextDocumentIdentifier, ClientFileContentsResponse, js.Any]]
+    )
+    // End FindFileContents
+
     // Definition
-    val onDefinitionHandlerJs
-      : js.Function2[ClientDefinitionParams,
-                     CancellationToken,
-                     Thenable[ClientLocation | js.Array[ClientLocation] | js.Array[ClientLocationLink]]] =
+    val onDefinitionHandlerJs: js.Function2[ClientDefinitionParams, CancellationToken, Thenable[
+      ClientLocation | js.Array[ClientLocation] | js.Array[ClientLocationLink]
+    ]] =
       (param: ClientDefinitionParams, _: CancellationToken) =>
         resolveHandler(DefinitionRequestType)(param.toShared)
           .map(_.toClient)
@@ -324,17 +362,16 @@ object ProtocolConnectionBinder {
     protocolConnection.onRequest(
       DefinitionRequest.`type`,
       onDefinitionHandlerJs
-        .asInstanceOf[ClientRequestHandler[ClientDefinitionParams,
-                                           ClientLocation | js.Array[ClientLocation] | js.Array[ClientLocationLink],
-                                           js.Any]]
+        .asInstanceOf[ClientRequestHandler[ClientDefinitionParams, ClientLocation | js.Array[ClientLocation] | js.Array[
+          ClientLocationLink
+        ], js.Any]]
     )
     // End Definition
 
     // Implementation
-    val onImplementationHandlerJs
-      : js.Function2[ClientImplementationParams,
-                     CancellationToken,
-                     Thenable[ClientLocation | js.Array[ClientLocation] | js.Array[ClientLocationLink]]] =
+    val onImplementationHandlerJs: js.Function2[ClientImplementationParams, CancellationToken, Thenable[
+      ClientLocation | js.Array[ClientLocation] | js.Array[ClientLocationLink]
+    ]] =
       (param: ClientImplementationParams, _: CancellationToken) =>
         resolveHandler(ImplementationRequestType)(param.toShared)
           .map(_.toClient)
@@ -344,17 +381,16 @@ object ProtocolConnectionBinder {
     protocolConnection.onRequest(
       ImplementationRequest.`type`,
       onImplementationHandlerJs
-        .asInstanceOf[ClientRequestHandler[ClientImplementationParams,
-                                           ClientLocation | js.Array[ClientLocation] | js.Array[ClientLocationLink],
-                                           js.Any]]
+        .asInstanceOf[ClientRequestHandler[ClientImplementationParams, ClientLocation | js.Array[
+          ClientLocation
+        ] | js.Array[ClientLocationLink], js.Any]]
     )
     // End Implementation
 
     // TypeDefinition
-    val onTypeDefinitionHandlerJs
-      : js.Function2[ClientTypeDefinitionParams,
-                     CancellationToken,
-                     Thenable[ClientLocation | js.Array[ClientLocation] | js.Array[ClientLocationLink]]] =
+    val onTypeDefinitionHandlerJs: js.Function2[ClientTypeDefinitionParams, CancellationToken, Thenable[
+      ClientLocation | js.Array[ClientLocation] | js.Array[ClientLocationLink]
+    ]] =
       (param: ClientTypeDefinitionParams, _: CancellationToken) =>
         resolveHandler(TypeDefinitionRequestType)(param.toShared)
           .map(_.toClient)
@@ -364,15 +400,15 @@ object ProtocolConnectionBinder {
     protocolConnection.onRequest(
       TypeDefinitionRequest.`type`,
       onTypeDefinitionHandlerJs
-        .asInstanceOf[ClientRequestHandler[ClientTypeDefinitionParams,
-                                           ClientLocation | js.Array[ClientLocation] | js.Array[ClientLocationLink],
-                                           js.Any]]
+        .asInstanceOf[ClientRequestHandler[ClientTypeDefinitionParams, ClientLocation | js.Array[
+          ClientLocation
+        ] | js.Array[ClientLocationLink], js.Any]]
     )
     // End TypeDefinition
 
     // References
     val onReferencesHandlerJs
-      : js.Function2[ClientReferenceParams, CancellationToken, Thenable[js.Array[ClientLocation]]] =
+        : js.Function2[ClientReferenceParams, CancellationToken, Thenable[js.Array[ClientLocation]]] =
       (param: ClientReferenceParams, _: CancellationToken) =>
         resolveHandler(ReferenceRequestType)(param.toShared)
           .map(_.map(_.toClient).toJSArray)
@@ -402,8 +438,9 @@ object ProtocolConnectionBinder {
     // End Rename
 
     // PrepareRename
-    val onPrepareRenameHandlerJs
-      : js.Function2[ClientPrepareRenameParams, CancellationToken, Thenable[ClientRange | ClientPrepareRenameResult]] =
+    val onPrepareRenameHandlerJs: js.Function2[ClientPrepareRenameParams, CancellationToken, Thenable[
+      ClientRange | ClientPrepareRenameResult
+    ]] =
       (param: ClientPrepareRenameParams, _: CancellationToken) =>
         resolveHandler(PrepareRenameRequestType)(param.toShared)
           .map(_.map(_.toClient).orUndefined)
@@ -418,9 +455,9 @@ object ProtocolConnectionBinder {
     // End PrepareRename
 
     // CodeAction
-    val onCodeActionHandlerJs: js.Function2[ClientCodeActionParams,
-                                            CancellationToken,
-                                            Thenable[js.Array[ClientCommand] | js.Array[ClientCodeAction]]] =
+    val onCodeActionHandlerJs: js.Function2[ClientCodeActionParams, CancellationToken, Thenable[
+      js.Array[ClientCommand] | js.Array[ClientCodeAction]
+    ]] =
       (param: ClientCodeActionParams, _: CancellationToken) =>
         resolveHandler(CodeActionRequestType)(param.toShared)
           .map(_.map(_.toClient).toJSArray)
@@ -431,7 +468,8 @@ object ProtocolConnectionBinder {
       CodeActionRequest.`type`,
       onCodeActionHandlerJs
         .asInstanceOf[
-          ClientRequestHandler[ClientCodeActionParams, js.Array[ClientCommand] | js.Array[ClientCodeAction], js.Any]]
+          ClientRequestHandler[ClientCodeActionParams, js.Array[ClientCommand] | js.Array[ClientCodeAction], js.Any]
+        ]
     )
     // End CodeAction
 
@@ -451,8 +489,7 @@ object ProtocolConnectionBinder {
     // End Hover
 
     // FoldingRange
-    val onFoldingRangeHandler
-      : js.Function2[ClientFoldingRangeParams, CancellationToken, Thenable[ClientFoldingRange]] =
+    val onFoldingRangeHandler: js.Function2[ClientFoldingRangeParams, CancellationToken, Thenable[ClientFoldingRange]] =
       (param: ClientFoldingRangeParams, _: CancellationToken) =>
         resolveHandler(FoldingRangeRequestType)(param.toShared)
           .map(_.toClient)
@@ -468,7 +505,7 @@ object ProtocolConnectionBinder {
 
     // SelectionRange
     val onSelectionRangeHandler
-      : js.Function2[ClientSelectionRangeParams, CancellationToken, Thenable[ClientSelectionRange]] =
+        : js.Function2[ClientSelectionRangeParams, CancellationToken, Thenable[ClientSelectionRange]] =
       (param: ClientSelectionRangeParams, _: CancellationToken) =>
         resolveHandler(SelectionRangeRequestType)(param.toShared)
           .map(_.map(_.toClient).toJSArray)
@@ -483,9 +520,9 @@ object ProtocolConnectionBinder {
     // End SelectionRange
 
     // CleanDiagnosticTree
-    val onCleanDiagnosticTreeHandlerJs: js.Function2[ClientCleanDiagnosticTreeParams,
-                                                     CancellationToken,
-                                                     Thenable[js.Array[ClientAlsPublishDiagnosticsParams]]] =
+    val onCleanDiagnosticTreeHandlerJs: js.Function2[ClientCleanDiagnosticTreeParams, CancellationToken, Thenable[
+      js.Array[ClientAlsPublishDiagnosticsParams]
+    ]] =
       (param: ClientCleanDiagnosticTreeParams, _: CancellationToken) =>
         resolveHandler(CleanDiagnosticTreeRequestType)(param.toShared)
           .map(_.map(_.toClient).toJSArray)
@@ -496,14 +533,15 @@ object ProtocolConnectionBinder {
       ClientCleanDiagnosticTreeRequestType.`type`,
       onCleanDiagnosticTreeHandlerJs
         .asInstanceOf[
-          ClientRequestHandler[ClientCleanDiagnosticTreeParams, js.Array[ClientAlsPublishDiagnosticsParams], js.Any]]
+          ClientRequestHandler[ClientCleanDiagnosticTreeParams, js.Array[ClientAlsPublishDiagnosticsParams], js.Any]
+        ]
     )
     // End CleanDiagnosticTree
 
     // ConversionRequest
 
     val onConversionHandlerJs
-      : js.Function2[ClientConversionParams, CancellationToken, Thenable[js.Array[ClientSerializedDocument]]] =
+        : js.Function2[ClientConversionParams, CancellationToken, Thenable[js.Array[ClientSerializedDocument]]] =
       (param: ClientConversionParams, _: CancellationToken) =>
         resolveHandler(ConversionRequestType)(param.toShared)
           .map(_.toClient)
@@ -520,7 +558,7 @@ object ProtocolConnectionBinder {
     // SerializedJSONLD request
 
     val onSerializedHandlerJs
-      : js.Function2[ClientSerializationParams, CancellationToken, Thenable[ClientSerializationResult]] =
+        : js.Function2[ClientSerializationParams, CancellationToken, Thenable[ClientSerializationResult]] =
       (param: ClientSerializationParams, _: CancellationToken) =>
         resolveHandler(serializationProps.requestType)(param.toShared)
           .map(s => new ClientSerializationMessageConverter(s).toClient)
@@ -535,9 +573,9 @@ object ProtocolConnectionBinder {
     // End SerializedJSONLD request
 
     // RenameFileAction
-    val onRenameFileActionHandlerJs: js.Function2[ClientRenameFileActionParams,
-                                                  CancellationToken,
-                                                  Thenable[js.Array[ClientRenameFileActionResult]]] =
+    val onRenameFileActionHandlerJs: js.Function2[ClientRenameFileActionParams, CancellationToken, Thenable[
+      js.Array[ClientRenameFileActionResult]
+    ]] =
       (param: ClientRenameFileActionParams, _: CancellationToken) =>
         resolveHandler(RenameFileActionRequestType)(param.toShared)
           .map(_.toClient)
@@ -550,5 +588,30 @@ object ProtocolConnectionBinder {
         .asInstanceOf[ClientRequestHandler[ClientRenameFileActionParams, ClientRenameFileActionResult, js.Any]]
     )
     // End RenameFileAction
+
+    // Get Workspace Configuration
+    val onGetWorkspaceConfigurationRequestHandler
+        : js.Function2[ClientGetWorkspaceConfigurationParams, CancellationToken, Thenable[
+          ClientGetWorkspaceConfigurationResult
+        ]] =
+      (param: ClientGetWorkspaceConfigurationParams, _: CancellationToken) =>
+        resolveHandler(GetWorkspaceConfigurationRequestType)(param.toShared)
+          .map(_.toClient)
+          .toJSPromise
+          .asInstanceOf[Thenable[ClientGetWorkspaceConfigurationResult]]
+
+    protocolConnection.onRequest(
+      ClientGetWorkspaceConfigurationRequestType.`type`,
+      onGetWorkspaceConfigurationRequestHandler
+        .asInstanceOf[
+          ClientRequestHandler[ClientGetWorkspaceConfigurationParams, ClientGetWorkspaceConfigurationResult, js.Any]
+        ]
+    )
+    // End Get Workspace Configuration
+  }
+
+  protected def connectClient(protocolConnection: ProtocolConnection, clientAware: ClientAware): Unit = {
+    clientAware.connect(ProtocolConnectionLanguageClient(protocolConnection))
+    clientAware.connectAls(ProtocolConnectionLanguageClient(protocolConnection))
   }
 }

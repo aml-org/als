@@ -1,12 +1,18 @@
 [
   {
     "label": "Basic Authentication",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Basic Authentication",
-    "deprecated": [],
-    "preselect": [],
-    "sortText": "11Basic Authentication",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "10Basic Authentication",
     "filterText": "Basic Authentication",
     "insertText": null,
     "insertTextFormat": [
@@ -31,12 +37,18 @@
   },
   {
     "label": "Digest Authentication",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Digest Authentication",
-    "deprecated": [],
-    "preselect": [],
-    "sortText": "11Digest Authentication",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "10Digest Authentication",
     "filterText": "Digest Authentication",
     "insertText": null,
     "insertTextFormat": [
@@ -61,12 +73,18 @@
   },
   {
     "label": "OAuth 1.0",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "OAuth 1.0",
-    "deprecated": [],
-    "preselect": [],
-    "sortText": "11OAuth 1.0",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "10OAuth 1.0",
     "filterText": "OAuth 1.0",
     "insertText": null,
     "insertTextFormat": [
@@ -91,12 +109,18 @@
   },
   {
     "label": "OAuth 2.0",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "OAuth 2.0",
-    "deprecated": [],
-    "preselect": [],
-    "sortText": "11OAuth 2.0",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "10OAuth 2.0",
     "filterText": "OAuth 2.0",
     "insertText": null,
     "insertTextFormat": [
@@ -121,12 +145,18 @@
   },
   {
     "label": "x-",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "x-",
-    "deprecated": [],
-    "preselect": [],
-    "sortText": "11x-",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "10x-",
     "filterText": "x-",
     "insertText": null,
     "insertTextFormat": [

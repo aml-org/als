@@ -1,11 +1,17 @@
 [
   {
     "label": "#%Dialect 1.0",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Define a %Dialect 1.0 file",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11#%Dialect 1.0",
     "filterText": "#%Dialect 1.0",
     "insertText": null,
@@ -31,11 +37,17 @@
   },
   {
     "label": "#%Library / Dialect 1.0",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Define a %Library / Dialect 1.0 file",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11#%Library / Dialect 1.0",
     "filterText": "#%Library / Dialect 1.0",
     "insertText": null,
@@ -60,12 +72,90 @@
     "command": null
   },
   {
+    "label": "#%Library / Validation Profile 1.0",
+    "kind": [
+      
+    ],
+    "detail": "unknown",
+    "documentation": "Define a %Library / Validation Profile 1.0 file",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "11#%Library / Validation Profile 1.0",
+    "filterText": "#%Library / Validation Profile 1.0",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 0,
+          "character": 0
+        },
+        "end": {
+          "line": 0,
+          "character": 0
+        }
+      },
+      "newText": "#%Library / Validation Profile 1.0"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "#%Library / Vocabulary 1.0",
+    "kind": [
+      
+    ],
+    "detail": "unknown",
+    "documentation": "Define a %Library / Vocabulary 1.0 file",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "11#%Library / Vocabulary 1.0",
+    "filterText": "#%Library / Vocabulary 1.0",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 0,
+          "character": 0
+        },
+        "end": {
+          "line": 0,
+          "character": 0
+        }
+      },
+      "newText": "#%Library / Vocabulary 1.0"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
     "label": "#%Patch / Dialect 1.0",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Define a %Patch / Dialect 1.0 file",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11#%Patch / Dialect 1.0",
     "filterText": "#%Patch / Dialect 1.0",
     "insertText": null,
@@ -90,12 +180,198 @@
     "command": null
   },
   {
+    "label": "#%Patch / Validation Profile 1.0",
+    "kind": [
+      
+    ],
+    "detail": "unknown",
+    "documentation": "Define a %Patch / Validation Profile 1.0 file",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "11#%Patch / Validation Profile 1.0",
+    "filterText": "#%Patch / Validation Profile 1.0",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 0,
+          "character": 0
+        },
+        "end": {
+          "line": 0,
+          "character": 0
+        }
+      },
+      "newText": "#%Patch / Validation Profile 1.0"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "#%Patch / Vocabulary 1.0",
+    "kind": [
+      
+    ],
+    "detail": "unknown",
+    "documentation": "Define a %Patch / Vocabulary 1.0 file",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "11#%Patch / Vocabulary 1.0",
+    "filterText": "#%Patch / Vocabulary 1.0",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 0,
+          "character": 0
+        },
+        "end": {
+          "line": 0,
+          "character": 0
+        }
+      },
+      "newText": "#%Patch / Vocabulary 1.0"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "#%RegoValidation / Validation Profile 1.0",
+    "kind": [
+      
+    ],
+    "detail": "unknown",
+    "documentation": "Define a %RegoValidation / Validation Profile 1.0 file",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "11#%RegoValidation / Validation Profile 1.0",
+    "filterText": "#%RegoValidation / Validation Profile 1.0",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 0,
+          "character": 0
+        },
+        "end": {
+          "line": 0,
+          "character": 0
+        }
+      },
+      "newText": "#%RegoValidation / Validation Profile 1.0"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "#%Validation Profile 1.0",
+    "kind": [
+      
+    ],
+    "detail": "unknown",
+    "documentation": "Define a %Validation Profile 1.0 file",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "11#%Validation Profile 1.0",
+    "filterText": "#%Validation Profile 1.0",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 0,
+          "character": 0
+        },
+        "end": {
+          "line": 0,
+          "character": 0
+        }
+      },
+      "newText": "#%Validation Profile 1.0"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "#%Vocabulary 1.0",
+    "kind": [
+      
+    ],
+    "detail": "unknown",
+    "documentation": "Define a %Vocabulary 1.0 file",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "11#%Vocabulary 1.0",
+    "filterText": "#%Vocabulary 1.0",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 0,
+          "character": 0
+        },
+        "end": {
+          "line": 0,
+          "character": 0
+        }
+      },
+      "newText": "#%Vocabulary 1.0"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
     "label": "asyncapi: \"2.0.0\"",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Define a asyncapi 2.0.0 file",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11asyncapi: \"2.0.0\"",
     "filterText": "asyncapi: \"2.0.0\"",
     "insertText": null,
@@ -121,11 +397,17 @@
   },
   {
     "label": "openapi: \"3.0.0\"",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Define a openapi 3.0.0 file",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11openapi: \"3.0.0\"",
     "filterText": "openapi: \"3.0.0\"",
     "insertText": null,
@@ -151,11 +433,17 @@
   },
   {
     "label": "swagger: \"2.0\"",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Define a openapi 2.0 file",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11swagger: \"2.0\"",
     "filterText": "swagger: \"2.0\"",
     "insertText": null,

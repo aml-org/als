@@ -1,28 +1,16 @@
 package org.mulesoft.als.server.textsync
 
-import amf.client.remote.Content
-import amf.core.remote.Platform
-import amf.internal.environment.Environment
-import amf.internal.resource.ResourceLoader
-import org.mulesoft.amfintegration.AmfInstance
+import amf.core.client.common.remote.Content
+import amf.core.client.scala.resource.ResourceLoader
+import amf.core.internal.unsafe.PlatformSecrets
 import org.mulesoft.lsp.Initializable
 
 import scala.collection.mutable
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
-case class TextDocumentContainer(givenEnvironment: Environment,
-                                 override val platform: Platform,
-                                 override val amfConfiguration: AmfInstance,
-                                 private val uriToEditor: mutable.Map[String, TextDocument] = mutable.Map())
-    extends EnvironmentProvider
-    with Initializable {
-
-  def patchUri(uri: String, patchedContent: TextDocument): TextDocumentContainer = {
-    val copiedMap = uriToEditor.clone()
-    copiedMap.update(uri, patchedContent)
-    this.copy(uriToEditor = copiedMap)
-  }
+case class TextDocumentContainer(private val uriToEditor: mutable.Map[String, TextDocument] = mutable.Map())
+    extends EnvironmentProvider {
 
   def +(tuple: (String, TextDocument)): TextDocumentContainer = {
     uriToEditor.put(tuple._1, tuple._2)
@@ -44,40 +32,34 @@ case class TextDocumentContainer(givenEnvironment: Environment,
 
   def versionOf(uri: String): Option[Int] = get(uri).map(_.version)
 
-  val environment: Environment = givenEnvironment
-    .add(new ResourceLoader {
+  private def staticResourceLoader =
+    new ResourceLoader {
+      private val current: Map[String, String] =
+        uriToEditor.map(t => t._1 -> t._2.text).toMap
 
       /** Fetch specified resource and return associated content. Resource should have benn previously accepted. */
       override def fetch(resource: String): Future[Content] =
-        Future { new Content(getContent(resource), resource) }
+        Future {
+          new Content(current(resource), resource)
+        }
 
       /** Accepts specified resource. */
-      override def accepts(resource: String): Boolean = exists(resource)
-    })
+      override def accepts(resource: String): Boolean =
+        current.contains(resource)
+    }
 
-  override def environmentSnapshot(): Environment =
-    givenEnvironment
-      .add(new ResourceLoader {
-        private val current: Map[String, String] =
-          uriToEditor.map(t => t._1 -> t._2.text).toMap
+  override def getResourceLoader: ResourceLoader =
+    staticResourceLoader
 
-        /** Fetch specified resource and return associated content. Resource should have benn previously accepted. */
-        override def fetch(resource: String): Future[Content] =
-          Future {
-            new Content(current(resource), resource)
-          }
+  override def openedFiles: Seq[String] = uriToEditor.keys.toSeq
 
-        /** Accepts specified resource. */
-        override def accepts(resource: String): Boolean =
-          current.contains(resource)
-      })
+  override def filesInMemory: Map[String, TextDocument] = uriToEditor.toMap
 
+  override def initialize(): Future[Unit] = Future.successful()
 }
 
-trait EnvironmentProvider extends Initializable {
-  def environmentSnapshot(): Environment
-  val amfConfiguration: AmfInstance
-  val platform: Platform
-
-  override def initialize(): Future[Unit] = amfConfiguration.init()
+trait EnvironmentProvider extends Initializable with PlatformSecrets {
+  def getResourceLoader: ResourceLoader
+  def openedFiles: Seq[String]
+  def filesInMemory: Map[String, TextDocument]
 }

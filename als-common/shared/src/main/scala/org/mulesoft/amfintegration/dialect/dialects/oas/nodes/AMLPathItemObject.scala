@@ -1,10 +1,10 @@
 package org.mulesoft.amfintegration.dialect.dialects.oas.nodes
 
-import amf.core.vocabulary.Namespace.XsdTypes.xsdString
+import amf.aml.client.scala.model.domain.PropertyMapping
+import amf.apicontract.internal.metamodel.domain.EndPointModel
+import amf.core.client.scala.vocabulary.Namespace.XsdTypes.xsdString
 import org.mulesoft.amfintegration.dialect.dialects.oas.OAS20Dialect.DialectLocation
 import org.mulesoft.amfintegration.dialect.dialects.oas.{OAS20Dialect, OAS30Dialect}
-import amf.plugins.document.vocabularies.model.domain.PropertyMapping
-import amf.plugins.domain.webapi.metamodel.EndPointModel
 
 abstract class AMLPathItemObject extends DialectNode {
 
@@ -15,6 +15,10 @@ abstract class AMLPathItemObject extends DialectNode {
   def versionProperties: Seq[PropertyMapping]
 
   override def properties: Seq[PropertyMapping] = versionProperties ++ Seq(
+    PropertyMapping()
+      .withId(DialectLocation + "#/declarations/PathItem/name")
+      .withNodePropertyMapping(EndPointModel.Path.value.iri())
+      .withObjectRange(Seq("null")),
     PropertyMapping()
       .withId(DialectLocation + "#/declarations/PathItem/get")
       .withName("get")
@@ -68,7 +72,9 @@ object Oas20PathItemObject extends AMLPathItemObject {
           Seq(
             Oas20ParamObject.id,
             Oas20BodyParameterObject.id
-          )))
+          )
+        )
+    )
 }
 
 object Oas30PathItemObject extends AMLPathItemObject {
@@ -102,8 +108,10 @@ object Oas30PathItemObject extends AMLPathItemObject {
       .withName("parameters")
       .withNodePropertyMapping(EndPointModel.Parameters.value.iri())
       .withAllowMultiple(true)
-      .withObjectRange(Seq(
-        Oas30PathItemObject.id
-      ))
+      .withObjectRange(
+        Seq(
+          Oas30PathItemObject.id
+        )
+      )
   )
 }

@@ -1,0 +1,74 @@
+[
+  {
+    "label": "New schema",
+    "kind": [
+      
+    ],
+    "detail": "template",
+    "documentation": "schema",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "20New schema",
+    "filterText": "\"schema\": {\n  \"description\": \"$1\",\n  \"type\": \"$2\"\n}",
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 10,
+          "character": 10
+        },
+        "end": {
+          "line": 10,
+          "character": 13
+        }
+      },
+      "newText": "\"schema\": {\n  \"description\": \"$1\",\n  \"type\": \"$2\"\n}"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "schema",
+    "kind": [
+      
+    ],
+    "detail": "schemas",
+    "documentation": "schema",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "10schema",
+    "filterText": "\"schema\": {\n  \"$1\"\n}",
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 10,
+          "character": 10
+        },
+        "end": {
+          "line": 10,
+          "character": 13
+        }
+      },
+      "newText": "\"schema\": {\n  \"$1\"\n}"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  }
+]

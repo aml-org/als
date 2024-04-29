@@ -1,13 +1,19 @@
 [
   {
     "label": "encodes",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "encodes",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11encodes",
-    "filterText": "encodes",
+    "filterText": "encodes: ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -15,15 +21,15 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 0,
-          "character": 0
+          "line": 4,
+          "character": 4
         },
         "end": {
-          "line": 0,
-          "character": 0
+          "line": 4,
+          "character": 4
         }
       },
-      "newText": "encodes:\n    "
+      "newText": "encodes: "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,

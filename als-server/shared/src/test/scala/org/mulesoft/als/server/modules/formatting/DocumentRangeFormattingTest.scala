@@ -1,11 +1,13 @@
 package org.mulesoft.als.server.modules.formatting
 
+import amf.core.client.scala.AMFGraphConfiguration
 import org.mulesoft.als.common.MarkerFinderTest
 import org.mulesoft.als.common.diff.{FileAssertionTest, WorkspaceEditsTest}
 import org.mulesoft.als.convert.LspRangeConverter
+import org.mulesoft.als.server.client.scala.LanguageServerBuilder
 import org.mulesoft.als.server.modules.WorkspaceManagerFactoryBuilder
 import org.mulesoft.als.server.protocol.LanguageServer
-import org.mulesoft.als.server.{LanguageServerBaseTest, LanguageServerBuilder, MockDiagnosticClientNotifier}
+import org.mulesoft.als.server.{LanguageServerBaseTest, MockDiagnosticClientNotifier}
 import org.mulesoft.lsp.configuration.FormattingOptions
 import org.mulesoft.lsp.edit.{TextEdit, WorkspaceEdit}
 import org.mulesoft.lsp.feature.RequestHandler
@@ -31,11 +33,13 @@ class DocumentRangeFormattingTest
 
   def buildServer(): LanguageServer = {
     val factory =
-      new WorkspaceManagerFactoryBuilder(new MockDiagnosticClientNotifier, logger).buildWorkspaceManagerFactory()
-    new LanguageServerBuilder(factory.documentManager,
-                              factory.workspaceManager,
-                              factory.configurationManager,
-                              factory.resolutionTaskManager)
+      new WorkspaceManagerFactoryBuilder(new MockDiagnosticClientNotifier).buildWorkspaceManagerFactory()
+    new LanguageServerBuilder(
+      factory.documentManager,
+      factory.workspaceManager,
+      factory.configurationManager,
+      factory.resolutionTaskManager
+    )
       .addRequestModule(factory.documentFormattingManager)
       .addRequestModule(factory.documentRangeFormattingManager)
       .build()
@@ -76,28 +80,38 @@ class DocumentRangeFormattingTest
     })
   }
 
+  test("Should format just a node in YAML") {
+    val (original, expected) = files("basic-zero-range-selected.yaml")
+    runTest(buildServer(), original, expected).map(result => {
+      assert(result.nonEmpty)
+    })
+  }
+
   def runTest(server: LanguageServer, fileUri: String, expectedUri: String): Future[Seq[TextEdit]] = {
     val fileId = TextDocumentIdentifier(fileUri)
-    for {
-      originalContent <- platform.resolve(fileUri).map(_.stream.toString)
-      markers         <- Future(findMarkers(originalContent))
-      formattingResult <- {
-        assert(markers.length == 2)
-        openFile(server)(fileUri, markers.head.content)
-        val start = markers.head
-        val end   = markers.tail.head
-        val range: Range =
-          Range(LspRangeConverter.toLspPosition(start.position), LspRangeConverter.toLspPosition(end.position))
-        val handler: RequestHandler[DocumentRangeFormattingParams, Seq[TextEdit]] =
-          server.resolveHandler(DocumentRangeFormattingRequestType).get
-        handler(DocumentRangeFormattingParams(fileId, range, FormattingOptions(2, insertSpaces = true)))
+    withServer(server)(server => {
+      for {
+        originalContent <- platform.fetchContent(fileUri, AMFGraphConfiguration.predefined()).map(_.stream.toString)
+        markers         <- Future(findMarkers(originalContent))
+        _               <- openFile(server)(fileUri, markers.head.content)
+        formattingResult <- {
+          assert(markers.length == 2)
+          val start = markers.head
+          val end   = markers.tail.head
+          val range: Range =
+            Range(LspRangeConverter.toLspPosition(start.position), LspRangeConverter.toLspPosition(end.position))
+          val handler: RequestHandler[DocumentRangeFormattingParams, Seq[TextEdit]] =
+            server.resolveHandler(DocumentRangeFormattingRequestType).get
+          handler(DocumentRangeFormattingParams(fileId, range, FormattingOptions(2, insertSpaces = true)))
+        }
+        tmp <- writeTemporaryFile(expectedUri)(
+          applyEdits(WorkspaceEdit(Some(Map(fileUri -> formattingResult)), None), Option(markers.head.content))
+        )
+        _ <- assertDifferences(tmp, expectedUri)
+      } yield {
+        formattingResult
       }
-      tmp <- writeTemporaryFile(expectedUri)(
-        applyEdits(WorkspaceEdit(Some(Map(fileUri -> formattingResult)), None), Option(markers.head.content)))
-      r <- assertDifferences(tmp, expectedUri)
-    } yield {
-      formattingResult
-    }
+    })
   }
 
 }

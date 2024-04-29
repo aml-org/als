@@ -1,0 +1,74 @@
+[
+  {
+    "label": "x-maintainer",
+    "kind": [
+      
+    ],
+    "detail": "extensions",
+    "documentation": "x-maintainer",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "11x-maintainer",
+    "filterText": "x-maintainer:\n  ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 4,
+          "character": 0
+        },
+        "end": {
+          "line": 4,
+          "character": 2
+        }
+      },
+      "newText": "x-maintainer:\n  "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "x-rateLimiting",
+    "kind": [
+      
+    ],
+    "detail": "extensions",
+    "documentation": "x-rateLimiting",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "11x-rateLimiting",
+    "filterText": "x-rateLimiting: ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 4,
+          "character": 0
+        },
+        "end": {
+          "line": 4,
+          "character": 2
+        }
+      },
+      "newText": "x-rateLimiting: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  }
+]

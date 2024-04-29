@@ -1,6 +1,6 @@
 package org.mulesoft.als.suggestions.plugins.aml.webapi.raml.raml10
 
-import amf.plugins.document.vocabularies.model.domain.NodeMapping
+import amf.aml.client.scala.model.domain.NodeMapping
 import org.mulesoft.als.suggestions.plugins.aml.webapi.raml.RamlBooleanPropertyValue
 import org.mulesoft.amfintegration.dialect.dialects.raml.raml10.Raml10TypesDialect
 

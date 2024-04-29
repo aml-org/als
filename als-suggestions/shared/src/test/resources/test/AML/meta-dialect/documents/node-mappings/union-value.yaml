@@ -1,0 +1,15 @@
+#%Dialect 1.0
+uses:
+  my-voc: vocabulary.yaml
+nodeMappings:
+  Member:
+    classTerm: my-voc.Person
+    mapping:
+      name:
+        propertyTerm: my-voc.name
+        range: string
+  Plane:
+    classTerm: my-voc.Airplane
+  myNodeMapping:
+    union:
+      - *

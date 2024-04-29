@@ -1,19 +1,20 @@
 package org.mulesoft.als.nodeclient
 
+import amf.core.internal.unsafe.PlatformSecrets
+import amf.custom.validation.client.platform.CustomValidator
+import amf.custom.validation.client.platform.validator.JsCustomValidator
+import amf.custom.validation.internal.convert.AmfCustomValidatorClientConverters.ClientFuture
+import amf.custom.validation.internal.unsafe.AmfCustomValidatorNode
 import io.scalajs.nodejs.process
-import org.mulesoft.als.server.{
-  ClientNotifierFactory,
-  JsSerializationProps,
-  LanguageServerFactory,
-  ProtocolConnectionBinder
-}
+import org.mulesoft.als.server.client.platform.AlsLanguageServerFactory
+import org.mulesoft.als.server.{ClientNotifierFactory, JsSerializationProps, ProtocolConnectionBinder}
 import org.mulesoft.als.vscode.{ProtocolConnection, ServerSocketTransport}
 
 // $COVERAGE-OFF$ Incompatibility between scoverage and scalaJS
 
-object Main {
+object Main extends PlatformSecrets {
   case class Options(port: Int)
-  val DefaultOptions = Options(4000)
+  val DefaultOptions: Options = Options(4000)
 
   def readOptions(args: Array[String]): Options = {
     def innerReadOptions(options: Options, list: List[String]): Options =
@@ -21,8 +22,9 @@ object Main {
         case Nil => options
         case "--port" :: value :: tail =>
           innerReadOptions(options.copy(port = value.toInt), tail)
-        case _ =>
-          throw new IllegalArgumentException()
+        case e :: tail =>
+          println(s"[WARN] Unrecognized option: $e")
+          innerReadOptions(options, tail)
       }
 
     innerReadOptions(DefaultOptions, args.toList)
@@ -30,16 +32,25 @@ object Main {
 
   def main(args: Array[String]): Unit = {
     println("Starting ALS...")
-    val options = readOptions(process.argv.drop(2).toArray)
+    val options = readOptions(process.Process.argv.drop(2).toArray)
 
     try {
       println("Starting in port " + options.port)
 
       val logger = JsPrintLnLogger()
 
-      val clientConnection   = ClientNotifierFactory.createWithClientAware(logger)
+      val clientConnection   = ClientNotifierFactory.createWithClientAware()
       val serializationProps = JsSerializationProps(clientConnection)
-      val languageServer     = LanguageServerFactory.fromLoaders(clientConnection, serializationProps)
+
+      val languageServer = new AlsLanguageServerFactory(clientConnection)
+        .withSerializationProps(serializationProps)
+        .withAmfCustomValidator(new CustomValidator {
+          override def validate(document: String, profile: String): ClientFuture[String] =
+            new JsCustomValidator(AmfCustomValidatorNode).validate(document, profile)
+        })
+        .withDirectoryResolver(new ClientPlatformDirectoryResolver(platform))
+        .withLogger(logger)
+        .build()
 
       val transport  = ServerSocketTransport(options.port)
       val reader     = transport._1

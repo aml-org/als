@@ -1,8 +1,8 @@
 package org.mulesoft.amfintegration.dialect.dialects.jsonschema.oas.oas2
 
-import amf.core.vocabulary.Namespace.XsdTypes._
-import amf.plugins.document.vocabularies.model.domain.PropertyMapping
-import amf.plugins.domain.shapes.metamodel.{ArrayShapeModel, NodeShapeModel}
+import amf.aml.client.scala.model.domain.PropertyMapping
+import amf.core.client.scala.vocabulary.Namespace.XsdTypes.xsdString
+import amf.shapes.internal.domain.metamodel.{ArrayShapeModel, NodeShapeModel}
 import org.mulesoft.amfintegration.dialect.dialects.jsonschema.JsonSchemaForOasWrapper
 import org.mulesoft.amfintegration.dialect.dialects.oas.OAS20Dialect.DialectLocation
 
@@ -19,7 +19,8 @@ object JsonSchemas extends JsonSchemaForOasWrapper {
           "tsv",
           "pipes",
           "multi"
-        ))
+        )
+      )
       .withLiteralRange(xsdString.iri())
   )
 

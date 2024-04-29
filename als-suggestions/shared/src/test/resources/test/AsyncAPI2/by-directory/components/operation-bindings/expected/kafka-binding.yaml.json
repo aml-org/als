@@ -1,11 +1,17 @@
 [
   {
     "label": "bindingVersion",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "bindingVersion",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11bindingVersion",
     "filterText": "bindingVersion: ",
     "insertText": null,
@@ -31,11 +37,17 @@
   },
   {
     "label": "clientId",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "clientId",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11clientId",
     "filterText": "clientId: ",
     "insertText": null,
@@ -61,11 +73,17 @@
   },
   {
     "label": "groupId",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "groupId",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11groupId",
     "filterText": "groupId: ",
     "insertText": null,

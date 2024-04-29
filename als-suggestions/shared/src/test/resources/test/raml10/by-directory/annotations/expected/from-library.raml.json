@@ -1,0 +1,38 @@
+[
+  {
+    "label": "myAnnotation)",
+    "kind": [
+      
+    ],
+    "detail": "annotations",
+    "documentation": "(lib.myAnnotation)",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "21myAnnotation)",
+    "filterText": "(lib.myAnnotation): ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 3,
+          "character": 0
+        },
+        "end": {
+          "line": 3,
+          "character": 5
+        }
+      },
+      "newText": "(lib.myAnnotation): "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  }
+]

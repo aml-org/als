@@ -1,8 +1,8 @@
 package org.mulesoft.amfintegration.dialect.dialects.metadialect
 
-import amf.core.vocabulary.Namespace.XsdTypes._
-import amf.plugins.document.vocabularies.metamodel.domain.{NodeMappingModel, PropertyMappingModel}
-import amf.plugins.document.vocabularies.model.domain.PropertyMapping
+import amf.aml.client.scala.model.domain.PropertyMapping
+import amf.aml.internal.metamodel.domain.{NodeMappingModel, PropertyMappingModel}
+import amf.core.client.scala.vocabulary.Namespace.XsdTypes.{xsdString, xsdUri}
 import org.mulesoft.amfintegration.dialect.dialects.oas.nodes.DialectNode
 
 object NodeMappingObjectNode extends DialectNode {
@@ -16,6 +16,7 @@ object NodeMappingObjectNode extends DialectNode {
         .withId(location + s"#/declarations/$name/classTerm")
         .withNodePropertyMapping(NodeMappingModel.NodeTypeMapping.value.iri())
         .withName("classTerm")
+        .withMinCount(1)
         .withLiteralRange(xsdString.iri()),
       PropertyMapping()
         .withId(location + s"#/declarations/$name/patch")
@@ -30,7 +31,8 @@ object NodeMappingObjectNode extends DialectNode {
             "upsert",
             "ignore",
             "fail"
-          )),
+          )
+        ),
       PropertyMapping()
         .withId(location + s"#/declarations/$name/mappings")
         .withNodePropertyMapping(NodeMappingModel.PropertiesMapping.value.iri())
@@ -47,11 +49,5 @@ object NodeMappingObjectNode extends DialectNode {
         .withNodePropertyMapping(NodeMappingModel.IdTemplate.value.iri())
         .withName("idTemplate")
         .withLiteralRange(xsdUri.iri())
-//    PropertyMapping()
-//      .withId(location + s"#/declarations/$name/union") // not sure, just to be suggested when empty
-//      .withNodePropertyMapping(UnionNodeMappingModel.ObjectRange.value.iri())
-//      .withName("union")
-//      .withLiteralRange(xsdUri.iri())
-//      .withAllowMultiple(true)
-    ) ++ UnionMappingObjectNode.properties // temporally. WE should decide how to handle de union node for suggestions over union or nP
+    )
 }

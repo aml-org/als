@@ -1,11 +1,17 @@
 [
   {
     "label": "!include",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "inclusion tag",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11!include",
     "filterText": "!include ",
     "insertText": null,
@@ -31,12 +37,18 @@
   },
   {
     "label": "any",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "any",
-    "deprecated": [],
-    "preselect": [],
-    "sortText": "11any",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "10any",
     "filterText": "any",
     "insertText": null,
     "insertTextFormat": [
@@ -61,12 +73,18 @@
   },
   {
     "label": "anyNode",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "anyNode",
-    "deprecated": [],
-    "preselect": [],
-    "sortText": "11anyNode",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "10anyNode",
     "filterText": "anyNode",
     "insertText": null,
     "insertTextFormat": [
@@ -91,12 +109,18 @@
   },
   {
     "label": "anyType",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "anyType",
-    "deprecated": [],
-    "preselect": [],
-    "sortText": "11anyType",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "10anyType",
     "filterText": "anyType",
     "insertText": null,
     "insertTextFormat": [
@@ -121,12 +145,18 @@
   },
   {
     "label": "anyUri",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "anyUri",
-    "deprecated": [],
-    "preselect": [],
-    "sortText": "11anyUri",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "10anyUri",
     "filterText": "anyUri",
     "insertText": null,
     "insertTextFormat": [
@@ -151,12 +181,18 @@
   },
   {
     "label": "boolean",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "boolean",
-    "deprecated": [],
-    "preselect": [],
-    "sortText": "11boolean",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "10boolean",
     "filterText": "boolean",
     "insertText": null,
     "insertTextFormat": [
@@ -181,12 +217,18 @@
   },
   {
     "label": "date",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "date",
-    "deprecated": [],
-    "preselect": [],
-    "sortText": "11date",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "10date",
     "filterText": "date",
     "insertText": null,
     "insertTextFormat": [
@@ -211,12 +253,18 @@
   },
   {
     "label": "dateTime",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "dateTime",
-    "deprecated": [],
-    "preselect": [],
-    "sortText": "11dateTime",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "10dateTime",
     "filterText": "dateTime",
     "insertText": null,
     "insertTextFormat": [
@@ -241,12 +289,18 @@
   },
   {
     "label": "decimal",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "decimal",
-    "deprecated": [],
-    "preselect": [],
-    "sortText": "11decimal",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "10decimal",
     "filterText": "decimal",
     "insertText": null,
     "insertTextFormat": [
@@ -271,12 +325,18 @@
   },
   {
     "label": "double",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "double",
-    "deprecated": [],
-    "preselect": [],
-    "sortText": "11double",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "10double",
     "filterText": "double",
     "insertText": null,
     "insertTextFormat": [
@@ -301,12 +361,18 @@
   },
   {
     "label": "duration",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "duration",
-    "deprecated": [],
-    "preselect": [],
-    "sortText": "11duration",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "10duration",
     "filterText": "duration",
     "insertText": null,
     "insertTextFormat": [
@@ -331,12 +397,18 @@
   },
   {
     "label": "float",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "float",
-    "deprecated": [],
-    "preselect": [],
-    "sortText": "11float",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "10float",
     "filterText": "float",
     "insertText": null,
     "insertTextFormat": [
@@ -361,12 +433,18 @@
   },
   {
     "label": "integer",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "integer",
-    "deprecated": [],
-    "preselect": [],
-    "sortText": "11integer",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "10integer",
     "filterText": "integer",
     "insertText": null,
     "insertTextFormat": [
@@ -391,12 +469,18 @@
   },
   {
     "label": "link",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "link",
-    "deprecated": [],
-    "preselect": [],
-    "sortText": "11link",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "10link",
     "filterText": "link",
     "insertText": null,
     "insertTextFormat": [
@@ -421,11 +505,17 @@
   },
   {
     "label": "myNodeMapping",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "myNodeMapping",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11myNodeMapping",
     "filterText": "myNodeMapping",
     "insertText": null,
@@ -451,12 +541,18 @@
   },
   {
     "label": "number",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "number",
-    "deprecated": [],
-    "preselect": [],
-    "sortText": "11number",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "10number",
     "filterText": "number",
     "insertText": null,
     "insertTextFormat": [
@@ -481,11 +577,17 @@
   },
   {
     "label": "otherMapping",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "otherMapping",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11otherMapping",
     "filterText": "otherMapping",
     "insertText": null,
@@ -511,12 +613,18 @@
   },
   {
     "label": "string",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "string",
-    "deprecated": [],
-    "preselect": [],
-    "sortText": "11string",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "10string",
     "filterText": "string",
     "insertText": null,
     "insertTextFormat": [
@@ -541,12 +649,18 @@
   },
   {
     "label": "time",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "time",
-    "deprecated": [],
-    "preselect": [],
-    "sortText": "11time",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "10time",
     "filterText": "time",
     "insertText": null,
     "insertTextFormat": [
@@ -571,12 +685,18 @@
   },
   {
     "label": "uri",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "uri",
-    "deprecated": [],
-    "preselect": [],
-    "sortText": "11uri",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "10uri",
     "filterText": "uri",
     "insertText": null,
     "insertTextFormat": [

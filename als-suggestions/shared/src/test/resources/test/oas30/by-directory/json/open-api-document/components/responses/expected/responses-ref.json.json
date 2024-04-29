@@ -1,11 +1,17 @@
 [
   {
     "label": "#/components/responses/test",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Reference to #/components/responses/test",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11#/components/responses/test",
     "filterText": "\"#/components/responses/test\"",
     "insertText": null,
@@ -31,11 +37,17 @@
   },
   {
     "label": "expected/",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Path suggestion",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11expected/",
     "filterText": "\"expected/\"",
     "insertText": null,
@@ -60,12 +72,90 @@
     "command": null
   },
   {
-    "label": "responses.json",
-    "kind": [],
+    "label": "response-name-after-declaration.json",
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Path suggestion",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "11response-name-after-declaration.json",
+    "filterText": "\"response-name-after-declaration.json\"",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 14,
+          "character": 20
+        },
+        "end": {
+          "line": 14,
+          "character": 22
+        }
+      },
+      "newText": "\"response-name-after-declaration.json\""
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "response-name.json",
+    "kind": [
+      
+    ],
+    "detail": "unknown",
+    "documentation": "Path suggestion",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "11response-name.json",
+    "filterText": "\"response-name.json\"",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 14,
+          "character": 20
+        },
+        "end": {
+          "line": 14,
+          "character": 22
+        }
+      },
+      "newText": "\"response-name.json\""
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "responses.json",
+    "kind": [
+      
+    ],
+    "detail": "unknown",
+    "documentation": "Path suggestion",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11responses.json",
     "filterText": "\"responses.json\"",
     "insertText": null,

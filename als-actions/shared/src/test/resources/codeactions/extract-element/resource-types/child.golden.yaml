@@ -1,0 +1,41 @@
+documentChanges:
+  file://als-actions/shared/src/test/resources/codeactions/extract-element/resource-types/raml10.raml:
+    -
+      from:
+        line: 17
+        column: 8
+      to:
+        line: 32
+        column: 0
+      content: |
+        +
+
+            /brother:
+              get:
+                responses:
+                  "200":
+                    body: Person
+            /complex/{id}:
+              uriParameters:
+                id:
+                  type: number
+            type: resourceType
+    -
+      from:
+        line: 2
+        column: 0
+      to:
+        line: 2
+        column: 0
+      content: |
+        +
+
+        resourceTypes:
+          resourceType:
+            uriParameters:
+              id:
+                type: number
+            get:
+              responses:
+                "200":
+                  body: Person

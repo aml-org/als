@@ -3,12 +3,11 @@ package org.mulesoft.lsp.feature.telemetry
 import java.util.UUID
 
 import org.mulesoft.lsp.feature.telemetry.MessageTypes.MessageTypes
+import org.mulesoft.als.logger.Logger
 
 import scala.concurrent.Future
 
 trait TelemeteredTask[P, R] {
-
-  protected def telemetry: TelemetryProvider
 
   protected def task(params: P): Future[R]
 
@@ -20,7 +19,7 @@ trait TelemeteredTask[P, R] {
   protected def uuid(params: P): String = UUID.randomUUID().toString
 
   final def run(params: P): Future[R] =
-    telemetry.timeProcess(
+    Logger.timeProcess(
       code(params),
       beginType(params),
       endType(params),

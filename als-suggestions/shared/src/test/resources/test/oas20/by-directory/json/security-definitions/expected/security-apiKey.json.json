@@ -1,11 +1,17 @@
 [
   {
     "label": "description",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "docs",
     "documentation": "description",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11description",
     "filterText": "\"description\": \"$1\"",
     "insertText": null,
@@ -20,7 +26,7 @@
         },
         "end": {
           "line": 5,
-          "character": 9
+          "character": 8
         }
       },
       "newText": "\"description\": \"$1\""
@@ -31,11 +37,17 @@
   },
   {
     "label": "in",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "security",
     "documentation": "in",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "10in",
     "filterText": "\"in\": \"$1\"",
     "insertText": null,
@@ -50,7 +62,7 @@
         },
         "end": {
           "line": 5,
-          "character": 9
+          "character": 8
         }
       },
       "newText": "\"in\": \"$1\""
@@ -61,11 +73,17 @@
   },
   {
     "label": "name",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "security",
     "documentation": "name",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "10name",
     "filterText": "\"name\": \"$1\"",
     "insertText": null,
@@ -80,7 +98,7 @@
         },
         "end": {
           "line": 5,
-          "character": 9
+          "character": 8
         }
       },
       "newText": "\"name\": \"$1\""

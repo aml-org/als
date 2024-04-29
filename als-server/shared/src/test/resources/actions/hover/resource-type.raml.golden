@@ -1,0 +1,5 @@
+hovers:
+  (6,11):
+    range: Range(common.Position[L:3,C:2],common.Position[L:6,C:0])
+    contents:
+      - Type of document base unit encoding a RAML resource type

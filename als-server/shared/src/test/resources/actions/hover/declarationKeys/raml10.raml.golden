@@ -1,0 +1,21 @@
+hovers:
+  (9,7):
+    range: Range(common.Position[L:8,C:0],common.Position[L:12,C:0])
+    contents:
+      - Declarations of reusable authentication mechanisms to ensure secured operations
+  (13,1):
+    range: Range(common.Position[L:12,C:0],common.Position[L:16,C:0])
+    contents:
+      - Declarations of sets of characteristics to reuse across multiple methods
+  (17,2):
+    range: Range(common.Position[L:16,C:0],common.Position[L:20,C:0])
+    contents:
+      - Contains declarations of reusable Schemas
+  (21,3):
+    range: Range(common.Position[L:20,C:0],common.Position[L:23,C:0])
+    contents:
+      - Declarations of reusable metadata extensions
+  (24,12):
+    range: Range(common.Position[L:23,C:0],common.Position[L:25,C:0])
+    contents:
+      - Declarations of sets of characteristics to reuse across multiple resources

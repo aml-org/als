@@ -1,15 +1,12 @@
 package org.mulesoft.als.server.modules.actions
 
-import java.util.UUID
-
-import amf.core.model.document.{BaseUnit, Document, ExternalFragment}
 import org.mulesoft.als.actions.formatting.RangeFormatting
-import org.mulesoft.als.common.YamlWrapper.AlsInputRange
+import org.mulesoft.als.logger.Logger
 import org.mulesoft.als.server.RequestModule
-import org.mulesoft.als.server.logger.Logger
 import org.mulesoft.als.server.workspace.WorkspaceManager
-import org.mulesoft.amfintegration.AmfImplicits.{AmfAnnotationsImp, BaseUnitImp}
+import org.mulesoft.amfintegration.AmfImplicits.BaseUnitImp
 import org.mulesoft.lsp.ConfigType
+import org.mulesoft.lsp.configuration.WorkDoneProgressOptions
 import org.mulesoft.lsp.edit.TextEdit
 import org.mulesoft.lsp.feature.TelemeteredRequestHandler
 import org.mulesoft.lsp.feature.documentFormatting.{
@@ -20,22 +17,20 @@ import org.mulesoft.lsp.feature.documentFormatting.{
 }
 import org.mulesoft.lsp.feature.telemetry.MessageTypes.MessageTypes
 import org.mulesoft.lsp.feature.telemetry.{MessageTypes, TelemetryProvider}
-import org.yaml.model.YPart
 
+import java.util.UUID
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
-class DocumentFormattingManager(val workspace: WorkspaceManager,
-                                private val telemetryProvider: TelemetryProvider,
-                                private val logger: Logger)
-    extends RequestModule[DocumentFormattingClientCapabilities, Boolean] {
+class DocumentFormattingManager(
+    val workspace: WorkspaceManager
+) extends RequestModule[DocumentFormattingClientCapabilities, Either[Boolean, WorkDoneProgressOptions]]
+    with FormattingManager {
 
   private var active = false
 
   override def getRequestHandlers: Seq[TelemeteredRequestHandler[_, _]] =
     Seq(new TelemeteredRequestHandler[DocumentFormattingParams, Seq[TextEdit]] {
-      override protected def telemetry: TelemetryProvider = telemetryProvider
-
       override protected def task(params: DocumentFormattingParams): Future[Seq[TextEdit]] =
         onDocumentFormatting(params)
 
@@ -53,33 +48,47 @@ class DocumentFormattingManager(val workspace: WorkspaceManager,
       override protected def uri(params: DocumentFormattingParams): String = params.textDocument.uri
 
       override def `type`: DocumentFormattingRequestType.type = DocumentFormattingRequestType
+
+      /** If Some(_), this will be sent as a response as a default for a managed exception
+        */
+      override protected val empty: Option[Seq[TextEdit]] = Some(Seq())
     })
 
-  override val `type`: ConfigType[DocumentFormattingClientCapabilities, Boolean] =
+  override val `type`: ConfigType[DocumentFormattingClientCapabilities, Either[Boolean, WorkDoneProgressOptions]] =
     DocumentFormattingConfigType
 
   def onDocumentFormatting(params: DocumentFormattingParams): Future[Seq[TextEdit]] = {
     val uuid   = UUID.randomUUID().toString
     val isJson = params.textDocument.uri.endsWith(".json")
-    logger.debug("Document formatting for " + params.textDocument.uri,
-                 "DocumentFormattingManager",
-                 "onDocumentFormatting")
+    Logger.debug(
+      "Document formatting for " + params.textDocument.uri,
+      "DocumentFormattingManager",
+      "onDocumentFormatting"
+    )
     workspace
       .getLastUnit(params.textDocument.uri, uuid)
-      .map(w => {
-        getParts(w.unit)
+      .map(cu => {
+        cu.unit.ast
           .map(part =>
-            RangeFormatting(part, params.options, w.unit.indentation(part.range.toPositionRange.start), isJson)
-              .format())
+            RangeFormatting(
+              part,
+              params.options,
+              isJson,
+              getSyntaxErrors(cu.errorsCollected, params.textDocument.uri),
+              cu.unit.raw,
+              0
+            )
+              .format()
+          )
           .getOrElse(Seq.empty)
       })
   }
 
-  def getParts(unit: BaseUnit): Option[YPart] = unit.ast
-
-  override def applyConfig(config: Option[DocumentFormattingClientCapabilities]): Boolean = {
+  override def applyConfig(
+      config: Option[DocumentFormattingClientCapabilities]
+  ): Either[Boolean, WorkDoneProgressOptions] = {
     active = config.isDefined
-    active
+    Left(active)
   }
 
   override def initialize(): Future[Unit] = Future.successful()

@@ -1,7 +1,7 @@
 package org.mulesoft.amfintegration.dialect.dialects.asyncapi20.bindings
 
-import amf.plugins.document.vocabularies.model.domain.PropertyMapping
-import amf.plugins.domain.webapi.metamodel.bindings.BindingType
+import amf.aml.client.scala.model.domain.PropertyMapping
+import amf.apicontract.internal.metamodel.domain.bindings.BindingType
 import org.mulesoft.amfintegration.dialect.dialects.oas.nodes.DialectNode
 
 trait BindingObjectNode extends DialectNode {
@@ -26,7 +26,8 @@ trait BindingObjectNode extends DialectNode {
         "sqs",
         "stomp",
         "redis"
-      ))
+      )
+    )
   override def properties: Seq[PropertyMapping] = Seq(`type`)
 }
 

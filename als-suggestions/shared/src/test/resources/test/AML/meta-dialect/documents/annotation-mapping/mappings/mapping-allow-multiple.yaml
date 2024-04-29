@@ -1,0 +1,11 @@
+#%Dialect 1.0
+
+externals:
+  schema-org: http://schema-org.com
+
+annotationMappings:
+  otherMapping:
+    propertyTerm: schema-org.other
+  myNodeMapping:
+    propertyTerm: schema-org.unreal
+    allowMultiple: *

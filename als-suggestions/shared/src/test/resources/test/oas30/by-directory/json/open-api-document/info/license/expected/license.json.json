@@ -1,11 +1,17 @@
 [
   {
     "label": "name",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "docs",
     "documentation": "name",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "10name",
     "filterText": "\"name\": \"$1\"",
     "insertText": null,
@@ -20,7 +26,7 @@
         },
         "end": {
           "line": 4,
-          "character": 9
+          "character": 8
         }
       },
       "newText": "\"name\": \"$1\""
@@ -31,11 +37,17 @@
   },
   {
     "label": "url",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "docs",
     "documentation": "url",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11url",
     "filterText": "\"url\": \"$1\"",
     "insertText": null,
@@ -50,7 +62,7 @@
         },
         "end": {
           "line": 4,
-          "character": 9
+          "character": 8
         }
       },
       "newText": "\"url\": \"$1\""

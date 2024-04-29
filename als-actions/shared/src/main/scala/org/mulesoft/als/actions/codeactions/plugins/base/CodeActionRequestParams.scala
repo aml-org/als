@@ -1,56 +1,58 @@
 package org.mulesoft.als.actions.codeactions.plugins.base
 
-import amf.core.model.document.BaseUnit
-import amf.plugins.document.vocabularies.model.document.Dialect
-import org.mulesoft.amfintegration.relationships.RelationshipLink
+import amf.aml.client.scala.model.document.Dialect
+import amf.aml.client.scala.model.domain.SemanticExtension
+import amf.core.client.scala.model.document.BaseUnit
 import org.mulesoft.als.common.DirectoryResolver
-import org.mulesoft.als.common.cache.{ObjectInTreeCached, YPartBranchCached}
+import org.mulesoft.als.common.cache.{ASTPartBranchCached, ObjectInTreeCached}
 import org.mulesoft.als.common.dtoTypes.PositionRange
 import org.mulesoft.als.configuration.AlsConfigurationReader
-import org.mulesoft.amfintegration.AmfInstance
+import org.mulesoft.amfintegration.amfconfiguration.ALSConfigurationState
+import org.mulesoft.amfintegration.relationships.RelationshipLink
 import org.mulesoft.lsp.feature.codeactions.CodeActionParams
-import org.mulesoft.lsp.feature.link.DocumentLink
-import org.mulesoft.lsp.feature.telemetry.TelemetryProvider
 
-import scala.concurrent.Future
+case class CodeActionRequestParams(
+    uri: String,
+    range: PositionRange,
+    bu: BaseUnit,
+    tree: ObjectInTreeCached,
+    astPartBranchCached: ASTPartBranchCached,
+    definedBy: Dialect,
+    configuration: AlsConfigurationReader,
+    allRelationships: Seq[RelationshipLink],
+    alsConfigurationState: ALSConfigurationState,
+    uuid: String,
+    directoryResolver: DirectoryResolver
+) {
 
-case class CodeActionRequestParams(uri: String,
-                                   range: PositionRange,
-                                   bu: BaseUnit,
-                                   tree: ObjectInTreeCached,
-                                   yPartBranch: YPartBranchCached,
-                                   dialect: Dialect,
-                                   configuration: AlsConfigurationReader,
-                                   allRelationships: Seq[RelationshipLink],
-                                   telemetryProvider: TelemetryProvider,
-                                   uuid: String,
-                                   amfInstance: AmfInstance,
-                                   directoryResolver: DirectoryResolver)
+  val findDialectForSemantic: String => Option[(SemanticExtension, Dialect)] =
+    alsConfigurationState.findSemanticByName
+}
 
 object CodeActionParamsImpl {
   implicit class CodeActionParamsImpl(param: CodeActionParams) {
-    def toRequestParams(bu: BaseUnit,
-                        tree: ObjectInTreeCached,
-                        yPartBranch: YPartBranchCached,
-                        dialect: Dialect,
-                        configuration: AlsConfigurationReader,
-                        allRelationships: Seq[RelationshipLink],
-                        telemetryProvider: TelemetryProvider,
-                        uuid: String,
-                        amfInstance: AmfInstance,
-                        directoryResolver: DirectoryResolver): CodeActionRequestParams =
+    def toRequestParams(
+        bu: BaseUnit,
+        tree: ObjectInTreeCached,
+        astPartBranch: ASTPartBranchCached,
+        dialect: Dialect,
+        configuration: AlsConfigurationReader,
+        allRelationships: Seq[RelationshipLink],
+        alsConfigurationState: ALSConfigurationState,
+        uuid: String,
+        directoryResolver: DirectoryResolver
+    ): CodeActionRequestParams =
       CodeActionRequestParams(
         param.textDocument.uri,
         PositionRange(param.range),
         bu,
         tree,
-        yPartBranch,
+        astPartBranch,
         dialect,
         configuration,
         allRelationships,
-        telemetryProvider,
+        alsConfigurationState,
         uuid,
-        amfInstance,
         directoryResolver
       )
   }

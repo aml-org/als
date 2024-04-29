@@ -1,16 +1,22 @@
 [
   {
     "label": "internalApiKey",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "internalApiKey",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11internalApiKey",
-    "filterText": "\"internalApiKey\"",
+    "filterText": "\"internalApiKey\": $1",
     "insertText": null,
     "insertTextFormat": [
-      1
+      2
     ],
     "textEdit": {
       "range": {
@@ -20,10 +26,10 @@
         },
         "end": {
           "line": 13,
-          "character": 13
+          "character": 12
         }
       },
-      "newText": "\"internalApiKey\""
+      "newText": "\"internalApiKey\": $1"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,

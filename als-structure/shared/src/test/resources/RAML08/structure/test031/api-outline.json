@@ -23,7 +23,9 @@
         "character": 0
       }
     },
-    "children": []
+    "children": [
+      
+    ]
   },
   {
     "name": "version",
@@ -49,7 +51,9 @@
         "character": 0
       }
     },
-    "children": []
+    "children": [
+      
+    ]
   },
   {
     "name": "/media/popular",
@@ -208,24 +212,26 @@
                             "range": {
                               "start": {
                                 "line": 22,
-                                "character": 21
+                                "character": 12
                               },
                               "end": {
-                                "line": 22,
-                                "character": 23
+                                "line": 23,
+                                "character": 0
                               }
                             },
                             "selectionRange": {
                               "start": {
                                 "line": 22,
-                                "character": 21
+                                "character": 12
                               },
                               "end": {
-                                "line": 22,
-                                "character": 23
+                                "line": 23,
+                                "character": 0
                               }
                             },
-                            "children": []
+                            "children": [
+                              
+                            ]
                           }
                         ]
                       }
@@ -263,6 +269,8 @@
         "character": 0
       }
     },
-    "children": []
+    "children": [
+      
+    ]
   }
 ]

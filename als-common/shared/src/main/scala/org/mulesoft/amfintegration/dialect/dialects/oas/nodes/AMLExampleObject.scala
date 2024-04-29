@@ -1,10 +1,10 @@
 package org.mulesoft.amfintegration.dialect.dialects.oas.nodes
 
-import amf.core.vocabulary.Namespace.XsdTypes.{amlAnyNode, xsdString}
+import amf.aml.client.scala.model.domain.PropertyMapping
+import amf.core.client.scala.vocabulary.Namespace.XsdTypes.{amlAnyNode, xsdString}
+import amf.shapes.internal.domain.metamodel.ExampleModel
 import org.mulesoft.amfintegration.dialect.dialects.oas.OAS20Dialect.DialectLocation
 import org.mulesoft.amfintegration.dialect.dialects.oas.{OAS30Dialect, OasBaseDialect}
-import amf.plugins.document.vocabularies.model.domain.PropertyMapping
-import amf.plugins.domain.shapes.metamodel.ExampleModel
 
 object AMLExampleObject extends DialectNode {
 

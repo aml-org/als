@@ -1,11 +1,17 @@
 [
   {
     "label": "$ref",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "reference tag",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "0$ref",
     "filterText": "$ref: ",
     "insertText": null,
@@ -30,12 +36,558 @@
     "command": null
   },
   {
+    "label": "New delete",
+    "kind": [
+      
+    ],
+    "detail": "template",
+    "documentation": "delete",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "21New delete",
+    "filterText": "delete:\n  responses:\n    $1: ",
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 3,
+          "character": 4
+        },
+        "end": {
+          "line": 3,
+          "character": 4
+        }
+      },
+      "newText": "delete:\n  responses:\n    $1: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "New full delete",
+    "kind": [
+      
+    ],
+    "detail": "template",
+    "documentation": "delete",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "21New full delete",
+    "filterText": "delete:\n  responses:\n    $1:\n      description: $2",
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 3,
+          "character": 4
+        },
+        "end": {
+          "line": 3,
+          "character": 4
+        }
+      },
+      "newText": "delete:\n  responses:\n    $1:\n      description: $2"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "New full get",
+    "kind": [
+      
+    ],
+    "detail": "template",
+    "documentation": "get",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "21New full get",
+    "filterText": "get:\n  responses:\n    $1:\n      description: $2",
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 3,
+          "character": 4
+        },
+        "end": {
+          "line": 3,
+          "character": 4
+        }
+      },
+      "newText": "get:\n  responses:\n    $1:\n      description: $2"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "New full head",
+    "kind": [
+      
+    ],
+    "detail": "template",
+    "documentation": "head",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "21New full head",
+    "filterText": "head:\n  responses:\n    $1:\n      description: $2",
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 3,
+          "character": 4
+        },
+        "end": {
+          "line": 3,
+          "character": 4
+        }
+      },
+      "newText": "head:\n  responses:\n    $1:\n      description: $2"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "New full options",
+    "kind": [
+      
+    ],
+    "detail": "template",
+    "documentation": "options",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "21New full options",
+    "filterText": "options:\n  responses:\n    $1:\n      description: $2",
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 3,
+          "character": 4
+        },
+        "end": {
+          "line": 3,
+          "character": 4
+        }
+      },
+      "newText": "options:\n  responses:\n    $1:\n      description: $2"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "New full patch",
+    "kind": [
+      
+    ],
+    "detail": "template",
+    "documentation": "patch",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "21New full patch",
+    "filterText": "patch:\n  responses:\n    $1:\n      description: $2",
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 3,
+          "character": 4
+        },
+        "end": {
+          "line": 3,
+          "character": 4
+        }
+      },
+      "newText": "patch:\n  responses:\n    $1:\n      description: $2"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "New full post",
+    "kind": [
+      
+    ],
+    "detail": "template",
+    "documentation": "post",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "21New full post",
+    "filterText": "post:\n  responses:\n    $1:\n      description: $2",
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 3,
+          "character": 4
+        },
+        "end": {
+          "line": 3,
+          "character": 4
+        }
+      },
+      "newText": "post:\n  responses:\n    $1:\n      description: $2"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "New full put",
+    "kind": [
+      
+    ],
+    "detail": "template",
+    "documentation": "put",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "21New full put",
+    "filterText": "put:\n  responses:\n    $1:\n      description: $2",
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 3,
+          "character": 4
+        },
+        "end": {
+          "line": 3,
+          "character": 4
+        }
+      },
+      "newText": "put:\n  responses:\n    $1:\n      description: $2"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "New get",
+    "kind": [
+      
+    ],
+    "detail": "template",
+    "documentation": "get",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "21New get",
+    "filterText": "get:\n  responses:\n    $1: ",
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 3,
+          "character": 4
+        },
+        "end": {
+          "line": 3,
+          "character": 4
+        }
+      },
+      "newText": "get:\n  responses:\n    $1: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "New head",
+    "kind": [
+      
+    ],
+    "detail": "template",
+    "documentation": "head",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "21New head",
+    "filterText": "head:\n  responses:\n    $1: ",
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 3,
+          "character": 4
+        },
+        "end": {
+          "line": 3,
+          "character": 4
+        }
+      },
+      "newText": "head:\n  responses:\n    $1: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "New options",
+    "kind": [
+      
+    ],
+    "detail": "template",
+    "documentation": "options",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "21New options",
+    "filterText": "options:\n  responses:\n    $1: ",
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 3,
+          "character": 4
+        },
+        "end": {
+          "line": 3,
+          "character": 4
+        }
+      },
+      "newText": "options:\n  responses:\n    $1: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "New parameters",
+    "kind": [
+      
+    ],
+    "detail": "template",
+    "documentation": "parameters",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "21New parameters",
+    "filterText": "parameters:\n  -\n    in: $1\n    required: $2\n    description: $3\n    name: $4\n    type: $5",
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 3,
+          "character": 4
+        },
+        "end": {
+          "line": 3,
+          "character": 4
+        }
+      },
+      "newText": "parameters:\n  -\n    in: $1\n    required: $2\n    description: $3\n    name: $4\n    type: $5"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "New patch",
+    "kind": [
+      
+    ],
+    "detail": "template",
+    "documentation": "patch",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "21New patch",
+    "filterText": "patch:\n  responses:\n    $1: ",
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 3,
+          "character": 4
+        },
+        "end": {
+          "line": 3,
+          "character": 4
+        }
+      },
+      "newText": "patch:\n  responses:\n    $1: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "New post",
+    "kind": [
+      
+    ],
+    "detail": "template",
+    "documentation": "post",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "21New post",
+    "filterText": "post:\n  responses:\n    $1: ",
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 3,
+          "character": 4
+        },
+        "end": {
+          "line": 3,
+          "character": 4
+        }
+      },
+      "newText": "post:\n  responses:\n    $1: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "New put",
+    "kind": [
+      
+    ],
+    "detail": "template",
+    "documentation": "put",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "21New put",
+    "filterText": "put:\n  responses:\n    $1: ",
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 3,
+          "character": 4
+        },
+        "end": {
+          "line": 3,
+          "character": 4
+        }
+      },
+      "newText": "put:\n  responses:\n    $1: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
     "label": "delete",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "methods",
     "documentation": "delete",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11delete",
     "filterText": "delete:\n  ",
     "insertText": null,
@@ -61,11 +613,17 @@
   },
   {
     "label": "get",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "methods",
     "documentation": "get",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11get",
     "filterText": "get:\n  ",
     "insertText": null,
@@ -91,11 +649,17 @@
   },
   {
     "label": "head",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "methods",
     "documentation": "head",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11head",
     "filterText": "head:\n  ",
     "insertText": null,
@@ -121,11 +685,17 @@
   },
   {
     "label": "options",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "methods",
     "documentation": "options",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11options",
     "filterText": "options:\n  ",
     "insertText": null,
@@ -151,11 +721,17 @@
   },
   {
     "label": "parameters",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "parameters",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11parameters",
     "filterText": "parameters:\n  - ",
     "insertText": null,
@@ -181,11 +757,17 @@
   },
   {
     "label": "patch",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "methods",
     "documentation": "patch",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11patch",
     "filterText": "patch:\n  ",
     "insertText": null,
@@ -211,11 +793,17 @@
   },
   {
     "label": "post",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "methods",
     "documentation": "post",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11post",
     "filterText": "post:\n  ",
     "insertText": null,
@@ -241,11 +829,17 @@
   },
   {
     "label": "put",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "methods",
     "documentation": "put",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11put",
     "filterText": "put:\n  ",
     "insertText": null,

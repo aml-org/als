@@ -1,16 +1,14 @@
 package org.mulesoft.als.common.diff
 
+import org.mulesoft.als.common.diff.Diff.{Delta, Equals, PathNode}
+
 import java.io.{File, PrintWriter, Reader, StringWriter}
 
-import Diff.{Delta, PathNode, Equals}
-
-/**
-  * Diff class to compare objects.
+/** Diff class to compare objects.
   */
 class Diff[T](equalsComparator: Equals[T]) {
 
-  /**
-    * Computes the difference between the 2 sequences and returns it as a List of Delta objects.
+  /** Computes the difference between the 2 sequences and returns it as a List of Delta objects.
     */
   def diff(a: List[T], b: List[T]): List[Delta[T]] = {
     val path: PathNode = buildPath(a, b)
@@ -145,13 +143,13 @@ object Diff {
     }
   }
 
-  class Delta[T](aPosition: Int, aLines: List[T], bPosition: Int, bLines: List[T]) {
+  class Delta[T](aPosition: Int, val aLines: List[T], bPosition: Int, val bLines: List[T]) {
     val t: Type = if (aLines.isEmpty) Add else if (bLines.isEmpty) Delete else Change
 
-    /**
-      * Print the Delta using the standard Diff format.
+    /** Print the Delta using the standard Diff format.
       *
-      * @param  out  The Print Stream to print the delta to
+      * @param out
+      *   The Print Stream to print the delta to
       */
     def print(out: PrintWriter): Unit = {
       if (t == Add) out.print(aPosition)
@@ -188,10 +186,8 @@ object Diff {
 
   class Equals[T] {
 
-    /**
-      * Method that perform the actual comparison for equal between the 2 values You can override
-      * this method to implement other type of comparisons (i.e. case insensitive, ignore spaces,
-      * etc)
+    /** Method that perform the actual comparison for equal between the 2 values You can override this method to
+      * implement other type of comparisons (i.e. case insensitive, ignore spaces, etc)
       */
     def doEqualComparison(a: T, b: T): Boolean = {
       a equals b
@@ -244,21 +240,17 @@ object Diff {
 
   class Str(val equalsComparator: Equals[String], ignoreEmptyLine: Boolean) extends Diff[String](equalsComparator) {
 
-    /**
-      * Computes the difference between the 2 strings split by end of line and returns it as a
-      * List of Delta objects.
+    /** Computes the difference between the 2 strings split by end of line and returns it as a List of Delta objects.
       */
     def diff(a: String, b: String): List[Delta[String]] = diff(a.linesIterator.toList, b.linesIterator.toList)
 
-    /**
-      * Computes the difference between the 2 Readers and returns it as a List of Delta objects.
+    /** Computes the difference between the 2 Readers and returns it as a List of Delta objects.
       */
     def diff(a: Reader, b: Reader): List[Delta[String]] = {
       diff(Files.readLines(a), Files.readLines(b))
     }
 
-    /**
-      * Computes the difference between the 2 Files and returns it as a List of Delta objects.
+    /** Computes the difference between the 2 Files and returns it as a List of Delta objects.
       */
     def diff(a: File, b: File): List[Delta[String]] = {
       diff(Files.readLines(a), Files.readLines(b))

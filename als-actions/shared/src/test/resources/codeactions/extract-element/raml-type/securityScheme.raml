@@ -1,0 +1,12 @@
+#%RAML 0.8
+title: Dropbox API with oauth_1_0 authentication
+securitySchemes:
+  oauth_1_0:
+    type: OAuth 2.0
+    description: Dropbox supports oauth_1_0
+    settings:
+      scopes:
+        - ADMINISTRATOR
+/users/{userid}/gists:
+  get:
+    securedBy: [null, {oauth_1_0: {scopes: [ADMINISTRATOR]}}]

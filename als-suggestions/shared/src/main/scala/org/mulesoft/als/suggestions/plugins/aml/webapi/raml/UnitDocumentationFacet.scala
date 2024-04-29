@@ -1,8 +1,8 @@
 package org.mulesoft.als.suggestions.plugins.aml.webapi.raml
 
-import amf.core.model.document.{BaseUnit, Module}
-import amf.core.model.domain.AmfObject
-import amf.plugins.document.webapi.model.{Overlay, ResourceTypeFragment, TraitFragment, Extension}
+import amf.apicontract.client.scala.model.document.{Extension, Overlay, ResourceTypeFragment, TraitFragment}
+import amf.core.client.scala.model.document.{BaseUnit, Module}
+import amf.core.client.scala.model.domain.AmfObject
 import org.mulesoft.als.suggestions.RawSuggestion
 import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
 import org.mulesoft.als.suggestions.interfaces.AMLCompletionPlugin
@@ -15,8 +15,11 @@ object UnitDocumentationFacet extends AMLCompletionPlugin {
 
   override def resolve(request: AmlCompletionRequest): Future[Seq[RawSuggestion]] = {
     Future {
-      if (request.yPartBranch.isAtRoot && request.yPartBranch.isKey && !isInFieldValue(request) && isNotDocument(
-            request)) {
+      if (
+        request.astPartBranch.isAtRoot && request.astPartBranch.isKey && !isInFieldValue(request) && isNotDocument(
+          request
+        )
+      ) {
         Seq(RawSuggestion.forKey("usage", "docs", mandatory = false))
       } else Nil
     }

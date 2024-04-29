@@ -1,32 +1,28 @@
 package org.mulesoft.amfintegration.dialect.dialects.jsonschema.draft7
 
-import amf.plugins.document.vocabularies.model.domain.DocumentsModel
-import org.mulesoft.amfintegration.dialect.BaseDialect
-import org.mulesoft.amfintegration.dialect.dialects.asyncapi20.schema.BaseShapeAsync2Node
+import amf.aml.client.scala.model.domain.PropertyMapping
+import amf.shapes.internal.spec.common.JSONSchemaDraft7SchemaVersion
+import org.mulesoft.amfintegration.dialect.dialects.jsonschema.JsonSchemaBaseDialect
+import org.mulesoft.amfintegration.dialect.dialects.jsonschema.base.{BaseJsonSchemaDocumentNode, BaseNumberShapeNode, NumberShapeJsonSchemaNode}
 import org.mulesoft.amfintegration.dialect.dialects.oas.nodes.DialectNode
 
-object JsonSchemaDraft7Dialect extends BaseDialect {
+object JsonSchemaDraft7Dialect extends JsonSchemaBaseDialect {
 
-  override val DialectLocation: String = dialectLocation
+  override def DialectLocation: String = dialectLocation
 
-  override protected val name: String    = "Json Schema" // no this way right?
-  override protected val version: String = "Draft 7"
+  override protected val version: String = JSONSchemaDraft7SchemaVersion.url
 
-  override protected def emptyDocument: DocumentsModel = DocumentsModel()
+  override protected def encodes: DialectNode = Draft7RootNode
 
-  override protected def encodes: DialectNode = BaseShapeAsync2Node
+  override protected def baseProps(location: String): Seq[PropertyMapping] =
+    BaseJsonSchemaDocumentNode.jsonSchemaDocumentFacets(location) ++
+      Draft7RootNode.conditionals(location) :+
+      Draft7RootNode.const(location) :+
+      Draft7RootNode.identifierMapping(location) :+
+      Draft7RootNode.comment(location)
 
-  override val declares: Seq[DialectNode] = Seq(
-    NilShapeDraft7Node,
-    ShapeDraft7Node,
-    AnyShapeDraft7Node,
-    ArrayShapeDraft7Node,
-    NodeShapeDraft7Node,
-    NumberShapeDraft7Node,
-    StringShapeDraft7Node
-  )
-
-  override protected def declaredNodes: Map[String, DialectNode] = Map(
-    "definitions" -> BaseShapeAsync2Node
+  override protected def numberNode: DialectNode = new NumberShapeJsonSchemaNode(
+    DialectLocation,
+    location => baseProps(location) ++ BaseNumberShapeNode.draft7Exclusives(location)
   )
 }

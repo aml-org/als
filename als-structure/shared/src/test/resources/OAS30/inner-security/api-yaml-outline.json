@@ -1,0 +1,84 @@
+[
+  {
+    "name": "/pet",
+    "kind": 12,
+    "deprecated": false,
+    "range": {
+      "start": {
+        "line": 3,
+        "character": 2
+      },
+      "end": {
+        "line": 10,
+        "character": 0
+      }
+    },
+    "selectionRange": {
+      "start": {
+        "line": 3,
+        "character": 2
+      },
+      "end": {
+        "line": 10,
+        "character": 0
+      }
+    },
+    "children": [
+      {
+        "name": "get",
+        "kind": 6,
+        "deprecated": false,
+        "range": {
+          "start": {
+            "line": 4,
+            "character": 4
+          },
+          "end": {
+            "line": 10,
+            "character": 0
+          }
+        },
+        "selectionRange": {
+          "start": {
+            "line": 4,
+            "character": 4
+          },
+          "end": {
+            "line": 10,
+            "character": 0
+          }
+        },
+        "children": [
+          {
+            "name": "Security",
+            "kind": 15,
+            "deprecated": false,
+            "range": {
+              "start": {
+                "line": 5,
+                "character": 6
+              },
+              "end": {
+                "line": 10,
+                "character": 0
+              }
+            },
+            "selectionRange": {
+              "start": {
+                "line": 5,
+                "character": 6
+              },
+              "end": {
+                "line": 10,
+                "character": 0
+              }
+            },
+            "children": [
+              
+            ]
+          }
+        ]
+      }
+    ]
+  }
+]

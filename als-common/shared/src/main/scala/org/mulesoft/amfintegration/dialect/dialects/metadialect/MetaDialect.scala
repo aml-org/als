@@ -1,6 +1,6 @@
 package org.mulesoft.amfintegration.dialect.dialects.metadialect
 
-import amf.plugins.document.vocabularies.model.domain.{DocumentMapping, DocumentsModel}
+import amf.aml.client.scala.model.domain.{DocumentMapping, DocumentsModel}
 import org.mulesoft.amfintegration.dialect.BaseDialect
 import org.mulesoft.amfintegration.dialect.dialects.oas.nodes.DialectNode
 
@@ -29,10 +29,12 @@ object MetaDialect extends BaseDialect {
     PropertyMappingObjectNode,
     PublicNodeMappingObjectNode,
     RootDocumentObjectNode,
-    UnionMappingObjectNode
+    UnionMappingObjectNode,
+    AnnotationMappingObjectNode
   )
 
   override protected def declaredNodes: Map[String, DialectNode] = Map(
-    "nodeMappings" -> NodeMappingObjectNode
+    "nodeMappings"       -> NodeMappingObjectNode,
+    "annotationMappings" -> AnnotationMappingObjectNode
   )
 }

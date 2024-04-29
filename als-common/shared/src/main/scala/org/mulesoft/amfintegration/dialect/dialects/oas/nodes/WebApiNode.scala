@@ -1,11 +1,13 @@
 package org.mulesoft.amfintegration.dialect.dialects.oas.nodes
 
-import amf.core.vocabulary.Namespace.XsdTypes.xsdString
-import amf.plugins.document.vocabularies.model.domain.PropertyMapping
-import amf.plugins.domain.webapi.metamodel.api.WebApiModel
-import amf.plugins.domain.webapi.metamodel.{EndPointModel, ServerModel}
+import amf.aml.client.scala.model.domain.PropertyMapping
+import amf.apicontract.internal.metamodel.document.ComponentModuleModel
+import amf.apicontract.internal.metamodel.domain.{EndPointModel, ServerModel}
+import amf.apicontract.internal.metamodel.domain.api.WebApiModel
+import amf.core.client.scala.vocabulary.Namespace.XsdTypes.xsdString
 import org.mulesoft.amfintegration.dialect.dialects.oas.OAS20Dialect.OwlSameAs
 import org.mulesoft.amfintegration.dialect.dialects.oas.OAS30Dialect.DialectLocation
+import org.mulesoft.amfintegration.dialect.dialects.oas.nodes.Oas30WebApiNode.pathItemObjectId
 import org.mulesoft.amfintegration.dialect.dialects.oas.{OAS20Dialect, OAS30Dialect}
 
 trait WebApiNode extends DialectNode {
@@ -20,16 +22,19 @@ trait WebApiNode extends DialectNode {
       .withName("info")
       .withMinCount(1)
       .withNodePropertyMapping(OwlSameAs)
-      .withObjectRange(Seq(
-        AMLInfoObject.id
-      )),
+      .withObjectRange(
+        Seq(
+          AMLInfoObject.id
+        )
+      ),
     PropertyMapping()
       .withId(location + "#/declarations/WebAPIObject/externalDocs")
       .withName("externalDocs")
       .withObjectRange(
         Seq(
           AMLExternalDocumentationObject.id
-        )),
+        )
+      ),
     PropertyMapping()
       .withId(location + "#/declarations/security")
       .withName("security")
@@ -103,8 +108,38 @@ object Oas30WebApiNode extends WebApiNode {
       .withObjectRange(
         Seq(
           Oas30ServerObject.id
-        ))
+        )
+      )
       .withAllowMultiple(true)
   )
 
+}
+
+object Oas30ComponentNode extends DialectNode {
+
+  override val location: String = OAS30Dialect.DialectLocation
+  override def name: String     = "ComponentModuleObject"
+
+  override def nodeTypeMapping: String = ComponentModuleModel.`type`.head.iri()
+
+  override def properties: Seq[PropertyMapping] = Seq(
+    PropertyMapping()
+      .withId(location + "#/declarations/WebAPIObject/paths")
+      .withName("paths")
+      .withMinCount(1)
+      .withNodePropertyMapping(WebApiModel.EndPoints.value.iri())
+      .withMapTermKeyProperty(EndPointModel.Path.value.iri())
+      .withAllowMultiple(true)
+      .withObjectRange(Seq()),
+    PropertyMapping()
+      .withId(location + "#/declarations/WebAPIObject/info")
+      .withName("info")
+      .withMinCount(1)
+      .withNodePropertyMapping(OwlSameAs)
+      .withObjectRange(
+        Seq(
+          AMLInfoObject.id
+        )
+      )
+  )
 }

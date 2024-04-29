@@ -2,18 +2,16 @@ package org.mulesoft.als.server.modules.actions.fileusage
 
 import org.mulesoft.als.server.RequestModule
 import org.mulesoft.als.server.feature.fileusage.{FileUsageClientCapabilities, FileUsageConfigType, FileUsageOptions}
-import org.mulesoft.als.server.logger.Logger
+import org.mulesoft.als.server.modules.actions.fileusage.filecontents.FileContentsHandler
 import org.mulesoft.als.server.workspace.WorkspaceManager
 import org.mulesoft.lsp.ConfigType
 import org.mulesoft.lsp.feature.TelemeteredRequestHandler
-import org.mulesoft.lsp.feature.telemetry.TelemetryProvider
 
 import scala.concurrent.Future
 
-class FindFileUsageManager(val workspace: WorkspaceManager,
-                           private val telemetryProvider: TelemetryProvider,
-                           private val logger: Logger)
-    extends RequestModule[FileUsageClientCapabilities, FileUsageOptions] {
+class FindFileUsageManager(
+    val workspace: WorkspaceManager
+) extends RequestModule[FileUsageClientCapabilities, FileUsageOptions] {
   private var enabled: Boolean = true
 
   private var conf: Option[FileUsageClientCapabilities] = None
@@ -22,7 +20,8 @@ class FindFileUsageManager(val workspace: WorkspaceManager,
     FileUsageConfigType
 
   override val getRequestHandlers: Seq[TelemeteredRequestHandler[_, _]] = Seq(
-    new FileUsageHandler(telemetryProvider,workspace)
+    new FileUsageHandler(workspace),
+    new FileContentsHandler(workspace)
   )
 
   override def applyConfig(config: Option[FileUsageClientCapabilities]): FileUsageOptions = {

@@ -1,13 +1,19 @@
 [
   {
     "label": "application/xml",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "application/xml",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11application/xml",
-    "filterText": "application/xml: ",
+    "filterText": "application/xml:\n  ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -23,7 +29,7 @@
           "character": 6
         }
       },
-      "newText": "application/xml: "
+      "newText": "application/xml:\n  "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,

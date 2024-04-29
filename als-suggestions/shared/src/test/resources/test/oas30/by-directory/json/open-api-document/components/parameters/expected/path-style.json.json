@@ -1,11 +1,17 @@
 [
   {
     "label": "label",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "parameters",
     "documentation": "label",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "10label",
     "filterText": "\"label\"",
     "insertText": null,
@@ -31,11 +37,17 @@
   },
   {
     "label": "matrix",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "parameters",
     "documentation": "matrix",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "10matrix",
     "filterText": "\"matrix\"",
     "insertText": null,
@@ -61,11 +73,17 @@
   },
   {
     "label": "simple",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "parameters",
     "documentation": "simple",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "10simple",
     "filterText": "\"simple\"",
     "insertText": null,

@@ -1,0 +1,172 @@
+openapi: "3.0.0"
+info:
+  version: 1.0.0
+  title: c-endpoint
+paths: {}
+
+components:
+  parameters:
+    query-item-uid:
+      in: query
+      name: uid
+      schema:
+        type: string
+      example: "2000123"
+      required: true
+      description: afvdafv
+  schemas:
+    cObject:
+      type: object
+      properties:
+        idcf:
+          description: asfvas
+          type: string
+          nullable: true
+          example: "a1Y3H000000Qm2WZAS"
+        idf:
+          description: asfga
+          type: integer
+          example: 2000123
+        typePanel:
+          description: dfnv
+          type: string
+          enum: [sadf, ewc, AIwecweP]
+          example: sadf
+        signee:
+          description: afjnga
+          type: boolean
+          example: true
+        dateSignature:
+          description: gasfs
+          type: string
+          format: date
+          nullable: true
+          example: "2021-02-21"
+        dateRefus:
+          description: asdfsaf
+          type: string
+          format: date
+          nullable: true
+          example: "2022-01-18"
+        m:
+          description: sadvr
+          type: object
+          properties:
+            asdfcwecw:
+              description: asdf
+              type: string
+              example: "a1z3H00000084WbQAI"
+            nom:
+              description: berv
+              type: string
+              example: "fsadce"
+            type:
+              description: brtv
+              type: integer
+              enum: [1, 2, 3]
+              example: 2
+            version:
+              description: skjnd
+              type: integer
+              example: 3
+        paneliste:
+          type: object
+          nullable: true
+          properties:
+            iiSF:
+              description: jvknfd
+              type: string
+              example: "0044H00000UQ8cLQZT"
+        signataire:
+          description: jkansdc
+          type: object
+          properties:
+            sdfvdvcd:
+              description: asdf
+              type: string
+              example: "0044H00000UQ8cLQZT"
+            prenom:
+              description: nklfvd
+              type: string
+              example: "csd"
+            nom:
+              description: asdd
+              type: string
+              example: "ceww"
+            dateNaissance:
+              description: asdf
+              type: string
+              format: date
+              example: 1999-10-04
+            personneDeRef:
+              description: gasd
+              type: boolean
+              example: false
+
+    pco:
+      type: array
+      items:
+        type: object
+        properties:
+          idcf:
+            description: asdfg
+            type: string
+            pattern: ^\w+$
+            nullable: true
+            example: "a1Y3H000000Qm2WZZZ"
+          idRefConventionSF:
+            description: bdfvr
+            type: string
+            pattern: ^\w+$
+            nullable: false
+            example: "a1Y3H000000Qm2WZZZ"
+          idf:
+            description: asdfv
+            type: integer
+            example: 9100123
+          dateSignature:
+            description: berv
+            type: string
+            format: date
+            pattern: ^\d{2,4}-\d{2}-\d{2}$
+            nullable: true
+            example: "2022-02-21"
+          dateRefus:
+            description: kbsdjf
+            type: string
+            format: date
+            pattern: ^\d{2,4}-\d{2}-\d{2}$
+            nullable: true
+            example: "2022-01-18"
+          paneliste:
+            type: object
+            nullable: true
+            properties:
+              iiSF:
+                description: jkasndf
+                type: string
+                pattern: ^\w+$
+                example: "a1Y3H000000Qm2WZZZ"
+          signataire:
+            type: object
+            properties:
+              iidSF:
+                description: jkns
+                type: string
+                pattern: ^\w+$
+                example: "a1Y3H000000Qm2WZZZ"
+
+  responses:
+    c-response-200:
+      description: ger
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: "#/components/schemas/cObject"
+    c-response-201:
+      description:
+      content:
+        application/json:
+          example: "Sample"

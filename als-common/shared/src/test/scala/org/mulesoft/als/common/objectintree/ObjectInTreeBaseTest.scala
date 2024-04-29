@@ -1,42 +1,49 @@
 package org.mulesoft.als.common.objectintree
 
-import amf.core.parser
-import amf.core.unsafe.PlatformSecrets
-import amf.plugins.document.vocabularies.metamodel.domain.DialectDomainElementModel
-import amf.plugins.document.vocabularies.model.document.Dialect
+import amf.aml.client.scala.model.document.Dialect
+import amf.aml.internal.metamodel.domain.DialectDomainElementModel
+import amf.core.internal.unsafe.PlatformSecrets
 import org.mulesoft.als.common.dtoTypes.Position
-import org.mulesoft.als.common.{ObjectInTree, ObjectInTreeBuilder}
-import org.mulesoft.amfintegration.AmfInstance
-import org.scalatest.{Assertion, Matchers}
+import org.mulesoft.als.common.{NodeBranchBuilder, ObjectInTree, ObjectInTreeBuilder}
+import org.mulesoft.amfintegration.AmfImplicits.BaseUnitImp
+import org.mulesoft.amfintegration.amfconfiguration.{
+  ALSConfigurationState,
+  AmfParseResult,
+  EditorConfiguration,
+  EmptyProjectConfigurationState
+}
+import org.mulesoft.common.client.lexical.{Position => AmfPosition}
+import org.scalatest.compatible.Assertion
+import org.scalatest.matchers.should.Matchers
 
-import scala.concurrent.ExecutionContext.Implicits.global
-import scala.concurrent.Future
+import scala.concurrent.{ExecutionContext, Future}
 
 case class ObjectInTreeBaseTest(instanceFile: String, dialectFile: String) extends PlatformSecrets with Matchers {
   protected def uriTemplate(part: String) = s"file://als-common/shared/src/test/resources/aml/$part"
 
-  private val instance = AmfInstance.default
+  implicit val ec: ExecutionContext = ExecutionContext.global
 
-  private val initDialects: Future[Dialect] = for {
-    dialectContent <- platform.resolve(uriTemplate(dialectFile)).map(_.stream.toString)
-    _              <- instance.init()
-    d              <- instance.alsAmlPlugin.registry.registerDialect(dialectContent)
-  } yield d
+  private val global: EditorConfiguration = EditorConfiguration().withDialect(uriTemplate(dialectFile))
 
-  private val eventualResult = initDialects.flatMap(_ => instance.parse(uriTemplate(instanceFile)))
-
-  private val objectInTree: Future[parser.Position => ObjectInTree] = for {
-    dialect <- initDialects
-    result  <- eventualResult
-  } yield ObjectInTreeBuilder.fromUnit(result.baseUnit, _, result.baseUnit.location(), dialect)
-
-  def runTest(pos: Position, expectedTypeIri: String, expectedPropertyTerm: Option[String]): Future[Assertion] = {
-    objectInTree.map { fn =>
-      val tree = fn(pos.toAmfPosition)
-      assertPropertyTerm(expectedPropertyTerm, tree)
-      assertTypeIri(expectedTypeIri, tree)
-    }
+  private val eventualResult: Future[AmfParseResult] = {
+    for {
+      s      <- global.getState
+      result <- ALSConfigurationState(s, EmptyProjectConfigurationState, None).parse(uriTemplate(instanceFile))
+    } yield result
   }
+  private def fn(pos: AmfPosition, result: AmfParseResult, dialect: Dialect): ObjectInTree =
+    ObjectInTreeBuilder.fromUnit(
+      result.result.baseUnit,
+      result.result.baseUnit.identifier,
+      dialect,
+      NodeBranchBuilder.build(result.result.baseUnit, pos, strict = false)
+    )
+
+  private def objectInTree(): Future[AmfPosition => ObjectInTree] =
+    for {
+      dialect <- global.getState.map(_.dialects.find(_.location().exists(_.contains(dialectFile))))
+      result  <- eventualResult
+    } yield fn(_, result, dialect.get)
 
   private def assertTypeIri(expectedTypeIri: String, tree: ObjectInTree) =
     tree.obj.meta match {
@@ -54,4 +61,12 @@ case class ObjectInTreeBaseTest(instanceFile: String, dialectFile: String) exten
       case None =>
         tree.fieldValue should be(None)
     }
+
+  def runTest(pos: Position, expectedTypeIri: String, expectedPropertyTerm: Option[String]): Future[Assertion] = {
+    objectInTree().map { fn =>
+      val tree = fn(pos.toAmfPosition)
+      assertPropertyTerm(expectedPropertyTerm, tree)
+      assertTypeIri(expectedTypeIri, tree)
+    }
+  }
 }

@@ -1,11 +1,17 @@
 [
   {
     "label": "accessTokenUri",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "accessTokenUri",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11accessTokenUri",
     "filterText": "accessTokenUri: ",
     "insertText": null,
@@ -31,11 +37,17 @@
   },
   {
     "label": "authorizationGrants",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "authorizationGrants",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11authorizationGrants",
     "filterText": "authorizationGrants:\n  - ",
     "insertText": null,
@@ -61,11 +73,17 @@
   },
   {
     "label": "authorizationUri",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "authorizationUri",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11authorizationUri",
     "filterText": "authorizationUri: ",
     "insertText": null,
@@ -91,11 +109,17 @@
   },
   {
     "label": "scopes",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "security",
     "documentation": "scopes",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11scopes",
     "filterText": "scopes:\n  - ",
     "insertText": null,

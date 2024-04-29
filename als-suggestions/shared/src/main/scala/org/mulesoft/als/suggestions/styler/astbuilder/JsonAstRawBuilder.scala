@@ -1,18 +1,22 @@
 package org.mulesoft.als.suggestions.styler.astbuilder
 
 import org.mulesoft.als.common.YPartBranch
-import org.mulesoft.als.common.dtoTypes.Position
 import org.mulesoft.als.suggestions.{RawSuggestion, SuggestionStructure}
-import org.yaml.model.{YMap, YMapEntry, YNode, YPart}
+import org.mulesoft.common.client.lexical.{Position => AmfPosition}
+import org.yaml.model.{YMap, YNode, YPart}
 
-class JsonAstRawBuilder(val raw: RawSuggestion, val isSnippet: Boolean, val yPartBranch: YPartBranch)
+class JsonAstRawBuilder(override val raw: RawSuggestion, val isSnippet: Boolean, val yPartBranch: YPartBranch)
     extends AstRawBuilder(raw, isSnippet, yPartBranch) {
   override protected def newInstance: (RawSuggestion, Boolean) => AstRawBuilder =
     (raw: RawSuggestion, isSnippet: Boolean) =>
-      new JsonAstRawBuilder(raw, isSnippet, YPartBranch(YMap.empty, Position(0, 0).toAmfPosition, Nil, isJson = true))
+      new JsonAstRawBuilder(
+        raw,
+        isSnippet,
+        YPartBranch(YMap.empty, AmfPosition.ZERO, Nil, strict = true)
+      )
 
   override def ast: YPart = {
-    if (raw.options.isKey) emitRootKey
+    if (raw.options.isKey) emitKey()
     else value(raw.newText, raw.options)
   }
 
@@ -22,4 +26,6 @@ class JsonAstRawBuilder(val raw: RawSuggestion, val isSnippet: Boolean, val yPar
   }
 
   override def onlyKey(key: String): YPart = YNode(key)
+
+  override def emptyNode(): YNode = YNode("")
 }

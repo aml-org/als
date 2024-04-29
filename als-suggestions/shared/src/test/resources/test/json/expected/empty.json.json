@@ -1,11 +1,125 @@
 [
   {
+    "label": "\"$schema\": \"http://json-schema.org/draft-04/schema#\"",
+    "kind": [
+      
+    ],
+    "detail": "unknown",
+    "documentation": "Define a JSON Schema http://json-schema.org/draft-04/schema# file",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "11\"$schema\": \"http://json-schema.org/draft-04/schema#\"",
+    "filterText": "{\n    \"$schema\": \"http://json-schema.org/draft-04/schema#\"\n}",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 0,
+          "character": 0
+        },
+        "end": {
+          "line": 0,
+          "character": 0
+        }
+      },
+      "newText": "{\n    \"$schema\": \"http://json-schema.org/draft-04/schema#\"\n}"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "\"$schema\": \"http://json-schema.org/draft-07/schema#\"",
+    "kind": [
+      
+    ],
+    "detail": "unknown",
+    "documentation": "Define a JSON Schema http://json-schema.org/draft-07/schema# file",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "11\"$schema\": \"http://json-schema.org/draft-07/schema#\"",
+    "filterText": "{\n    \"$schema\": \"http://json-schema.org/draft-07/schema#\"\n}",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 0,
+          "character": 0
+        },
+        "end": {
+          "line": 0,
+          "character": 0
+        }
+      },
+      "newText": "{\n    \"$schema\": \"http://json-schema.org/draft-07/schema#\"\n}"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "\"$schema\": \"http://json-schema.org/draft/2019-09/schema#\"",
+    "kind": [
+      
+    ],
+    "detail": "unknown",
+    "documentation": "Define a JSON Schema http://json-schema.org/draft/2019-09/schema# file",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "11\"$schema\": \"http://json-schema.org/draft/2019-09/schema#\"",
+    "filterText": "{\n    \"$schema\": \"http://json-schema.org/draft/2019-09/schema#\"\n}",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 0,
+          "character": 0
+        },
+        "end": {
+          "line": 0,
+          "character": 0
+        }
+      },
+      "newText": "{\n    \"$schema\": \"http://json-schema.org/draft/2019-09/schema#\"\n}"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
     "label": "\"asyncapi\": \"2.0.0\"",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Define a asyncapi 2.0.0 file",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11\"asyncapi\": \"2.0.0\"",
     "filterText": "{\n    \"asyncapi\": \"2.0.0\"\n}",
     "insertText": null,
@@ -31,11 +145,17 @@
   },
   {
     "label": "\"openapi\": \"3.0.0\"",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Define a openapi 3.0.0 file",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11\"openapi\": \"3.0.0\"",
     "filterText": "{\n    \"openapi\": \"3.0.0\"\n}",
     "insertText": null,
@@ -61,11 +181,17 @@
   },
   {
     "label": "\"swagger\": \"2.0\"",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Define a openapi 2.0 file",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11\"swagger\": \"2.0\"",
     "filterText": "{\n    \"swagger\": \"2.0\"\n}",
     "insertText": null,

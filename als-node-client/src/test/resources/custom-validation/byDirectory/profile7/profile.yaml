@@ -1,0 +1,30 @@
+#%Validation Profile 1.0
+
+profile: Test 7
+
+description: testing paths
+
+violation:
+  - validation1
+
+validations:
+
+  validation1:
+    targetClass: apiContract.Request
+    message: Scalars in parameters must have minLength defined
+    propertyConstraints:
+      apiContract.parameter / shapes.schema:
+        nested:
+          propertyConstraints:
+            shacl.minLength:
+              minCount: 1
+
+  validation2:
+    targetClass: apiContract.Operation
+    message: Scalars in parameters must have minLength defined
+    propertyConstraints:
+      apiContract.expects / (apiContract.parameter / shapes.schema | apiContract.payload / shapes.schema / shacl.property / shapes.range) :
+        nested:
+          propertyConstraints:
+            shacl.minLength:
+              minCount: 1

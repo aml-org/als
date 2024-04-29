@@ -1,25 +1,29 @@
 package org.mulesoft.als.suggestions.plugins.aml
 
-import amf.core.annotations.ErrorDeclaration
-import amf.core.metamodel.domain.ShapeModel
+import amf.aml.client.scala.model.document.Dialect
+import amf.aml.client.scala.model.domain.NodeMapping
+import amf.core.client.scala.model.domain.{AmfElement, AmfObject, DomainElement, Linkable}
+import amf.core.internal.annotations.ErrorDeclaration
+import amf.core.internal.metamodel.domain.ShapeModel
 import amf.plugins.document.vocabularies.plugin.ReferenceStyles
-import amf.plugins.document.vocabularies.model.document.Dialect
-import amf.plugins.document.vocabularies.model.domain.NodeMapping
-import amf.plugins.document.vocabularies.plugin.ReferenceStyles
+import amf.shapes.internal.domain.metamodel.AnyShapeModel
+import org.mulesoft.als.common.ASTPartBranch
 import org.mulesoft.als.common.SemanticNamedElement._
-import org.mulesoft.als.common.YPartBranch
 import org.mulesoft.als.suggestions.RawSuggestion
 import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
 import org.mulesoft.als.suggestions.aml.declarations.DeclarationProvider
+import org.mulesoft.amfintegration.AmfImplicits.AmfAnnotationsImp
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
-class AMLJsonSchemaStyleDeclarationReferences(dialect: Dialect,
-                                              ids: Seq[String],
-                                              actualName: Option[String],
-                                              yPart: YPartBranch,
-                                              iriToPath: Map[String, String]) {
+class AMLJsonSchemaStyleDeclarationReferences(
+    dialect: Dialect,
+    ids: Seq[String],
+    actualName: Option[String],
+    astPartBranch: ASTPartBranch,
+    iriToPath: Map[String, String]
+) {
 
   def resolve(dp: DeclarationProvider): Seq[RawSuggestion] = {
     val declarationsPath = dialect.documents().declarationsPath().option().map(_ + "/").getOrElse("")
@@ -28,7 +32,7 @@ class AMLJsonSchemaStyleDeclarationReferences(dialect: Dialect,
         nameForIri(id).fold(s"#/$name")(n => s"#/$declarationsPath$n/$name")
       }
     }
-    AMLJsonSchemaStyleDeclarationReferences.resolveRoutes(routes, yPart)
+    AMLJsonSchemaStyleDeclarationReferences.resolveRoutes(routes, astPartBranch)
   }
 
   def nameForIri(iri: String): Option[String] = {
@@ -44,11 +48,11 @@ object AMLJsonSchemaStyleDeclarationReferences extends AMLDeclarationReferences 
   override def id: String = "AMLJsonSchemaStyleDeclarationReferences"
 
   def applies(request: AmlCompletionRequest): Boolean = {
-    request.yPartBranch.isValue && request.yPartBranch.parentEntryIs("$ref") && request.actualDialect
+    request.astPartBranch.isValue && request.astPartBranch.parentEntryIs("$ref") && request.actualDialect
       .documents()
       .referenceStyle()
       .option()
-      .forall(_ == ReferenceStyles.JSONSCHEMA) && isLocal(request.yPartBranch)
+      .forall(_ == ReferenceStyles.JSONSCHEMA) && isLocal(request.astPartBranch)
   }
 
   override def resolve(request: AmlCompletionRequest): Future[Seq[RawSuggestion]] = {
@@ -59,13 +63,19 @@ object AMLJsonSchemaStyleDeclarationReferences extends AMLDeclarationReferences 
   }
 
   private def errorParentName(request: AmlCompletionRequest): Option[String] = {
-    if (request.amfObject.isInstanceOf[ErrorDeclaration]) request.branchStack.headOption.flatMap(_.elementIdentifier())
+    if (request.amfObject.isInstanceOf[ErrorDeclaration[_]])
+      request.branchStack.headOption.flatMap(_.elementIdentifier())
     else None
   }
 
   def suggest(request: AmlCompletionRequest): Seq[RawSuggestion] = {
     val actualName = request.amfObject.elementIdentifier().orElse(errorParentName(request))
-    val ids        = getObjectRangeIds(request)
+    val ids =
+      request.amfObject match {
+        case link: Linkable if containsAstInStack(link, request.branchStack) =>
+          Seq(AnyShapeModel.`type`.head.iri())
+        case _ => getObjectRangeIds(request)
+      }
 
     val mappings: Seq[NodeMapping] = request.actualDialect.declares.collect({ case n: NodeMapping => n })
 
@@ -73,22 +83,39 @@ object AMLJsonSchemaStyleDeclarationReferences extends AMLDeclarationReferences 
       .documents()
       .root()
       .declaredNodes()
-      .flatMap(
-        dn =>
-          mappings
-            .find(_.id == dn.mappedNode().value())
-            .map(_.nodetypeMapping.value())
-            .map(iri => iri -> dn.name().value()))
+      .flatMap(dn =>
+        mappings
+          .find(_.id == dn.mappedNode().value())
+          .map(_.nodetypeMapping.value())
+          .map(iri => iri -> dn.name().value())
+      )
       .toMap
 
-    new AMLJsonSchemaStyleDeclarationReferences(request.actualDialect, ids, actualName, request.yPartBranch, iriToPath)
+    new AMLJsonSchemaStyleDeclarationReferences(
+      request.actualDialect,
+      ids,
+      actualName,
+      request.astPartBranch,
+      iriToPath
+    )
       .resolve(request.declarationProvider)
   }
 
-  private def isLocal(yPart: YPartBranch) = yPart.stringValue.isEmpty || yPart.stringValue.startsWith("#")
+  private def containsAstInStack(link: Linkable, stack: Seq[AmfObject]): Boolean =
+    stack.exists(p => link.linkTarget.exists(t => sameAst(p, t)))
 
-  def resolveRoutes(routes: Seq[String], yPart: YPartBranch): Seq[RawSuggestion] = {
-    val filtered = if (yPart.stringValue.isEmpty) routes else routes.filter(_.startsWith(yPart.stringValue))
+  private def sameAst(a: AmfElement, b: AmfElement) =
+    (for {
+      aAst <- a.annotations.yPart()
+      bAst <- b.annotations.yPart()
+    } yield bAst == aAst).getOrElse(false)
+
+  private def isLocal(astPartBranch: ASTPartBranch) =
+    astPartBranch.stringValue.isEmpty || astPartBranch.stringValue.startsWith("#")
+
+  def resolveRoutes(routes: Seq[String], astPartBranch: ASTPartBranch): Seq[RawSuggestion] = {
+    val filtered =
+      if (astPartBranch.stringValue.isEmpty) routes else routes.filter(_.startsWith(astPartBranch.stringValue))
     filtered
       .map(route => RawSuggestion(route, route, s"Reference to $route", Nil))
   }

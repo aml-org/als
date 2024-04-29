@@ -1,11 +1,53 @@
 [
   {
+    "label": "New schema",
+    "kind": [
+      
+    ],
+    "detail": "template",
+    "documentation": "schema",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "20New schema",
+    "filterText": "\"schema\": {\n  \"description\": \"$1\",\n  \"type\": \"$2\"\n}",
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 10,
+          "character": 10
+        },
+        "end": {
+          "line": 10,
+          "character": 12
+        }
+      },
+      "newText": "\"schema\": {\n  \"description\": \"$1\",\n  \"type\": \"$2\"\n}"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
     "label": "description",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "docs",
     "documentation": "description",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11description",
     "filterText": "\"description\": \"$1\"",
     "insertText": null,
@@ -20,7 +62,7 @@
         },
         "end": {
           "line": 10,
-          "character": 13
+          "character": 12
         }
       },
       "newText": "\"description\": \"$1\""
@@ -31,11 +73,17 @@
   },
   {
     "label": "name",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "parameters",
     "documentation": "name",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "10name",
     "filterText": "\"name\": \"$1\"",
     "insertText": null,
@@ -50,7 +98,7 @@
         },
         "end": {
           "line": 10,
-          "character": 13
+          "character": 12
         }
       },
       "newText": "\"name\": \"$1\""
@@ -61,13 +109,19 @@
   },
   {
     "label": "required",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "parameters",
     "documentation": "required",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "10required",
-    "filterText": "\"required\": \"$1\"",
+    "filterText": "\"required\": $1",
     "insertText": null,
     "insertTextFormat": [
       2
@@ -80,10 +134,10 @@
         },
         "end": {
           "line": 10,
-          "character": 13
+          "character": 12
         }
       },
-      "newText": "\"required\": \"$1\""
+      "newText": "\"required\": $1"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -91,11 +145,17 @@
   },
   {
     "label": "schema",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "schemas",
     "documentation": "schema",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "10schema",
     "filterText": "\"schema\": {\n  \"$1\"\n}",
     "insertText": null,
@@ -110,7 +170,7 @@
         },
         "end": {
           "line": 10,
-          "character": 13
+          "character": 12
         }
       },
       "newText": "\"schema\": {\n  \"$1\"\n}"

@@ -1,8 +1,7 @@
 package org.mulesoft.amfintegration.dialect.dialects.asyncapi20.bindings
 
-import amf.core.vocabulary.Namespace.XsdTypes._
-import amf.plugins.document.vocabularies.model.domain.PropertyMapping
-import amf.plugins.domain.webapi.metamodel.bindings.{
+import amf.aml.client.scala.model.domain.PropertyMapping
+import amf.apicontract.internal.metamodel.domain.bindings.{
   Amqp091MessageBindingModel,
   HttpMessageBindingModel,
   KafkaMessageBindingModel,
@@ -10,6 +9,7 @@ import amf.plugins.domain.webapi.metamodel.bindings.{
   MessageBindingsModel,
   MqttMessageBindingModel
 }
+import amf.core.client.scala.vocabulary.Namespace.XsdTypes.xsdString
 import org.mulesoft.amfintegration.dialect.dialects.oas.nodes.DialectNode
 
 object MessageBindingObjectNode extends BindingObjectNode {
@@ -37,7 +37,7 @@ object HttpMessageBindingObjectNode extends DialectNode {
       .withId(location + s"#/declarations/$name/headers")
       .withName("headers")
       .withNodePropertyMapping(HttpMessageBindingModel.Headers.value.iri()) // todo: http node mappings?
-      .withObjectRange(Seq()), // todo: schema object
+      .withObjectRange(Seq()),                                              // todo: schema object
     PropertyMapping()
       .withId(location + s"#/declarations/$name/bindingVersion")
       .withName("bindingVersion")

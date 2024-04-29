@@ -1,9 +1,9 @@
 package org.mulesoft.als.suggestions.plugins.aml.webapi
 
-import amf.core.parser.FieldEntry
-import amf.plugins.domain.shapes.metamodel.ScalarShapeModel
-import amf.plugins.domain.webapi.metamodel.{ParameterModel, PayloadModel}
-import amf.plugins.domain.webapi.models.{Parameter, Payload, Response}
+import amf.apicontract.client.scala.model.domain.{Parameter, Payload}
+import amf.apicontract.internal.metamodel.domain.ParameterModel
+import amf.core.internal.parser.domain.FieldEntry
+import amf.shapes.internal.domain.metamodel.ScalarShapeModel
 import org.mulesoft.als.suggestions.RawSuggestion
 import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
 import org.mulesoft.als.suggestions.plugins.aml.AbstractKnownValueCompletionPlugin
@@ -16,8 +16,6 @@ trait WebApiKnownValueCompletionPlugin extends AbstractKnownValueCompletionPlugi
   override def resolve(params: AmlCompletionRequest): Future[Seq[RawSuggestion]] =
     params.fieldEntry match {
       case None if isHeader(params) => innerResolver(params, ParameterModel.Name, ParameterModel.`type`.head.iri())
-      case None if isPayloadName(params) =>
-        innerResolver(params, PayloadModel.MediaType, PayloadModel.`type`.head.iri())
       case Some(fe) if isParamName(params, fe) =>
         if (isHeader(params)) innerResolver(params, ParameterModel.Name, ParameterModel.`type`.head.iri())
         else emptySuggestion
@@ -26,13 +24,13 @@ trait WebApiKnownValueCompletionPlugin extends AbstractKnownValueCompletionPlugi
 
   protected def isHeader(params: AmlCompletionRequest): Boolean =
     params.amfObject match {
-      case p: Parameter if p.name.option().isEmpty || (p.name.option().contains("x") && params.yPartBranch.isJson) =>
-        p.binding.option().contains("header") || params.yPartBranch.isDescendanceOf("headers")
+      case p: Parameter if p.name.option().forall(_.isEmpty) =>
+        p.binding.option().contains("header") || params.astPartBranch.parentEntryIs("headers")
       case _ => false
     }
 
   protected def isPayloadName(request: AmlCompletionRequest) = {
-    request.amfObject.isInstanceOf[Payload] && request.amfObject.fields.fields().isEmpty && request.yPartBranch
+    request.amfObject.isInstanceOf[Payload] && request.amfObject.fields.fields().isEmpty && request.astPartBranch
       .isKeyDescendantOf("body")
   }
 

@@ -1,0 +1,42 @@
+documentChanges:
+  file://als-actions/shared/src/test/resources/codeactions/extract-element/traits/raml10.raml:
+    -
+      from:
+        line: 79
+        column: 6
+      to:
+        line: 92
+        column: 33
+      content: |
+        +
+
+            is:
+              - trait
+    -
+      from:
+        line: 43
+        column: 0
+      to:
+        line: 43
+        column: 0
+      content: |
+        +
+
+          trait:
+            is:
+              - chargeable
+              - traceable
+            description: |
+              The HTTP interaction will look like
+
+              GET /users HTTP/1.1
+              X-Dept: 18-FINANCE
+              X-Dept: 200-MISC
+              X-Tracker: gfr456d03ygh38s2
+            headers:
+              X-Dept:
+                example:
+                  - 18-FINANCE
+                  - 200-MISC
+              X-Tracker:
+                example: gfr456d03ygh38s2

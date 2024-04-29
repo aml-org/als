@@ -1,11 +1,17 @@
 [
   {
     "label": "delete",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "delete",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11delete",
     "filterText": "delete",
     "insertText": null,
@@ -31,11 +37,17 @@
   },
   {
     "label": "fail",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "fail",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11fail",
     "filterText": "fail",
     "insertText": null,
@@ -61,11 +73,17 @@
   },
   {
     "label": "ignore",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "ignore",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11ignore",
     "filterText": "ignore",
     "insertText": null,
@@ -91,11 +109,17 @@
   },
   {
     "label": "insert",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "insert",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11insert",
     "filterText": "insert",
     "insertText": null,
@@ -121,11 +145,17 @@
   },
   {
     "label": "update",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "update",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11update",
     "filterText": "update",
     "insertText": null,
@@ -151,11 +181,17 @@
   },
   {
     "label": "upsert",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "upsert",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11upsert",
     "filterText": "upsert",
     "insertText": null,

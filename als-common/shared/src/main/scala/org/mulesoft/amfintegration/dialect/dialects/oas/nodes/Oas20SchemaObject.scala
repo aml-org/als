@@ -1,12 +1,12 @@
 package org.mulesoft.amfintegration.dialect.dialects.oas.nodes
 
-import amf.core.metamodel.domain.ShapeModel
-import amf.core.metamodel.domain.extensions.PropertyShapeModel
-import amf.core.vocabulary.Namespace.XsdTypes.{xsdBoolean, xsdString}
+import amf.aml.client.scala.model.domain.PropertyMapping
+import amf.core.client.scala.vocabulary.Namespace.XsdTypes.{xsdBoolean, xsdString}
+import amf.core.internal.metamodel.domain.ShapeModel
+import amf.core.internal.metamodel.domain.extensions.PropertyShapeModel
+import amf.shapes.internal.domain.metamodel.ArrayShapeModel
 import org.mulesoft.amfintegration.dialect.dialects.oas.OAS20Dialect.DialectLocation
 import org.mulesoft.amfintegration.dialect.dialects.oas.OAS30Dialect
-import amf.plugins.document.vocabularies.model.domain.PropertyMapping
-import amf.plugins.domain.shapes.metamodel.ArrayShapeModel
 
 object Oas20SchemaObject extends AMLSchemaBaseObject {
   override def properties: Seq[PropertyMapping] =
@@ -21,7 +21,8 @@ object Oas20SchemaObject extends AMLSchemaBaseObject {
           "tsv",
           "pipes",
           "multi"
-        ))
+        )
+      )
       .withLiteralRange(xsdString.iri())
 }
 
@@ -31,16 +32,19 @@ object Oas30SchemaObject extends AMLSchemaBaseObject {
       .withId(OAS30Dialect.DialectLocation + "#/declarations/SchemaObject/allOf")
       .withName("allOf")
       .withNodePropertyMapping(ShapeModel.And.value.iri())
+      .withAllowMultiple(true)
       .withObjectRange(Seq(Oas30SchemaObject.id)),
     PropertyMapping()
       .withId(OAS30Dialect.DialectLocation + "#/declarations/SchemaObject/oneOf")
       .withName("oneOf")
       .withNodePropertyMapping(ShapeModel.Xone.value.iri())
+      .withAllowMultiple(true)
       .withObjectRange(Seq(Oas30SchemaObject.id)),
     PropertyMapping()
       .withId(OAS30Dialect.DialectLocation + "#/declarations/SchemaObject/anyOf")
       .withName("anyOf")
       .withNodePropertyMapping(ShapeModel.Or.value.iri())
+      .withAllowMultiple(true)
       .withObjectRange(Seq(Oas30SchemaObject.id)),
     PropertyMapping()
       .withId(OAS30Dialect.DialectLocation + "#/declarations/SchemaObject/not")

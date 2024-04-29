@@ -1,0 +1,10 @@
+root: |
+  this is a
+  multi line string
+key:
+  seq: [a, b, value]
+  parent:
+    son:
+      grandchild: v
+    anotherSon:
+      grandchild: 2

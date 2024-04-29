@@ -1,11 +1,17 @@
 [
   {
     "label": "$ref",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "reference tag",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "0$ref",
     "filterText": "$ref: ",
     "insertText": null,
@@ -31,11 +37,17 @@
   },
   {
     "label": "allowEmptyValue",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "allowEmptyValue",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11allowEmptyValue",
     "filterText": "allowEmptyValue: ",
     "insertText": null,
@@ -61,11 +73,17 @@
   },
   {
     "label": "allowReserved",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "allowReserved",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11allowReserved",
     "filterText": "allowReserved: ",
     "insertText": null,
@@ -91,13 +109,19 @@
   },
   {
     "label": "content",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "content",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11content",
-    "filterText": "content:\n  ",
+    "filterText": "content:\n    ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -113,7 +137,7 @@
           "character": 10
         }
       },
-      "newText": "content:\n  "
+      "newText": "content:\n    "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -121,11 +145,17 @@
   },
   {
     "label": "deprecated",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "deprecated",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11deprecated",
     "filterText": "deprecated: ",
     "insertText": null,
@@ -151,11 +181,17 @@
   },
   {
     "label": "description",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "docs",
     "documentation": "description",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "10description",
     "filterText": "description: ",
     "insertText": null,
@@ -181,11 +217,17 @@
   },
   {
     "label": "example",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "docs",
     "documentation": "example",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11example",
     "filterText": "example: ",
     "insertText": null,
@@ -211,13 +253,19 @@
   },
   {
     "label": "examples",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "docs",
     "documentation": "examples",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11examples",
-    "filterText": "examples:\n  ",
+    "filterText": "examples:\n    ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -233,7 +281,7 @@
           "character": 10
         }
       },
-      "newText": "examples:\n  "
+      "newText": "examples:\n    "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -241,11 +289,17 @@
   },
   {
     "label": "explode",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "explode",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11explode",
     "filterText": "explode: ",
     "insertText": null,
@@ -271,11 +325,17 @@
   },
   {
     "label": "in",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "parameters",
     "documentation": "in",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "10in",
     "filterText": "in: ",
     "insertText": null,
@@ -301,11 +361,17 @@
   },
   {
     "label": "name",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "docs",
     "documentation": "name",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "10name",
     "filterText": "name: ",
     "insertText": null,
@@ -331,11 +397,17 @@
   },
   {
     "label": "required",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "parameters",
     "documentation": "required",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "10required",
     "filterText": "required: ",
     "insertText": null,
@@ -361,13 +433,19 @@
   },
   {
     "label": "schema",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "schemas",
     "documentation": "schema",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11schema",
-    "filterText": "schema:\n  ",
+    "filterText": "schema:\n    ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -383,7 +461,7 @@
           "character": 10
         }
       },
-      "newText": "schema:\n  "
+      "newText": "schema:\n    "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -391,11 +469,17 @@
   },
   {
     "label": "style",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "style",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11style",
     "filterText": "style: ",
     "insertText": null,

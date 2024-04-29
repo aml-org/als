@@ -1,0 +1,10 @@
+asyncapi: 2.0.0
+channels:
+  user/signedup:
+    subscribe:
+      message:
+        schemaFormat: application/raml+yaml;version=1.0
+        payload:
+          type: object
+          properties:
+            test: !include *

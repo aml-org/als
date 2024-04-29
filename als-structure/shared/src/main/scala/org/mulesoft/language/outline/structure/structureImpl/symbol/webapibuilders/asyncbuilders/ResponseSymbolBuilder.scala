@@ -1,8 +1,8 @@
 package org.mulesoft.language.outline.structure.structureImpl.symbol.webapibuilders.asyncbuilders
 
-import amf.core.metamodel.Field
-import amf.plugins.domain.webapi.metamodel.ResponseModel
-import amf.plugins.domain.webapi.models.Response
+import amf.apicontract.client.scala.model.domain.Response
+import amf.apicontract.internal.metamodel.domain.ResponseModel
+import amf.core.internal.metamodel.Field
 import org.mulesoft.language.outline.structure.structureImpl.StructureContext
 import org.mulesoft.language.outline.structure.structureImpl.symbol.builders.{
   AmfObjectSimpleBuilderCompanion,
@@ -22,7 +22,6 @@ object ResponseSymbolBuilderCompanion extends AmfObjectSimpleBuilderCompanion[Re
 
   override def getType: Class[_] = classOf[Response]
 
-  override protected def construct(element: Response)(
-      implicit ctx: StructureContext): Option[SymbolBuilder[Response]] =
+  override protected def construct(element: Response)(implicit ctx: StructureContext): Option[SymbolBuilder[Response]] =
     Some(new ResponseSymbolBuilder(element))
 }

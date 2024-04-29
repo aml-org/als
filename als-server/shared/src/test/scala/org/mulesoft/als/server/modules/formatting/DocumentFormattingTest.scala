@@ -1,9 +1,11 @@
 package org.mulesoft.als.server.modules.formatting
 
+import amf.core.client.scala.AMFGraphConfiguration
 import org.mulesoft.als.common.diff.{FileAssertionTest, WorkspaceEditsTest}
+import org.mulesoft.als.server.client.scala.LanguageServerBuilder
 import org.mulesoft.als.server.modules.WorkspaceManagerFactoryBuilder
 import org.mulesoft.als.server.protocol.LanguageServer
-import org.mulesoft.als.server.{LanguageServerBaseTest, LanguageServerBuilder, MockDiagnosticClientNotifier}
+import org.mulesoft.als.server.{LanguageServerBaseTest, MockDiagnosticClientNotifier}
 import org.mulesoft.lsp.configuration.FormattingOptions
 import org.mulesoft.lsp.edit.{TextEdit, WorkspaceEdit}
 import org.mulesoft.lsp.feature.RequestHandler
@@ -22,11 +24,13 @@ class DocumentFormattingTest extends LanguageServerBaseTest with FileAssertionTe
 
   def buildServer(): LanguageServer = {
     val factory =
-      new WorkspaceManagerFactoryBuilder(new MockDiagnosticClientNotifier, logger).buildWorkspaceManagerFactory()
-    new LanguageServerBuilder(factory.documentManager,
-                              factory.workspaceManager,
-                              factory.configurationManager,
-                              factory.resolutionTaskManager)
+      new WorkspaceManagerFactoryBuilder(new MockDiagnosticClientNotifier).buildWorkspaceManagerFactory()
+    new LanguageServerBuilder(
+      factory.documentManager,
+      factory.workspaceManager,
+      factory.configurationManager,
+      factory.resolutionTaskManager
+    )
       .addRequestModule(factory.documentFormattingManager)
       .addRequestModule(factory.documentRangeFormattingManager)
       .build()
@@ -75,21 +79,43 @@ class DocumentFormattingTest extends LanguageServerBaseTest with FileAssertionTe
     })
   }
 
+  // This is ignored because AMF does not provide AST for the whole document,
+  //  just starting from the first significant part
+  ignore("Should format RAML header") {
+    val (original, expected) = files("header.raml")
+    runTest(buildServer(), original, expected).map(result => {
+      assert(result.nonEmpty)
+    })
+  }
+
+  // This is ignored because AMF does not provide AST for the whole document,
+  //  just starting from the first significant part
+  test("Should format json schema document") {
+    val (original, expected) = files("json-schema.json")
+    runTest(buildServer(), original, expected).map(result => {
+      assert(result.nonEmpty)
+    })
+  }
+
   def runTest(server: LanguageServer, fileUri: String, expectedUri: String): Future[Seq[TextEdit]] = {
     val fileId = TextDocumentIdentifier(fileUri)
-    for {
-      original <- platform.resolve(fileUri)
-      formattingResult <- {
-        openFile(server)(fileUri, original.stream.toString)
-        val handler: RequestHandler[DocumentFormattingParams, Seq[TextEdit]] =
-          server.resolveHandler(DocumentFormattingRequestType).get
-        handler(DocumentFormattingParams(fileId, FormattingOptions(2, insertSpaces = true)))
+    withServer(server)(server => {
+      for {
+        original <- platform.fetchContent(fileUri, AMFGraphConfiguration.predefined())
+        _        <- openFile(server)(fileUri, original.stream.toString)
+        formattingResult <- {
+          val handler: RequestHandler[DocumentFormattingParams, Seq[TextEdit]] =
+            server.resolveHandler(DocumentFormattingRequestType).get
+          handler(DocumentFormattingParams(fileId, FormattingOptions(2, insertSpaces = true)))
+        }
+        tmp <- writeTemporaryFile(expectedUri)(
+          applyEdits(WorkspaceEdit(Some(Map(fileUri -> formattingResult)), None), Option(original.stream.toString))
+        )
+        _ <- assertDifferences(tmp, expectedUri)
+      } yield {
+        formattingResult
       }
-      tmp <- writeTemporaryFile(expectedUri)(
-        applyEdits(WorkspaceEdit(Some(Map(fileUri -> formattingResult)), None), Option(original.stream.toString)))
-      r <- assertDifferences(tmp, expectedUri)
-    } yield {
-      formattingResult
-    }
+    })
+
   }
 }

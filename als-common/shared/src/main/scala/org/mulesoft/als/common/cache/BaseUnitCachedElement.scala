@@ -1,9 +1,17 @@
 package org.mulesoft.als.common.cache
 
-import amf.core.model.document.BaseUnit
-import amf.plugins.document.vocabularies.model.document.Dialect
+import amf.aml.client.scala.model.document.Dialect
+import amf.core.client.scala.model.document.BaseUnit
+import amf.core.internal.remote.Spec.GRAPHQL
 import org.mulesoft.als.common.dtoTypes.{Position, PositionRange}
-import org.mulesoft.als.common.{NodeBranchBuilder, ObjectInTree, ObjectInTreeBuilder, YPartBranch}
+import org.mulesoft.als.common.{
+  ASTElementPartBranch,
+  ASTPartBranch,
+  NodeBranchBuilder,
+  ObjectInTree,
+  ObjectInTreeBuilder,
+  YPartBranch
+}
 
 import scala.collection.mutable
 
@@ -34,7 +42,12 @@ case class Location(position: Position, uri: String)
 class ObjectInTreeCached(override val unit: BaseUnit, val definedBy: Dialect)
     extends BaseUnitCachedElement[ObjectInTree] {
   override protected def createElement(location: Location): ObjectInTree =
-    ObjectInTreeBuilder.fromUnit(unit, location.position.toAmfPosition, Some(location.uri), definedBy)
+    ObjectInTreeBuilder.fromUnit(
+      unit,
+      location.uri,
+      definedBy,
+      NodeBranchBuilder.build(unit, location.position.toAmfPosition, strict = false)
+    )
 
   def treeWithUpperElement(range: PositionRange, uri: String): Option[ObjectInTree] = {
     val start = getCachedOrNew(range.start, uri)
@@ -46,14 +59,14 @@ class ObjectInTreeCached(override val unit: BaseUnit, val definedBy: Dialect)
   }
 }
 
-class YPartBranchCached(override val unit: BaseUnit) extends BaseUnitCachedElement[YPartBranch] {
-  override protected def createElement(location: Location): YPartBranch = // todo: check if location._2 is not root
-    NodeBranchBuilder.build(unit, location.position.toAmfPosition, location.uri.toLowerCase.endsWith(".json"))
+class ASTPartBranchCached(override val unit: BaseUnit) extends BaseUnitCachedElement[ASTPartBranch] {
+  override protected def createElement(location: Location): ASTPartBranch = // todo: check if location._2 is not root
+    NodeBranchBuilder.build(unit, location.position.toAmfPosition, strict = false)
 }
 
 trait UnitWithCaches {
   protected val unit: BaseUnit
   protected val definedBy: Dialect
-  val tree        = new ObjectInTreeCached(unit, definedBy)
-  val yPartBranch = new YPartBranchCached(unit)
+  val tree          = new ObjectInTreeCached(unit, definedBy)
+  val astPartBranch = new ASTPartBranchCached(unit)
 }

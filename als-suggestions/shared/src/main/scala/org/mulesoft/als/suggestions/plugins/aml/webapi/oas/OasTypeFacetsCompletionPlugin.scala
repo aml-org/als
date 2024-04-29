@@ -1,7 +1,7 @@
 package org.mulesoft.als.suggestions.plugins.aml.webapi.oas
 
-import amf.plugins.document.vocabularies.model.document.Dialect
-import amf.plugins.document.vocabularies.model.domain.NodeMapping
+import amf.aml.client.scala.model.document.Dialect
+import amf.aml.client.scala.model.domain.NodeMapping
 import org.mulesoft.als.suggestions.plugins.aml.webapi.WebApiTypeFacetsCompletionPlugin
 import org.mulesoft.amfintegration.dialect.dialects.jsonschema.JsonSchemaForOasWrapper
 
@@ -14,6 +14,8 @@ trait OasTypeFacetsCompletionPlugin extends WebApiTypeFacetsCompletionPlugin {
   override def numberShapeNode: NodeMapping = jsonSchemaObj.NumberSchemaObject
 
   override def integerShapeNode: NodeMapping = jsonSchemaObj.IntegerSchemaObject
+
+  override def anyShapeNode: NodeMapping = jsonSchemaObj.AnySchemaObject
 
   override def declarations: Seq[NodeMapping] = dialect.declares.collect({ case n: NodeMapping => n })
 

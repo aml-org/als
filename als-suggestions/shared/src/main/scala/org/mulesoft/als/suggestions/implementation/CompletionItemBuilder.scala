@@ -6,18 +6,21 @@ import org.mulesoft.lsp.edit.TextEdit
 import org.mulesoft.lsp.feature.completion.InsertTextFormat.InsertTextFormat
 import org.mulesoft.lsp.feature.completion.{CompletionItem, InsertTextFormat}
 
+import java.util.regex.Matcher
+
 class CompletionItemBuilder(r: PositionRange) {
-  private var text: String               = ""
-  private var description: String        = ""
-  private var displayText: String        = ""
-  private var prefix: String             = ""
-  private var range: PositionRange       = r
-  private var insertTextFormat           = InsertTextFormat.PlainText
-  private var category: String           = ""
-  private var template                   = false
-  private var filterText: Option[String] = None
-  private var mandatory: Boolean         = false
-  private var isTopLevel: Boolean        = false
+  private var text: String                               = ""
+  private var description: String                        = ""
+  private var displayText: String                        = ""
+  private var prefix: String                             = ""
+  private var range: PositionRange                       = r
+  private var insertTextFormat                           = InsertTextFormat.PlainText
+  private var category: String                           = ""
+  private var template                                   = false
+  private var filterText: Option[String]                 = None
+  private var mandatory: Boolean                         = false
+  private var isTopLevel: Boolean                        = false
+  private var additionalTextEdits: Option[Seq[TextEdit]] = None
 
   def withText(text: String): this.type = {
     this.text = text
@@ -74,26 +77,42 @@ class CompletionItemBuilder(r: PositionRange) {
     this
   }
 
+  def withAdditionalTextEdits(edits: Seq[TextEdit]): this.type = {
+    this.additionalTextEdits = Some(edits)
+    this
+  }
+
   def getRange: PositionRange = this.range
   def getDisplayText: String  = this.displayText
-  def getText: String         = this.text
+  def getText: String         = {
+    if(insertTextFormat == InsertTextFormat.Snippet)
+      escapeNonSnippetText(text)
+    else text
+  }
 
   def getPriority(text: String): Int =
-    PriorityRenderer.sortValue(isMandatory = mandatory,
-                               isTemplate = template,
-                               isAnnotation = text.startsWith("("),
-                               isTopLevel = isTopLevel)
+    PriorityRenderer.sortValue(
+      isMandatory = mandatory,
+      isTemplate = template,
+      isAnnotation = text.startsWith("("),
+      isTopLevel = isTopLevel
+    )
 
   def build(): CompletionItem =
     CompletionItem(
       displayText,
-      textEdit = textEdit(text, range),
+      textEdit = textEdit(getText, range).map(Left(_)),
       detail = Some(category),
       documentation = Some(description),
       insertTextFormat = Some(insertTextFormat),
-      sortText = Some(s"${getPriority(text)}$displayText"),
-      filterText = filterText.orElse(Some(text))
+      sortText = Some(s"${getPriority(getText)}$displayText"),
+      filterText = filterText.orElse(Some(getText)),
+      additionalTextEdits = this.additionalTextEdits
     )
+
+  private def escapeNonSnippetText(text: String): String = {
+    text.replaceAll("(\\$)(?=\\D)", Matcher.quoteReplacement("\\$"))
+  }
 
   private def textEdit(text: String, range: PositionRange): Option[TextEdit] = {
     if (text == null || text.isEmpty) None

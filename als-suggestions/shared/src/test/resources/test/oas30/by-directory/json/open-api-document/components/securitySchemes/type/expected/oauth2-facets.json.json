@@ -1,11 +1,17 @@
 [
   {
     "label": "description",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "docs",
     "documentation": "description",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11description",
     "filterText": "\"description\": \"$1\"",
     "insertText": null,
@@ -20,7 +26,7 @@
         },
         "end": {
           "line": 6,
-          "character": 11
+          "character": 10
         }
       },
       "newText": "\"description\": \"$1\""
@@ -31,11 +37,17 @@
   },
   {
     "label": "flows",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "flows",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "10flows",
     "filterText": "\"flows\": {\n  \"$1\"\n}",
     "insertText": null,
@@ -50,7 +62,7 @@
         },
         "end": {
           "line": 6,
-          "character": 11
+          "character": 10
         }
       },
       "newText": "\"flows\": {\n  \"$1\"\n}"

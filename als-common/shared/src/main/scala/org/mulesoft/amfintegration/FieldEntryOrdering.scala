@@ -1,13 +1,12 @@
 package org.mulesoft.amfintegration
 
-import amf.core.annotations.LexicalInformation
-import amf.core.parser
-import amf.core.parser.FieldEntry
+import org.mulesoft.common.client.lexical.{PositionRange => AmfPositionRange}
+import amf.core.internal.parser.domain.FieldEntry
 import org.mulesoft.amfintegration.AmfImplicits.AmfAnnotationsImp
 
 object FieldEntryOrdering extends Ordering[FieldEntry] {
   override def compare(x: FieldEntry, y: FieldEntry): Int = {
-    val tuple: Option[(parser.Range, parser.Range)] = for {
+    val tuple: Option[(AmfPositionRange, AmfPositionRange)] = for {
       xRange <- x.value.annotations
         .lexicalInformation()
         .orElse(x.value.value.annotations.lexicalInformation())

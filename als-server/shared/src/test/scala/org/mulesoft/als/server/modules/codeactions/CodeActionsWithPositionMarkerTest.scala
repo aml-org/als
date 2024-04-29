@@ -4,10 +4,11 @@ import org.mulesoft.als.actions.codeactions.plugins.AllCodeActions
 import org.mulesoft.als.actions.codeactions.plugins.testaction.TestCodeAction
 import org.mulesoft.als.common.MarkerInfo
 import org.mulesoft.als.convert.LspRangeConverter
+import org.mulesoft.als.server.client.scala.LanguageServerBuilder
 import org.mulesoft.als.server.modules.WorkspaceManagerFactoryBuilder
 import org.mulesoft.als.server.modules.actions.CodeActionManager
 import org.mulesoft.als.server.protocol.LanguageServer
-import org.mulesoft.als.server.{LanguageServerBuilder, MockTelemetryParsingClientNotifier, ServerWithMarkerTest}
+import org.mulesoft.als.server.{MockTelemetryParsingClientNotifier, ServerWithMarkerTest}
 import org.mulesoft.lsp.feature.codeactions._
 import org.mulesoft.lsp.feature.common.{Range, TextDocumentIdentifier}
 
@@ -23,21 +24,20 @@ class CodeActionsWithPositionMarkerTest extends ServerWithMarkerTest[Seq[CodeAct
 
   def buildServer(): LanguageServer = {
     val factory =
-      new WorkspaceManagerFactoryBuilder(notifier, logger).buildWorkspaceManagerFactory()
+      new WorkspaceManagerFactoryBuilder(notifier).buildWorkspaceManagerFactory()
     val codeActionManager =
       new CodeActionManager(
         AllCodeActions.all :+ TestCodeAction,
         factory.workspaceManager,
         factory.configurationManager.getConfiguration,
-        factory.telemetryManager,
-        factory.amfConfiguration,
-        logger,
         factory.directoryResolver
       )
-    new LanguageServerBuilder(factory.documentManager,
-                              factory.workspaceManager,
-                              factory.configurationManager,
-                              factory.resolutionTaskManager)
+    new LanguageServerBuilder(
+      factory.documentManager,
+      factory.workspaceManager,
+      factory.configurationManager,
+      factory.resolutionTaskManager
+    )
       .addRequestModule(codeActionManager)
       .build()
   }
@@ -71,8 +71,8 @@ class CodeActionsWithPositionMarkerTest extends ServerWithMarkerTest[Seq[CodeAct
     val position = LspRangeConverter.toLspPosition(markerInfo.position)
 
     handler(CodeActionParams(TextDocumentIdentifier(path), Range(position, position), CodeActionContext(Nil, None)))
-      .andThen({
-        case _ => closeFile(server)(path)
+      .andThen({ case _ =>
+        closeFile(server)(path)
       })
   }
 }

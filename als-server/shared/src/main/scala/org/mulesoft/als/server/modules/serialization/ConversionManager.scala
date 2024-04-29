@@ -1,26 +1,23 @@
 package org.mulesoft.als.server.modules.serialization
 
-import java.util.UUID
-
+import amf.core.internal.remote.Spec
+import org.mulesoft.als.logger.Logger
 import org.mulesoft.als.server.RequestModule
 import org.mulesoft.als.server.feature.serialization._
-import org.mulesoft.als.server.logger.Logger
 import org.mulesoft.als.server.modules.workspace.CompilableUnit
 import org.mulesoft.als.server.workspace.UnitAccessor
 import org.mulesoft.amfintegration.AmfImplicits._
-import org.mulesoft.amfintegration.AmfInstance
 import org.mulesoft.lsp.feature.TelemeteredRequestHandler
 import org.mulesoft.lsp.feature.telemetry.MessageTypes.MessageTypes
 import org.mulesoft.lsp.feature.telemetry.{MessageTypes, TelemetryProvider}
 
+import java.util.UUID
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
-class ConversionManager(unitAccessor: UnitAccessor[CompilableUnit],
-                        telemetryProvider: TelemetryProvider,
-                        amfInstance: AmfInstance,
-                        logger: Logger)
-    extends RequestModule[ConversionClientCapabilities, ConversionRequestOptions] {
+class ConversionManager(
+    unitAccessor: UnitAccessor[CompilableUnit]
+) extends RequestModule[ConversionClientCapabilities, ConversionRequestOptions] {
 
   private var enabled = false
 
@@ -29,11 +26,9 @@ class ConversionManager(unitAccessor: UnitAccessor[CompilableUnit],
       override def `type`: ConversionRequestType.type = ConversionRequestType
 
       override def task(params: ConversionParams): Future[SerializedDocument] = {
-        if (!enabled) logger.warning("Request conversion with manager disabled", "ConversionManager", "convert")
+        if (!enabled) Logger.warning("Request conversion with manager disabled", "ConversionManager", "convert")
         onSerializationRequest(params.uri, params.target, params.syntax)
       }
-
-      override protected def telemetry: TelemetryProvider = telemetryProvider
 
       override protected def code(params: ConversionParams): String = "ConversionManager"
 
@@ -45,22 +40,34 @@ class ConversionManager(unitAccessor: UnitAccessor[CompilableUnit],
         s"Requested conversion from ${params.uri}\n\t[${params.syntax.getOrElse(".")} -> ${params.target}]"
 
       override protected def uri(params: ConversionParams): String = params.uri
+
+      /** If Some(_), this will be sent as a response as a default for a managed exception
+        */
+      override protected val empty: Option[SerializedDocument] = None
     }
   )
 
-  private def onSerializationRequest(uri: String, target: String, syntax: Option[String]): Future[SerializedDocument] = {
-    unitAccessor.getLastUnit(uri, UUID.randomUUID().toString).flatMap(_.getLast) flatMap { cu =>
-      val clone = cu.unit.cloneUnit()
-      amfInstance
-        .modelBuilder()
-        .convertTo(clone, target, syntax) // should check the origin?
-        .map(s => SerializedDocument(clone.identifier, s))
+  private def onSerializationRequest(
+      uri: String,
+      target: String,
+      syntax: Option[String]
+  ): Future[SerializedDocument] = {
+    unitAccessor
+      .getLastUnit(uri, UUID.randomUUID().toString)
+      .flatMap(_.getLast) map { cu => // should check the origin?
+      SerializedDocument(
+        cu.unit.identifier,
+        cu.context.state
+          .configForSpec(Spec(target))
+          .convertTo(cu.unit, syntax)
+      )
     }
   }
 
   override val `type`: ConversionConfigType.type = ConversionConfigType
 
-  override def initialize(): Future[Unit] = amfInstance.init()
+  override def initialize(): Future[Unit] =
+    Future.successful()
 
   override def applyConfig(config: Option[ConversionClientCapabilities]): ConversionRequestOptions = {
     config.foreach(c => enabled = c.supported)

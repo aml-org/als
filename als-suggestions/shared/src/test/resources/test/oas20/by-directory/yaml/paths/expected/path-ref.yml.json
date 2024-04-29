@@ -1,11 +1,17 @@
 [
   {
     "label": "expected/",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Path suggestion",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11expected/",
     "filterText": "expected/",
     "insertText": null,
@@ -31,11 +37,17 @@
   },
   {
     "label": "parameter-array.yml",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Path suggestion",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11parameter-array.yml",
     "filterText": "parameter-array.yml",
     "insertText": null,
@@ -61,11 +73,17 @@
   },
   {
     "label": "parameter-ref.yml",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Path suggestion",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11parameter-ref.yml",
     "filterText": "parameter-ref.yml",
     "insertText": null,
@@ -91,11 +109,17 @@
   },
   {
     "label": "parameter.yml",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Path suggestion",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11parameter.yml",
     "filterText": "parameter.yml",
     "insertText": null,
@@ -121,11 +145,17 @@
   },
   {
     "label": "path-def.ext.yaml",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Path suggestion",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11path-def.ext.yaml",
     "filterText": "path-def.ext.yaml",
     "insertText": null,
@@ -151,11 +181,17 @@
   },
   {
     "label": "path.yml",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Path suggestion",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11path.yml",
     "filterText": "path.yml",
     "insertText": null,
@@ -181,11 +217,17 @@
   },
   {
     "label": "paths.yml",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Path suggestion",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11paths.yml",
     "filterText": "paths.yml",
     "insertText": null,

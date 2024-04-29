@@ -1,11 +1,17 @@
 [
   {
     "label": "basePath",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "parameters",
     "documentation": "basePath",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11basePath",
     "filterText": "\"basePath\": {\n  \"$1\"\n}",
     "insertText": null,
@@ -20,7 +26,7 @@
         },
         "end": {
           "line": 9,
-          "character": 17
+          "character": 16
         }
       },
       "newText": "\"basePath\": {\n  \"$1\"\n}"
@@ -31,11 +37,17 @@
   },
   {
     "label": "port",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "parameters",
     "documentation": "port",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11port",
     "filterText": "\"port\": {\n  \"$1\"\n}",
     "insertText": null,
@@ -50,7 +62,7 @@
         },
         "end": {
           "line": 9,
-          "character": 17
+          "character": 16
         }
       },
       "newText": "\"port\": {\n  \"$1\"\n}"
@@ -61,11 +73,17 @@
   },
   {
     "label": "username",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "parameters",
     "documentation": "username",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11username",
     "filterText": "\"username\": {\n  \"$1\"\n}",
     "insertText": null,
@@ -80,7 +98,7 @@
         },
         "end": {
           "line": 9,
-          "character": 17
+          "character": 16
         }
       },
       "newText": "\"username\": {\n  \"$1\"\n}"

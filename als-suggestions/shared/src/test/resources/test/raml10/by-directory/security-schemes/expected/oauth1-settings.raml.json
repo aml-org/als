@@ -1,11 +1,17 @@
 [
   {
     "label": "authorizationUri",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "authorizationUri",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11authorizationUri",
     "filterText": "authorizationUri: ",
     "insertText": null,
@@ -31,11 +37,17 @@
   },
   {
     "label": "requestTokenUri",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "requestTokenUri",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11requestTokenUri",
     "filterText": "requestTokenUri: ",
     "insertText": null,
@@ -61,11 +73,17 @@
   },
   {
     "label": "signatures",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "signatures",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11signatures",
     "filterText": "signatures: ",
     "insertText": null,
@@ -91,11 +109,17 @@
   },
   {
     "label": "tokenCredentialsUri",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "tokenCredentialsUri",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11tokenCredentialsUri",
     "filterText": "tokenCredentialsUri: ",
     "insertText": null,

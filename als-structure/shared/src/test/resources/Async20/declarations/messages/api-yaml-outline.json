@@ -5,8 +5,8 @@
     "deprecated": false,
     "range": {
       "start": {
-        "line": 3,
-        "character": 4
+        "line": 2,
+        "character": 2
       },
       "end": {
         "line": 24,
@@ -15,8 +15,8 @@
     },
     "selectionRange": {
       "start": {
-        "line": 3,
-        "character": 4
+        "line": 2,
+        "character": 2
       },
       "end": {
         "line": 24,
@@ -123,7 +123,9 @@
                         "character": 0
                       }
                     },
-                    "children": []
+                    "children": [
+                      
+                    ]
                   },
                   {
                     "name": "applicationInstanceId",
@@ -149,7 +151,9 @@
                         "character": 0
                       }
                     },
-                    "children": []
+                    "children": [
+                      
+                    ]
                   }
                 ]
               }
@@ -229,7 +233,9 @@
                         "character": 0
                       }
                     },
-                    "children": []
+                    "children": [
+                      
+                    ]
                   },
                   {
                     "name": "signup",
@@ -255,7 +261,9 @@
                         "character": 0
                       }
                     },
-                    "children": []
+                    "children": [
+                      
+                    ]
                   }
                 ]
               }

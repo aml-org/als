@@ -1,30 +1,22 @@
 package org.mulesoft.als.server.lsp4j
 
+import org.eclipse.lsp4j.jsonrpc.Launcher
+import org.mulesoft.als.logger.{Logger, PrintLnLogger}
+import org.mulesoft.als.server.JvmSerializationProps
+import org.mulesoft.als.server.client.{AlsLanguageClientExtensions, AlsLanguageClientWrapper, platform}
+import org.mulesoft.als.server.client.platform.AlsLanguageServerFactory
+import org.mulesoft.als.server.lsp4j.internal.GsonConsumerBuilder
+
 import java.io.StringWriter
 import java.net.{ServerSocket, Socket}
-
-import org.eclipse.lsp4j.jsonrpc.Launcher
-import org.eclipse.lsp4j.services.LanguageClient
-import org.mulesoft.als.server.JvmSerializationProps
-import org.mulesoft.als.server.client.ClientConnection
-import org.mulesoft.als.server.feature.serialization.SerializationResult
-import org.mulesoft.als.server.feature.workspace.FilesInProjectParams
-import org.mulesoft.als.server.logger.{Logger, PrintLnLogger}
-import org.mulesoft.als.server.protocol.client.AlsLanguageClient
-
 import scala.annotation.tailrec
 
 object Main {
 
-  case class Options(port: Int,
-                     listen: Boolean,
-                     dialectPath: Option[String],
-                     dialectName: Option[String],
-                     vocabularyPath: Option[String],
-                     systemStream: Boolean = false)
+  case class Options(port: Int, listen: Boolean, systemStream: Boolean = false)
 
   val DefaultOptions: Options =
-    Options(4000, listen = false, dialectPath = None, dialectName = None, vocabularyPath = None)
+    Options(4000, listen = false)
 
   private def readOptions(args: Array[String]): Options = {
     @tailrec
@@ -45,9 +37,9 @@ object Main {
   }
 
   def createSocket(options: Options): Socket = options match {
-    case Options(port, true, _, _, _, false) =>
+    case Options(port, true, _) =>
       new ServerSocket(port).accept()
-    case Options(port, false, _, _, _, false) =>
+    case Options(port, false, _) =>
       new Socket("localhost", port)
   }
 
@@ -64,29 +56,31 @@ object Main {
         }
 
       val logger: Logger   = PrintLnLogger
-      val clientConnection = ClientConnection[StringWriter](logger)
+      val clientConnection = platform.ClientConnection[StringWriter]()
 
+      logger.debug("Building LanguageServerImpl", "Main", "main")
       val server = new LanguageServerImpl(
-        new LanguageServerFactory(clientConnection)
+        new AlsLanguageServerFactory(clientConnection)
+          .withLogger(logger)
           .withSerializationProps(JvmSerializationProps(clientConnection))
           .build()
       )
 
-      val launcher = new Launcher.Builder[LanguageClient]()
+      logger.debug("Launching services", "Main", "main")
+      val launcher = new Launcher.Builder[AlsLanguageClientExtensions]()
+        .configureGson(new GsonConsumerBuilder())
         .setLocalService(server)
-        .setRemoteInterface(classOf[LanguageClient])
+        .setRemoteInterface(classOf[AlsLanguageClientExtensions])
         .setInput(in)
         .setOutput(out)
         .create()
 
       val client = launcher.getRemoteProxy
-      clientConnection.connect(LanguageClientWrapper(client))
+      clientConnection.connect(AlsLanguageClientWrapper(client))
 
-      clientConnection.connectAls(new AlsLanguageClient[StringWriter] {
-        override def notifySerialization(params: SerializationResult[StringWriter]): Unit = {}
+      logger.debug("Connecting Client", "Main", "main")
 
-        override def notifyProjectFiles(params: FilesInProjectParams): Unit = {}
-      }) // example
+      clientConnection.connectAls(AlsLanguageClientWrapper(client))
 
       launcher.startListening
     } catch {

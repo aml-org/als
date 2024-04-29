@@ -1,10 +1,8 @@
 package org.mulesoft.language.outline.structure.structureImpl.symbol.corebuilders
 
-import amf.core.annotations.{LexicalInformation, SourceAST}
-import amf.core.metamodel.domain.ObjectNodeModel
-import amf.core.model.domain._
-import amf.core.parser.{Value, Range => AmfRange}
-import amf.core.utils._
+import amf.core.client.scala.model.domain.{AmfElement, DataNode, ObjectNode, ScalarNode}
+import amf.core.internal.annotations.LexicalInformation
+import amf.core.internal.parser.domain.Value
 import org.mulesoft.als.common.dtoTypes.PositionRange
 import org.mulesoft.language.outline.structure.structureImpl._
 import org.mulesoft.language.outline.structure.structureImpl.symbol.builders.{
@@ -12,8 +10,9 @@ import org.mulesoft.language.outline.structure.structureImpl.symbol.builders.{
   AmfObjectSymbolBuilder,
   SymbolBuilder
 }
-import org.mulesoft.lexer.InputRange
-import org.yaml.model.YMapEntry
+import org.mulesoft.common.client.lexical.{PositionRange => AmfPositionRange}
+import amf.core.internal.metamodel.domain.ObjectNodeModel
+import amf.core.internal.utils._
 
 class ObjectNodeSymbolBuilder(override val element: ObjectNode)(override implicit val ctx: StructureContext)
     extends AmfObjectSymbolBuilder[ObjectNode] {
@@ -28,13 +27,17 @@ class ObjectNodeSymbolBuilder(override val element: ObjectNode)(override implici
       .flatMap {
         case (_, Value(_: ScalarNode, _)) => Nil
         case (n, Value(v: DataNode, a)) =>
+          val decodedName = n.value.name.urlComponentDecoded
           val range =
-            PositionRange(a.find(classOf[LexicalInformation]).map(l => l.range).getOrElse(AmfRange(InputRange.Zero)))
+            PositionRange(a.find(classOf[LexicalInformation]).map(l => l.range).getOrElse(AmfPositionRange.ZERO))
           ctx.factory
             .builderFor(v)
             .map(_.build())
+            .map { s => // in case a child contains the same name, merge it's childs
+              s.filterNot(ds => ds.name == decodedName) ++ s.filter(ds => ds.name == decodedName).flatMap(_.children)
+            }
             .map { r =>
-              Seq(DocumentSymbol(n.value.name.urlComponentDecoded, KindForResultMatcher.getKind(v), range, r.toList))
+              Seq(DocumentSymbol(decodedName, KindForResultMatcher.getKind(v), range, r.toList))
             }
             .getOrElse(Nil)
         case _ => Nil
@@ -45,7 +48,7 @@ class ObjectNodeSymbolBuilder(override val element: ObjectNode)(override implici
 
   override protected val optionName: Option[String] = None
 
-  override protected val kind: SymbolKind.SymbolKind = SymbolKind.Property
+  override protected val kind: SymbolKinds.SymbolKind = SymbolKinds.Property
 }
 
 object ObjectNodeSymbolBuilder extends AmfObjectSimpleBuilderCompanion[ObjectNode] {

@@ -1,9 +1,9 @@
 package org.mulesoft.amfintegration.dialect.dialects.asyncapi20
 
-import amf.core.vocabulary.Namespace.XsdTypes.xsdString
-import amf.plugins.document.vocabularies.model.domain.PropertyMapping
-import amf.plugins.domain.webapi.metamodel.api.AsyncApiModel
-import amf.plugins.domain.webapi.metamodel.{EndPointModel, ServerModel}
+import amf.aml.client.scala.model.domain.PropertyMapping
+import amf.apicontract.internal.metamodel.domain.{EndPointModel, ServerModel}
+import amf.apicontract.internal.metamodel.domain.api.AsyncApiModel
+import amf.core.client.scala.vocabulary.Namespace.XsdTypes.xsdString
 import org.mulesoft.amfintegration.dialect.dialects.oas.OAS20Dialect.OwlSameAs
 import org.mulesoft.amfintegration.dialect.dialects.oas.nodes.{
   AMLExternalDocumentationObject,
@@ -19,9 +19,11 @@ object AsyncApi20ApiNode extends DialectNode {
       .withName("info")
       .withMinCount(1)
       .withNodePropertyMapping(OwlSameAs)
-      .withObjectRange(Seq(
-        AMLInfoObject.id
-      )),
+      .withObjectRange(
+        Seq(
+          AMLInfoObject.id
+        )
+      ),
     PropertyMapping()
       .withId(location + "#/declarations/AsyncAPIObject/id")
       .withName("id")
@@ -32,7 +34,8 @@ object AsyncApi20ApiNode extends DialectNode {
       .withObjectRange(
         Seq(
           AsyncApiServerObject.id
-        ))
+        )
+      )
       .withMapTermKeyProperty(ServerModel.Name.value.iri()),
     PropertyMapping()
       .withId(location + "#/declarations/AsyncAPIObject/externalDocs")
@@ -40,7 +43,8 @@ object AsyncApi20ApiNode extends DialectNode {
       .withObjectRange(
         Seq(
           AMLExternalDocumentationObject.id
-        )),
+        )
+      ),
     PropertyMapping()
       .withId(location + "#/declarations/AsyncAPIObject/tags")
       .withName("tags")

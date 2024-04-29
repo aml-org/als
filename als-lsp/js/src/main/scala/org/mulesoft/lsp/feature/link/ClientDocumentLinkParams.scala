@@ -1,7 +1,7 @@
 package org.mulesoft.lsp.feature.link
 
 import scala.scalajs.js
-import  org.mulesoft.lsp.convert.LspConvertersSharedToClient.ClientTextDocumentIdentifierConverter
+import org.mulesoft.lsp.convert.LspConvertersSharedToClient.ClientTextDocumentIdentifierConverter
 import org.mulesoft.lsp.feature.common.ClientTextDocumentIdentifier
 // $COVERAGE-OFF$ Incompatibility between scoverage and scalaJS
 

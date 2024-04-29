@@ -1,16 +1,22 @@
 [
   {
     "label": "contact",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "docs",
     "documentation": "contact",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11contact",
-    "filterText": "contact:\n  ",
+    "filterText": "contact: {\n  $1\n}",
     "insertText": null,
     "insertTextFormat": [
-      1
+      2
     ],
     "textEdit": {
       "range": {
@@ -23,7 +29,7 @@
           "character": 8
         }
       },
-      "newText": "contact:\n  "
+      "newText": "contact: {\n  $1\n}"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -31,13 +37,19 @@
   },
   {
     "label": "description",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "docs",
     "documentation": "description",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11description",
-    "filterText": "description: ",
+    "filterText": "description:",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -53,7 +65,7 @@
           "character": 8
         }
       },
-      "newText": "description: "
+      "newText": "description:"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -61,16 +73,22 @@
   },
   {
     "label": "license",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "docs",
     "documentation": "license",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11license",
-    "filterText": "license:\n  ",
+    "filterText": "license: {\n  $1\n}",
     "insertText": null,
     "insertTextFormat": [
-      1
+      2
     ],
     "textEdit": {
       "range": {
@@ -83,7 +101,7 @@
           "character": 8
         }
       },
-      "newText": "license:\n  "
+      "newText": "license: {\n  $1\n}"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -91,13 +109,19 @@
   },
   {
     "label": "termsOfService",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "docs",
     "documentation": "termsOfService",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11termsOfService",
-    "filterText": "termsOfService: ",
+    "filterText": "termsOfService:",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -113,7 +137,7 @@
           "character": 8
         }
       },
-      "newText": "termsOfService: "
+      "newText": "termsOfService:"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -121,13 +145,19 @@
   },
   {
     "label": "version",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "docs",
     "documentation": "version",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "10version",
-    "filterText": "version: ",
+    "filterText": "version:",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -143,7 +173,7 @@
           "character": 8
         }
       },
-      "newText": "version: "
+      "newText": "version:"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,

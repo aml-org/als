@@ -1,11 +1,17 @@
 [
   {
     "label": "describedBy",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "security",
     "documentation": "describedBy",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11describedBy",
     "filterText": "describedBy:\n  ",
     "insertText": null,
@@ -31,11 +37,17 @@
   },
   {
     "label": "description",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "docs",
     "documentation": "description",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11description",
     "filterText": "description: ",
     "insertText": null,
@@ -61,11 +73,17 @@
   },
   {
     "label": "settings",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "security",
     "documentation": "settings",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11settings",
     "filterText": "settings:\n  ",
     "insertText": null,
@@ -91,12 +109,18 @@
   },
   {
     "label": "type",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "types and traits",
     "documentation": "type",
-    "deprecated": [],
-    "preselect": [],
-    "sortText": "11type",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "10type",
     "filterText": "type: ",
     "insertText": null,
     "insertTextFormat": [

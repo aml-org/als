@@ -1,0 +1,74 @@
+[
+  {
+    "label": "New responses",
+    "kind": [
+      
+    ],
+    "detail": "template",
+    "documentation": "responses",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "20New responses",
+    "filterText": "responses:\n  $1:\n    description: $2",
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 5,
+          "character": 6
+        },
+        "end": {
+          "line": 5,
+          "character": 13
+        }
+      },
+      "newText": "responses:\n  $1:\n    description: $2"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "responses",
+    "kind": [
+      
+    ],
+    "detail": "responses",
+    "documentation": "responses",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "10responses",
+    "filterText": "responses:\n  ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 5,
+          "character": 6
+        },
+        "end": {
+          "line": 5,
+          "character": 13
+        }
+      },
+      "newText": "responses:\n  "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  }
+]

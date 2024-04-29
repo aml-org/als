@@ -1,0 +1,29 @@
+documentChanges:
+  file://als-actions/shared/src/test/resources/codeactions/extract-element/traits/raml10.raml:
+    -
+      from:
+        line: 71
+        column: 8
+      to:
+        line: 77
+        column: 0
+      content: |
+        +
+
+              is:
+                - trait
+    -
+      from:
+        line: 43
+        column: 0
+      to:
+        line: 43
+        column: 0
+      content: |
+        +
+
+          trait:
+            description: put operation is done
+            headers:
+              A-IM:
+                type: string

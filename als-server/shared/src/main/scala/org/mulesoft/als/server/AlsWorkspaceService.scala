@@ -6,8 +6,6 @@ import org.mulesoft.lsp.workspace.WorkspaceService
 import scala.concurrent.Future
 
 trait AlsWorkspaceService extends WorkspaceService {
-
-  def initializeWS(folder: String): Future[Unit]
-
   def initialize(workspaceFolders: List[WorkspaceFolder]): Future[Unit]
+  def getWorkspaceFolders: Seq[String]
 }

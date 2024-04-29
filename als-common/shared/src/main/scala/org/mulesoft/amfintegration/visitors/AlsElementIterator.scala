@@ -1,22 +1,26 @@
 package org.mulesoft.amfintegration.visitors
 
-import amf.core.annotations.ErrorDeclaration
-import amf.core.model.document.BaseUnit
-import amf.core.model.domain.templates.AbstractDeclaration
-import amf.core.model.domain.{AmfArray, AmfElement, AmfObject}
-import amf.core.traversal.iterator.AmfIterator
-import amf.plugins.domain.webapi.models.templates.{ResourceType, Trait}
-import org.mulesoft.amfintegration.AmfImplicits._
+import amf.apicontract.client.scala.model.domain.{EndPoint, Operation}
+import amf.core.client.scala.model.document.BaseUnit
+import amf.core.client.scala.model.domain.templates.AbstractDeclaration
+import amf.core.client.scala.model.domain.{AmfArray, AmfElement, AmfObject}
+import amf.core.client.scala.traversal.iterator.AmfIterator
+import amf.core.internal.annotations.ErrorDeclaration
+import org.mulesoft.amfintegration.AbstractDeclarationInformation
+import org.mulesoft.amfintegration.AmfImplicits.AmfAnnotationsImp
+import org.mulesoft.amfintegration.amfconfiguration.AmfParseContext
 
 import scala.collection.mutable
 
-class AlsElementIterator(private val bu: BaseUnit,
-                         private var buffer: Iterator[AmfElement],
-                         visited: mutable.Set[String])
-    extends AmfIterator {
+class AlsElementIterator(
+    private val bu: BaseUnit,
+    private var buffer: Iterator[AmfElement],
+    visited: mutable.Set[String],
+    parseContext: AmfParseContext
+) extends AmfIterator {
 
-  def this(bu: BaseUnit) = {
-    this(bu, Iterator(bu), mutable.Set())
+  def this(bu: BaseUnit, parseContext: AmfParseContext) = {
+    this(bu, Iterator(bu), mutable.Set(), parseContext)
     advance()
   }
 
@@ -36,17 +40,22 @@ class AlsElementIterator(private val bu: BaseUnit,
         case obj: AmfObject if visited.contains(obj.id) =>
           advance()
         case de: AbstractDeclaration
-            if de.linkTarget.exists(_ => de.effectiveLinkTarget().isInstanceOf[ErrorDeclaration]) =>
+            if de.linkTarget.exists(_ => de.effectiveLinkTarget().isInstanceOf[ErrorDeclaration[_]]) =>
           visited += de.id
           advance()
-        case rt: ResourceType =>
-          val obj = rt.asEndpoint(bu)
-          visited += rt.id
-          buffer = (obj :: extractElements(obj).toList ++ buffer).iterator
-        case t: Trait =>
-          val obj = t.asOperation(bu)
-          visited += t.id
-          buffer = (obj :: extractElements(obj).toList ++ buffer).iterator
+        case e: ErrorDeclaration[_] =>
+          visited += e.id
+        case abstractDeclaration: AbstractDeclaration =>
+          val information =
+            AbstractDeclarationInformation.extractInformation(abstractDeclaration, bu, parseContext.amfConfiguration)
+          information.map(info => {
+            info.element match {
+              case obj @ (_: EndPoint | _: Operation) =>
+                visited += info.original.id
+                buffer = (obj :: extractElements(obj).toList ++ buffer).iterator
+              case _ => None
+            }
+          })
         case a: AmfObject if current.annotations.isRamlTypeExpression =>
           // don't search for children, the whole expression will be treated as a single element
           visited += a.id

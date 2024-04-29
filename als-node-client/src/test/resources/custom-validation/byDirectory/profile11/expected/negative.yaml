@@ -1,0 +1,11 @@
+uri: file://als-node-client/src/test/resources/custom-validation/byDirectory/profile11/negative.data
+diagnostics:
+  -
+    message: Validation error
+    range: Range(common.Position[L:6,C:2],common.Position[L:8,C:17])
+    severity: Error
+    code: file://als-node-client/src/test/resources/custom-validation/byDirectory/profile11/profile.yaml#/encodes/validations/array-limits
+    relatedInformation:
+      -
+        message: Error expected 50 < actual (actual=100) at http://www.w3.org/ns/shacl#minCount
+        location: Location(file://als-node-client/src/test/resources/custom-validation/byDirectory/profile11/negative.data,Range(common.Position[L:6,C:2],common.Position[L:8,C:17]))

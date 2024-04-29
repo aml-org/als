@@ -1,0 +1,26 @@
+uri: file://als-node-client/src/test/resources/custom-validation/byDirectory/profile7/negative.data
+diagnostics:
+  -
+    message: Scalars in parameters must have minLength defined
+    range: Range(common.Position[L:9,C:6],common.Position[L:10,C:0])
+    severity: Error
+    code: file://als-node-client/src/test/resources/custom-validation/byDirectory/profile7/profile.yaml#/encodes/validations/validation1
+    relatedInformation:
+      -
+        message: Error expected 1 >= actual (actual=0) at http://www.w3.org/ns/shacl#minLength
+        location: Location(file://als-node-client/src/test/resources/custom-validation/byDirectory/profile7/negative.data,Range(common.Position[L:9,C:6],common.Position[L:10,C:0]))
+      -
+        message: error in nested nodes under http://a.ml/vocabularies/apiContract#parameter / http://a.ml/vocabularies/shapes#schema
+        location: Location(file://als-node-client/src/test/resources/custom-validation/byDirectory/profile7/negative.data,Range(common.Position[L:7,C:0],common.Position[L:17,C:0]))
+  -
+    message: Scalars in parameters must have minLength defined
+    range: Range(common.Position[L:23,C:6],common.Position[L:24,C:0])
+    severity: Error
+    code: file://als-node-client/src/test/resources/custom-validation/byDirectory/profile7/profile.yaml#/encodes/validations/validation1
+    relatedInformation:
+      -
+        message: Error expected 1 >= actual (actual=0) at http://www.w3.org/ns/shacl#minLength
+        location: Location(file://als-node-client/src/test/resources/custom-validation/byDirectory/profile7/negative.data,Range(common.Position[L:23,C:6],common.Position[L:24,C:0]))
+      -
+        message: error in nested nodes under http://a.ml/vocabularies/apiContract#parameter / http://a.ml/vocabularies/shapes#schema
+        location: Location(file://als-node-client/src/test/resources/custom-validation/byDirectory/profile7/negative.data,Range(common.Position[L:19,C:0],common.Position[L:30,C:0]))

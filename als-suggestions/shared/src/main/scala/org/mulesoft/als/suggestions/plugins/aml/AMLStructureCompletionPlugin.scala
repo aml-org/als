@@ -1,16 +1,17 @@
 package org.mulesoft.als.suggestions.plugins.aml
 
-import amf.core.metamodel.Field
-import amf.core.metamodel.Type.ArrayLike
-import amf.core.metamodel.domain.DomainElementModel
-import amf.core.parser.FieldEntry
-import amf.plugins.document.vocabularies.model.document.Dialect
-import amf.plugins.document.vocabularies.model.domain.{NodeMapping, PropertyMapping}
-import org.mulesoft.als.common.YPartBranch
+import amf.aml.client.scala.model.document.Dialect
+import amf.aml.client.scala.model.domain.{NodeMapping, PropertyMapping}
+import amf.core.client.scala.model.document.Module
+import amf.core.internal.metamodel.Field
+import amf.core.internal.metamodel.Type.ArrayLike
+import amf.core.internal.metamodel.domain.DomainElementModel
+import amf.core.internal.parser.domain.FieldEntry
 import org.mulesoft.als.suggestions.RawSuggestion
 import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
 import org.mulesoft.als.suggestions.interfaces.{AmfObjectKnowledge, DisjointCompletionPlugins, ResolveIfApplies}
 import org.mulesoft.als.suggestions.plugins.aml.categories.CategoryRegistry
+import org.mulesoft.als.suggestions.plugins.aml.templates.{AMLDeclaredStructureTemplate, AMLEncodedStructureTemplate}
 import org.mulesoft.amfintegration.AmfImplicits._
 
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -30,25 +31,36 @@ object ResolveDefault extends ResolveIfApplies with AmfObjectKnowledge {
     applies(defaultStructure(params))
 
   protected final def defaultStructure(params: AmlCompletionRequest): Future[Seq[RawSuggestion]] = Future {
-    if (isWritingProperty(params.yPartBranch))
+    if (params.astPartBranch.isKeyLike)
       if (!isInFieldValue(params)) {
-        val isEncoded = isEncodes(params.amfObject, params.actualDialect) && params.fieldEntry.isEmpty // params.fieldEntry.isEmpty does nothing here?
-        if (((isEncoded && params.yPartBranch.isAtRoot) || !isEncoded) && params.fieldEntry.isEmpty)
+        val isEncoded =
+          isEncodes(params.amfObject, params.actualDialect, params.branchStack) && isEmptyFieldOrPrefix(
+            params
+          )
+        val isEncodedOrModule = isEncoded || params.amfObject.isInstanceOf[Module]
+        if (
+          ((isEncodedOrModule && params.astPartBranch.isAtRoot) || !isEncodedOrModule)
+            && isEmptyFieldOrPrefix(params)
+        )
           new AMLStructureCompletionsPlugin(params.propertyMapping, params.actualDialect)
-            .resolve(params.amfObject.metaURIs.head)
-        else Nil
-      } else resolveObjInArray(params)
+            .resolve(params.amfObject.metaURIs.head) ++
+            AMLEncodedStructureTemplate.resolve(params)
+        else
+          AMLDeclaredStructureTemplate.resolve(params)
+      } else
+        resolveObjInArray(params)
     else Nil
   }
 
-  private def isWritingProperty(yPartBranch: YPartBranch): Boolean =
-    (yPartBranch.isKey || yPartBranch.isInArray) || (yPartBranch.isJson && (yPartBranch.isInArray && yPartBranch.stringValue == "x"))
+  private def isEmptyFieldOrPrefix(params: AmlCompletionRequest) =
+    (params.prefix.isEmpty && params.fieldEntry.isEmpty) ||
+      params.prefix.nonEmpty
 
   protected def objInArray(params: AmlCompletionRequest): Option[DomainElementModel] = {
     params.fieldEntry match {
-      case Some(FieldEntry(Field(t: ArrayLike, _, _, _), _))
+      case Some(FieldEntry(Field(t: ArrayLike, _, _, _, false, _), _))
           if t.element
-            .isInstanceOf[DomainElementModel] && params.yPartBranch.isInArray =>
+            .isInstanceOf[DomainElementModel] && params.astPartBranch.isInArray =>
         Some(t.element.asInstanceOf[DomainElementModel])
       case _ => None
     }

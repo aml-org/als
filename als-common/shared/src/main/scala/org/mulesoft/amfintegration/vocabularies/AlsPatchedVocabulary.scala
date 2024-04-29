@@ -1,13 +1,35 @@
 package org.mulesoft.amfintegration.vocabularies
 
-import org.mulesoft.amfintegration.vocabularies.propertyterms.patched.oaslike.asyncapi2.{AsyncApi20ComponentsKeyTerm, AsyncApi20IdKeyTerm, AsyncApi20InfoKeyTerm}
-import org.mulesoft.amfintegration.vocabularies.propertyterms.patched.oaslike.oas2.{Oas2BasePathKeyTerm, Oas2HostKeyTerm, Oas2InfoKeyTerm, Oas2PathsKeyTerm}
-import org.mulesoft.amfintegration.vocabularies.propertyterms.patched.oaslike.oas3.{Oas3ComponentsKeyTerm, Oas3InfoKeyTerm, Oas3PathsKeyTerm}
-import org.mulesoft.amfintegration.vocabularies.propertyterms.patched.raml.raml08.{Raml08BaseUriParametersServerKeyTerm, Raml08BaseUriParametersTopLevelKeyTerm, Raml08BaseUriServerKeyTerm, Raml08BaseUriTopLevelKeyTerm, Raml08SecuredByKeyTerm}
-import org.mulesoft.amfintegration.vocabularies.propertyterms.patched.raml.raml10.{Raml10BaseUriKeyTerm, Raml10UsesKeyTerm}
+import org.mulesoft.amfintegration.vocabularies.propertyterms.patched.oaslike.asyncapi2.{
+  AsyncApi20ComponentsKeyTerm,
+  AsyncApi20IdKeyTerm,
+  AsyncApi20InfoKeyTerm
+}
+import org.mulesoft.amfintegration.vocabularies.propertyterms.patched.oaslike.oas2.{
+  Oas2BasePathKeyTerm,
+  Oas2HostKeyTerm,
+  Oas2InfoKeyTerm,
+  Oas2PathsKeyTerm
+}
+import org.mulesoft.amfintegration.vocabularies.propertyterms.patched.oaslike.oas3.{
+  Oas3ComponentsKeyTerm,
+  Oas3InfoKeyTerm,
+  Oas3PathsKeyTerm
+}
+import org.mulesoft.amfintegration.vocabularies.propertyterms.patched.raml.raml08.{
+  Raml08BaseUriParametersServerKeyTerm,
+  Raml08BaseUriParametersTopLevelKeyTerm,
+  Raml08BaseUriServerKeyTerm,
+  Raml08BaseUriTopLevelKeyTerm,
+  Raml08SecuredByKeyTerm
+}
+import org.mulesoft.amfintegration.vocabularies.propertyterms.patched.raml.raml10.{
+  Raml10BaseUriKeyTerm,
+  Raml10UsesKeyTerm
+}
 
 object AlsPatchedVocabulary extends VocabularyObject {
-  override protected def base: String = "http://als.patched/#"
+  override def base: String = "http://als.patched/#"
 
   override protected def classes: Seq[ClassTermObjectNode] =
     Seq()
@@ -19,7 +41,7 @@ object AlsPatchedVocabulary extends VocabularyObject {
     Oas2InfoKeyTerm,
     Oas2PathsKeyTerm,
     Oas2BasePathKeyTerm,
-    Oas2HostKeyTerm,
+    Oas2HostKeyTerm
   )
 
   val oas3terms = Seq(

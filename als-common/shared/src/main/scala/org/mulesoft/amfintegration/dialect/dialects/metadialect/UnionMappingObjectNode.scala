@@ -1,8 +1,8 @@
 package org.mulesoft.amfintegration.dialect.dialects.metadialect
 
-import amf.plugins.document.vocabularies.metamodel.domain.UnionNodeMappingModel
-import amf.plugins.document.vocabularies.model.domain.PropertyMapping
-import amf.core.vocabulary.Namespace.XsdTypes._
+import amf.aml.client.scala.model.domain.PropertyMapping
+import amf.aml.internal.metamodel.domain.UnionNodeMappingModel
+import amf.core.client.scala.vocabulary.Namespace.XsdTypes.xsdString
 import org.mulesoft.amfintegration.dialect.dialects.oas.nodes.DialectNode
 object UnionMappingObjectNode extends DialectNode {
   override def name: String = "UnionMappingObjectNode"
@@ -15,6 +15,7 @@ object UnionMappingObjectNode extends DialectNode {
       .withNodePropertyMapping(UnionNodeMappingModel.ObjectRange.value.iri())
       .withName("union")
       .withLiteralRange(xsdString.iri())
+      .withMinCount(1)
       .withAllowMultiple(true),
     PropertyMapping()
       .withId(location + s"#/declarations/$name/typeDiscriminator")

@@ -1,15 +1,17 @@
 package org.mulesoft.als.server.modules.codeactions
 
+import amf.core.client.scala.AMFGraphConfiguration
 import org.mulesoft.als.common.MarkerInfo
 import org.mulesoft.als.common.diff.WorkspaceEditsTest
 import org.mulesoft.als.convert.LspRangeConverter
+import org.mulesoft.als.server.client.scala.LanguageServerBuilder
 import org.mulesoft.als.server.modules.WorkspaceManagerFactoryBuilder
 import org.mulesoft.als.server.protocol.LanguageServer
-import org.mulesoft.als.server.{LanguageServerBuilder, MockTelemetryParsingClientNotifier, ServerWithMarkerTest}
+import org.mulesoft.als.server.{MockTelemetryParsingClientNotifier, ServerWithMarkerTest}
 import org.mulesoft.lsp.feature.codeactions.CodeActionKind.CodeActionKind
 import org.mulesoft.lsp.feature.codeactions._
 import org.mulesoft.lsp.feature.common.{Range, TextDocumentIdentifier}
-import org.scalatest.Assertion
+import org.scalatest.compatible.Assertion
 
 import scala.concurrent.{ExecutionContext, Future}
 
@@ -41,6 +43,14 @@ class CodeActionsWithGoldenTest extends ServerWithMarkerTest[Seq[CodeAction]] wi
       }
   }
 
+  test("OAS 3 example should respond with the extract element to a declaration and insert into a new components") {
+    val path = "refactorextract/extract-example-oas3-no-components.yaml"
+    runTest(buildServer(), path, None)
+      .flatMap { result =>
+        checkExtractGolden(path, result)
+      }
+  }
+
   test("RAML 1 Extract type from property key, having `types` already declared") {
     val path = "refactorextract/extract-element-with-types-declared.raml"
     runTest(buildServer(), path, None)
@@ -57,6 +67,14 @@ class CodeActionsWithGoldenTest extends ServerWithMarkerTest[Seq[CodeAction]] wi
       }
   }
 
+  test("RAML 1 Extract type defined using Json Schema") {
+    val path = "refactorextract/json-schema-type.raml"
+    runTest(buildServer(), path, None)
+      .flatMap { result =>
+        checkExtractGolden(path, result)
+      }
+  }
+
   test("RAML 1 delete type node") {
     val path = "delete/raml-type.raml"
     runTest(buildServer(), path, None)
@@ -65,8 +83,24 @@ class CodeActionsWithGoldenTest extends ServerWithMarkerTest[Seq[CodeAction]] wi
       }
   }
 
-  test("Oas 3 delete type node (path ref") {
+  test("OAS 3 delete type node (path ref)") {
     val path = "delete/oas3-type.yaml"
+    runTest(buildServer(), path, None)
+      .flatMap { result =>
+        checkRefactorGolden(path, result)
+      }
+  }
+
+  test("RAML 1 delete trait node with array references") {
+    val path = "delete/raml-array-trait.raml"
+    runTest(buildServer(), path, None)
+      .flatMap { result =>
+        checkRefactorGolden(path, result)
+      }
+  }
+
+  test("RAML 1 delete type node with array references") {
+    val path = "delete/raml-array-types.raml"
     runTest(buildServer(), path, None)
       .flatMap { result =>
         checkRefactorGolden(path, result)
@@ -89,27 +123,29 @@ class CodeActionsWithGoldenTest extends ServerWithMarkerTest[Seq[CodeAction]] wi
     val goldenResolved = filePath(platform.encodeURI(goldenPath))
 
     for {
-      goldenContent <- this.platform.resolve(goldenResolved).map(_.stream.toString)
-      content       <- this.platform.resolve(resolved).map(_.stream.toString)
-    } yield {
-      val marker = findMarker(content)
-      val maybeEdit = result
-        .find(ca => ca.kind.contains(kind))
-        .flatMap(_.edit)
-      maybeEdit.isDefined should be(true)
-      assertWorkspaceEdits(maybeEdit.get, Some(goldenContent), Some(marker.content), path)
-    }
+      content <- this.platform.fetchContent(resolved, AMFGraphConfiguration.predefined()).map(_.stream.toString)
+      assert <- {
+        val marker = findMarker(content)
+        val maybeEdit = result
+          .find(ca => ca.kind.contains(kind))
+          .flatMap(_.edit)
+        maybeEdit.isDefined should be(true)
+        assertWorkspaceEdits(maybeEdit.get, goldenResolved, Some(marker.content))
+      }
+    } yield assert
   }
 
   override def rootPath: String = "actions/codeactions"
 
   def buildServer(): LanguageServer = {
     val factory =
-      new WorkspaceManagerFactoryBuilder(notifier, logger).buildWorkspaceManagerFactory()
-    new LanguageServerBuilder(factory.documentManager,
-                              factory.workspaceManager,
-                              factory.configurationManager,
-                              factory.resolutionTaskManager)
+      new WorkspaceManagerFactoryBuilder(notifier).buildWorkspaceManagerFactory()
+    new LanguageServerBuilder(
+      factory.documentManager,
+      factory.workspaceManager,
+      factory.configurationManager,
+      factory.resolutionTaskManager
+    )
       .addRequestModule(factory.codeActionManager)
       .build()
   }
@@ -119,8 +155,8 @@ class CodeActionsWithGoldenTest extends ServerWithMarkerTest[Seq[CodeAction]] wi
     val position = LspRangeConverter.toLspPosition(markerInfo.position)
 
     handler(CodeActionParams(TextDocumentIdentifier(path), Range(position, position), CodeActionContext(Nil, None)))
-      .andThen({
-        case _ => closeFile(server)(path)
+      .andThen({ case _ =>
+        closeFile(server)(path)
       })
   }
 

@@ -1,65 +1,75 @@
 package org.mulesoft.als.actions.hover
 
-import amf.core.metamodel.{Field, Obj}
-import amf.core.model.document.BaseUnit
-import amf.core.model.domain.{AmfElement, AmfObject, DataNode}
-import amf.core.parser
-import amf.core.parser.{FieldEntry, Range}
-import amf.core.vocabulary.ValueType
-import amf.plugins.document.vocabularies.model.document.Dialect
+import amf.aml.client.scala.model.document.Dialect
+import org.mulesoft.common.client.lexical.{PositionRange => AmfPositionRange}
+import amf.core.client.scala.model.document.BaseUnit
+import amf.core.client.scala.model.domain.{AmfElement, AmfObject, DataNode}
+import amf.core.client.scala.vocabulary.ValueType
+import amf.core.internal.metamodel.{Field, Obj}
+import amf.core.internal.parser.domain.FieldEntry
 import org.mulesoft.als.common.ObjectInTree
-import org.mulesoft.als.common.YamlWrapper._
-import org.mulesoft.als.common.cache.{ObjectInTreeCached, YPartBranchCached}
+import org.mulesoft.als.common.ASTElementWrapper.AlsPositionRange
+import org.mulesoft.als.common.cache.{ASTPartBranchCached, ObjectInTreeCached}
 import org.mulesoft.als.common.dtoTypes.{Position, PositionRange}
 import org.mulesoft.als.convert.LspRangeConverter
 import org.mulesoft.amfintegration.AmfImplicits._
-import org.mulesoft.amfintegration.AmfInstance
 import org.mulesoft.amfintegration.vocabularies.AmlCoreVocabulary
+import org.mulesoft.amfintegration.vocabularies.integration.VocabularyProvider
 import org.mulesoft.amfintegration.vocabularies.propertyterms.NamePropertyTerm
 import org.mulesoft.lsp.feature.hover.Hover
 import org.yaml.model.YMapEntry
 
-import scala.annotation.tailrec
-
-case class HoverAction(bu: BaseUnit,
-                       tree: ObjectInTreeCached,
-                       yPartBranchCached: YPartBranchCached,
-                       dtoPosition: Position,
-                       location: String,
-                       amfInstance: AmfInstance,
-                       definedBy: Dialect) {
+case class HoverAction(
+    bu: BaseUnit,
+    tree: ObjectInTreeCached,
+    astPartBranchCached: ASTPartBranchCached,
+    dtoPosition: Position,
+    location: String,
+    provider: VocabularyProvider,
+    definedBy: Dialect
+) {
 
   private val objectInTree: ObjectInTree = tree.getCachedOrNew(dtoPosition, location)
 
-  private val yPartBranch = yPartBranchCached.getCachedOrNew(dtoPosition, location)
+  private val yPartBranch = astPartBranchCached.getCachedOrNew(dtoPosition, location)
 
   def getHover: Hover =
     getSemantic
-      .map(s => Hover(s._1, s._2.map(r => LspRangeConverter.toLspRange(PositionRange(r))))) // if sequence, we could show all the semantic hierarchy?
+      .map(s =>
+        Hover(s._1, s._2.map(r => LspRangeConverter.toLspRange(PositionRange(r))))
+      ) // if sequence, we could show all the semantic hierarchy?
       .getOrElse(Hover.empty)
 
-  /**
-    * if obj is in the correct location and has a range defined, return it, if not, return more specific node from AST
+  /** if obj is in the correct location and has a range defined, return it, if not, return more specific node from AST
     * todo: should links be already filtered out in AmfSonElementFinder?
     */
-  private def mostSpecificRangeInFile(obj: AmfElement): Option[parser.Range] =
+  private def mostSpecificRangeInFile(obj: AmfElement): Option[AmfPositionRange] =
     if (isInFileAndHasRange(obj))
       obj.annotations.range()
-    else Option(parser.Range(yPartBranch.node.range))
+    else Option(yPartBranch.node.location.range)
 
   private def isInFileAndHasRange(obj: AmfElement) =
     obj.location().contains(location) && obj.annotations.range().exists(r => PositionRange(r).contains(dtoPosition))
 
-  private def getSemantic: Option[(Seq[String], Option[parser.Range])] =
+  private def getSemantic: Option[(Seq[String], Option[AmfPositionRange])] =
     if (objectInTree.obj.isInstanceOf[DataNode]) hackFromNonDynamic()
     else if (isInDeclarationKey) fromDeclarationKey()
     else getPatchedHover.orElse(fromTree())
 
-  private def hackFromNonDynamic(): Option[(Seq[String], Option[parser.Range])] =
+  private def hackFromNonDynamic(): Option[(Seq[String], Option[AmfPositionRange])] =
     objectInTree.stack.find(obj => !obj.isInstanceOf[DataNode]).flatMap(classTerm)
 
-  private def fromTree(): Option[(Seq[String], Option[parser.Range])] =
+  def isLocal(f: FieldEntry): Boolean =
+    f.value.annotations.trueLocation().contains(location) &&
+      f.value.annotations.lexicalInformation().exists(_.contains(dtoPosition.toAmfPosition))
+
+  lazy val localFieldEntry: Option[FieldEntry] =
     objectInTree.fieldEntry
+      .filter(isLocal)
+      .orElse(objectInTree.obj.fields.fields().find(isLocal))
+
+  private def fromTree(): Option[(Seq[String], Option[AmfPositionRange])] =
+    localFieldEntry
       .filterNot(isDeclaredName)
       .flatMap(fieldEntry)
       .orElse(objectInTree.nonVirtualObj.flatMap(classTerm))
@@ -69,32 +79,34 @@ case class HoverAction(bu: BaseUnit,
     objectInTree.obj.annotations.isDeclared &&
       fe.field.value.iri() == AmlCoreVocabulary().base.value() + NamePropertyTerm.name
 
-  private def fieldEntry(f: FieldEntry): Option[(Seq[String], Option[parser.Range])] =
-    propertyTerm(f.field).map(
-      s =>
-        (Seq(s),
-         f.value.annotations
-           .range()
-           .orElse(
-             mostSpecificRangeInFile(f.value.value)
-           )))
+  private def fieldEntry(f: FieldEntry): Option[(Seq[String], Option[AmfPositionRange])] =
+    propertyTerm(f.field).map(s =>
+      (
+        Seq(s),
+        f.value.annotations
+          .range()
+          .orElse(
+            mostSpecificRangeInFile(f.value.value)
+          )
+      )
+    )
 
   private def propertyTerm(field: Field): Option[String] =
-    amfInstance.alsAmlPlugin
-      .getSemanticDescription(field.value)
+    provider
+      .getDescription(field.value)
       .orElse({
         if (field.doc.description.nonEmpty) Some(field.doc.description) else None
       })
   // TODO: inherits from another???
 
   private def getSemanticForMeta(meta: Obj): Seq[String] = {
-    val classSemantic = meta.`type`.flatMap(amfInstance.alsAmlPlugin.getSemanticDescription)
+    val classSemantic = meta.`type`.flatMap(vt => provider.getDescription(vt))
 
     if (classSemantic.isEmpty && meta.doc.description.nonEmpty) Seq(meta.doc.description)
     else classSemantic
   }
 
-  private def classTerm(obj: AmfObject): Option[(Seq[String], Option[amf.core.parser.Range])] = {
+  private def classTerm(obj: AmfObject): Option[(Seq[String], Option[AmfPositionRange])] = {
     val finalSemantics = getSemanticForMeta(obj.meta)
     if (finalSemantics.nonEmpty) Some((finalSemantics, obj.annotations.range()))
     else None
@@ -108,32 +120,34 @@ case class HoverAction(bu: BaseUnit,
       })
 
   def isInDeclarationKey: Boolean =
-    bu.annotations.declarationKeys().exists(k => k.entry.key.range.contains(dtoPosition.toAmfPosition))
+    bu.declarationKeys.exists(k => k.entry.key.range.contains(dtoPosition.toAmfPosition))
 
   private def buildDeclarationKeyUri(name: String): ValueType =
     ValueType(s"http://als.declarationKeys/#${name}DeclarationKey")
 
-  def fromDeclarationKey(): Option[(Seq[String], Option[parser.Range])] =
-    bu.annotations
-      .declarationKeys()
+  def fromDeclarationKey(): Option[(Seq[String], Option[AmfPositionRange])] =
+    bu.declarationKeys
       .find(k => k.entry.key.range.contains(dtoPosition.toAmfPosition))
       .map(key => {
         val valueType = getDeclarationValueType(key.entry)
         val description = valueType
-          .map(
-            v =>
-              amfInstance.alsAmlPlugin
-                .getSemanticDescription(buildDeclarationKeyUri(v.name))
-                .getOrElse(s"Contains declarations of reusable ${v.name} objects")) // todo: extract messages to a common place (in order to easy parametrize)
+          .map(v =>
+            provider
+              .getDescription(buildDeclarationKeyUri(v.name))
+              .getOrElse(s"Contains declarations of reusable ${v.name} objects")
+          ) // todo: extract messages to a common place (in order to easy parametrize)
           .getOrElse({
             s"Contains declarations for ${key.entry.key.value.toString}"
           })
 
-        (Seq(description), Some(Range(key.entry.range)))
+        (Seq(description), Some(key.entry.range))
       })
 
-  def getPatchedHover: Option[(Seq[String], Option[parser.Range])] =
+  def getPatchedHover: Option[(Seq[String], Option[AmfPositionRange])] =
     patchedHover.getHover(objectInTree.obj, yPartBranch, definedBy)
 
-  private lazy val patchedHover = new PatchedHover(amfInstance.alsAmlPlugin)
+  private lazy val patchedHover =
+    PatchedHover(provider, Seq(DialectTerms(bu, definedBy)))
 }
+
+sealed case class DialectTerms(bu: BaseUnit, definedBy: Dialect)

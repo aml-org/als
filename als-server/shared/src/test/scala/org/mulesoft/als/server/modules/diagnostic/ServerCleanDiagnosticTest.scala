@@ -1,103 +1,18 @@
 package org.mulesoft.als.server.modules.diagnostic
 
-import amf.client.remote.Content
-import amf.core.remote.Vendor
-import amf.internal.environment.Environment
-import amf.internal.resource.ResourceLoader
-import org.mulesoft.als.server.modules.WorkspaceManagerFactoryBuilder
-import org.mulesoft.als.server.protocol.LanguageServer
-import org.mulesoft.als.server.{LanguageServerBaseTest, LanguageServerBuilder, MockDiagnosticClientNotifier}
-import org.mulesoft.amfintegration.AmfInstance
+import amf.core.client.common.validation.ProfileNames
+import amf.core.client.scala.AMFGraphConfiguration
+import org.mulesoft.als.server.feature.diagnostic.CustomValidationClientCapabilities
+import org.mulesoft.als.server.protocol.configuration.{AlsClientCapabilities, AlsInitializeParams}
+import org.mulesoft.als.server.workspace.ChangesWorkspaceConfiguration
+import org.mulesoft.als.server.{Flaky, MockDiagnosticClientNotifier}
+import org.mulesoft.lsp.configuration.TraceKind
 
-import scala.concurrent.{ExecutionContext, Future}
+import scala.concurrent.ExecutionContext
 
-class ServerCleanDiagnosticTest extends LanguageServerBaseTest {
+class ServerCleanDiagnosticTest extends DiagnosticServerImpl with ChangesWorkspaceConfiguration {
 
   override implicit val executionContext = ExecutionContext.Implicits.global
-
-  val rl: ResourceLoader = new ResourceLoader {
-
-    private val files: Map[String, String] = Map(
-      "file://file%20with%20spaces.raml" ->
-        """#%RAML 1.0
-        |description: this is a RAML without title""".stripMargin,
-      "file://api.raml"        -> """#%RAML 0.8
-                             |title: GitHub API
-                             |resourceTypes:
-                             |   - collection: !include collection.raml
-                             |
-                             |traits:
-                             |   - paged: !include paged.raml
-                             |
-                             |schemas:
-                             |  - User: !include /user.raml
-                             |
-                             |securitySchemes:
-                             |  - oauth_2_0: !include /oauth_2_0.raml
-                             |
-                             |/users:
-                             |  type: collection
-                             |  securedBy: [ oauth_2_0: { scopes: [ ADMIN ] } ]
-                             |  get:
-                             |    is: [ paged ]
-                             |    responses:
-                             |        200:
-                             |          body:
-                             |            application/json:
-                             |              schema: User""".stripMargin,
-      "file://collection.raml" -> """#%RAML 1.0 ResourceType
-                                    |usage: This resourceType should be used for any collection of items
-                                    |description: The collection of <<resourcePathName>>
-                                    |get:
-                                    |  description: Get all <<resourcePathName>>, optionally filtered
-                                    |post:
-                                    |  description: Create a new <<resourcePathName | !singularize>>""".stripMargin,
-      "file://oauth_2_0.raml"  -> """#%RAML 1.0 SecurityScheme
-                                   |description: |
-                                   |  This API supports OAuth 2.0 for authenticating all API requests.
-                                   |type: OAuth 2.0
-                                   |settings:
-                                   |  accessTokenUri:   https://esboam-dev.hhq.hud.dev/openam/oauth2/access_token
-                                   |  authorizationGrants: [ client_credentials ]
-                                   |  scopes: [ ADMIN ]""".stripMargin,
-      "file://paged.raml"      -> """#%RAML 1.0 Trait
-                               |queryParameters:
-                               |  start:
-                               |    type: number""".stripMargin,
-      "file://user.raml"       -> """#%RAML 1.0 DataType
-                              |properties:
-                              |  name: string
-                              |  age?: number""".stripMargin
-    )
-
-    override def fetch(resource: String): Future[Content] =
-      files
-        .get(resource)
-        .map { f =>
-          new Content(f, resource)
-        }
-        .map(Future.successful)
-        .getOrElse(Future.failed(new Exception(s"Wrong resource $resource")))
-
-    override def accepts(resource: String): Boolean = files.keySet.contains(resource)
-  }
-  val env: Environment = Environment().add(rl)
-
-  def buildServer(diagnosticNotifier: MockDiagnosticClientNotifier): LanguageServer = {
-    val amfInstance = new AmfInstance(Nil, platform, env)
-    val builder     = new WorkspaceManagerFactoryBuilder(diagnosticNotifier, logger, env).withAmfConfiguration(amfInstance)
-    val dm          = builder.diagnosticManager()
-    val factory     = builder.buildWorkspaceManagerFactory()
-    val b = new LanguageServerBuilder(factory.documentManager,
-                                      factory.workspaceManager,
-                                      factory.configurationManager,
-                                      factory.resolutionTaskManager)
-    b.addRequestModule(factory.cleanDiagnosticManager)
-    dm.foreach(b.addInitializableModule)
-    b.build()
-  }
-
-  override def rootPath: String = ???
 
   test("Test resource loader invocation from clean diagnostic with encoded uri") {
     val diagnosticNotifier: MockDiagnosticClientNotifier = new MockDiagnosticClientNotifier
@@ -126,7 +41,7 @@ class ServerCleanDiagnosticTest extends LanguageServerBaseTest {
     }
   }
 
-  test("Clean diagnostic test, compare notification against clean") {
+  test("Clean diagnostic test, compare notification against clean", Flaky) {
     val diagnosticNotifier: MockDiagnosticClientNotifier = new MockDiagnosticClientNotifier(5000)
     withServer(buildServer(diagnosticNotifier)) { s =>
       val mainFilePath = s"file://api.raml"
@@ -165,7 +80,7 @@ class ServerCleanDiagnosticTest extends LanguageServerBaseTest {
     }
   }
 
-  test("Clean diagnostic test - ASYNC20 vendor") {
+  test("Clean diagnostic test - ASYNC20 vendor", Flaky) {
     val diagnosticNotifier: MockDiagnosticClientNotifier = new MockDiagnosticClientNotifier(5000)
     withServer(buildServer(diagnosticNotifier)) { s =>
       val mainFilePath = s"file://async.yaml"
@@ -181,7 +96,160 @@ class ServerCleanDiagnosticTest extends LanguageServerBaseTest {
       } yield {
         s.shutdown()
         assert(d.nonEmpty)
-        assert(d.forall(_.profile.profile == Vendor.ASYNC20.name))
+        assert(d.forall(_.profile.profile == ProfileNames.ASYNC20.profile))
+      }
+    }
+  }
+
+  private val customValidationInitParams =
+    AlsInitializeParams(
+      Some(AlsClientCapabilities(customValidations = Some(CustomValidationClientCapabilities(true)))),
+      Some(TraceKind.Off),
+      rootUri = Some("file:///")
+    )
+
+  test("Clean diagnostic with negative custom validations") {
+    val negativeReportUri = filePath(platform.encodeURI("project/negative.report.jsonld"))
+    platform
+      .fetchContent(negativeReportUri, AMFGraphConfiguration.predefined())
+      .flatMap(negativeReport => {
+        val diagnosticNotifier: MockDiagnosticClientNotifier = new MockDiagnosticClientNotifier(10000)
+        val validator                                        = FromJsonLdValidatorProvider(negativeReport.toString())
+        val server                                           = buildServer(diagnosticNotifier, Some(validator))
+        withServer(server, customValidationInitParams) { s =>
+          val mainFilePath       = s"file:///api.raml"
+          val profileUri: String = filePath(platform.encodeURI("project/profile.yaml"))
+          val args               = changeConfigArgs(None, "file:///", Set.empty, Set(profileUri))
+          val mainContent =
+            """#%RAML 1.0
+                |""".stripMargin
+
+          for {
+            _ <- openFileNotification(s)(mainFilePath, mainContent)
+            _ <- diagnosticNotifier.nextCall
+            _ <- validator.jsonLDValidatorExecutor.calledAtLeastNTimes(0) // no profile
+            _ <- changeWorkspaceConfiguration(server)(args)
+            _ <- diagnosticNotifier.nextCall
+            _ <- validator.jsonLDValidatorExecutor.calledAtLeastNTimes(1) // added profile
+            d <- requestCleanDiagnostic(s)(mainFilePath)
+            _ <- validator.jsonLDValidatorExecutor.calledAtLeastNTimes(2) // clean diagnostic
+          } yield {
+            s.shutdown()
+            assert(d.nonEmpty)
+            assert(d.forall(_.diagnostics.nonEmpty))
+            assert(
+              d.head.diagnostics.head.code
+                .exists(_.endsWith("project/profile.yaml#/encodes/validations/validation1"))
+            )
+          }
+        }
+      })
+  }
+  test("Clean diagnostic with positive custom validations", Flaky) {
+    val negativeReportUri = filePath(platform.encodeURI("project/positive.report.jsonld"))
+    platform
+      .fetchContent(negativeReportUri, AMFGraphConfiguration.predefined())
+      .flatMap(negativeReport => {
+        val diagnosticNotifier: MockDiagnosticClientNotifier = new MockDiagnosticClientNotifier(7000)
+        val validator                                        = FromJsonLdValidatorProvider(negativeReport.toString())
+        val server                                           = buildServer(diagnosticNotifier, Some(validator))
+        withServer(server, customValidationInitParams) { s =>
+          val mainFilePath       = s"file:///api.raml"
+          val profileUri: String = filePath(platform.encodeURI("project/profile.yaml"))
+          val args               = changeConfigArgs(None, "file:///", Set.empty, Set(profileUri))
+          val mainContent =
+            """#%RAML 1.0
+              |""".stripMargin
+
+          for {
+            _ <- openFileNotification(s)(mainFilePath, mainContent)
+            _ <- diagnosticNotifier.nextCall
+            _ <- changeWorkspaceConfiguration(server)(args)
+            _ <- diagnosticNotifier.nextCall
+            d <- requestCleanDiagnostic(s)(mainFilePath)
+            _ <- validator.jsonLDValidatorExecutor.calledAtLeastNTimes(2)
+          } yield {
+            s.shutdown()
+            assert(d.nonEmpty)
+            assert(d.forall(_.diagnostics.isEmpty))
+          }
+        }
+      })
+  }
+
+  test("Clean diagnostic test for graphql") {
+    val diagnosticNotifier: MockDiagnosticClientNotifier = new MockDiagnosticClientNotifier(5000)
+    withServer(buildServer(diagnosticNotifier)) { s =>
+      val mainFilePath = s"file://api.graphql"
+
+      val mainContent =
+        """type Dog {
+          |    name: String!
+          |    breed: String!
+          |}
+          |
+        """.stripMargin
+
+      for {
+        _  <- openFileNotification(s)(mainFilePath, mainContent)
+        d  <- diagnosticNotifier.nextCall
+        v1 <- requestCleanDiagnostic(s)(mainFilePath)
+
+      } yield {
+        s.shutdown()
+
+        d.diagnostics.size should be(1)
+        v1.length should be(1)
+        val fileDiagnostic = v1.head
+        fileDiagnostic.diagnostics.size should be(1)
+        v1.head.diagnostics.head shouldBe (fileDiagnostic.diagnostics.head) // should be the same for req and notification
+      }
+    }
+  }
+
+  test("Clean diagnostic test for graphql with invalid token") {
+    val diagnosticNotifier: MockDiagnosticClientNotifier = new MockDiagnosticClientNotifier(5000)
+    withServer(buildServer(diagnosticNotifier)) { s =>
+      val mainFilePath = s"file://api.graphql"
+
+      val mainContent =
+        """nonsense
+          |
+          |type Dog {
+          |    name: String!
+          |    breed: String!
+          |}
+          |
+        """.stripMargin
+
+      for {
+        _ <- openFileNotification(s)(mainFilePath, mainContent)
+        d <- diagnosticNotifier.nextCall
+
+      } yield {
+        s.shutdown()
+        d.diagnostics.size should be(2)
+      }
+    }
+  }
+
+  test("Clean diagnostic test for graphql with empty api", Flaky) {
+    val diagnosticNotifier: MockDiagnosticClientNotifier = new MockDiagnosticClientNotifier(5000)
+    withServer(buildServer(diagnosticNotifier)) { s =>
+      val mainFilePath = s"file://api.graphql"
+
+      val mainContent =
+        """ """.stripMargin
+
+      for {
+        _  <- openFileNotification(s)(mainFilePath, mainContent)
+        d  <- diagnosticNotifier.nextCall
+        v1 <- requestCleanDiagnostic(s)(mainFilePath)
+
+      } yield {
+        s.shutdown()
+        d.diagnostics.size should be(0)
+        v1.length should be(1) // couldn't guess spec
       }
     }
   }

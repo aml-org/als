@@ -1,6 +1,6 @@
 package org.mulesoft.als.suggestions.plugins.aml.webapi.raml.raml10
 
-import amf.plugins.document.vocabularies.model.domain.NodeMapping
+import amf.aml.client.scala.model.domain.NodeMapping
 import org.mulesoft.als.suggestions.plugins.aml.webapi.WebApiTypeFacetsCompletionPlugin
 import org.mulesoft.amfintegration.dialect.dialects.raml.raml10.Raml10TypesDialect
 
@@ -13,6 +13,8 @@ object Raml10TypeFacetsCompletionPlugin extends WebApiTypeFacetsCompletionPlugin
 
   override def integerShapeNode: NodeMapping =
     Raml10TypesDialect.NumberShapeNode
+
+  override def anyShapeNode: NodeMapping = Raml10TypesDialect.AnyShapeNode
 
   override def declarations: Seq[NodeMapping] =
     Raml10TypesDialect.dialect.declares.collect({ case n: NodeMapping => n })

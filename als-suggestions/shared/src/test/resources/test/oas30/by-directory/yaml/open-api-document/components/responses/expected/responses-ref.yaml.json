@@ -1,11 +1,17 @@
 [
   {
     "label": "#/components/responses/test",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Reference to #/components/responses/test",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11#/components/responses/test",
     "filterText": "\"#/components/responses/test\"",
     "insertText": null,
@@ -31,11 +37,17 @@
   },
   {
     "label": "expected/",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Path suggestion",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11expected/",
     "filterText": "expected/",
     "insertText": null,
@@ -60,12 +72,90 @@
     "command": null
   },
   {
-    "label": "responses.yaml",
-    "kind": [],
+    "label": "response-name-after-declaration.yaml",
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Path suggestion",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "11response-name-after-declaration.yaml",
+    "filterText": "response-name-after-declaration.yaml",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 10,
+          "character": 16
+        },
+        "end": {
+          "line": 10,
+          "character": 16
+        }
+      },
+      "newText": "response-name-after-declaration.yaml"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "response-name.yaml",
+    "kind": [
+      
+    ],
+    "detail": "unknown",
+    "documentation": "Path suggestion",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "11response-name.yaml",
+    "filterText": "response-name.yaml",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 10,
+          "character": 16
+        },
+        "end": {
+          "line": 10,
+          "character": 16
+        }
+      },
+      "newText": "response-name.yaml"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "responses.yaml",
+    "kind": [
+      
+    ],
+    "detail": "unknown",
+    "documentation": "Path suggestion",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11responses.yaml",
     "filterText": "responses.yaml",
     "insertText": null,

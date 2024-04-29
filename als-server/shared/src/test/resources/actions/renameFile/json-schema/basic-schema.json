@@ -1,0 +1,12 @@
+{
+  "$id": "/schemas/address",
+  "$schema": "http://json-schema.org/draft-07/schema#",
+
+  "type": "object",
+  "properties": {
+    "street_address": { "type": "string" },
+    "city": { "type": "string" },
+    "state": { "$ref": "basic-schema2.json#/definitions/state" }
+  },
+  "required": ["street_address", "city", "state"]
+}

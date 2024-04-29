@@ -1,11 +1,17 @@
 [
   {
     "label": "false",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "false",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11false",
     "filterText": "false",
     "insertText": null,
@@ -15,12 +21,12 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 0,
-          "character": 0
+          "line": 4,
+          "character": 17
         },
         "end": {
-          "line": 0,
-          "character": 0
+          "line": 4,
+          "character": 17
         }
       },
       "newText": "false"
@@ -31,11 +37,17 @@
   },
   {
     "label": "true",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "true",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11true",
     "filterText": "true",
     "insertText": null,
@@ -45,12 +57,12 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 0,
-          "character": 0
+          "line": 4,
+          "character": 17
         },
         "end": {
-          "line": 0,
-          "character": 0
+          "line": 4,
+          "character": 17
         }
       },
       "newText": "true"

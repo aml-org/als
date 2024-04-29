@@ -1,10 +1,10 @@
 package org.mulesoft.language.outline.structure.structureImpl.symbol.builders
 
-import amf.core.parser.FieldEntry
-import org.mulesoft.language.outline.structure.structureImpl.{KindForResultMatcher, SymbolKind}
+import amf.core.internal.parser.domain.FieldEntry
+import org.mulesoft.language.outline.structure.structureImpl.{KindForResultMatcher, SymbolKinds}
 
 trait FieldSymbolBuilder extends SymbolBuilder[FieldEntry] {
-  override protected def kind: SymbolKind.SymbolKind = KindForResultMatcher.kindForField(element.field)
+  override protected def kind: SymbolKinds.SymbolKind = KindForResultMatcher.kindForField(element.field)
 }
 
 trait FieldSymbolBuilderCompanion extends SymbolBuilderCompanion[FieldEntry] {

@@ -2,16 +2,17 @@ package org.mulesoft.als.suggestions
 
 import org.mulesoft.als.common.dtoTypes.PositionRange
 import org.mulesoft.lsp.edit.TextEdit
-import org.mulesoft.lsp.feature.completion.InsertTextFormat
 
-case class RawSuggestion(newText: String,
-                         displayText: String,
-                         description: String,
-                         textEdits: Seq[TextEdit],
-                         category: String = "unknown",
-                         range: Option[PositionRange] = None,
-                         options: SuggestionStructure = SuggestionStructure(),
-                         children: Seq[RawSuggestion] = Nil) {
+case class RawSuggestion(
+    newText: String,
+    displayText: String,
+    description: String,
+    textEdits: Seq[Either[TextEdit, AdditionalSuggestion]],
+    category: String = "unknown",
+    range: Option[PositionRange] = None,
+    options: SuggestionStructure = SuggestionStructure(),
+    children: Seq[RawSuggestion] = Seq.empty
+) {
 
   def withStringKey: RawSuggestion =
     RawSuggestion(
@@ -21,11 +22,13 @@ case class RawSuggestion(newText: String,
       this.textEdits,
       this.category,
       this.range,
-      SuggestionStructure(this.options.rangeKind,
-                          this.options.isKey,
-                          StringScalarRange,
-                          this.options.isMandatory,
-                          this.options.isTopLevel),
+      SuggestionStructure(
+        this.options.rangeKind,
+        this.options.isKey,
+        StringScalarRange,
+        this.options.isMandatory,
+        this.options.isTopLevel
+      ),
       this.children
     )
 
@@ -41,78 +44,189 @@ case class RawSuggestion(newText: String,
       this.children
     )
 
-  implicit def bool2InsertTextFormat(v: Boolean): InsertTextFormat.Value =
-    if (v) InsertTextFormat.Snippet
-    else InsertTextFormat.PlainText
+  def withChildren(children: Seq[RawSuggestion]): RawSuggestion =
+    RawSuggestion(
+      this.newText,
+      this.displayText,
+      this.description,
+      this.textEdits,
+      this.category,
+      this.range,
+      this.options,
+      children
+    )
+
+  def withAdditionalTextEdits(edits: Seq[Either[TextEdit, AdditionalSuggestion]]): RawSuggestion =
+    RawSuggestion(
+      this.newText,
+      this.displayText,
+      this.description,
+      edits,
+      this.category,
+      this.range,
+      this.options,
+      this.children
+    )
 }
 
 object RawSuggestion {
   def arrayProp(text: String, category: String): RawSuggestion =
-    RawSuggestion(text, text, text, Nil, category, options = SuggestionStructure(rangeKind = ArrayRange, isKey = true))
+    RawSuggestion(
+      text,
+      text,
+      text,
+      Seq.empty,
+      category,
+      options = SuggestionStructure(rangeKind = ArrayRange, isKey = true)
+    )
 
   def plain(text: String, description: String): RawSuggestion =
-    RawSuggestion(text, text, description, Nil, options = SuggestionStructure(rangeKind = PlainText))
+    RawSuggestion(text, text, description, Seq.empty, options = SuggestionStructure(rangeKind = PlainText))
 
   def plain(text: String, range: PositionRange): RawSuggestion =
-    RawSuggestion(text, text, text, Nil, range = Some(range), options = SuggestionStructure(rangeKind = PlainText))
+    RawSuggestion(
+      text,
+      text,
+      text,
+      Seq.empty,
+      range = Some(range),
+      options = SuggestionStructure(rangeKind = PlainText)
+    )
 
-  def forBool(value: String, category: String = "unknown"): RawSuggestion = {
-    apply(value, value, value, Nil, category = category, options = SuggestionStructure(rangeKind = BoolScalarRange))
-  }
+  def forBool(value: String, category: String = "unknown"): RawSuggestion =
+    apply(
+      value,
+      value,
+      value,
+      Seq.empty,
+      category = category,
+      options = SuggestionStructure(rangeKind = BoolScalarRange)
+    )
 
-  def forBoolKey(value: String, category: String = "unknown"): RawSuggestion = {
-    apply(value,
-          value,
-          value,
-          Nil,
-          category = category,
-          options = SuggestionStructure(rangeKind = BoolScalarRange, isKey = true))
-  }
+  def forBoolKey(value: String, category: String = "unknown"): RawSuggestion =
+    apply(
+      value,
+      value,
+      value,
+      Seq.empty,
+      category = category,
+      options = SuggestionStructure(rangeKind = BoolScalarRange, isKey = true)
+    )
 
-  def forKey(value: String, mandatory: Boolean): RawSuggestion = {
+  def forKey(value: String, mandatory: Boolean): RawSuggestion =
     apply(value, isAKey = true, "unknown", mandatory)
-  }
 
-  def forKey(value: String, category: String, mandatory: Boolean): RawSuggestion = {
-    apply(value, isAKey = true, category = category, mandatory = mandatory)
-  }
+  def forKey(
+      value: String,
+      category: String,
+      mandatory: Boolean,
+      displayText: Option[String] = None,
+      children: Seq[RawSuggestion] = Seq.empty,
+      rangeKind: RangeKind = StringScalarRange
+  ): RawSuggestion =
+    new RawSuggestion(
+      value,
+      displayText.getOrElse(value),
+      value,
+      Seq.empty,
+      category,
+      options = SuggestionStructure(rangeKind = rangeKind, isKey = true, isMandatory = mandatory),
+      children = children
+    )
 
-  def apply(value: String, isAKey: Boolean): RawSuggestion = {
+  def apply(value: String, isAKey: Boolean): RawSuggestion =
     apply(value, isAKey, "unknown", mandatory = false)
-  }
 
-  def apply(value: String, isAKey: Boolean, category: String, mandatory: Boolean): RawSuggestion = {
-    new RawSuggestion(value,
-                      value,
-                      value,
-                      Seq(),
-                      category,
-                      options = SuggestionStructure(isKey = isAKey, isMandatory = mandatory))
-  }
+  def apply(value: String, opt: SuggestionStructure): RawSuggestion =
+    new RawSuggestion(
+      value,
+      value,
+      value,
+      Seq.empty,
+      "unknown",
+      None,
+      opt
+    )
 
-  def apply(value: String, displayText: String, isAKey: Boolean, category: String, mandatory: Boolean): RawSuggestion = {
-    new RawSuggestion(value,
-                      displayText,
-                      value,
-                      Seq(),
-                      category,
-                      options = SuggestionStructure(isKey = isAKey, isMandatory = mandatory))
-  }
+  def apply(
+      value: String,
+      isAKey: Boolean,
+      category: String,
+      mandatory: Boolean,
+      displayText: Option[String],
+      children: Seq[RawSuggestion]
+  ): RawSuggestion =
+    new RawSuggestion(
+      value,
+      displayText.getOrElse(value),
+      value,
+      Seq.empty,
+      category,
+      options = SuggestionStructure(isKey = isAKey, isMandatory = mandatory),
+      children = children
+    )
 
-  def forObject(value: String, category: String, mandatory: Boolean = false): RawSuggestion = {
-    new RawSuggestion(value,
-                      value,
-                      value,
-                      Seq(),
-                      category,
-                      options = SuggestionStructure(isKey = true, rangeKind = ObjectRange, isMandatory = mandatory))
-  }
+  def apply(value: String, isAKey: Boolean, category: String, mandatory: Boolean): RawSuggestion =
+    new RawSuggestion(
+      value,
+      value,
+      value,
+      Seq.empty,
+      category,
+      options = SuggestionStructure(isKey = isAKey, isMandatory = mandatory)
+    )
 
-  def keyOfArray(text: String, category: String): RawSuggestion = {
-    new RawSuggestion(text, text, text, Nil, category, None, SuggestionStructure(ArrayRange, isKey = true))
-  }
+  def apply(value: String, displayText: String, isAKey: Boolean, category: String, mandatory: Boolean): RawSuggestion =
+    new RawSuggestion(
+      value,
+      displayText,
+      value,
+      Seq.empty,
+      category,
+      options = SuggestionStructure(isKey = isAKey, isMandatory = mandatory)
+    )
 
-  def valueInArray(text: String, description: String, category: String, isKey: Boolean): RawSuggestion = {
-    new RawSuggestion(text, text, text, Nil, category, None, SuggestionStructure(ArrayRange, isKey = isKey))
-  }
+  def forObject(
+      value: String,
+      category: String,
+      mandatory: Boolean = false,
+      displayText: Option[String] = None,
+      children: Seq[RawSuggestion] = Seq.empty
+  ): RawSuggestion =
+    new RawSuggestion(
+      value,
+      displayText.getOrElse(value),
+      value,
+      Seq.empty,
+      category,
+      options = SuggestionStructure(isKey = true, rangeKind = ObjectRange, isMandatory = mandatory),
+      children = children
+    )
+
+  def keyOfArray(text: String, category: String): RawSuggestion =
+    new RawSuggestion(text, text, text, Seq.empty, category, None, SuggestionStructure(ArrayRange, isKey = true))
+
+  def keyOfArray(
+      text: String,
+      category: String,
+      displayText: Option[String] = None,
+      children: Seq[RawSuggestion] = Seq.empty
+  ): RawSuggestion =
+    new RawSuggestion(
+      text,
+      displayText.getOrElse(text),
+      text,
+      Seq.empty,
+      category,
+      None,
+      SuggestionStructure(ArrayRange, isKey = true),
+      children
+    )
+
+  def valueInArray(text: String, description: String, category: String, isKey: Boolean): RawSuggestion =
+    new RawSuggestion(text, text, text, Seq.empty, category, None, SuggestionStructure(ArrayRange, isKey = isKey))
+
+  def withNamedKey(children: Seq[RawSuggestion], category: String, prefix: String, name: String): RawSuggestion =
+    RawSuggestion
+      .forObject("", category, mandatory = true, Some(s"$prefix $name"), children)
 }

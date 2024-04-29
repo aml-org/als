@@ -1,13 +1,17 @@
 package org.mulesoft.als.actions.folding
 
-import amf.client.remote.Content
-import amf.core.unsafe.PlatformSecrets
-import amf.internal.environment.Environment
-import amf.internal.resource.ResourceLoader
-import org.mulesoft.amfintegration.AmfInstance
-import org.mulesoft.amfintegration.AmfImplicits._
+import amf.core.client.common.remote.Content
+import amf.core.client.scala.resource.ResourceLoader
+import amf.core.internal.unsafe.PlatformSecrets
+import org.mulesoft.amfintegration.AmfImplicits.{AmfAnnotationsImp, BaseUnitImp}
+import org.mulesoft.amfintegration.amfconfiguration.{
+  ALSConfigurationState,
+  EditorConfiguration,
+  EmptyProjectConfigurationState
+}
 import org.mulesoft.lsp.feature.folding.FoldingRange
-import org.scalatest.{AsyncFlatSpec, Matchers}
+import org.scalatest.flatspec.AsyncFlatSpec
+import org.scalatest.matchers.should.Matchers
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.{ExecutionContext, Future}
@@ -38,7 +42,8 @@ class FoldingRangesTests extends AsyncFlatSpec with Matchers with PlatformSecret
         """#%RAML 1.0
           |title: test
           |description: description test
-          |""".stripMargin)
+          |""".stripMargin
+    )
     val expected: Seq[FoldingRange] =
       Seq(
         FoldingRange(1, Some(0), 2, Some(29), None)
@@ -56,7 +61,8 @@ class FoldingRangesTests extends AsyncFlatSpec with Matchers with PlatformSecret
           |protocols:
           | - HTTP
           | - HTTPS
-          |""".stripMargin)
+          |""".stripMargin
+    )
     val expected: Seq[FoldingRange] =
       Seq(
         FoldingRange(1, Some(0), 5, Some(8), None),
@@ -73,7 +79,8 @@ class FoldingRangesTests extends AsyncFlatSpec with Matchers with PlatformSecret
           |title: test
           |description: description test
           |protocols: [HTTP, HTTPS]
-          |""".stripMargin)
+          |""".stripMargin
+    )
     val expected: Seq[FoldingRange] =
       Seq(
         FoldingRange(1, Some(0), 3, Some(23), None),
@@ -163,7 +170,8 @@ class FoldingRangesTests extends AsyncFlatSpec with Matchers with PlatformSecret
           |        datePublished:
           |          propertyTerm: schema.datePublished
           |          range: date
-          |          mandatory: true""".stripMargin)
+          |          mandatory: true""".stripMargin
+    )
     val expected: Seq[FoldingRange] =
       Seq(
         FoldingRange(2, Some(0), 34, Some(25), None),
@@ -238,18 +246,19 @@ class FoldingRangesTests extends AsyncFlatSpec with Matchers with PlatformSecret
         files.keySet.contains(resource)
     }
 
-    val env: Environment = Environment().add(resourceLoader)
-
-    val instance = new AmfInstance(Nil, platform, env)
-    val amfInit  = instance.init()
     for {
-      _ <- amfInit
-      result <- instance
+      state <- EditorConfiguration
+        .withPlatformLoaders(Seq(resourceLoader))
+        .getState
+        .map(ALSConfigurationState(_, EmptyProjectConfigurationState, None))
+      result <- state
         .parse(testUri)
-        .map(_.baseUnit)
-        .map(_.objWithAST.flatMap(_.annotations.ast()))
-        .map(_.map(FileRanges.ranges)
-          .getOrElse(Seq.empty))
+        .map(_.result.baseUnit)
+        .map(_.objWithAST.flatMap(_.annotations.astElement()))
+        .map(
+          _.map(FileRanges.ranges)
+            .getOrElse(Seq.empty)
+        )
     } yield {
       result should be(expected)
     }

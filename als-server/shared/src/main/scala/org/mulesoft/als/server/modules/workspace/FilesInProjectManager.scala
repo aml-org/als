@@ -1,7 +1,7 @@
 package org.mulesoft.als.server.modules.workspace
 
 import org.mulesoft.als.server.ClientNotifierModule
-import org.mulesoft.als.server.client.AlsClientNotifier
+import org.mulesoft.als.server.client.platform.AlsClientNotifier
 import org.mulesoft.als.server.feature.workspace.{
   FilesInProjectClientCapabilities,
   FilesInProjectConfigType,
@@ -22,14 +22,18 @@ class FilesInProjectManager(clientNotifier: AlsClientNotifier[_])
 
   override def initialize(): Future[Unit] = Future.unit
 
-  /**
-    * Called on new AST available
+  /** Called on new AST available
     *
-    * @param ast  - AST
-    * @param uuid - telemetry UUID
+    * @param ast
+    *   \- AST
+    * @param uuid
+    *   \- telemetry UUID
     */
-  override def onNewAst(ast: BaseUnitListenerParams, uuid: String): Unit =
-    if (ast.tree) clientNotifier.notifyProjectFiles(FilesInProjectParams(ast.diagnosticsBundle.keySet))
+  override def onNewAst(ast: BaseUnitListenerParams, uuid: String): Future[Unit] = synchronized {
+    Future.successful {
+      if (ast.tree) clientNotifier.notifyProjectFiles(FilesInProjectParams(ast.locationLinks.keySet))
+    }
+  }
 
   override def onRemoveFile(uri: String): Unit = {
     /* No action required */

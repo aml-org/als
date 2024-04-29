@@ -1,11 +1,11 @@
 package org.mulesoft.amfintegration.dialect.dialects.oas.nodes
 
+import amf.aml.client.scala.model.domain.{NodeMapping, PropertyMapping}
 import org.mulesoft.amfintegration.dialect.dialects.oas.OasBaseDialect
-import amf.plugins.document.vocabularies.model.domain.{NodeMapping, PropertyMapping}
 
 trait DialectNode {
 
-  def location: String = OasBaseDialect.DialectLocation
+  implicit def location: String = OasBaseDialect.DialectLocation
 
   def name: String
   def id: String = location + "/#declarations/" + name

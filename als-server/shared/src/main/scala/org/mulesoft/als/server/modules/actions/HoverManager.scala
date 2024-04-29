@@ -1,24 +1,21 @@
 package org.mulesoft.als.server.modules.actions
 
-import java.util.UUID
-
 import org.mulesoft.als.actions.hover.HoverAction
 import org.mulesoft.als.common.dtoTypes.Position
 import org.mulesoft.als.convert.LspRangeConverter
 import org.mulesoft.als.server.RequestModule
 import org.mulesoft.als.server.workspace.WorkspaceManager
-import org.mulesoft.amfintegration.AmfInstance
 import org.mulesoft.lsp.ConfigType
 import org.mulesoft.lsp.feature.hover._
 import org.mulesoft.lsp.feature.telemetry.MessageTypes.MessageTypes
 import org.mulesoft.lsp.feature.telemetry.{MessageTypes, TelemetryProvider}
 import org.mulesoft.lsp.feature.{RequestType, TelemeteredRequestHandler}
 
+import java.util.UUID
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
-class HoverManager(wm: WorkspaceManager, amfInstance: AmfInstance, telemetryProvider: TelemetryProvider)
-    extends RequestModule[HoverClientCapabilities, Boolean] {
+class HoverManager(wm: WorkspaceManager) extends RequestModule[HoverClientCapabilities, Boolean] {
   private var active = true
 
   override val `type`: ConfigType[HoverClientCapabilities, Boolean] =
@@ -37,8 +34,6 @@ class HoverManager(wm: WorkspaceManager, amfInstance: AmfInstance, telemetryProv
   class HoverTelemeteredRequestHandler() extends TelemeteredRequestHandler[HoverParams, Hover] {
     override def `type`: RequestType[HoverParams, Hover] = HoverRequestType
 
-    override protected def telemetry: TelemetryProvider = telemetryProvider
-
     override protected def task(params: HoverParams): Future[Hover] = hover(params)
 
     override protected def code(params: HoverParams): String = "HoverManager"
@@ -56,10 +51,21 @@ class HoverManager(wm: WorkspaceManager, amfInstance: AmfInstance, telemetryProv
       val uuid = UUID.randomUUID().toString
       wm.getLastUnit(params.textDocument.uri, uuid).map { cu =>
         val dtoPosition: Position = LspRangeConverter.toPosition(params.position)
-        HoverAction(cu.unit, cu.tree, cu.yPartBranch, dtoPosition, params.textDocument.uri, amfInstance, cu.definedBy).getHover
+        HoverAction(
+          cu.unit,
+          cu.tree,
+          cu.astPartBranch,
+          dtoPosition,
+          params.textDocument.uri,
+          cu.context.state.editorState.vocabularyRegistry,
+          cu.definedBy
+        ).getHover
       // if sequence, we could show all the semantic hierarchy?
       }
     }
 
+    /** If Some(_), this will be sent as a response as a default for a managed exception
+      */
+    override protected val empty: Option[Hover] = Some(Hover(Seq(), None))
   }
 }

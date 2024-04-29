@@ -1,0 +1,146 @@
+[
+  {
+    "label": "#/definitions/t",
+    "kind": [
+      
+    ],
+    "detail": "unknown",
+    "documentation": "Reference to #/definitions/t",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "11#/definitions/t",
+    "filterText": "\"#/definitions/t\"",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 5,
+          "character": 14
+        },
+        "end": {
+          "line": 5,
+          "character": 16
+        }
+      },
+      "newText": "\"#/definitions/t\""
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "expected/",
+    "kind": [
+      
+    ],
+    "detail": "unknown",
+    "documentation": "Path suggestion",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "11expected/",
+    "filterText": "\"expected/\"",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 5,
+          "character": 14
+        },
+        "end": {
+          "line": 5,
+          "character": 16
+        }
+      },
+      "newText": "\"expected/\""
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "required.json",
+    "kind": [
+      
+    ],
+    "detail": "unknown",
+    "documentation": "Path suggestion",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "11required.json",
+    "filterText": "\"required.json\"",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 5,
+          "character": 14
+        },
+        "end": {
+          "line": 5,
+          "character": 16
+        }
+      },
+      "newText": "\"required.json\""
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "type.json",
+    "kind": [
+      
+    ],
+    "detail": "unknown",
+    "documentation": "Path suggestion",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "11type.json",
+    "filterText": "\"type.json\"",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 5,
+          "character": 14
+        },
+        "end": {
+          "line": 5,
+          "character": 16
+        }
+      },
+      "newText": "\"type.json\""
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  }
+]

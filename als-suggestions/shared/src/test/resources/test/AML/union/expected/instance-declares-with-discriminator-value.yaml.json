@@ -1,0 +1,74 @@
+[
+  {
+    "label": "TypeA",
+    "kind": [
+      
+    ],
+    "detail": "unknown",
+    "documentation": "TypeA",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "11TypeA",
+    "filterText": "TypeA",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 3,
+          "character": 10
+        },
+        "end": {
+          "line": 3,
+          "character": 10
+        }
+      },
+      "newText": "TypeA"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "TypeB",
+    "kind": [
+      
+    ],
+    "detail": "unknown",
+    "documentation": "TypeB",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "11TypeB",
+    "filterText": "TypeB",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 3,
+          "character": 10
+        },
+        "end": {
+          "line": 3,
+          "character": 10
+        }
+      },
+      "newText": "TypeB"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  }
+]

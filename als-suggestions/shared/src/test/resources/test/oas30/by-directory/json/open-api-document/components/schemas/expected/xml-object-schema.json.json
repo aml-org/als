@@ -1,13 +1,19 @@
 [
   {
     "label": "attribute",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "schemas",
     "documentation": "attribute",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11attribute",
-    "filterText": "\"attribute\": \"$1\"",
+    "filterText": "\"attribute\": $1",
     "insertText": null,
     "insertTextFormat": [
       2
@@ -20,10 +26,10 @@
         },
         "end": {
           "line": 9,
-          "character": 17
+          "character": 16
         }
       },
-      "newText": "\"attribute\": \"$1\""
+      "newText": "\"attribute\": $1"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -31,11 +37,17 @@
   },
   {
     "label": "name",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "schemas",
     "documentation": "name",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11name",
     "filterText": "\"name\": \"$1\"",
     "insertText": null,
@@ -50,7 +62,7 @@
         },
         "end": {
           "line": 9,
-          "character": 17
+          "character": 16
         }
       },
       "newText": "\"name\": \"$1\""
@@ -61,11 +73,17 @@
   },
   {
     "label": "namespace",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "schemas",
     "documentation": "namespace",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11namespace",
     "filterText": "\"namespace\": \"$1\"",
     "insertText": null,
@@ -80,7 +98,7 @@
         },
         "end": {
           "line": 9,
-          "character": 17
+          "character": 16
         }
       },
       "newText": "\"namespace\": \"$1\""
@@ -91,11 +109,17 @@
   },
   {
     "label": "prefix",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "schemas",
     "documentation": "prefix",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11prefix",
     "filterText": "\"prefix\": \"$1\"",
     "insertText": null,
@@ -110,7 +134,7 @@
         },
         "end": {
           "line": 9,
-          "character": 17
+          "character": 16
         }
       },
       "newText": "\"prefix\": \"$1\""
@@ -121,13 +145,19 @@
   },
   {
     "label": "wrapped",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "schemas",
     "documentation": "wrapped",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11wrapped",
-    "filterText": "\"wrapped\": \"$1\"",
+    "filterText": "\"wrapped\": $1",
     "insertText": null,
     "insertTextFormat": [
       2
@@ -140,10 +170,10 @@
         },
         "end": {
           "line": 9,
-          "character": 17
+          "character": 16
         }
       },
-      "newText": "\"wrapped\": \"$1\""
+      "newText": "\"wrapped\": $1"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,

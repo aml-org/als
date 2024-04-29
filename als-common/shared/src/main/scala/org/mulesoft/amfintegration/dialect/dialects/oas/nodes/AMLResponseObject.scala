@@ -1,10 +1,10 @@
 package org.mulesoft.amfintegration.dialect.dialects.oas.nodes
 
-import amf.core.vocabulary.Namespace.XsdTypes.xsdString
+import amf.aml.client.scala.model.domain.PropertyMapping
+import amf.apicontract.internal.metamodel.domain.{ParameterModel, PayloadModel, ResponseModel, TemplatedLinkModel}
+import amf.core.client.scala.vocabulary.Namespace.XsdTypes.xsdString
+import amf.shapes.internal.domain.metamodel.ExampleModel
 import org.mulesoft.amfintegration.dialect.dialects.oas.{OAS20Dialect, OAS30Dialect, OasBaseDialect}
-import amf.plugins.document.vocabularies.model.domain.PropertyMapping
-import amf.plugins.domain.shapes.metamodel.ExampleModel
-import amf.plugins.domain.webapi.metamodel.{ParameterModel, PayloadModel, ResponseModel, TemplatedLinkModel}
 
 trait AMLResponseObject extends DialectNode {
 
@@ -40,24 +40,29 @@ object Oas20ResponseObject extends AMLResponseObject {
       .withObjectRange(
         Seq(
           Oas20SchemaObject.id
-        )),
+        )
+      ),
     PropertyMapping()
       .withId(OasBaseDialect.DialectLocation + "#/declarations/ResponseObject/headers")
       .withName("headers")
       .withNodePropertyMapping(ResponseModel.Headers.value.iri())
       .withMapTermKeyProperty(ParameterModel.Name.value.iri())
-      .withObjectRange(Seq(
-        Oas20AMLHeaderObject.id
-      )),
+      .withObjectRange(
+        Seq(
+          Oas20AMLHeaderObject.id
+        )
+      ),
     PropertyMapping()
       .withId(OAS20Dialect.DialectLocation + "#/declarations/ResponseObject/examples")
       .withName("examples")
       .withMapTermKeyProperty(ExampleModel.MediaType.value.iri())
       .withMapTermValueProperty(ExampleModel.Raw.value.iri())
       .withNodePropertyMapping(ResponseModel.Examples.value.iri())
-      .withObjectRange(Seq(
-        AMLExampleObject.id
-      ))
+      .withObjectRange(
+        Seq(
+          AMLExampleObject.id
+        )
+      )
   )
 }
 
@@ -69,25 +74,31 @@ object Oas30ResponseObject extends AMLResponseObject {
       .withName("headers")
       .withNodePropertyMapping(ResponseModel.Headers.value.iri())
       .withMapTermKeyProperty(ParameterModel.Name.value.iri())
-      .withObjectRange(Seq(
-        Oas30AMLHeaderObject.id
-      )),
+      .withObjectRange(
+        Seq(
+          Oas30AMLHeaderObject.id
+        )
+      ),
     PropertyMapping()
       .withId(OAS30Dialect.DialectLocation + "#/declarations/ResponseObject/content")
       .withName("content")
       .withNodePropertyMapping(ResponseModel.Payloads.value.iri())
       .withMapTermKeyProperty(PayloadModel.MediaType.value.iri())
-      .withObjectRange(Seq(
-        AMLContentObject.id
-      )),
+      .withObjectRange(
+        Seq(
+          AMLContentObject.id
+        )
+      ),
     PropertyMapping()
       .withId(OAS30Dialect.DialectLocation + "#/declarations/ResponseObject/links")
       .withName("links")
       .withNodePropertyMapping(ResponseModel.Links.value.iri())
       .withMapTermKeyProperty(TemplatedLinkModel.Name.value.iri())
-      .withObjectRange(Seq(
-        AMLLinkObject.id
-      ))
+      .withObjectRange(
+        Seq(
+          AMLLinkObject.id
+        )
+      )
   )
 
 }

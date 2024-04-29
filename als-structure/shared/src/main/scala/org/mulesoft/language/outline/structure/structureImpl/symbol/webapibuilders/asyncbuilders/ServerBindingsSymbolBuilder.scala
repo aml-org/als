@@ -1,8 +1,8 @@
 package org.mulesoft.language.outline.structure.structureImpl.symbol.webapibuilders.asyncbuilders
 
-import amf.core.metamodel.Field
-import amf.plugins.domain.webapi.metamodel.bindings.ServerBindingsModel
-import amf.plugins.domain.webapi.models.bindings.ServerBindings
+import amf.apicontract.client.scala.model.domain.bindings.ServerBindings
+import amf.apicontract.internal.metamodel.domain.bindings.ServerBindingsModel
+import amf.core.internal.metamodel.Field
 import org.mulesoft.language.outline.structure.structureImpl.symbol.builders.{
   AmfObjectSimpleBuilderCompanion,
   StructuredSymbolBuilder,
@@ -25,7 +25,8 @@ object ServerBindingsSymbolBuilderCompanion extends AmfObjectSimpleBuilderCompan
 
   override def getType: Class[_] = classOf[ServerBindings]
 
-  override protected def construct(element: ServerBindings)(
-      implicit ctx: StructureContext): Option[SymbolBuilder[ServerBindings]] =
+  override protected def construct(element: ServerBindings)(implicit
+      ctx: StructureContext
+  ): Option[SymbolBuilder[ServerBindings]] =
     Some(new ServerBindingsSymbolBuilder(element))
 }

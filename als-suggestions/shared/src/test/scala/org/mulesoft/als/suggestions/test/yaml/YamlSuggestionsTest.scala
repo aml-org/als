@@ -1,6 +1,6 @@
 package org.mulesoft.als.suggestions.test.yaml
 
-import amf.core.remote.{OasYamlHint, Hint}
+import amf.core.internal.remote.{Hint, Oas20YamlHint}
 import org.mulesoft.als.suggestions.test.SuggestionByDirectoryTest
 
 class YamlSuggestionsTest extends SuggestionByDirectoryTest {
@@ -8,5 +8,5 @@ class YamlSuggestionsTest extends SuggestionByDirectoryTest {
 
   override def fileExtensions: Seq[String] = Seq(".yaml")
 
-  override def origin: Hint = OasYamlHint
+  override def origin: Hint = Oas20YamlHint // not all are oas 2
 }

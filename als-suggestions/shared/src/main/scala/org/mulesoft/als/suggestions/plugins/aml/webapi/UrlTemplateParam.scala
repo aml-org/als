@@ -1,11 +1,11 @@
 package org.mulesoft.als.suggestions.plugins.aml.webapi
 
-import amf.core.annotations.SynthesizedField
-import amf.plugins.domain.webapi.metamodel.ParameterModel
-import amf.plugins.domain.webapi.models.{EndPoint, Parameter, Server}
+import amf.apicontract.client.scala.model.domain.{EndPoint, Parameter, Server}
+import amf.apicontract.internal.metamodel.domain.ParameterModel
 import org.mulesoft.als.suggestions.RawSuggestion
 import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
 import org.mulesoft.als.suggestions.interfaces.AMLCompletionPlugin
+import org.mulesoft.amfintegration.AmfImplicits.AmfAnnotationsImp
 
 import scala.concurrent.Future
 
@@ -16,14 +16,15 @@ trait UrlTemplateParam extends AMLCompletionPlugin {
     Future.successful {
       val params = request.amfObject match {
         case p: Parameter
-            if (p.binding.option().contains("path") && isName(request)) || request.yPartBranch.isKeyDescendantOf(
-              "variables") =>
+            if (p.binding.option().contains("path") && isName(request)) || request.astPartBranch.isKeyDescendantOf(
+              "variables"
+            ) =>
           request.branchStack.headOption match {
             case Some(e: EndPoint) => endpointParams(e)
             case Some(s: Server)   => serverParams(s)
             case _                 => Nil
           }
-        case endPoint: EndPoint if request.yPartBranch.isKeyDescendantOf("uriParameters") =>
+        case endPoint: EndPoint if request.astPartBranch.isKeyDescendantOf("uriParameters") =>
           endpointParams(endPoint)
         case _ => Nil
       }
@@ -35,7 +36,7 @@ trait UrlTemplateParam extends AMLCompletionPlugin {
 
   protected def endpointParams(e: EndPoint): Seq[String] = {
     e.parameters
-      .filter(p => p.binding.option().contains("path") && p.annotations.contains(classOf[SynthesizedField]))
+      .filter(p => p.binding.option().contains("path") && p.annotations.isVirtual)
       .flatMap(_.name.option())
       .filter(n => e.path.option().getOrElse("").contains(s"{$n}"))
   }

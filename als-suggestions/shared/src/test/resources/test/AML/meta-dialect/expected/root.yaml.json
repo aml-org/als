@@ -1,11 +1,53 @@
 [
   {
+    "label": "annotationMappings",
+    "kind": [
+      
+    ],
+    "detail": "unknown",
+    "documentation": "annotationMappings",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "11annotationMappings",
+    "filterText": "annotationMappings:\n  ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 2,
+          "character": 0
+        },
+        "end": {
+          "line": 2,
+          "character": 0
+        }
+      },
+      "newText": "annotationMappings:\n  "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
     "label": "dialect",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "dialect",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11dialect",
     "filterText": "dialect: ",
     "insertText": null,
@@ -31,11 +73,17 @@
   },
   {
     "label": "documents",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "documents",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11documents",
     "filterText": "documents:\n  ",
     "insertText": null,
@@ -60,12 +108,54 @@
     "command": null
   },
   {
+    "label": "extensions",
+    "kind": [
+      
+    ],
+    "detail": "unknown",
+    "documentation": "extensions",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "11extensions",
+    "filterText": "extensions:\n  ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 2,
+          "character": 0
+        },
+        "end": {
+          "line": 2,
+          "character": 0
+        }
+      },
+      "newText": "extensions:\n  "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
     "label": "external",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "external",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11external",
     "filterText": "external:\n  ",
     "insertText": null,
@@ -91,11 +181,17 @@
   },
   {
     "label": "nodeMappings",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "nodeMappings",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11nodeMappings",
     "filterText": "nodeMappings:\n  ",
     "insertText": null,
@@ -121,11 +217,17 @@
   },
   {
     "label": "usage",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "docs",
     "documentation": "usage",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11usage",
     "filterText": "usage: ",
     "insertText": null,
@@ -151,11 +253,17 @@
   },
   {
     "label": "uses",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "uses",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11uses",
     "filterText": "uses:\n  ",
     "insertText": null,
@@ -181,11 +289,17 @@
   },
   {
     "label": "version",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "version",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11version",
     "filterText": "version: ",
     "insertText": null,

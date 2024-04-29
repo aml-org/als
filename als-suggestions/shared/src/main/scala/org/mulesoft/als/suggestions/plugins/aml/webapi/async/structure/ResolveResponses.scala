@@ -1,6 +1,6 @@
 package org.mulesoft.als.suggestions.plugins.aml.webapi.async.structure
 
-import amf.plugins.domain.webapi.models.Response
+import amf.apicontract.client.scala.model.domain.Response
 import org.mulesoft.als.suggestions.RawSuggestion
 import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
 import org.mulesoft.als.suggestions.interfaces.ResolveIfApplies
@@ -13,7 +13,7 @@ object ResolveResponses extends ResolveIfApplies {
   override def resolve(request: AmlCompletionRequest): Option[Future[Seq[RawSuggestion]]] =
     request.amfObject match {
       case _: Response
-          if !MessageKnowledge.isRootMessageBlock(request) && !request.yPartBranch.isKeyDescendantOf("headers") =>
+          if !MessageKnowledge.isRootMessageBlock(request) && !request.astPartBranch.isKeyDescendantOf("headers") =>
         applies(Future(Seq()))
       case _ => notApply
     }

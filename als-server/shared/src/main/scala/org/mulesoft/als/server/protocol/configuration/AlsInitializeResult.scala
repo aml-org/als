@@ -1,7 +1,7 @@
 package org.mulesoft.als.server.protocol.configuration
 
-/**
-  * @param capabilities The capabilities the language server provides.
+/** @param capabilities
+  *   The capabilities the language server provides.
   */
 case class AlsInitializeResult(capabilities: AlsServerCapabilities)
 

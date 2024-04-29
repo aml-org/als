@@ -1,11 +1,17 @@
 [
   {
     "label": "deepObject",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "parameters",
     "documentation": "deepObject",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "10deepObject",
     "filterText": "\"deepObject\"",
     "insertText": null,
@@ -31,11 +37,17 @@
   },
   {
     "label": "form",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "parameters",
     "documentation": "form",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "10form",
     "filterText": "\"form\"",
     "insertText": null,
@@ -61,11 +73,17 @@
   },
   {
     "label": "pipeDelimited",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "parameters",
     "documentation": "pipeDelimited",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "10pipeDelimited",
     "filterText": "\"pipeDelimited\"",
     "insertText": null,
@@ -91,11 +109,17 @@
   },
   {
     "label": "spaceDelimited",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "parameters",
     "documentation": "spaceDelimited",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "10spaceDelimited",
     "filterText": "\"spaceDelimited\"",
     "insertText": null,

@@ -1,0 +1,45 @@
+#%Dialect 1.0
+dialect: Test
+version: 2
+external:
+  myExternal: http://voc.com/#
+
+nodeMappings:
+  A:
+    classTerm: myExternal.ExternalClass
+    mapping:
+      prop1:
+        range: string
+        propertyTerm: myExternal.stringName
+      prop2:
+        range: integer
+        propertyTerm: myExternal.mixedScalar
+  B:
+    classTerm: myExternal.ExternalClass2
+    mapping:
+      p1:
+        range: boolean
+        propertyTerm: myExternal.mixedScalar
+      p2:
+        range: A
+        propertyTerm: myExternal.mixedLiteralAndObject
+      p3:
+        range: A
+        propertyTerm: myExternal.sameObjectRangeA
+  C:
+    classTerm: myExternal.ExternalClass2
+    mapping:
+      p1:
+        range: A
+        propertyTerm: myExternal.sameObjectRangeA
+      p2:
+        range: B
+        propertyTerm: myExternal.mixedObjectRange
+  D:
+    classTerm: myExternal.ExternalClass3
+    mapping:
+      p1:
+        range: A
+        propertyTerm: myExternal.mixedObjectRange
+
+

@@ -1,38 +1,33 @@
 package org.mulesoft.als.suggestions.aml.webapi
 
-import amf.core.remote.{Oas20, Oas30, Vendor}
-import amf.plugins.document.vocabularies.model.document.Dialect
+import amf.aml.client.scala.model.document.Dialect
+import org.mulesoft.als.suggestions.AMLBaseCompletionPlugins
 import org.mulesoft.als.suggestions.interfaces.AMLCompletionPlugin
+import org.mulesoft.als.suggestions.plugins.aml.webapi.extensions.OasLikeSemanticExtensionsFlavour
 import org.mulesoft.als.suggestions.plugins.aml.webapi.oas._
-import org.mulesoft.als.suggestions.plugins.aml.webapi.oas.oas20.structure.{ResolveParameterEndpoint, ResolveRequest}
+import org.mulesoft.als.suggestions.plugins.aml.webapi.oas.oas20.structure.{
+  ResolveParameterEndpoint,
+  ResolveParameterPayload,
+  ResolveRequest
+}
 import org.mulesoft.als.suggestions.plugins.aml.webapi.oas.oas20.{
   Oas20ParameterStructure,
   Oas20TypeFacetsCompletionPlugin
 }
 import org.mulesoft.als.suggestions.plugins.aml.webapi.oas.oas30._
-import org.mulesoft.als.suggestions.plugins.aml.webapi.oas.structure.{
-  IriTemplateMappingIgnore,
-  ResolveDeclaredResponse,
-  ResolveInfo,
-  ResolveParameterShapes,
-  ResolveTag,
-  ResponseExampleException,
-  SchemaExampleException
-}
+import org.mulesoft.als.suggestions.plugins.aml.webapi.oas.oas30.structure.ResolveRequestBody
+import org.mulesoft.als.suggestions.plugins.aml.webapi.oas.structure._
 import org.mulesoft.als.suggestions.plugins.aml.webapi.{
   ObjectExamplePropertiesCompletionPlugin,
-  SecuredByCompletionPlugin,
   WebApiKnownValueCompletionPlugin
 }
 import org.mulesoft.als.suggestions.plugins.aml.{ResolveDefault, StructureCompletionPlugin}
-import org.mulesoft.als.suggestions.{AMLBaseCompletionPlugins, CompletionsPluginHandler}
-import org.mulesoft.amfintegration.AmfInstance
 import org.mulesoft.amfintegration.dialect.dialects.oas.{OAS20Dialect, OAS30Dialect}
 
 trait OasBaseCompletionRegistry extends WebApiCompletionPluginRegistry {
-  val common: Seq[AMLCompletionPlugin] = AMLBaseCompletionPlugins.all :+
+  lazy val common: Seq[AMLCompletionPlugin] = AMLBaseCompletionPlugins.all :+
     OASRequiredObjectCompletionPlugin :+
-    SecuredByCompletionPlugin :+
+    OasSecuredByCompletionPlugin :+
     ExampleMediaType :+
     StructureCompletionPlugin(
       List(
@@ -43,7 +38,8 @@ trait OasBaseCompletionRegistry extends WebApiCompletionPluginRegistry {
         IriTemplateMappingIgnore,
         SchemaExampleException,
         ResolveDefault
-      )) :+
+      )
+    ) :+
     ParameterReferenceCompletionPlugin :+
     OASRefTag :+
     OperationTags :+
@@ -62,15 +58,18 @@ object Oas20CompletionPluginRegistry extends OasBaseCompletionRegistry {
       List(
         ResolveParameterShapes,
         ResolveParameterEndpoint,
+        ResolveParameterPayload,
         ResolveRequest,
         ResolveDeclaredResponse,
         ResolveTag,
         ResolveInfo,
         ResponseExampleException,
         ResolveDefault
-      )) :+
+      )
+    ) :+
     OaslikeSecurityScopesCompletionPlugin :+
-    Oas20TypeFacetsCompletionPlugin
+    Oas20TypeFacetsCompletionPlugin :+
+    OasLikeSemanticExtensionsFlavour
 
   override def plugins: Seq[AMLCompletionPlugin] = all
 
@@ -80,6 +79,19 @@ object Oas20CompletionPluginRegistry extends OasBaseCompletionRegistry {
 object Oas30CompletionPluginRegistry extends OasBaseCompletionRegistry {
 
   private val all = common :+
+    StructureCompletionPlugin(
+      List(
+        ResolveRequestBody,
+        ResolveParameterShapes,
+        ResolveDeclaredResponse,
+        ResolveTag,
+        ResolveInfo,
+        IriTemplateMappingIgnore,
+        SchemaExampleException,
+        ResolveParameterInRequest,
+        ResolveDefault
+      )
+    ) :+
     Oas30ParameterStructure :+
     EncodingPropertyName :+
     Oas30TypeFacetsCompletionPlugin :+

@@ -1,13 +1,14 @@
 package org.mulesoft.als.suggestions.test
 
-import amf.core.remote.Hint
+import amf.core.internal.remote.Hint
 import org.mulesoft.als.common.ByDirectoryTest
-import org.mulesoft.als.common.diff.FileAssertionTest
-import org.mulesoft.als.suggestions.test.CompletionItemNode._
+import org.mulesoft.amfintegration.amfconfiguration.{
+  ALSConfigurationState,
+  EditorConfiguration,
+  EmptyProjectConfigurationState
+}
 import org.mulesoft.common.io.{Fs, SyncFile}
-import org.mulesoft.lsp.feature.completion.CompletionItem
-import org.scalatest.{Assertion, AsyncFreeSpec}
-import upickle.default.write
+import org.scalatest.freespec.AsyncFreeSpec
 
 import scala.concurrent.{ExecutionContext, Future}
 
@@ -22,28 +23,39 @@ trait SuggestionByDirectoryTest extends AsyncFreeSpec with BaseSuggestionsForTes
 
   def origin: Hint
 
-  s"Suggestions test for vendor ${origin.vendor.toString} by directory" - {
+  s"Suggestions test for vendor ${origin.spec.toString} by directory" - {
     forDirectory(dir, "")
   }
 
-  def writeDataToString(data: List[CompletionItem]): String =
-    write[List[CompletionItemNode]](data.map(CompletionItemNode.sharedToTransport), 2)
+  def preload(parent: String, amfConfiguration: EditorConfiguration): Future[Unit] = Future.unit
 
   override def testFile(content: String, f: SyncFile, parent: String): Unit = {
-    s"Suggest over ${f.name} at dir $parent${dir.name}" in {
-      val expected = f.parent + platform.fs.separatorChar + "expected" + platform.fs.separatorChar + f.name + ".json"
+    s"Suggest over ${f.name} at dir ${cleanDirectory(f)}" in {
+      val expected = expectedFile(f)
       for {
+        editorConfiguration <- Future(EditorConfiguration())
+        _                   <- preload(f.path.stripSuffix(f.name), editorConfiguration)
+        alsConfigurationState <- editorConfiguration.getState.map(
+          ALSConfigurationState(_, EmptyProjectConfigurationState, None)
+        )
         s <- suggestFromFile(
           content,
           "file://" + f.path.replaceAllLiterally(platform.fs.separatorChar.toString, "/"),
-          Some("application/" + origin.syntax.extension),
           "*",
-          None
+          alsConfigurationState
         )
         tmp <- writeTemporaryFile(expected)(
-          writeDataToString(s.sortWith((s1, s2) => s1.label.compareTo(s2.label) < 0).toList))
+          writeDataToString(s.sortWith((s1, s2) => s1.label.compareTo(s2.label) < 0).toList)
+        )
         r <- assertDifferences(tmp, expected)
       } yield r
     }
   }
+
+  def expectedFile(f: SyncFile): String = {
+    s"${f.parent}${platform.fs.separatorChar}expected${platform.fs.separatorChar}${f.name}.json"
+  }
+
+  private def cleanDirectory(f: SyncFile) =
+    f.path.stripPrefix("als-suggestions/shared/src/test/resources/test/").stripSuffix(f.name)
 }

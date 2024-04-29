@@ -1,19 +1,24 @@
 package org.mulesoft.als.suggestions.client.jvm
 
-import amf.client.remote.Content
-import amf.core.remote.FileNotFound
-import amf.core.unsafe.PlatformSecrets
-import amf.internal.environment.Environment
-import amf.internal.resource.ResourceLoader
+import amf.core.client.common.remote.Content
+import amf.core.client.scala.resource.ResourceLoader
+import amf.core.internal.remote.FileNotFound
+import amf.core.internal.unsafe.PlatformSecrets
 import org.mulesoft.als.common.DirectoryResolver
 import org.mulesoft.als.configuration.AlsConfiguration
 import org.mulesoft.als.suggestions.client.Suggestions
-import org.mulesoft.amfintegration.{AmfInstance, InitOptions}
-import org.scalatest.{AsyncFunSuite, Matchers}
+import org.mulesoft.als.suggestions.test.core.AccessBundle
+import org.mulesoft.amfintegration.amfconfiguration.{
+  ALSConfigurationState,
+  EditorConfiguration,
+  EmptyProjectConfigurationState
+}
+import org.scalatest.funsuite.AsyncFunSuite
+import org.scalatest.matchers.should.Matchers
 
 import scala.concurrent.{ExecutionContext, Future}
 
-class JvmSuggestionsTest extends AsyncFunSuite with Matchers with PlatformSecrets {
+class JvmSuggestionsTest extends AsyncFunSuite with Matchers with PlatformSecrets with AccessBundle {
   override implicit val executionContext: ExecutionContext =
     scala.concurrent.ExecutionContext.Implicits.global
   // TODO: AMF is having trouble with "file:/" prefix (it transforms it in "file:///")
@@ -29,7 +34,8 @@ class JvmSuggestionsTest extends AsyncFunSuite with Matchers with PlatformSecret
 
     override def fetch(resource: String): Future[Content] =
       Future[Content]({
-        try { new Content(textInput, resource) } catch {
+        try { new Content(textInput, resource) }
+        catch {
           case e: Exception => throw FileNotFound(e)
         }
       })
@@ -43,16 +49,29 @@ class JvmSuggestionsTest extends AsyncFunSuite with Matchers with PlatformSecret
     override def isDirectory(path: String): Future[Boolean] = Future { false }
   }
 
-  val environment
-    : Environment = Environment().add(fileLoader) // .add(new ResourceLoaderAdapter(new FileResourceLoader()))
+  val alsConfiguration: Future[ALSConfigurationState] = {
+    EditorConfiguration
+      .withPlatformLoaders(Seq(fileLoader))
+      .getState
+      .map(editorState => {
+        ALSConfigurationState(
+          editorState = editorState,
+          projectState = EmptyProjectConfigurationState,
+          editorResourceLoader = None
+        )
+      })
+  }
 
   test("Custom Resource Loader test") {
-    val s =
-      new Suggestions(platform, environment, AlsConfiguration(), directoryResolver, AmfInstance(platform, environment)).initialized()
     for {
+      alsConfigurationState <- alsConfiguration
+      s <- Future {
+        new Suggestions(AlsConfiguration(), directoryResolver, accessBundle(alsConfigurationState))
+          .initialized()
+      }
       suggestions <- s.suggest(url, 40, snippetsSupport = true, None)
     } yield {
-      assert(suggestions.size == 14)
+      assert(suggestions.size == 15)
     }
   }
 }

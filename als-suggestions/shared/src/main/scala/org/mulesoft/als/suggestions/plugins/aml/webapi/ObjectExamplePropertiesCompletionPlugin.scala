@@ -1,29 +1,33 @@
 package org.mulesoft.als.suggestions.plugins.aml.webapi
 
-import amf.core.model.domain._
-import amf.core.model.domain.extensions.PropertyShape
-import amf.core.parser.Value
-import amf.plugins.document.vocabularies.model.document.Dialect
-import amf.plugins.domain.shapes.metamodel.ExampleModel
-import amf.plugins.domain.shapes.metamodel.common.ExamplesField
-import amf.plugins.domain.shapes.models.{AnyShape, ArrayShape, Example, NodeShape}
-import amf.plugins.domain.shapes.resolution.stages.elements.CompleteShapeTransformationPipeline
-import amf.plugins.domain.webapi.metamodel.PayloadModel
-import amf.{ProfileName, ProfileNames}
+import amf.aml.client.scala.model.document.Dialect
+import amf.apicontract.internal.metamodel.domain.PayloadModel
+import amf.core.client.common.validation.{ProfileName, ProfileNames}
+import amf.core.client.scala.model.domain._
+import amf.core.client.scala.model.domain.extensions.PropertyShape
+import amf.core.internal.parser.domain.Value
+import amf.shapes.client.scala.model.domain.{AnyShape, ArrayShape, Example, NodeShape}
+import amf.shapes.internal.domain.metamodel.ExampleModel
+import amf.shapes.internal.domain.metamodel.common.ExamplesField
+import amf.shapes.internal.domain.resolution.elements.CompleteShapeTransformationPipeline
+import org.mulesoft.als.common.ASTPartBranch
 import org.mulesoft.als.suggestions.RawSuggestion
 import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
 import org.mulesoft.als.suggestions.interfaces.AMLCompletionPlugin
 import org.mulesoft.amfintegration.LocalIgnoreErrorHandler
+import org.mulesoft.amfintegration.amfconfiguration.ALSConfigurationState
 import org.mulesoft.amfintegration.dialect.dialects.oas.OAS20Dialect
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
-case class ObjectExamplePropertiesCompletionPlugin(node: DataNode,
-                                                   dialect: Dialect,
-                                                   override val anyShape: AnyShape,
-                                                   example: Example)
-    extends ShapePropertiesSuggestions {
+case class ObjectExamplePropertiesCompletionPlugin(
+    node: DataNode,
+    dialect: Dialect,
+    override val anyShape: AnyShape,
+    example: Example,
+    override protected val alsConfigurationState: ALSConfigurationState
+) extends ShapePropertiesSuggestions {
 
   override protected def shapeForObj: Option[NodeShape] = resolved.flatMap(findNode(_, example.structuredValue, node))
 
@@ -36,9 +40,8 @@ case class ObjectExamplePropertiesCompletionPlugin(node: DataNode,
           val propsE = o.allPropertiesWithName()
           n.properties.flatMap(p => propsE.get(p.name.value()).flatMap(v => findNode(p.range, v, node))).headOption
         }
-      case arr: ArrayNode if a.isInstanceOf[ArrayShape] =>
-        val items = a.asInstanceOf[ArrayShape].items
-        arr.members.flatMap(mem => findNode(items, mem, node)).headOption
+      case _: ArrayNode if a.isInstanceOf[ArrayShape] && a.asInstanceOf[ArrayShape].items.isInstanceOf[NodeShape] =>
+        Some(a.asInstanceOf[ArrayShape].items.asInstanceOf[NodeShape])
       case arr: ArrayNode if a.isInstanceOf[NodeShape] =>
         val n = a.asInstanceOf[NodeShape]
         if (arr == node) Some(n)
@@ -54,14 +57,17 @@ trait ShapePropertiesSuggestions {
   val anyShape: AnyShape
   protected val dialect: Dialect
   protected def shapeForObj: Option[NodeShape]
+  protected val alsConfigurationState: ALSConfigurationState
 
   def suggest(): Seq[RawSuggestion] = shapeForObj.map(_.properties.map(propToRaw)).getOrElse(Nil)
 
   private def profile: ProfileName =
-    if (dialect.id == OAS20Dialect.dialect.id) ProfileNames.OAS20 else ProfileNames.RAML
+    if (dialect.id == OAS20Dialect.dialect.id) ProfileNames.OAS20 else ProfileNames.RAML10
 
+  // todo: use specific amf configuration for resolution?
   protected val resolved: Option[AnyShape] =
-    new CompleteShapeTransformationPipeline(anyShape, LocalIgnoreErrorHandler, profile).resolve() match {
+    new CompleteShapeTransformationPipeline(anyShape, LocalIgnoreErrorHandler, profile)
+      .transform(alsConfigurationState.configForDialect(dialect).config) match {
       case a: AnyShape => Some(a)
       case _           => None
     }
@@ -76,15 +82,21 @@ trait ShapePropertiesSuggestions {
   }
 }
 
-case class PureShapePropertiesSuggestions(override val anyShape: AnyShape, dialect: Dialect)
-    extends ShapePropertiesSuggestions {
+case class PureShapePropertiesSuggestions(
+    override val anyShape: AnyShape,
+    dialect: Dialect,
+    override protected val alsConfigurationState: ALSConfigurationState
+) extends ShapePropertiesSuggestions {
   override protected def shapeForObj: Option[NodeShape] = resolved.collectFirst({ case n: NodeShape => n })
 }
 
 trait ExampleSuggestionPluginBuilder {
-  protected def buildPluginFromExample(e: Example, request: AmlCompletionRequest): Option[ShapePropertiesSuggestions] = {
-    findShape(e, request.branchStack).flatMap {
-      case (e: Example, s: Shape) => suggestionsForShape(e, s, request)
+  protected def buildPluginFromExample(
+      e: Example,
+      request: AmlCompletionRequest
+  ): Option[ShapePropertiesSuggestions] = {
+    findShape(e, request.branchStack).flatMap { case (e: Example, s: Shape) =>
+      suggestionsForShape(e, s, request)
     }
   }
 
@@ -92,38 +104,58 @@ trait ExampleSuggestionPluginBuilder {
     request.fieldEntry
       .filter(fe => fe.field == ExamplesField.Examples)
       .flatMap(_ => {
-        isFatherShape(Some(request.amfObject)).map(s => PureShapePropertiesSuggestions(s, request.actualDialect))
+        isFatherShape(Some(request.amfObject))
+          .map(s => PureShapePropertiesSuggestions(s, request.actualDialect, request.alsConfigurationState))
       })
   }
 
   protected def buildPluginFromExampleObj(request: AmlCompletionRequest): Option[ShapePropertiesSuggestions] = {
     request.amfObject match {
       case e: Example
-          if (request.yPartBranch.isKey || request.yPartBranch.isArray) && !e.fields.exists(
-            ExampleModel.StructuredValue) =>
-        findShape(e, e +: request.branchStack).map(s => PureShapePropertiesSuggestions(s._2, request.actualDialect))
+          if (request.astPartBranch.isKey || request.astPartBranch.isArray) && !e.fields.exists(
+            ExampleModel.StructuredValue
+          ) =>
+        findShape(e, e +: request.branchStack).map(s =>
+          PureShapePropertiesSuggestions(s._2, request.actualDialect, request.alsConfigurationState)
+        )
       case _ => None
     }
   }
 
-  protected def suggestionsForShape(e: Example,
-                                    anyShape: AnyShape,
-                                    request: AmlCompletionRequest): Option[ObjectExamplePropertiesCompletionPlugin] = {
+  protected def suggestionsForShape(
+      e: Example,
+      anyShape: AnyShape,
+      request: AmlCompletionRequest
+  ): Option[ObjectExamplePropertiesCompletionPlugin] = {
     findNode(request)
-      .map(obj => new ObjectExamplePropertiesCompletionPlugin(obj, request.actualDialect, anyShape, e))
+      .map(obj =>
+        new ObjectExamplePropertiesCompletionPlugin(
+          obj,
+          request.actualDialect,
+          anyShape,
+          e,
+          request.alsConfigurationState
+        )
+      )
+  }
+
+  private def isScalarNodeValue(parent: AmfObject, astPart: ASTPartBranch, s: ScalarNode) = {
+    parent match {
+      case o: ObjectNode if o.allProperties().toList.contains(s) =>
+        s.position().exists(li => li.range == astPart.node.location.range)
+      case _ => false
+    }
   }
 
   private def findNode(request: AmlCompletionRequest): Option[DataNode] = {
     request.amfObject match {
-      case o: ObjectNode if request.yPartBranch.isKey => Some(o)
-      case a: ArrayNode                               => Some(a)
-      case s: ScalarNode if request.branchStack.headOption.exists({
-            case o: ObjectNode if o.allProperties().toList.contains(s) => true
-            case _                                                     => false
-          }) =>
-        Some(s)
+      case o: ObjectNode if request.astPartBranch.isKey => Some(o)
+      case a: ArrayNode                                 => Some(a)
       case s: ScalarNode
-          if request.branchStack.headOption.exists(_.isInstanceOf[ObjectNode]) && request.yPartBranch.isKey =>
+          if request.branchStack.headOption.exists(p => isScalarNodeValue(p, request.astPartBranch, s)) =>
+        Some(s)
+      case _: ScalarNode
+          if request.branchStack.headOption.exists(_.isInstanceOf[ObjectNode]) && request.astPartBranch.isKey =>
         request.branchStack.headOption.collectFirst({ case o: ObjectNode => o })
       case s: ScalarNode =>
         val o = ObjectNode(s.annotations)
@@ -161,7 +193,8 @@ object ObjectExamplePropertiesCompletionPlugin extends AMLCompletionPlugin with 
         .orElse(
           request.branchStack
             .collectFirst({ case e: Example => e })
-            .flatMap(buildPluginFromExample(_, request)))
+            .flatMap(buildPluginFromExample(_, request))
+        )
         .orElse(buildPluginFromField(request))
         .map(_.suggest())
         .getOrElse(Nil)

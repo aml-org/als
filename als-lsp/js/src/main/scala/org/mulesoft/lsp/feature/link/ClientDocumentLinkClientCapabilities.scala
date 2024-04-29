@@ -14,8 +14,10 @@ trait ClientDocumentLinkClientCapabilities extends js.Object {
 object ClientDocumentLinkClientCapabilities {
   def apply(internal: DocumentLinkClientCapabilities): ClientDocumentLinkClientCapabilities =
     js.Dynamic
-      .literal(dynamicRegistration = internal.dynamicRegistration.orUndefined,
-               tooltipSupport = internal.tooltipSupport.orUndefined)
+      .literal(
+        dynamicRegistration = internal.dynamicRegistration.orUndefined,
+        tooltipSupport = internal.tooltipSupport.orUndefined
+      )
       .asInstanceOf[ClientDocumentLinkClientCapabilities]
 }
 

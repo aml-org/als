@@ -1,10 +1,10 @@
 package org.mulesoft.als.common
 
-import amf.core.model.document.BaseUnit
-import amf.core.parser.{Position => AmfPosition}
-import amf.core.remote.FileMediaType
+import org.mulesoft.common.client.lexical.{Position => AmfPosition, PositionRange => AmfPositionRange}
+import amf.core.client.scala.model.document.BaseUnit
+import amf.core.internal.remote.FileMediaType
 import org.mulesoft.als.common.dtoTypes.{Position, PositionRange}
-import org.mulesoft.lexer.InputRange
+
 import org.yaml.model.{YMap, YMapEntry, YNode, YNonContent, YPart, YScalar}
 
 import scala.annotation.tailrec
@@ -18,7 +18,7 @@ object YamlUtils {
       case _ => false
     }
 
-  def contains(range: InputRange, position: AmfPosition): Boolean =
+  def contains(range: AmfPositionRange, position: AmfPosition): Boolean =
     PositionRange(range)
       .contains(Position(position))
 
@@ -72,7 +72,7 @@ object YamlUtils {
         parent
     }
 
-  def isJson(baseUnit: BaseUnit) =
+  def isJson(baseUnit: BaseUnit): Boolean =
     FileMediaType
       .extension(baseUnit.location().getOrElse(baseUnit.id)) match {
       case Some("json") => true

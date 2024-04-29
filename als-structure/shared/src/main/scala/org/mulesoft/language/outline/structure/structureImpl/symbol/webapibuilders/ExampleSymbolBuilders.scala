@@ -1,8 +1,8 @@
 package org.mulesoft.language.outline.structure.structureImpl.symbol.webapibuilders
 
-import amf.core.model.domain.AmfElement
-import amf.plugins.domain.shapes.metamodel.ExampleModel
-import amf.plugins.domain.shapes.models.Example
+import amf.core.client.scala.model.domain.AmfElement
+import amf.shapes.client.scala.model.domain.Example
+import amf.shapes.internal.domain.metamodel.ExampleModel
 import org.mulesoft.language.outline.structure.structureImpl.symbol.builders.{
   AmfObjectSimpleBuilderCompanion,
   AmfObjectSymbolBuilder,

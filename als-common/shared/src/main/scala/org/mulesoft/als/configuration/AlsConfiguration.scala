@@ -1,9 +1,12 @@
 package org.mulesoft.als.configuration
 
-import org.mulesoft.lsp.configuration.{FormatOptions, FormattingOptions, DefaultFormattingOptions}
+import org.mulesoft.lsp.configuration.{DefaultFormattingOptions, FormatOptions, FormattingOptions}
 
-case class AlsConfiguration(private var formattingOptions: Map[String, FormattingOptions] = Map())
-    extends AlsConfigurationReader {
+case class AlsConfiguration(
+    private var formattingOptions: Map[String, FormattingOptions] = Map(),
+    private var templateType: TemplateTypes.TemplateTypes = TemplateTypes.BOTH,
+    private var prettyPrintSerialization: Boolean = false
+) extends AlsConfigurationReader {
 
   private var enableUpdateFormatOptions = true
   private var sDocumentChanges: Boolean = false
@@ -27,4 +30,19 @@ case class AlsConfiguration(private var formattingOptions: Map[String, Formattin
 
   def updateFormatOptionsIsEnabled(): Boolean = enableUpdateFormatOptions
 
+  override def getTemplateType: TemplateTypes.TemplateTypes = this.templateType
+
+  def setTemplateType(templateType: TemplateTypes.TemplateTypes): Unit = this.templateType = templateType
+
+  def getShouldPrettyPrintSerialization: Boolean = prettyPrintSerialization
+
+  def setShouldPrettyPrintSerialization(value: Boolean): Unit = this.prettyPrintSerialization = value
+}
+
+object TemplateTypes extends Enumeration {
+  type TemplateTypes = String
+  val NONE   = "NONE"
+  val SIMPLE = "SIMPLE"
+  val FULL   = "FULL"
+  val BOTH   = "BOTH"
 }

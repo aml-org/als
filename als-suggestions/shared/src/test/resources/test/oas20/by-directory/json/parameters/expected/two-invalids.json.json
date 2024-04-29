@@ -1,11 +1,17 @@
 [
   {
     "label": "name",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "docs",
     "documentation": "name",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "10name",
     "filterText": "\"name\": \"$1\",",
     "insertText": null,
@@ -20,7 +26,7 @@
         },
         "end": {
           "line": 9,
-          "character": 20
+          "character": 15
         }
       },
       "newText": "\"name\": \"$1\","

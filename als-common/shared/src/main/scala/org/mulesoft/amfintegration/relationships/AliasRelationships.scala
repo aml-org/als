@@ -1,25 +1,22 @@
 package org.mulesoft.amfintegration.relationships
 
-import org.mulesoft.als.common.cache.YPartBranchCached
+import org.mulesoft.als.common.ASTElementWrapper._
+import org.mulesoft.als.common.cache.ASTPartBranchCached
 import org.mulesoft.als.common.dtoTypes.{Position, PositionRange}
 import org.mulesoft.als.convert.LspRangeConverter
 import org.mulesoft.amfintegration.VirtualYPart
 import org.mulesoft.lsp.feature.common.Location
 import org.yaml.model.{YMapEntry, YNodePlain, YPart, YScalar}
-import org.mulesoft.als.common.YamlWrapper._
 object AliasRelationships {
 
-  /**
-    * source, destination, source YPart
-    */
-  type FullLink = (Location, Location, Option[YPart])
-
-  def isAliasDeclaration(alias: Seq[AliasInfo], position: Position, yPartBranchCached: YPartBranchCached): Boolean =
+  def isAliasDeclaration(alias: Seq[AliasInfo], position: Position, yPartBranchCached: ASTPartBranchCached): Boolean =
     alias.exists(a => a.keyRange(yPartBranchCached).exists(_.contains(position)))
 
-  def getLinks(alias: Seq[AliasInfo],
-               relationships: Seq[RelationshipLink],
-               yPartBranchCached: YPartBranchCached): Seq[FullLink] = {
+  def getLinks(
+      alias: Seq[AliasInfo],
+      relationships: Seq[RelationshipLink],
+      yPartBranchCached: ASTPartBranchCached
+  ): Seq[FullLink] = {
     relationships.flatMap { r =>
       val tuples: Seq[FullLink] = alias.flatMap { a =>
         r.sourceEntry match {
@@ -33,11 +30,19 @@ object AliasRelationships {
         }
       }
       if (tuples.isEmpty)
-        Seq((r.source, r.nameYPart.yPartToLocation, Some(value(r.sourceEntry))))
+        Seq(
+          FullLink(r.source, r.targetNamePart.astToLocation, Some(value(r.sourceEntry)), Some(key(r.sourceNameEntry)))
+        )
       else
         tuples
     }
   }
+
+  private def key(yPart: YPart): YPart =
+    yPart match {
+      case yMapEntry: YMapEntry => yMapEntry.key
+      case _                    => yPart
+    }
 
   private def value(yPart: YPart): YPart =
     yPart match {
@@ -45,11 +50,13 @@ object AliasRelationships {
       case _                    => yPart
     }
 
-  private def splitLocation(a: AliasInfo,
-                            r: RelationshipLink,
-                            s: YPart,
-                            text: String,
-                            yPartBranchCached: YPartBranchCached): Seq[FullLink] = {
+  private def splitLocation(
+      a: AliasInfo,
+      r: RelationshipLink,
+      s: YPart,
+      text: String,
+      astPartBranch: ASTPartBranchCached
+  ): Seq[FullLink] = {
     val positionRange = PositionRange(s.range)
     val start         = positionRange.start.moveColumn(text.indexOf(s"${a.tag}."))
     val aliasRange =
@@ -57,19 +64,31 @@ object AliasRelationships {
     val startPart = start.moveColumn(a.tag.length + 1)
     val notAliasRange = PositionRange(
       startPart,
-      r.nameYPart match {
+      r.targetNamePart match {
         case s: YScalar => startPart.moveColumn(s.text.length)
         case _          => positionRange.end
       }
     )
     Seq(
-      (Location(s.location.sourceName, LspRangeConverter.toLspRange(notAliasRange)),
-       r.nameYPart.yPartToLocation,
-       None),
-      (Location(s.location.sourceName, LspRangeConverter.toLspRange(aliasRange)),
-       Location(s.location.sourceName,
-                a.keyRange(yPartBranchCached).map(LspRangeConverter.toLspRange).getOrElse(a.declaration.range)),
-       None)
+      FullLink(
+        Location(s.location.sourceName, LspRangeConverter.toLspRange(notAliasRange)),
+        r.targetNamePart.astToLocation,
+        None,
+        None
+      ),
+      FullLink(
+        Location(s.location.sourceName, LspRangeConverter.toLspRange(aliasRange)),
+        Location(
+          s.location.sourceName,
+          a.keyRange(astPartBranch).map(LspRangeConverter.toLspRange).getOrElse(a.declaration.range)
+        ),
+        None,
+        None
+      )
     )
   }
 }
+
+/** source, destination, source YPart
+  */
+case class FullLink(source: Location, destination: Location, sourceValue: Option[YPart], sourceName: Option[YPart])

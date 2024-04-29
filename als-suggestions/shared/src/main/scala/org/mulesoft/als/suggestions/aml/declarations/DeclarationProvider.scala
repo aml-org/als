@@ -1,25 +1,24 @@
 package org.mulesoft.als.suggestions.aml.declarations
 
-import amf.core.annotations.Aliases
-import amf.core.metamodel.domain.DomainElementModel
-import amf.core.model.document.{BaseUnit, DeclaresModel}
-import amf.core.model.domain.DomainElement
-import amf.plugins.document.vocabularies.model.document.Dialect
-import amf.plugins.document.vocabularies.model.domain.NodeMapping
-import org.mulesoft.als.common.SemanticNamedElement._
-import org.mulesoft.amfintegration.AmfImplicits._
+import amf.aml.client.scala.model.document.Dialect
+import amf.aml.client.scala.model.domain.NodeMapping
+import amf.core.client.scala.model.document.{BaseUnit, DeclaresModel}
+import amf.core.client.scala.model.domain.DomainElement
+import amf.core.internal.annotations.Aliases
+import amf.core.internal.metamodel.domain.DomainElementModel
+import org.mulesoft.als.common.SemanticNamedElement.ElementNameExtractor
+import org.mulesoft.amfintegration.AmfImplicits.AmfObjectImp
 
 import scala.collection.mutable
 
 class DeclarationProvider(componentId: Option[String] = None) {
 
-  def findElement(newText: String, iriDeclaration: String): Option[DomainElement] = {
+  def findElement(newText: String, iriDeclaration: String): Option[DomainElement] =
     newText.split(".").toList match {
       case head :: tail if tail.nonEmpty => findLib(head, tail.head, iriDeclaration)
       case _ =>
         declarations.get(iriDeclaration).flatMap(d => d.find(_._1 == newText).map(_._2))
     }
-  }
 
   def findLib(libName: String, elementName: String, iriDeclaration: String): Option[DomainElement] = {
     libraries.get(libName).flatMap(l => l.findElement(elementName, iriDeclaration))
@@ -33,11 +32,7 @@ class DeclarationProvider(componentId: Option[String] = None) {
 
   def forNodeType(nodeTypeMapping: String): Set[Name] =
     declarations.getOrElse(nodeTypeMapping, Set.empty).map(_._1) ++
-      libraries
-        .filter(t => t._2.isLocallyDeclared(nodeTypeMapping))
-        .keys
-        .map(_ + ".")
-        .toSet
+      getLocalAliases(nodeTypeMapping)
 
   def filterLocalByType(nodeTypeMapping: String): Set[DomainElement] =
     declarations.getOrElse(nodeTypeMapping, Set.empty).map(_._2)
@@ -58,6 +53,23 @@ class DeclarationProvider(componentId: Option[String] = None) {
     mutable.Map.empty
 
   private var declarableTerms: Seq[String] = Seq.empty
+
+  def getLocalAliases(nodeTypeMapping: String): Set[Alias] =
+    libraries
+      .filter(t => t._2.isLocallyDeclared(nodeTypeMapping))
+      .keys
+      .map(_ + ".")
+      .toSet
+
+  def getElementByName(nodeTypeMapping: String): Set[_ <: (Name, DomainElement)] =
+    declarations
+      .getOrElse(nodeTypeMapping, Set.empty)
+
+  def getElementByName(nodeTypeMapping: String, alias: String): Set[_ <: (Name, DomainElement)] =
+    libraries
+      .get(alias)
+      .map(d => d.getElementByName(nodeTypeMapping))
+      .getOrElse(Set.empty)
 
   def putDeclarable(str: String): Unit =
     declarableTerms = str +: declarableTerms
@@ -101,11 +113,11 @@ object DeclarationProvider {
 
     bu.annotations.find(classOf[Aliases]).foreach { a =>
       a.aliases
-        .flatMap(
-          l =>
-            bu.references
-              .find(_.location().contains(l._2._1))
-              .map(r => l._1 -> r))
+        .flatMap(l =>
+          bu.references
+            .find(_.location().contains(l._2.fullUrl))
+            .map(r => l._1 -> r)
+        )
         .foreach { t =>
           provider.put(t._1, DeclarationProvider(t._2, None))
         }

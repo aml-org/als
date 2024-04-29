@@ -1,11 +1,89 @@
 [
   {
+    "label": "$comment",
+    "kind": [
+      
+    ],
+    "detail": "unknown",
+    "documentation": "$comment",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "11$comment",
+    "filterText": "$comment: ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 7,
+          "character": 10
+        },
+        "end": {
+          "line": 7,
+          "character": 10
+        }
+      },
+      "newText": "$comment: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "$id",
+    "kind": [
+      
+    ],
+    "detail": "unknown",
+    "documentation": "$id",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "11$id",
+    "filterText": "$id: ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 7,
+          "character": 10
+        },
+        "end": {
+          "line": 7,
+          "character": 10
+        }
+      },
+      "newText": "$id: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
     "label": "$ref",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "reference tag",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "0$ref",
     "filterText": "$ref: ",
     "insertText": null,
@@ -31,13 +109,19 @@
   },
   {
     "label": "allOf",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "schemas",
     "documentation": "allOf",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11allOf",
-    "filterText": "allOf:\n  ",
+    "filterText": "allOf:\n  - ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -53,7 +137,7 @@
           "character": 10
         }
       },
-      "newText": "allOf:\n  "
+      "newText": "allOf:\n  - "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -61,13 +145,19 @@
   },
   {
     "label": "anyOf",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "anyOf",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11anyOf",
-    "filterText": "anyOf:\n  ",
+    "filterText": "anyOf:\n  - ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -83,7 +173,7 @@
           "character": 10
         }
       },
-      "newText": "anyOf:\n  "
+      "newText": "anyOf:\n  - "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -91,11 +181,17 @@
   },
   {
     "label": "const",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "const",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11const",
     "filterText": "const: ",
     "insertText": null,
@@ -121,11 +217,17 @@
   },
   {
     "label": "default",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "parameters",
     "documentation": "default",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11default",
     "filterText": "default: ",
     "insertText": null,
@@ -151,11 +253,17 @@
   },
   {
     "label": "description",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "docs",
     "documentation": "description",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "10description",
     "filterText": "description: ",
     "insertText": null,
@@ -181,11 +289,17 @@
   },
   {
     "label": "else",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "else",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11else",
     "filterText": "else:\n  ",
     "insertText": null,
@@ -211,11 +325,17 @@
   },
   {
     "label": "enum",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "parameters",
     "documentation": "enum",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11enum",
     "filterText": "enum:\n  ",
     "insertText": null,
@@ -241,11 +361,17 @@
   },
   {
     "label": "examples",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "docs",
     "documentation": "examples",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11examples",
     "filterText": "examples:\n  ",
     "insertText": null,
@@ -271,11 +397,17 @@
   },
   {
     "label": "if",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "if",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11if",
     "filterText": "if:\n  ",
     "insertText": null,
@@ -301,11 +433,17 @@
   },
   {
     "label": "not",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "not",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11not",
     "filterText": "not:\n  ",
     "insertText": null,
@@ -331,13 +469,19 @@
   },
   {
     "label": "oneOf",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "oneOf",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11oneOf",
-    "filterText": "oneOf:\n  ",
+    "filterText": "oneOf:\n  - ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -353,7 +497,7 @@
           "character": 10
         }
       },
-      "newText": "oneOf:\n  "
+      "newText": "oneOf:\n  - "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -361,11 +505,17 @@
   },
   {
     "label": "readOnly",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "schemas",
     "documentation": "readOnly",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11readOnly",
     "filterText": "readOnly: ",
     "insertText": null,
@@ -391,13 +541,19 @@
   },
   {
     "label": "required",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "parameters",
     "documentation": "required",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11required",
-    "filterText": "required: ",
+    "filterText": "required:\n  - ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -413,7 +569,7 @@
           "character": 10
         }
       },
-      "newText": "required: "
+      "newText": "required:\n  - "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -421,11 +577,17 @@
   },
   {
     "label": "then",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "then",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11then",
     "filterText": "then:\n  ",
     "insertText": null,
@@ -450,13 +612,55 @@
     "command": null
   },
   {
+    "label": "title",
+    "kind": [
+      
+    ],
+    "detail": "docs",
+    "documentation": "title",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "11title",
+    "filterText": "title: ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 7,
+          "character": 10
+        },
+        "end": {
+          "line": 7,
+          "character": 10
+        }
+      },
+      "newText": "title: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
     "label": "type",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "schemas",
     "documentation": "type",
-    "deprecated": [],
-    "preselect": [],
-    "sortText": "11type",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "10type",
     "filterText": "type: ",
     "insertText": null,
     "insertTextFormat": [
@@ -481,11 +685,17 @@
   },
   {
     "label": "writeOnly",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "writeOnly",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11writeOnly",
     "filterText": "writeOnly: ",
     "insertText": null,

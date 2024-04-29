@@ -1,9 +1,11 @@
 package org.mulesoft.als.actions.codeactions.plugins.conversions
 
-import amf.core.model.domain.extensions.PropertyShape
-import amf.core.parser.Annotations
-import amf.core.remote.Vendor
-import amf.plugins.domain.shapes.models.AnyShape
+import amf.aml.client.scala.model.document.Dialect
+import amf.aml.client.scala.model.domain.SemanticExtension
+import amf.core.client.scala.model.domain.extensions.PropertyShape
+import amf.core.internal.parser.domain.Annotations
+import amf.core.internal.remote.Spec
+import amf.shapes.client.scala.model.domain.AnyShape
 import org.mulesoft.als.actions.codeactions.plugins.base.{
   CodeActionFactory,
   CodeActionRequestParams,
@@ -11,6 +13,7 @@ import org.mulesoft.als.actions.codeactions.plugins.base.{
 }
 import org.mulesoft.als.actions.codeactions.plugins.declarations.common.FileExtractor
 import org.mulesoft.als.common.edits.codeaction.AbstractCodeAction
+import org.mulesoft.amfintegration.amfconfiguration.ALSConfigurationState
 import org.mulesoft.lsp.edit.TextEdit
 import org.mulesoft.lsp.feature.common.{Position, Range}
 import org.mulesoft.lsp.feature.telemetry.MessageTypes.{
@@ -26,7 +29,7 @@ import scala.concurrent.Future
 class RamlTypeToJsonSchema(override protected val params: CodeActionRequestParams)
     extends CodeActionResponsePlugin
     with FileExtractor
-    with ShapeConverter {
+    with AmfObjectResolver {
 
   override protected val fallbackName: String               = "json-schema"
   override protected val extension: String                  = "json"
@@ -39,17 +42,15 @@ class RamlTypeToJsonSchema(override protected val params: CodeActionRequestParam
     } yield (uri, TextEdit(Range(Position(0, 0), Position(0, 0)), r))
 
   private def renderJsonSchema(shape: AnyShape): Future[String] = Future {
-    shape.buildJsonSchema()
+    params.alsConfigurationState.buildJsonSchema(shape)
   }
 
   def inProperty: Boolean =
     maybeTree.exists(_.stack.exists(_.isInstanceOf[PropertyShape]))
 
   override lazy val isApplicable: Boolean =
-    params.bu.sourceVendor.contains(Vendor.RAML10) && !inProperty &&
+    params.bu.sourceSpec.contains(Spec.RAML10) && !inProperty &&
       maybeAnyShape.isDefined && (positionIsExtracted || maybeAnyShape.exists(isInlinedJsonSchema))
-
-  protected def telemetry: TelemetryProvider = params.telemetryProvider
 
   override protected def code(params: CodeActionRequestParams): String =
     "Raml type to json schema code action"
@@ -72,11 +73,18 @@ class RamlTypeToJsonSchema(override protected val params: CodeActionRequestParam
         (mle, maybeAnyShape) match {
           case (Some(le), Some(shape)) =>
             jsonSchemaTextEdit(shape).map(edits =>
-              buildFileEdit(params.uri, le, edits._1, edits._2).map(RamlTypeToJsonSchema.baseCodeAction))
+              buildFileEdit(params.uri, le, edits._1, edits._2).map(RamlTypeToJsonSchema.baseCodeAction)
+            )
           case _ => Future.successful(Seq.empty)
         }
       }
     }
+
+  override protected val alsConfigurationState: ALSConfigurationState = params.alsConfigurationState
+
+  override protected val findDialectForSemantic: String => Option[(SemanticExtension, Dialect)] =
+    params.findDialectForSemantic
+
 }
 
 object RamlTypeToJsonSchema extends CodeActionFactory with RamlTypeToJsonSchemaKind {

@@ -1,0 +1,29 @@
+documentChanges:
+  file://als-actions/shared/src/test/resources/codeactions/extract-element/resource-types/raml10.raml:
+    -
+      from:
+        line: 45
+        column: 6
+      to:
+        line: 50
+        column: 0
+      content: |
+        +
+
+          type: resourceType
+    -
+      from:
+        line: 2
+        column: 0
+      to:
+        line: 2
+        column: 0
+      content: |
+        +
+
+        resourceTypes:
+          resourceType:
+            post:
+              body:
+                application/json:
+                  type: Another

@@ -1,0 +1,4 @@
+#%InDeclares 1
+declaration:
+  test:
+    *

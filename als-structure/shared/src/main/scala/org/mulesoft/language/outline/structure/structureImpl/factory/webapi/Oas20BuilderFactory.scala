@@ -4,11 +4,16 @@ import org.mulesoft.language.outline.structure.structureImpl.companion.FieldComp
 import org.mulesoft.language.outline.structure.structureImpl.symbol.webapibuilders.fields.PayloadFieldSymbolCompanion
 import org.mulesoft.language.outline.structure.structureImpl.symbol.webapibuilders.oasbuilders.{
   Oas20DeclaresFieldSymbolBuilderCompanion,
-  OasBaseUrlFieldSymbolBuilderCompanion
+  OasBaseUrlFieldSymbolBuilderCompanion,
+  OasDocumentationFieldSymbolBuilder
 }
 
 object Oas20BuilderFactory extends AmfBuilderFactory {
 
   override protected def companion: FieldCompanionList =
-    super.companion + OasBaseUrlFieldSymbolBuilderCompanion + PayloadFieldSymbolCompanion + Oas20DeclaresFieldSymbolBuilderCompanion
+    super.companion +
+      OasBaseUrlFieldSymbolBuilderCompanion +
+      PayloadFieldSymbolCompanion +
+      Oas20DeclaresFieldSymbolBuilderCompanion +
+      OasDocumentationFieldSymbolBuilder
 }

@@ -64,35 +64,35 @@ hovers:
   (16,26):
     - Human readable description of an element
   (17,8):
-    - Variables in the URL for the server
+    - Piece of data required or returned by an Operation
   (17,14):
-    - Variables in the URL for the server
+    - Piece of data required or returned by an Operation
   (18,10):
     - Human readable name for the object
   (18,15):
     - Piece of data required or returned by an Operation
   (20,10):
-    - Each element should be part of the provided list to be valid
+    - Piece of data required or returned by an Operation
   (20,13):
-    - Each element should be part of the provided list to be valid
+    - Piece of data required or returned by an Operation
   (21,15):
-    - Defines a data type
+    - Piece of data required or returned by an Operation
   (22,14):
-    - Defines a data type
+    - Piece of data required or returned by an Operation
   (23,11):
-    - Defines a data type
+    - Piece of data required or returned by an Operation
   (23,20):
-    - Defines a data type
+    - Piece of data required or returned by an Operation
   (24,13):
-    - Human readable description of an element
+    - Piece of data required or returned by an Operation
   (24,63):
-    - Human readable description of an element
+    - Piece of data required or returned by an Operation
   (26,2):
     - Path to each declared endpoint. Relative to basePath
   (26,6):
     - Path to each declared endpoint. Relative to basePath
   (27,4):
-    - Path template for an endpoint
+    - EndPoint in the API holding a number of executable operations
   (27,8):
     - EndPoint in the API holding a number of executable operations
   (28,7):
@@ -104,13 +104,13 @@ hovers:
   (29,25):
     - Human readable description of an element
   (30,5):
-    - HTTP method required to invoke the operation
+    - Action that can be executed using a particular HTTP invocation
   (30,8):
     - Action that can be executed using a particular HTTP invocation
   (31,8):
-    - Additionally custom tagged information
+    - Categorical information provided by some API spec format. Tags are extensions to the model supported directly in the input API spec format.
   (31,11):
-    - Additionally custom tagged information
+    - Categorical information provided by some API spec format. Tags are extensions to the model supported directly in the input API spec format.
   (32,11):
     - Categorical information provided by some API spec format. Tags are extensions to the model supported directly in the input API spec format.
   (33,9):
@@ -138,7 +138,7 @@ hovers:
   (38,27):
     - Identifier of the target operation
   (39,11):
-    - Action that can be executed using a particular HTTP invocation
+    - Request information for an operation
   (39,17):
     - Request information for an operation
   (40,12):
@@ -182,11 +182,11 @@ hovers:
   (49,19):
     - Defines a data type
   (50,19):
-    - Properties associated to this node
+    - Defines a data type
   (50,25):
-    - Properties associated to this node
+    - Defines a data type
   (51,18):
-    - Human readable name for the object
+    - Defines a data type
   (51,21):
     - Defines a data type
   (52,23):
@@ -198,7 +198,7 @@ hovers:
   (53,27):
     - Scalar range constraining this scalar shape
   (54,19):
-    - Human readable name for the object
+    - Defines a data type
   (54,23):
     - Defines a data type
   (55,23):
@@ -216,9 +216,9 @@ hovers:
   (58,21):
     - Defines a data type
   (59,10):
-    - Response data returned by the operation
+    - Response information for an operation
   (59,16):
-    - Response data returned by the operation
+    - Response information for an operation
   (60,10):
     - Human readable name for the object
   (60,14):
@@ -228,9 +228,9 @@ hovers:
   (61,29):
     - Human readable description of an element
   (62,13):
-    - Payload for a Request/Response
+    - Encoded payload using certain media-type
   (62,18):
-    - Payload for a Request/Response
+    - Encoded payload using certain media-type
   (63,21):
     - Media types supported in the payload
   (64,20):
@@ -244,9 +244,9 @@ hovers:
   (66,29):
     - Human readable description of an element
   (67,13):
-    - Payload for a Request/Response
+    - Encoded payload using certain media-type
   (67,18):
-    - Payload for a Request/Response
+    - Encoded payload using certain media-type
   (68,21):
     - Media types supported in the payload
   (69,20):
@@ -260,27 +260,27 @@ hovers:
   (71,33):
     - Response information for an operation
   (72,10):
-    - Action that can be executed using a particular HTTP invocation
+    - Model defining the information for a HTTP callback/ webhook
   (72,16):
-    - Action that can be executed using a particular HTTP invocation
+    - Model defining the information for a HTTP callback/ webhook
   (73,13):
-    - Action that can be executed using a particular HTTP invocation
+    - Model defining the information for a HTTP callback/ webhook
   (73,20):
-    - Action that can be executed using a particular HTTP invocation
+    - Model defining the information for a HTTP callback/ webhook
   (74,12):
     - Model defining the information for a HTTP callback/ webhook
   (74,33):
     - Model defining the information for a HTTP callback/ webhook
   (75,12):
-    - Action that can be executed using a particular HTTP invocation
+    - Model defining the information for a HTTP callback/ webhook
   (75,17):
-    - Action that can be executed using a particular HTTP invocation
+    - Model defining the information for a HTTP callback/ webhook
   (76,57):
     - EndPoint in the API holding a number of executable operations
   (76,105):
     - EndPoint in the API holding a number of executable operations
   (77,14):
-    - HTTP method required to invoke the operation
+    - Action that can be executed using a particular HTTP invocation
   (77,17):
     - Action that can be executed using a particular HTTP invocation
   (78,19):
@@ -308,9 +308,9 @@ hovers:
   (83,45):
     - Defines a data type
   (84,18):
-    - Response data returned by the operation
+    - Response information for an operation
   (84,24):
-    - Response data returned by the operation
+    - Response information for an operation
   (85,18):
     - Human readable name for the object
   (85,22):
@@ -324,21 +324,19 @@ hovers:
   (87,20):
     - Marks the operation as deprecated
   (89,10):
-    - Textual indication of the kind of security scheme used
+    - Flow for an OAuth2 security scheme setting
   (89,15):
-    - Textual indication of the kind of security scheme used
+    - Flow for an OAuth2 security scheme setting
   (90,13):
     - Settings for an OAuth2 security scheme
   (90,17):
     - Settings for an OAuth2 security scheme
-  (91,19):
-    - Human readable name for the object
-  (92,18):
-    - Human readable name for the object
+  (91,19): []
+  (92,18): []
   (93,9):
-    - Server information
+    - Information about the network accessible locations where the API is available
   (93,14):
-    - Server information
+    - Information about the network accessible locations where the API is available
   (94,11):
     - URL (potentially a template) for the server
   (94,36):
@@ -348,7 +346,7 @@ hovers:
   (95,32):
     - Human readable description of an element
   (96,5):
-    - HTTP method required to invoke the operation
+    - Action that can be executed using a particular HTTP invocation
   (96,8):
     - Action that can be executed using a particular HTTP invocation
   (97,11):
@@ -356,7 +354,7 @@ hovers:
   (97,20):
     - Human readable description of an element
   (98,6):
-    - HTTP method required to invoke the operation
+    - Action that can be executed using a particular HTTP invocation
   (98,9):
     - Action that can be executed using a particular HTTP invocation
   (99,11):
@@ -364,7 +362,7 @@ hovers:
   (99,21):
     - Human readable description of an element
   (100,7):
-    - HTTP method required to invoke the operation
+    - Action that can be executed using a particular HTTP invocation
   (100,11):
     - Action that can be executed using a particular HTTP invocation
   (101,11):
@@ -372,7 +370,7 @@ hovers:
   (101,22):
     - Human readable description of an element
   (102,7):
-    - HTTP method required to invoke the operation
+    - Action that can be executed using a particular HTTP invocation
   (102,12):
     - Action that can be executed using a particular HTTP invocation
   (103,11):
@@ -380,7 +378,7 @@ hovers:
   (103,22):
     - Human readable description of an element
   (104,6):
-    - HTTP method required to invoke the operation
+    - Action that can be executed using a particular HTTP invocation
   (104,9):
     - Action that can be executed using a particular HTTP invocation
   (105,11):
@@ -388,7 +386,7 @@ hovers:
   (105,21):
     - Human readable description of an element
   (106,6):
-    - HTTP method required to invoke the operation
+    - Action that can be executed using a particular HTTP invocation
   (106,10):
     - Action that can be executed using a particular HTTP invocation
   (107,11):
@@ -396,7 +394,7 @@ hovers:
   (107,21):
     - Human readable description of an element
   (108,6):
-    - HTTP method required to invoke the operation
+    - Action that can be executed using a particular HTTP invocation
   (108,10):
     - Action that can be executed using a particular HTTP invocation
   (109,11):
@@ -404,9 +402,9 @@ hovers:
   (109,21):
     - Human readable description of an element
   (110,7):
-    - Specific information about the server where the endpoint is accessible
+    - Information about the network accessible locations where the API is available
   (110,12):
-    - Specific information about the server where the endpoint is accessible
+    - Information about the network accessible locations where the API is available
   (111,9):
     - URL (potentially a template) for the server
   (111,34):
@@ -416,9 +414,9 @@ hovers:
   (112,30):
     - Human readable description of an element
   (113,9):
-    - Additional data required or returned by an operation
+    - Piece of data required or returned by an Operation
   (113,15):
-    - Additional data required or returned by an operation
+    - Piece of data required or returned by an Operation
   (114,10):
     - Piece of data required or returned by an Operation
   (114,30):
@@ -448,7 +446,7 @@ hovers:
   (120,18):
     - Defines a data type
   (121,12):
-    - Human readable name for the object
+    - Defines a data type
   (121,16):
     - Defines a data type
   (122,14):
@@ -480,7 +478,8 @@ hovers:
   (128,13):
     - Defines semantic validation for a fixed subset of values
   (129,7):
-    - Top level element describing a HTTP API
+    - Identifies the document type
+    - Modules/Libraries are used to combine any collection of elements declarations into modular, externalized, reusable groups.
   (129,11):
     - Top level element describing a HTTP API
   (130,8):
@@ -548,17 +547,17 @@ hovers:
   (146,19):
     - Top level element describing a HTTP API
   (147,13):
-    - Top level element describing a HTTP API
+    - The most generic kind of creative work, including books, movies, photographs, software programs, etc.
   (147,30):
-    - Top level element describing a HTTP API
+    - The most generic kind of creative work, including books, movies, photographs, software programs, etc.
   (148,9):
-    - Top level element describing a HTTP API
+    - The most generic kind of creative work, including books, movies, photographs, software programs, etc.
   (148,22):
-    - Top level element describing a HTTP API
+    - The most generic kind of creative work, including books, movies, photographs, software programs, etc.
   (149,9):
-    - Top level element describing a HTTP API
+    - Example value for a schema inside an API
   (149,15):
-    - Top level element describing a HTTP API
+    - Example value for a schema inside an API
   (150,11):
     - Top level element describing a HTTP API
   (150,20):
@@ -580,7 +579,7 @@ hovers:
   (154,17):
     - Maximum items count constraint
   (155,8):
-    - Human readable name for the object
+    - Defines a data type
   (155,12):
     - Defines a data type
   (156,10):
@@ -606,11 +605,11 @@ hovers:
   (161,10):
     - Defines a data type
   (162,11):
-    - Properties associated to this node
+    - Defines a data type
   (162,17):
-    - Properties associated to this node
+    - Defines a data type
   (163,8):
-    - Properties associated to this node
+    - Defines a data type
   (163,10):
     - Defines a data type
   (164,14):
@@ -624,7 +623,7 @@ hovers:
   (166,11):
     - Information about how to serialize
   (166,14):
-    - Information about how to encode into XML a particular data shape
+    - Defines a data type
   (167,14):
     - XML name mapping
   (167,18):
@@ -662,7 +661,7 @@ hovers:
   (175,16):
     - Defines a data type
   (176,8):
-    - Defines a data type
+    - Logical exclusive or composition of data shapes
   (176,12):
     - Logical exclusive or composition of data shapes
   (177,12):
@@ -682,11 +681,11 @@ hovers:
   (180,22):
     - An object name that is used to differentiate between ambiguous types/schemas
   (181,11):
-    - Mappping of acceptable values for the node discriminator
+    - Mapping that relates a certain discriminator value to a certain shape
   (181,16):
-    - Mappping of acceptable values for the node discriminator
+    - Mapping that relates a certain discriminator value to a certain shape
   (182,11):
-    - Variable defined inside an URL template
+    - Value given to a discriminator that identifies a target Shape
   (182,32):
     - OAS 3 link expression
   (183,9):
@@ -696,7 +695,7 @@ hovers:
   (184,8):
     - Defines a data type
   (184,12):
-    - Each element should match against at least one of the elements provided
+    - Defines a data type
   (185,12):
     - Defines a data type
   (185,33):
@@ -710,7 +709,7 @@ hovers:
   (187,16):
     - Defines a data type
   (188,8):
-    - Defines a data type
+    - Logical and composition of data shapes
   (188,12):
     - Logical and composition of data shapes
   (189,12):
@@ -726,7 +725,7 @@ hovers:
   (191,14):
     - Defines a data type
   (192,7):
-    - Human readable name for the object
+    - Defines a data type
   (192,10):
     - Defines a data type
   (193,10):
@@ -746,11 +745,11 @@ hovers:
   (196,24):
     - Human readable description of an element
   (197,9):
-    - Parameter passed as a header to an operation for communication models
+    - Piece of data required or returned by an Operation
   (197,14):
-    - Parameter passed as a header to an operation for communication models
+    - Piece of data required or returned by an Operation
   (198,11):
-    - Human readable name for the object
+    - Piece of data required or returned by an Operation
   (198,16):
     - Piece of data required or returned by an Operation
   (199,15):
@@ -766,7 +765,7 @@ hovers:
   (201,21):
     - Scalar range constraining this scalar shape
   (202,10):
-    - Human readable name for the object
+    - Piece of data required or returned by an Operation
   (202,13):
     - Piece of data required or returned by an Operation
   (203,12):
@@ -774,9 +773,9 @@ hovers:
   (203,31):
     - Piece of data required or returned by an Operation
   (204,9):
-    - Payload for a Request/Response
+    - Encoded payload using certain media-type
   (204,14):
-    - Payload for a Request/Response
+    - Encoded payload using certain media-type
   (205,16):
     - Media types supported in the payload
   (205,25):
@@ -790,13 +789,11 @@ hovers:
   (207,21):
     - Scalar range constraining this scalar shape
   (208,13):
-    - Examples for a particular element declaration
+    - Example value for a schema inside an API
   (208,19):
     - Example value for a schema inside an API
-  (209,14):
-    - An array of properties and its encoding information. The key, being the property name, must exist in the schema as a property
-  (209,19):
-    - An array of properties and its encoding information. The key, being the property name, must exist in the schema as a property
+  (209,14): []
+  (209,19): []
   (210,19): []
   (210,28): []
   (212,19): []
@@ -818,7 +815,7 @@ hovers:
   (219,22):
     - Piece of data required or returned by an Operation
   (220,25):
-    - Human readable name for the object
+    - Piece of data required or returned by an Operation
   (220,35):
     - Piece of data required or returned by an Operation
   (221,23):
@@ -834,9 +831,9 @@ hovers:
   (223,29):
     - Scalar range constraining this scalar shape
   (224,8):
-    - Structural definition of links on the source data shape AST
+    - Templated link containing URL template and variables mapping
   (224,12):
-    - Structural definition of links on the source data shape AST
+    - Templated link containing URL template and variables mapping
   (225,11):
     - Human readable name for the object
   (225,16):
@@ -914,15 +911,15 @@ hovers:
   (244,17):
     - Scalar range constraining this scalar shape
   (245,10):
-    - Examples for a particular element declaration
+    - Example value for a schema inside an API
   (245,15):
-    - Examples for a particular element declaration
+    - Example value for a schema inside an API
   (246,12):
     - Human readable name for the object
   (246,18):
     - Example value for a schema inside an API
   (247,12):
-    - Example value for a schema inside an API
+    - Data structure containing the value of the example
   (247,17):
     - Example value for a schema inside an API
   (248,7):
@@ -962,7 +959,7 @@ hovers:
   (256,23):
     - Piece of data required or returned by an Operation
   (257,9):
-    - Examples for a particular element declaration
+    - Example value for a schema inside an API
   (257,15):
     - Example value for a schema inside an API
   (258,9):
@@ -990,7 +987,7 @@ hovers:
   (263,25):
     - Example value for a schema inside an API
   (264,8):
-    - Example value for a schema inside an API
+    - Data structure containing the value of the example
   (264,13):
     - Example value for a schema inside an API
   (265,14):
@@ -1030,9 +1027,9 @@ hovers:
   (274,21):
     - Encoded payload using certain media-type
   (275,14):
-    - Examples for a particular element declaration
+    - Request information for an operation
   (275,19):
-    - Examples for a particular element declaration
+    - Example value for a schema inside an API
   (276,14):
     - Human readable name for the object
   (276,17):
@@ -1046,9 +1043,9 @@ hovers:
   (278,50):
     - Raw text containing an unparsable example
   (279,7):
-    - Top level element describing a HTTP API
+    - Request information for an operation
   (279,12):
-    - Top level element describing a HTTP API
+    - Request information for an operation
   (280,8):
     - Request information for an operation
   (280,31):
@@ -1086,7 +1083,7 @@ hovers:
   (288,23):
     - Piece of data required or returned by an Operation
   (289,9):
-    - Examples for a particular element declaration
+    - Example value for a schema inside an API
   (289,15):
     - Example value for a schema inside an API
   (290,9):
@@ -1104,15 +1101,15 @@ hovers:
   (293,7):
     - Authentication and access control mechanism defined in an API
   (293,11):
-    - Authentication and access control mechanism defined in an API
+    - Settings for an API Key security scheme
   (294,11):
-    - Settings for an API Key security scheme
+    - Human readable description of an element
   (294,27):
-    - Settings for an API Key security scheme
+    - Human readable description of an element
   (295,8):
-    - Settings for an API Key security scheme
+    - Type of security scheme
   (295,15):
-    - Settings for an API Key security scheme
+    - Type of security scheme
   (296,8):
     - Human readable name for the object
   (296,15):
@@ -1124,11 +1121,11 @@ hovers:
   (298,6):
     - Authentication and access control mechanism defined in an API
   (298,9):
-    - Authentication and access control mechanism defined in an API
+    - Settings for an HTTP security scheme
   (299,8):
-    - Settings for an HTTP security scheme
+    - Type of security scheme
   (299,14):
-    - Settings for an HTTP security scheme
+    - Type of security scheme
   (300,9):
     - Settings for an HTTP security scheme
   (300,17):
@@ -1140,11 +1137,11 @@ hovers:
   (302,10):
     - Authentication and access control mechanism defined in an API
   (302,18):
-    - Authentication and access control mechanism defined in an API
+    - Settings for an OpenID security scheme
   (303,8):
-    - Settings for an OpenID security scheme
+    - Type of security scheme
   (303,18):
-    - Settings for an OpenID security scheme
+    - Type of security scheme
   (304,14):
     - Settings for an OpenID security scheme
   (304,25):
@@ -1152,15 +1149,15 @@ hovers:
   (305,7):
     - Authentication and access control mechanism defined in an API
   (305,11):
-    - Authentication and access control mechanism defined in an API
+    - Settings for an OAuth2 security scheme
   (306,8):
-    - Settings for an OAuth2 security scheme
+    - Type of security scheme
   (306,15):
-    - Settings for an OAuth2 security scheme
+    - Type of security scheme
   (307,8):
-    - Settings for an OAuth2 security scheme
+    - Flow for an OAuth2 security scheme setting
   (307,12):
-    - Settings for an OAuth2 security scheme
+    - Flow for an OAuth2 security scheme setting
   (308,12):
     - Flow for an OAuth2 security scheme setting
   (308,17):
@@ -1173,18 +1170,12 @@ hovers:
     - Flow for an OAuth2 security scheme setting
   (310,46):
     - Flow for an OAuth2 security scheme setting
-  (311,13):
-    - Flow for an OAuth2 security scheme setting
-  (311,17):
-    - Flow for an OAuth2 security scheme setting
-  (312,17):
-    - Human readable name for the object
-  (312,37):
-    - Human readable description for the scope
-  (313,16):
-    - Human readable name for the object
-  (313,30):
-    - Human readable description for the scope
+  (311,13): []
+  (311,17): []
+  (312,17): []
+  (312,37): []
+  (313,16): []
+  (313,30): []
   (314,12):
     - Flow for an OAuth2 security scheme setting
   (314,17):
@@ -1214,7 +1205,7 @@ hovers:
   (320,46):
     - Flow for an OAuth2 security scheme setting
   (322,6):
-    - Top level element describing a HTTP API
+    - Authentication and access control mechanism defined in an API
   (322,9):
     - Authentication and access control mechanism defined in an API
   (323,8):
@@ -1241,10 +1232,8 @@ hovers:
     - Reference of the target operation
   (329,29):
     - Reference of the target operation
-  (330,11):
-    - Templated link containing URL template and variables mapping
-  (330,17):
-    - Variable mapping for the URL template
+  (330,11): []
+  (330,17): []
   (332,11):
     - Variable defined inside an URL template
   (332,24):
@@ -1282,7 +1271,7 @@ hovers:
   (340,101):
     - EndPoint in the API holding a number of executable operations
   (341,10):
-    - HTTP method required to invoke the operation
+    - Action that can be executed using a particular HTTP invocation
   (341,13):
     - Action that can be executed using a particular HTTP invocation
   (342,15):
@@ -1310,9 +1299,9 @@ hovers:
   (347,41):
     - Defines a data type
   (348,14):
-    - Response data returned by the operation
+    - Response information for an operation
   (348,20):
-    - Response data returned by the operation
+    - Response information for an operation
   (349,14):
     - Human readable name for the object
   (349,18):
@@ -1329,8 +1318,7 @@ hovers:
     - Settings for an OAuth2 security scheme
   (352,11):
     - Settings for an OAuth2 security scheme
-  (353,12):
-    - Human readable name for the object
+  (353,12): []
   (354,2):
     - Additionally custom tagged information
   (354,5):
@@ -1356,9 +1344,9 @@ hovers:
   (359,20):
     - URL for the creative work
   (360,6):
-    - Documentation associated to the API
+    - Top level element describing a HTTP API
   (360,13):
-    - Documentation associated to the API
+    - The most generic kind of creative work, including books, movies, photographs, software programs, etc.
   (361,7):
     - Human readable description of an element
   (361,24):

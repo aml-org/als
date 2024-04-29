@@ -1,6 +1,5 @@
 package org.mulesoft.als.actions.codeactions
 
-import amf.core.remote.Vendor
 import org.mulesoft.als.actions.codeactions.plugins.base.CodeActionFactory
 import org.mulesoft.als.actions.codeactions.plugins.declarations.fragment.{
   ExtractRamlDeclarationToFragmentCodeAction,
@@ -84,4 +83,29 @@ class ExtractToFragmentTest extends BaseCodeActionTests {
 
     runTest(elementUri, range, pluginFactory)
   }
+
+  it should "extract inlined RAML type defined with Json schema" in {
+    val elementUri                       = "extract-element/raml-fragments/inlined-raml-json-schema-type.raml"
+    val range                            = PositionRange(Position(12, 34), Position(15, 44))
+    val pluginFactory: CodeActionFactory = ExtractRamlTypeToFragmentCodeAction
+
+    runTest(elementUri, range, pluginFactory)
+  }
+
+  it should "extract whole Json schema when requested over property inside RAML type defined with Json schema" in {
+    val elementUri                       = "extract-element/raml-fragments/inlined-raml-json-schema-type.raml"
+    val range                            = PositionRange(Position(16, 43), Position(16, 44))
+    val pluginFactory: CodeActionFactory = ExtractRamlTypeToFragmentCodeAction
+
+    runTest(elementUri, range, pluginFactory)
+  }
+
+  it should "extract declared RAML type defined with Json schema" in {
+    val elementUri                       = "extract-element/raml-fragments/declared-raml-json-schema-type.raml"
+    val range                            = PositionRange(Position(12, 16), Position(12, 17))
+    val pluginFactory: CodeActionFactory = ExtractRamlTypeToFragmentCodeAction
+
+    runTest(elementUri, range, pluginFactory)
+  }
+
 }

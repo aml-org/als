@@ -5,10 +5,9 @@ import org.mulesoft.als.actions.definition.FindDefinition
 import org.mulesoft.als.common.dtoTypes.Position
 import org.mulesoft.als.convert.LspRangeConverter
 import org.mulesoft.als.server.RequestModule
-import org.mulesoft.als.server.logger.Logger
 import org.mulesoft.als.server.workspace.WorkspaceManager
 import org.mulesoft.lsp.ConfigType
-import org.mulesoft.lsp.configuration.StaticRegistrationOptions
+import org.mulesoft.lsp.configuration.WorkDoneProgressOptions
 import org.mulesoft.lsp.feature.TelemeteredRequestHandler
 import org.mulesoft.lsp.feature.common.{Location, LocationLink}
 import org.mulesoft.lsp.feature.telemetry.MessageTypes.MessageTypes
@@ -23,14 +22,13 @@ import org.mulesoft.lsp.feature.typedefinition.{
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
-class GoToTypeDefinitionManager(val workspace: WorkspaceManager,
-                                private val telemetryProvider: TelemetryProvider,
-                                private val logger: Logger)
-    extends RequestModule[TypeDefinitionClientCapabilities, Either[Boolean, StaticRegistrationOptions]] {
+class GoToTypeDefinitionManager(
+    val workspace: WorkspaceManager
+) extends RequestModule[TypeDefinitionClientCapabilities, Either[Boolean, WorkDoneProgressOptions]] {
 
   private var conf: Option[TypeDefinitionClientCapabilities] = None
 
-  override val `type`: ConfigType[TypeDefinitionClientCapabilities, Either[Boolean, StaticRegistrationOptions]] =
+  override val `type`: ConfigType[TypeDefinitionClientCapabilities, Either[Boolean, WorkDoneProgressOptions]] =
     TypeDefinitionConfigType
 
   override val getRequestHandlers: Seq[TelemeteredRequestHandler[_, _]] = Seq(
@@ -40,8 +38,6 @@ class GoToTypeDefinitionManager(val workspace: WorkspaceManager,
 
       override def task(params: TypeDefinitionParams): Future[Either[Seq[Location], Seq[LocationLink]]] =
         goToTypeDefinition(params.textDocument.uri, LspRangeConverter.toPosition(params.position), uuid(params))
-
-      override protected def telemetry: TelemetryProvider = telemetryProvider
 
       override protected def code(params: TypeDefinitionParams): String =
         "GotoTypeDefinitionManager"
@@ -57,32 +53,39 @@ class GoToTypeDefinitionManager(val workspace: WorkspaceManager,
 
       override protected def uri(params: TypeDefinitionParams): String =
         params.textDocument.uri
+
+      /** If Some(_), this will be sent as a response as a default for a managed exception
+        */
+      override protected val empty: Option[Either[Seq[Location], Seq[LocationLink]]] = Some(Right(Seq()))
     }
   )
 
   override def applyConfig(
-      config: Option[TypeDefinitionClientCapabilities]): Either[Boolean, StaticRegistrationOptions] = {
+      config: Option[TypeDefinitionClientCapabilities]
+  ): Either[Boolean, WorkDoneProgressOptions] = {
     conf = config
     Left(true)
   }
 
-  def goToTypeDefinition(uri: String,
-                         position: Position,
-                         uuid: String): Future[Either[Seq[Location], Seq[LocationLink]]] =
+  def goToTypeDefinition(
+      uri: String,
+      position: Position,
+      uuid: String
+  ): Future[Either[Seq[Location], Seq[LocationLink]]] =
     workspace
       .getLastUnit(uri, uuid)
-      .flatMap(
-        unit =>
-          FindDefinition
-            .getDefinition(
-              uri,
-              position,
-              workspace
-                .getRelationships(uri, uuid)
-                .map(_._2.filter(_.linkType == LinkTypes.TRAITRESOURCES)),
-              workspace.getAliases(uri, uuid),
-              unit.yPartBranch
-          ))
+      .flatMap(unit =>
+        FindDefinition
+          .getDefinition(
+            uri,
+            position,
+            workspace
+              .getRelationships(uri, uuid)
+              .map(_._2.filter(_.linkType == LinkTypes.TRAITRESOURCES)),
+            workspace.getAliases(uri, uuid),
+            unit.astPartBranch
+          )
+      )
       .map(Right(_))
 
   override def initialize(): Future[Unit] = Future.successful()

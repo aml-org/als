@@ -23,7 +23,9 @@
         "character": 0
       }
     },
-    "children": []
+    "children": [
+      
+    ]
   },
   {
     "name": "version",
@@ -49,7 +51,9 @@
         "character": 0
       }
     },
-    "children": []
+    "children": [
+      
+    ]
   },
   {
     "name": "/endpoint1",
@@ -125,7 +129,9 @@
                 "character": 0
               }
             },
-            "children": []
+            "children": [
+              
+            ]
           },
           {
             "name": "Security",
@@ -151,7 +157,9 @@
                 "character": 0
               }
             },
-            "children": []
+            "children": [
+              
+            ]
           },
           {
             "name": "responses",
@@ -202,7 +210,9 @@
                     "character": 0
                   }
                 },
-                "children": []
+                "children": [
+                  
+                ]
               }
             ]
           },
@@ -280,7 +290,9 @@
                         "character": 0
                       }
                     },
-                    "children": []
+                    "children": [
+                      
+                    ]
                   }
                 ]
               },
@@ -333,10 +345,40 @@
                         "character": 0
                       }
                     },
-                    "children": []
+                    "children": [
+                      
+                    ]
                   }
                 ]
               }
+            ]
+          },
+          {
+            "name": "callback",
+            "kind": 7,
+            "deprecated": false,
+            "range": {
+              "start": {
+                "line": 22,
+                "character": 6
+              },
+              "end": {
+                "line": 24,
+                "character": 0
+              }
+            },
+            "selectionRange": {
+              "start": {
+                "line": 22,
+                "character": 6
+              },
+              "end": {
+                "line": 24,
+                "character": 0
+              }
+            },
+            "children": [
+              
             ]
           },
           {
@@ -363,7 +405,9 @@
                 "character": 40
               }
             },
-            "children": []
+            "children": [
+              
+            ]
           }
         ]
       }

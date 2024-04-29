@@ -1,6 +1,6 @@
 package org.mulesoft.language.outline.structure.structureImpl.symbol.builders.fieldbuilders
 
-import amf.core.model.domain.{AmfElement, AmfObject}
+import amf.core.client.scala.model.domain.{AmfElement, AmfObject}
 import org.mulesoft.language.outline.structure.structureImpl.DocumentSymbol
 import org.mulesoft.language.outline.structure.structureImpl.symbol.builders.{
   FieldTypeSymbolBuilder,

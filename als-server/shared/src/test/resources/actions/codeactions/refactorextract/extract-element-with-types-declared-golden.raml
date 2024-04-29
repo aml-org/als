@@ -9,15 +9,14 @@ types:
     properties:
       a:
         type: string
-        required: true
       b:
         type: integer
-        required: true
-    additionalProperties: true
+title: test
+
 /endpoint:
   get:
     responses:
       200:
         body:
             application/json:
-                type: newtype
+              type: newtype

@@ -1,0 +1,9 @@
+{
+  "array" : [
+    {
+      "syntax " "error"
+    },
+    { "somewhat": "valid", "valid": true},
+    "entry"
+  ]
+}

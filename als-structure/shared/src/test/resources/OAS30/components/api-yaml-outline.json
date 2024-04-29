@@ -23,7 +23,9 @@
         "character": 0
       }
     },
-    "children": []
+    "children": [
+      
+    ]
   },
   {
     "name": "version",
@@ -49,7 +51,9 @@
         "character": 0
       }
     },
-    "children": []
+    "children": [
+      
+    ]
   },
   {
     "name": "examples",
@@ -57,8 +61,8 @@
     "deprecated": false,
     "range": {
       "start": {
-        "line": 65,
-        "character": 4
+        "line": 64,
+        "character": 2
       },
       "end": {
         "line": 71,
@@ -67,8 +71,8 @@
     },
     "selectionRange": {
       "start": {
-        "line": 65,
-        "character": 4
+        "line": 64,
+        "character": 2
       },
       "end": {
         "line": 71,
@@ -100,7 +104,9 @@
             "character": 0
           }
         },
-        "children": []
+        "children": [
+          
+        ]
       },
       {
         "name": "bar",
@@ -126,7 +132,9 @@
             "character": 0
           }
         },
-        "children": []
+        "children": [
+          
+        ]
       }
     ]
   },
@@ -179,7 +187,9 @@
             "character": 0
           }
         },
-        "children": []
+        "children": [
+          
+        ]
       },
       {
         "name": "petstore_auth",
@@ -205,7 +215,9 @@
             "character": 0
           }
         },
-        "children": []
+        "children": [
+          
+        ]
       }
     ]
   },
@@ -215,8 +227,8 @@
     "deprecated": false,
     "range": {
       "start": {
-        "line": 94,
-        "character": 4
+        "line": 93,
+        "character": 2
       },
       "end": {
         "line": 105,
@@ -225,8 +237,8 @@
     },
     "selectionRange": {
       "start": {
-        "line": 94,
-        "character": 4
+        "line": 93,
+        "character": 2
       },
       "end": {
         "line": 105,
@@ -266,7 +278,7 @@
             "range": {
               "start": {
                 "line": 97,
-                "character": 17
+                "character": 6
               },
               "end": {
                 "line": 100,
@@ -276,14 +288,16 @@
             "selectionRange": {
               "start": {
                 "line": 97,
-                "character": 17
+                "character": 6
               },
               "end": {
                 "line": 100,
                 "character": 0
               }
             },
-            "children": []
+            "children": [
+              
+            ]
           }
         ]
       },
@@ -319,7 +333,7 @@
             "range": {
               "start": {
                 "line": 103,
-                "character": 17
+                "character": 6
               },
               "end": {
                 "line": 105,
@@ -329,14 +343,16 @@
             "selectionRange": {
               "start": {
                 "line": 103,
-                "character": 17
+                "character": 6
               },
               "end": {
                 "line": 105,
                 "character": 0
               }
             },
-            "children": []
+            "children": [
+              
+            ]
           }
         ]
       }
@@ -348,8 +364,8 @@
     "deprecated": false,
     "range": {
       "start": {
-        "line": 85,
-        "character": 4
+        "line": 84,
+        "character": 2
       },
       "end": {
         "line": 93,
@@ -358,8 +374,8 @@
     },
     "selectionRange": {
       "start": {
-        "line": 85,
-        "character": 4
+        "line": 84,
+        "character": 2
       },
       "end": {
         "line": 93,
@@ -391,7 +407,9 @@
             "character": 0
           }
         },
-        "children": []
+        "children": [
+          
+        ]
       },
       {
         "name": "header2",
@@ -417,7 +435,9 @@
             "character": 0
           }
         },
-        "children": []
+        "children": [
+          
+        ]
       }
     ]
   },
@@ -427,8 +447,8 @@
     "deprecated": false,
     "range": {
       "start": {
-        "line": 107,
-        "character": 6
+        "line": 105,
+        "character": 2
       },
       "end": {
         "line": 117,
@@ -437,8 +457,8 @@
     },
     "selectionRange": {
       "start": {
-        "line": 107,
-        "character": 6
+        "line": 105,
+        "character": 2
       },
       "end": {
         "line": 117,
@@ -570,7 +590,9 @@
                             "character": 90
                           }
                         },
-                        "children": []
+                        "children": [
+                          
+                        ]
                       }
                     ]
                   },
@@ -648,7 +670,9 @@
                                 "character": 0
                               }
                             },
-                            "children": []
+                            "children": [
+                              
+                            ]
                           }
                         ]
                       }
@@ -668,8 +692,8 @@
     "deprecated": false,
     "range": {
       "start": {
-        "line": 24,
-        "character": 4
+        "line": 23,
+        "character": 2
       },
       "end": {
         "line": 40,
@@ -678,8 +702,8 @@
     },
     "selectionRange": {
       "start": {
-        "line": 24,
-        "character": 4
+        "line": 23,
+        "character": 2
       },
       "end": {
         "line": 40,
@@ -711,7 +735,9 @@
             "character": 0
           }
         },
-        "children": []
+        "children": [
+          
+        ]
       },
       {
         "name": "limitParam",
@@ -737,7 +763,9 @@
             "character": 0
           }
         },
-        "children": []
+        "children": [
+          
+        ]
       }
     ]
   },
@@ -747,8 +775,8 @@
     "deprecated": false,
     "range": {
       "start": {
-        "line": 72,
-        "character": 4
+        "line": 71,
+        "character": 2
       },
       "end": {
         "line": 84,
@@ -757,8 +785,8 @@
     },
     "selectionRange": {
       "start": {
-        "line": 72,
-        "character": 4
+        "line": 71,
+        "character": 2
       },
       "end": {
         "line": 84,
@@ -890,7 +918,9 @@
                             "character": 0
                           }
                         },
-                        "children": []
+                        "children": [
+                          
+                        ]
                       }
                     ]
                   }
@@ -924,7 +954,9 @@
             "character": 0
           }
         },
-        "children": []
+        "children": [
+          
+        ]
       }
     ]
   },
@@ -934,8 +966,8 @@
     "deprecated": false,
     "range": {
       "start": {
-        "line": 7,
-        "character": 4
+        "line": 6,
+        "character": 2
       },
       "end": {
         "line": 23,
@@ -944,8 +976,8 @@
     },
     "selectionRange": {
       "start": {
-        "line": 7,
-        "character": 4
+        "line": 6,
+        "character": 2
       },
       "end": {
         "line": 23,
@@ -1027,7 +1059,9 @@
                     "character": 0
                   }
                 },
-                "children": []
+                "children": [
+                  
+                ]
               },
               {
                 "name": "name",
@@ -1053,7 +1087,9 @@
                     "character": 0
                   }
                 },
-                "children": []
+                "children": [
+                  
+                ]
               }
             ]
           }
@@ -1133,7 +1169,9 @@
                     "character": 0
                   }
                 },
-                "children": []
+                "children": [
+                  
+                ]
               },
               {
                 "name": "name",
@@ -1159,7 +1197,9 @@
                     "character": 0
                   }
                 },
-                "children": []
+                "children": [
+                  
+                ]
               }
             ]
           }
@@ -1173,8 +1213,8 @@
     "deprecated": false,
     "range": {
       "start": {
-        "line": 41,
-        "character": 4
+        "line": 40,
+        "character": 2
       },
       "end": {
         "line": 51,
@@ -1183,8 +1223,8 @@
     },
     "selectionRange": {
       "start": {
-        "line": 41,
-        "character": 4
+        "line": 40,
+        "character": 2
       },
       "end": {
         "line": 51,
@@ -1216,7 +1256,9 @@
             "character": 0
           }
         },
-        "children": []
+        "children": [
+          
+        ]
       },
       {
         "name": "IllegalInput",
@@ -1242,7 +1284,9 @@
             "character": 0
           }
         },
-        "children": []
+        "children": [
+          
+        ]
       },
       {
         "name": "GeneralError",
@@ -1318,7 +1362,9 @@
                     "character": 0
                   }
                 },
-                "children": []
+                "children": [
+                  
+                ]
               }
             ]
           }

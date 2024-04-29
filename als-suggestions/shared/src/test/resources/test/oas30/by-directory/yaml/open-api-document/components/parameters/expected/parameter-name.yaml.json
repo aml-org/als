@@ -1,0 +1,38 @@
+[
+  {
+    "label": "New parameter",
+    "kind": [
+      
+    ],
+    "detail": "template",
+    "documentation": "",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "20New parameter",
+    "filterText": "$1:\n  required: $2\n  name: $3\n  description: $4\n  in: $5",
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 3,
+          "character": 4
+        },
+        "end": {
+          "line": 3,
+          "character": 4
+        }
+      },
+      "newText": "$1:\n  required: $2\n  name: $3\n  description: $4\n  in: $5"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  }
+]

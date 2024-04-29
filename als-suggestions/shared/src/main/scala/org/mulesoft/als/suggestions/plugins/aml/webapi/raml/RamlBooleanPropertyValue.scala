@@ -1,8 +1,8 @@
 package org.mulesoft.als.suggestions.plugins.aml.webapi.raml
 
-import amf.core.model.domain.extensions.PropertyShape
-import amf.core.vocabulary.Namespace.XsdTypes
-import amf.plugins.document.vocabularies.model.domain.{NodeMapping, PropertyMapping}
+import amf.aml.client.scala.model.domain.{NodeMapping, PropertyMapping}
+import amf.core.client.scala.model.domain.extensions.PropertyShape
+import amf.core.client.scala.vocabulary.Namespace.XsdTypes
 import org.mulesoft.als.suggestions.RawSuggestion
 import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
 import org.mulesoft.als.suggestions.interfaces.AMLCompletionPlugin
@@ -23,8 +23,10 @@ trait RamlBooleanPropertyValue extends AMLCompletionPlugin with BooleanSuggestio
           val maybeMapping: Option[PropertyMapping] = propertyShapeNode
             .flatMap(
               _.propertiesMapping().find(pm =>
-                request.yPartBranch.isValue &&
-                  request.yPartBranch.parentEntry.exists(_.key.asScalar.exists(_.text == pm.name().value()))))
+                request.astPartBranch.isValue &&
+                  request.astPartBranch.parentKey.contains(pm.name().value())
+              )
+            )
           if (maybeMapping.exists(_.literalRange().option().contains(XsdTypes.xsdBoolean.iri())))
             booleanSuggestions
           else Nil

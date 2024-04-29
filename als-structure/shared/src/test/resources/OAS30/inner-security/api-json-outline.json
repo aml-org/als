@@ -1,0 +1,84 @@
+[
+  {
+    "name": "/pet",
+    "kind": 12,
+    "deprecated": false,
+    "range": {
+      "start": {
+        "line": 3,
+        "character": 4
+      },
+      "end": {
+        "line": 14,
+        "character": 5
+      }
+    },
+    "selectionRange": {
+      "start": {
+        "line": 3,
+        "character": 4
+      },
+      "end": {
+        "line": 14,
+        "character": 5
+      }
+    },
+    "children": [
+      {
+        "name": "post",
+        "kind": 6,
+        "deprecated": false,
+        "range": {
+          "start": {
+            "line": 4,
+            "character": 6
+          },
+          "end": {
+            "line": 13,
+            "character": 7
+          }
+        },
+        "selectionRange": {
+          "start": {
+            "line": 4,
+            "character": 6
+          },
+          "end": {
+            "line": 13,
+            "character": 7
+          }
+        },
+        "children": [
+          {
+            "name": "Security",
+            "kind": 15,
+            "deprecated": false,
+            "range": {
+              "start": {
+                "line": 5,
+                "character": 8
+              },
+              "end": {
+                "line": 12,
+                "character": 9
+              }
+            },
+            "selectionRange": {
+              "start": {
+                "line": 5,
+                "character": 8
+              },
+              "end": {
+                "line": 12,
+                "character": 9
+              }
+            },
+            "children": [
+              
+            ]
+          }
+        ]
+      }
+    ]
+  }
+]

@@ -1,0 +1,7 @@
+#%Dialect 1.0
+
+nodeMappings:
+  myNodeMapping:
+    union:
+      - A
+    *

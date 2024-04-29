@@ -2,12 +2,10 @@ package org.mulesoft.als.configuration
 
 import org.mulesoft.als.common.{DirectoryResolver => InternalResolver}
 
+import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 import scala.scalajs.js
-import scala.scalajs.js.annotation.ScalaJSDefined
-import scala.concurrent.ExecutionContext.Implicits.global
 
-@ScalaJSDefined
 trait ClientDirectoryResolver extends js.Object {
 
   def exists(path: String): js.Promise[Boolean]

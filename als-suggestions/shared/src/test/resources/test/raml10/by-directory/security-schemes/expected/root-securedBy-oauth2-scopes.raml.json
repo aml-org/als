@@ -1,11 +1,17 @@
 [
   {
     "label": "SCO1",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "SCO1",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11SCO1",
     "filterText": "SCO1",
     "insertText": null,
@@ -31,11 +37,17 @@
   },
   {
     "label": "SCO2",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "SCO2",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11SCO2",
     "filterText": "SCO2",
     "insertText": null,

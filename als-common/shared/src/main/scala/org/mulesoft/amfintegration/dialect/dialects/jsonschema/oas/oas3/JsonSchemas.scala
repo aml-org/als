@@ -1,10 +1,10 @@
 package org.mulesoft.amfintegration.dialect.dialects.jsonschema.oas.oas3
 
-import amf.core.metamodel.domain.ShapeModel
-import amf.core.metamodel.domain.extensions.PropertyShapeModel
-import amf.core.vocabulary.Namespace.XsdTypes._
-import amf.plugins.document.vocabularies.model.domain.PropertyMapping
-import amf.plugins.domain.shapes.metamodel.NodeShapeModel
+import amf.aml.client.scala.model.domain.PropertyMapping
+import amf.core.client.scala.vocabulary.Namespace.XsdTypes.xsdBoolean
+import amf.core.internal.metamodel.domain.ShapeModel
+import amf.core.internal.metamodel.domain.extensions.PropertyShapeModel
+import amf.shapes.internal.domain.metamodel.NodeShapeModel
 import org.mulesoft.amfintegration.dialect.dialects.jsonschema.JsonSchemaForOasWrapper
 import org.mulesoft.amfintegration.dialect.dialects.oas.OAS20Dialect.DialectLocation
 import org.mulesoft.amfintegration.dialect.dialects.oas.OAS30Dialect
@@ -23,7 +23,8 @@ object JsonSchemas extends JsonSchemaForOasWrapper {
         .withId(OAS30Dialect.DialectLocation + "#/declarations/SchemaObject/anyOf")
         .withName("anyOf")
         .withNodePropertyMapping(ShapeModel.Or.value.iri())
-        .withObjectRange(Seq(Oas30SchemaObject.id)),
+        .withObjectRange(Seq(Oas30SchemaObject.id))
+        .withAllowMultiple(true),
       PropertyMapping()
         .withId(OAS30Dialect.DialectLocation + "#/declarations/SchemaObject/not")
         .withName("not")

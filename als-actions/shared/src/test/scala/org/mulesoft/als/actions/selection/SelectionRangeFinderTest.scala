@@ -1,16 +1,19 @@
 package org.mulesoft.als.actions.selection
 
-import amf.client.remote.Content
-import amf.core.unsafe.PlatformSecrets
-import amf.internal.environment.Environment
-import amf.internal.resource.ResourceLoader
-import org.mulesoft.lsp.feature.common.Range
+import amf.core.client.common.remote.Content
+import amf.core.client.scala.resource.ResourceLoader
+import amf.core.internal.unsafe.PlatformSecrets
 import org.mulesoft.als.common.dtoTypes.Position
-import org.mulesoft.amfintegration.AmfInstance
+import org.mulesoft.amfintegration.AmfImplicits.{AmfAnnotationsImp, BaseUnitImp}
+import org.mulesoft.amfintegration.amfconfiguration.{
+  ALSConfigurationState,
+  EditorConfiguration,
+  EmptyProjectConfigurationState
+}
+import org.mulesoft.lsp.feature.common.{Range, Position => LspPosition}
 import org.mulesoft.lsp.feature.selectionRange.SelectionRange
-import org.scalatest.{AsyncFlatSpec, Matchers}
-import org.mulesoft.amfintegration.AmfImplicits._
-import org.mulesoft.lsp.feature.common.{Position => LspPosition, Range => LspRange}
+import org.scalatest.flatspec.AsyncFlatSpec
+import org.scalatest.matchers.should.Matchers
 
 import scala.concurrent.{ExecutionContext, Future}
 
@@ -25,7 +28,8 @@ class SelectionRangeFinderTest extends AsyncFlatSpec with Matchers with Platform
         """#%RAML 1.0
           |title: test
           |description: description test
-          |""".stripMargin)
+          |""".stripMargin
+    )
     val expected: Seq[SelectionRange] =
       Seq(
         SelectionRangeBuilder(1, 0, 3, 0)
@@ -50,7 +54,8 @@ class SelectionRangeFinderTest extends AsyncFlatSpec with Matchers with Platform
           |        "name": "MIT"
           |      }
           |    }
-          |}""".stripMargin)
+          |}""".stripMargin
+    )
     val expected: Seq[SelectionRange] =
       Seq(
         SelectionRangeBuilder(0, 0, 9, 1)
@@ -71,7 +76,8 @@ class SelectionRangeFinderTest extends AsyncFlatSpec with Matchers with Platform
         """#%RAML 1.0
           |title: test
           |description: description test
-          |""".stripMargin)
+          |""".stripMargin
+    )
     val expected: Seq[SelectionRange] =
       Seq(
         SelectionRangeBuilder(1, 0, 3, 0)
@@ -96,7 +102,8 @@ class SelectionRangeFinderTest extends AsyncFlatSpec with Matchers with Platform
           |        "name": "MIT"
           |      }
           |    }
-          |}""".stripMargin)
+          |}""".stripMargin
+    )
     val expected: Seq[SelectionRange] =
       Seq(
         SelectionRangeBuilder(0, 0, 9, 1)
@@ -135,7 +142,8 @@ class SelectionRangeFinderTest extends AsyncFlatSpec with Matchers with Platform
           |  - wss
           |consumes:
           |  - application/json
-          |""".stripMargin)
+          |""".stripMargin
+    )
     val expected: Seq[SelectionRange] =
       Seq(
         SelectionRangeBuilder(0, 0, 21, 0)
@@ -171,7 +179,8 @@ class SelectionRangeFinderTest extends AsyncFlatSpec with Matchers with Platform
           |    "consumes": [
           |      "application/json"
           |    ]
-          |  }""".stripMargin)
+          |  }""".stripMargin
+    )
     val expected: Seq[SelectionRange] =
       Seq(
         SelectionRangeBuilder(0, 0, 19, 3)
@@ -209,7 +218,8 @@ class SelectionRangeFinderTest extends AsyncFlatSpec with Matchers with Platform
           |  - wss
           |consumes:
           |  - application/json
-          |""".stripMargin)
+          |""".stripMargin
+    )
     val expected: Seq[SelectionRange] =
       Seq(
         SelectionRangeBuilder(0, 0, 21, 0)
@@ -250,7 +260,8 @@ class SelectionRangeFinderTest extends AsyncFlatSpec with Matchers with Platform
           |    "consumes": [
           |      "application/json"
           |    ]
-          |  }""".stripMargin)
+          |  }""".stripMargin
+    )
     val expected: Seq[SelectionRange] =
       Seq(
         SelectionRangeBuilder(0, 0, 19, 3)
@@ -278,13 +289,14 @@ class SelectionRangeFinderTest extends AsyncFlatSpec with Matchers with Platform
           |  displayName: driver ID download
           |  get:
           |    is: [client-id-required]
-          |    description: get mobile ordering master by driver ID
+          |    description: get mobile ordering main by driver ID
           |    responses:
           |      200:
           |        body:
           |          application/json:
           |            schema: !include combinedCustomerDownloadSchema.json
-          |            example: !include combinedCustomerDownloadExample.json""".stripMargin)
+          |            example: !include combinedCustomerDownloadExample.json""".stripMargin
+    )
     val expected: Seq[SelectionRange] =
       Seq(
         SelectionRangeBuilder(1, 0, 11, 66)
@@ -330,10 +342,12 @@ class SelectionRangeFinderTest extends AsyncFlatSpec with Matchers with Platform
 
   }
 
-  private def runTest(testUri: String,
-                      files: Map[String, String],
-                      expected: Seq[SelectionRange],
-                      positions: Seq[Position]) = {
+  private def runTest(
+      testUri: String,
+      files: Map[String, String],
+      expected: Seq[SelectionRange],
+      positions: Seq[Position]
+  ) = {
     val resourceLoader: ResourceLoader = new ResourceLoader {
       override def fetch(resource: String): Future[Content] =
         Future.successful(files.getOrElse(resource, "")).map { c =>
@@ -344,17 +358,16 @@ class SelectionRangeFinderTest extends AsyncFlatSpec with Matchers with Platform
         files.keySet.contains(resource)
     }
 
-    val env: Environment = Environment().add(resourceLoader)
-
-    val instance = new AmfInstance(Nil, platform, env)
     for {
-      result <- instance
+      global <- EditorConfiguration.withPlatformLoaders(Seq(resourceLoader)).getState
+      state  <- Future(ALSConfigurationState(global, EmptyProjectConfigurationState, None))
+      result <- state
         .parse(testUri)
-        .map(_.baseUnit)
-        .map(_.objWithAST.flatMap(_.annotations.ast()))
+        .map(_.result.baseUnit)
+        .map(_.objWithAST.flatMap(_.annotations.astElement()))
         .flatMap(ast => {
           Future {
-            ast.map(ypart => SelectionRangeFinder.findSelectionRange(ypart, positions)).getOrElse(Seq.empty)
+            ast.map(yPart => SelectionRangeFinder.findSelectionRange(yPart, positions)).getOrElse(Seq.empty)
           }
         })
     } yield {

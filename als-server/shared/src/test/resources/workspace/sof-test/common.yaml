@@ -1,0 +1,129 @@
+openapi: "3.0.0"
+info:
+  version: 1.0.0
+  title: common
+
+paths: {}
+
+components:
+
+  parameters:
+
+    header-client-id:
+      in: header
+      name: x-client-id
+      schema:
+        type: string
+      example: "a710fc67c6ef470e8aa88d0cfa8fbf9a"
+      required: true
+      description: brwfv
+
+    header-client-secret:
+      in: header
+      name: x-client-secret
+      schema:
+        type: string
+      example: "b510fc67fdef440e8aa78d0cfa8fbf2b"
+      required: true
+      description: bwrtevr
+
+    request-token:
+      in: header
+      name: request-token
+      schema:
+        type: string
+      example: "0s84H143FCjzDdpQYF"
+      required: false
+      description: vevfv
+
+    x-correlation-id:
+      in: header
+      name: x-correlation-id
+      required: true
+      description: z
+      schema:
+        type: string
+        format: uuid
+        nullable: false
+        minLength: 36
+        maxLength: 36
+        example: "93c4302b-1cde-413c-9088-c5ef7a8bd328"
+        
+    x-source-system:
+      in: header
+      name: x-source-system
+      required: false
+      description: vdfbt
+      schema:
+        type: string
+        nullable: false
+        minLength: 1
+        maxLength: 50
+        pattern: ^[\w-]+$
+        example: "p-mm-xxxx"
+
+    qifd:
+      in: query
+      name: csdc
+      schema:
+        type: string
+        format: date-time
+      example: 2012-02-02T00:00:00Z
+      required: true
+
+    qitd:
+      in: query
+      name: sdcsa
+      schema:
+        type: string
+        format: date-time
+      example: 2012-02-02T00:00:00Z
+      required: true
+    
+    qihi:
+      in: query
+      name: hidi
+      schema:
+        type: string
+      example: "605005"
+      required: false
+
+    qip:
+      in: query
+      name: page
+      schema:
+        type: integer
+      example: 2
+      required: false
+
+    qis:
+      in: query
+      name: size
+      schema:
+        type: integer
+        minimum: 200
+        maximum: 2000
+      required: false
+
+  schemas:
+    property-typePanel:
+      description: sdfbt
+        
+      type: string
+      enum: [asdf, asd, gref]
+      example: asdf
+
+
+  responses:
+
+    error-response-401:    
+      description:  Unauthorized or invalid
+
+    error-response-400:    
+      description:  Bad request
+    
+    error-response-404:    
+      description:  Not found
+
+    error-response-500:
+      description: Bad response from authorization server

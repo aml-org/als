@@ -1,11 +1,53 @@
 [
   {
+    "label": "New schema",
+    "kind": [
+      
+    ],
+    "detail": "template",
+    "documentation": "schema",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "21New schema",
+    "filterText": "\"schema\": {\n  \"description\": \"$1\",\n  \"type\": \"$2\"\n}",
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 9,
+          "character": 16
+        },
+        "end": {
+          "line": 9,
+          "character": 18
+        }
+      },
+      "newText": "\"schema\": {\n  \"description\": \"$1\",\n  \"type\": \"$2\"\n}"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
     "label": "encoding",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "encoding",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11encoding",
     "filterText": "\"encoding\": {\n  \"$1\"\n}",
     "insertText": null,
@@ -20,7 +62,7 @@
         },
         "end": {
           "line": 9,
-          "character": 19
+          "character": 18
         }
       },
       "newText": "\"encoding\": {\n  \"$1\"\n}"
@@ -31,11 +73,17 @@
   },
   {
     "label": "example",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "docs",
     "documentation": "example",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11example",
     "filterText": "\"example\": \"$1\"",
     "insertText": null,
@@ -50,7 +98,7 @@
         },
         "end": {
           "line": 9,
-          "character": 19
+          "character": 18
         }
       },
       "newText": "\"example\": \"$1\""
@@ -61,11 +109,17 @@
   },
   {
     "label": "examples",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "docs",
     "documentation": "examples",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11examples",
     "filterText": "\"examples\": {\n  \"$1\"\n}",
     "insertText": null,
@@ -80,7 +134,7 @@
         },
         "end": {
           "line": 9,
-          "character": 19
+          "character": 18
         }
       },
       "newText": "\"examples\": {\n  \"$1\"\n}"
@@ -91,11 +145,17 @@
   },
   {
     "label": "schema",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "schemas",
     "documentation": "schema",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11schema",
     "filterText": "\"schema\": {\n  \"$1\"\n}",
     "insertText": null,
@@ -110,7 +170,7 @@
         },
         "end": {
           "line": 9,
-          "character": 19
+          "character": 18
         }
       },
       "newText": "\"schema\": {\n  \"$1\"\n}"

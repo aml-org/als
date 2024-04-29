@@ -1,17 +1,14 @@
 package org.mulesoft.als.server.modules.workspace
 
+import amf.aml.client.scala.AMLConfiguration
+import org.mulesoft.als.server.client.scala.LanguageServerBuilder
 import org.mulesoft.als.server.modules.{WorkspaceManagerFactory, WorkspaceManagerFactoryBuilder}
 import org.mulesoft.als.server.protocol.LanguageServer
 import org.mulesoft.als.server.protocol.configuration.AlsInitializeParams
-import org.mulesoft.als.server.{
-  LanguageServerBaseTest,
-  LanguageServerBuilder,
-  MockDiagnosticClientNotifier,
-  MockFilesInClientNotifier
-}
+import org.mulesoft.als.server.{LanguageServerBaseTest, MockDiagnosticClientNotifier, MockFilesInClientNotifier}
 import org.mulesoft.lsp.configuration.TraceKind
 
-import scala.concurrent.{ExecutionContext, Future}
+import scala.concurrent.ExecutionContext
 
 class FilesInProjectNotificationTest extends LanguageServerBaseTest {
 
@@ -20,16 +17,18 @@ class FilesInProjectNotificationTest extends LanguageServerBaseTest {
   def buildServer(alsClient: MockFilesInClientNotifier): LanguageServer = {
 
     val factoryBuilder: WorkspaceManagerFactoryBuilder =
-      new WorkspaceManagerFactoryBuilder(new MockDiagnosticClientNotifier, logger)
+      new WorkspaceManagerFactoryBuilder(new MockDiagnosticClientNotifier)
     val filesInProjectManager = factoryBuilder.filesInProjectManager(alsClient)
 
     val factory: WorkspaceManagerFactory = factoryBuilder.buildWorkspaceManagerFactory()
 
     val builder =
-      new LanguageServerBuilder(factory.documentManager,
-                                factory.workspaceManager,
-                                factory.configurationManager,
-                                factory.resolutionTaskManager)
+      new LanguageServerBuilder(
+        factory.documentManager,
+        factory.workspaceManager,
+        factory.configurationManager,
+        factory.resolutionTaskManager
+      )
     builder.addInitializableModule(filesInProjectManager)
     builder.build()
   }
@@ -38,9 +37,13 @@ class FilesInProjectNotificationTest extends LanguageServerBaseTest {
 
   test("Receive simple dependency tree") {
     val alsClient: MockFilesInClientNotifier = new MockFilesInClientNotifier
+    val initialArgs                          = changeConfigArgs(Some("api.raml"), filePath("ws1"))
     withServer(buildServer(alsClient)) { server =>
       for {
-        _              <- server.initialize(AlsInitializeParams(None, Some(TraceKind.Off), rootUri = Some(s"${filePath("ws1")}")))
+        _ <- server.testInitialize(
+          AlsInitializeParams(None, Some(TraceKind.Off), rootUri = Some(s"${filePath("ws1")}"))
+        )
+        _              <- changeWorkspaceConfiguration(server)(initialArgs)
         filesInProject <- alsClient.nextCall
       } yield {
         filesInProject.uris.size should be(3)
@@ -52,10 +55,13 @@ class FilesInProjectNotificationTest extends LanguageServerBaseTest {
 
   test("Test empty schema in trait for visitors (NullPointerException)") {
     val alsClient: MockFilesInClientNotifier = new MockFilesInClientNotifier
+    val initialArgs                          = changeConfigArgs(Some("api.raml"), filePath("empty-trait-schema"))
     withServer(buildServer(alsClient)) { server =>
       for {
-        _ <- server.initialize(
-          AlsInitializeParams(None, Some(TraceKind.Off), rootUri = Some(s"${filePath("empty-trait-schema")}")))
+        _ <- server.testInitialize(
+          AlsInitializeParams(None, Some(TraceKind.Off), rootUri = Some(s"${filePath("empty-trait-schema")}"))
+        )
+        _              <- changeWorkspaceConfiguration(server)(initialArgs)
         filesInProject <- alsClient.nextCall
       } yield {
         filesInProject.uris.size should be(1)
@@ -65,11 +71,15 @@ class FilesInProjectNotificationTest extends LanguageServerBaseTest {
 
   test("Open isolated file") {
     val alsClient: MockFilesInClientNotifier = new MockFilesInClientNotifier
+    val initialArgs                          = changeConfigArgs(Some("api.raml"), filePath("ws1"))
     withServer(buildServer(alsClient)) { server =>
       for {
-        _ <- server.initialize(AlsInitializeParams(None, Some(TraceKind.Off), rootUri = Some(s"${filePath("ws1")}")))
+        _ <- server.testInitialize(
+          AlsInitializeParams(None, Some(TraceKind.Off), rootUri = Some(s"${filePath("ws1")}"))
+        )
+        _ <- changeWorkspaceConfiguration(server)(initialArgs)
         _ <- platform
-          .resolve(s"${filePath("ws1/independent.raml")}")
+          .fetchContent(s"${filePath("ws1/independent.raml")}", AMLConfiguration.predefined())
           .map(c => openFile(server)(c.url, c.stream.toString))
         filesInProject <- alsClient.nextCall
       } yield {

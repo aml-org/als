@@ -1,0 +1,27 @@
+#%Dialect 1.0
+dialect: Pagination Test
+version: 1.0
+
+external:
+  apiContract: http://a.ml/vocabularies/apiContract#
+  aml: http://a.ml/vocab#
+
+documents: {}
+
+annotationMappings:
+  PaginationAnnotation:
+    domain: apiContract.Response
+    propertyTerm: aml.pagination
+    range:  Pagination
+
+nodeMappings:
+  Pagination:
+    classTerm: aml.Pagination
+    mapping:
+      pageSize:
+        propertyTerm: aml.PageSize
+        range: integer
+        mandatory: true
+
+extensions:
+  pagination: PaginationAnnotation

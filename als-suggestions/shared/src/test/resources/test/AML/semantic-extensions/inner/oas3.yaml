@@ -1,0 +1,6 @@
+openapi: "3.0.0"
+info:
+  title: semantic test
+  version: 1
+x-maintainer:
+  *

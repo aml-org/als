@@ -1,11 +1,17 @@
 [
   {
     "label": "#/parameters/named",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Reference to #/parameters/named",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11#/parameters/named",
     "filterText": "\"#/parameters/named\"",
     "insertText": null,
@@ -31,11 +37,17 @@
   },
   {
     "label": "bymethod/",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Path suggestion",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11bymethod/",
     "filterText": "\"bymethod/\"",
     "insertText": null,
@@ -61,11 +73,17 @@
   },
   {
     "label": "consumes-array.json",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Path suggestion",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11consumes-array.json",
     "filterText": "\"consumes-array.json\"",
     "insertText": null,
@@ -91,11 +109,17 @@
   },
   {
     "label": "consumes.json",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Path suggestion",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11consumes.json",
     "filterText": "\"consumes.json\"",
     "insertText": null,
@@ -120,12 +144,54 @@
     "command": null
   },
   {
-    "label": "expected/",
-    "kind": [],
+    "label": "deprecated.json",
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Path suggestion",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "11deprecated.json",
+    "filterText": "\"deprecated.json\"",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 12,
+          "character": 20
+        },
+        "end": {
+          "line": 12,
+          "character": 22
+        }
+      },
+      "newText": "\"deprecated.json\""
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "expected/",
+    "kind": [
+      
+    ],
+    "detail": "unknown",
+    "documentation": "Path suggestion",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11expected/",
     "filterText": "\"expected/\"",
     "insertText": null,
@@ -151,11 +217,17 @@
   },
   {
     "label": "external-docs.json",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Path suggestion",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11external-docs.json",
     "filterText": "\"external-docs.json\"",
     "insertText": null,
@@ -181,11 +253,17 @@
   },
   {
     "label": "parameter-array.json",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Path suggestion",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11parameter-array.json",
     "filterText": "\"parameter-array.json\"",
     "insertText": null,
@@ -211,11 +289,17 @@
   },
   {
     "label": "parameter.json",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Path suggestion",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11parameter.json",
     "filterText": "\"parameter.json\"",
     "insertText": null,
@@ -241,11 +325,17 @@
   },
   {
     "label": "produces-array.json",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Path suggestion",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11produces-array.json",
     "filterText": "\"produces-array.json\"",
     "insertText": null,
@@ -271,11 +361,17 @@
   },
   {
     "label": "produces.json",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Path suggestion",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11produces.json",
     "filterText": "\"produces.json\"",
     "insertText": null,
@@ -301,11 +397,17 @@
   },
   {
     "label": "reponses-quoted.json",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Path suggestion",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11reponses-quoted.json",
     "filterText": "\"reponses-quoted.json\"",
     "insertText": null,
@@ -331,11 +433,17 @@
   },
   {
     "label": "reponses.json",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Path suggestion",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11reponses.json",
     "filterText": "\"reponses.json\"",
     "insertText": null,
@@ -361,11 +469,17 @@
   },
   {
     "label": "schemes-array.json",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Path suggestion",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11schemes-array.json",
     "filterText": "\"schemes-array.json\"",
     "insertText": null,
@@ -391,11 +505,17 @@
   },
   {
     "label": "schemes.json",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Path suggestion",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11schemes.json",
     "filterText": "\"schemes.json\"",
     "insertText": null,
@@ -421,11 +541,17 @@
   },
   {
     "label": "security-array-named.json",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Path suggestion",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11security-array-named.json",
     "filterText": "\"security-array-named.json\"",
     "insertText": null,
@@ -451,11 +577,17 @@
   },
   {
     "label": "security-array.json",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Path suggestion",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11security-array.json",
     "filterText": "\"security-array.json\"",
     "insertText": null,
@@ -481,11 +613,17 @@
   },
   {
     "label": "security-name-not-array.json",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Path suggestion",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11security-name-not-array.json",
     "filterText": "\"security-name-not-array.json\"",
     "insertText": null,
@@ -511,11 +649,17 @@
   },
   {
     "label": "security.json",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Path suggestion",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11security.json",
     "filterText": "\"security.json\"",
     "insertText": null,
@@ -541,11 +685,17 @@
   },
   {
     "label": "tags-array.json",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Path suggestion",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11tags-array.json",
     "filterText": "\"tags-array.json\"",
     "insertText": null,
@@ -571,11 +721,17 @@
   },
   {
     "label": "tags.json",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Path suggestion",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11tags.json",
     "filterText": "\"tags.json\"",
     "insertText": null,

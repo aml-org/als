@@ -1,12 +1,10 @@
 package org.mulesoft.als.suggestions.plugins.aml.webapi.oas.oas30
 
-import amf.core.annotations.SourceNode
-import amf.core.model.domain.{Linkable, Shape}
-import amf.core.parser._
-import amf.plugins.domain.shapes.metamodel.NodeShapeModel
-import amf.plugins.domain.shapes.models.NodeShape
-import amf.plugins.domain.webapi.metamodel.IriTemplateMappingModel
-import amf.plugins.domain.webapi.models.IriTemplateMapping
+import amf.core.client.scala.model.domain.{Linkable, Shape}
+import amf.core.internal.annotations.SourceNode
+import amf.core.internal.parser.YNodeLikeOps
+import amf.shapes.client.scala.model.domain.{IriTemplateMapping, NodeShape}
+import amf.shapes.internal.domain.metamodel.{IriTemplateMappingModel, NodeShapeModel}
 import org.mulesoft.als.suggestions.RawSuggestion
 import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
 import org.mulesoft.als.suggestions.plugins.aml.webapi.ExceptionPlugin
@@ -22,7 +20,7 @@ object DiscriminatorMappingValue extends ExceptionPlugin {
     request.amfObject match {
       case obj: NodeShape
           if request.fieldEntry
-            .exists(_.field == NodeShapeModel.DiscriminatorMapping) && request.yPartBranch.isValue =>
+            .exists(_.field == NodeShapeModel.DiscriminatorMapping) && request.astPartBranch.isValue =>
         suggest(obj)
       case _: IriTemplateMapping if request.fieldEntry.exists(_.field == IriTemplateMappingModel.LinkExpression) =>
         request.branchStack.collectFirst({ case n: NodeShape => suggest(n) }).getOrElse(Nil)
@@ -30,9 +28,8 @@ object DiscriminatorMappingValue extends ExceptionPlugin {
     }
   }
 
-  private def suggest(n: NodeShape): Seq[RawSuggestion] = {
+  private def suggest(n: NodeShape): Seq[RawSuggestion] =
     parents(n).collect({ case l: Linkable if l.isLink => extractRef(l) }).map(RawSuggestion(_, isAKey = false))
-  }
 
   private def extractRef(l: Linkable) = {
     l.annotations.find(classOf[SourceNode]).flatMap(_.node.toOption[YMap]).flatMap(_.entries.headOption) match {
@@ -47,7 +44,7 @@ object DiscriminatorMappingValue extends ExceptionPlugin {
   override def applies(request: AmlCompletionRequest): Boolean = {
     request.amfObject match {
       case _: NodeShape =>
-        request.fieldEntry.exists(_.field == NodeShapeModel.DiscriminatorMapping) && request.yPartBranch.isValue
+        request.fieldEntry.exists(_.field == NodeShapeModel.DiscriminatorMapping) && request.astPartBranch.isValue
       case _: IriTemplateMapping => true
       case _                     => false
     }

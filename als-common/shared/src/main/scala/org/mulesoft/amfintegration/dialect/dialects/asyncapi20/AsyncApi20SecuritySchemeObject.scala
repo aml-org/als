@@ -1,8 +1,17 @@
 package org.mulesoft.amfintegration.dialect.dialects.asyncapi20
 
-import amf.core.vocabulary.Namespace.XsdTypes._
-import amf.plugins.document.vocabularies.model.domain.PropertyMapping
-import amf.plugins.domain.webapi.metamodel.security._
+import amf.aml.client.scala.model.domain.PropertyMapping
+import amf.apicontract.internal.metamodel.domain.security.{
+  ApiKeySettingsModel,
+  HttpApiKeySettingsModel,
+  HttpSettingsModel,
+  OAuth2FlowModel,
+  OAuth2SettingsModel,
+  OpenIdConnectSettingsModel,
+  ScopeModel,
+  SecuritySchemeModel
+}
+import amf.core.client.scala.vocabulary.Namespace.XsdTypes.{xsdString, xsdUri}
 import org.mulesoft.amfintegration.dialect.dialects.oas.nodes.{DialectNode, Oauth2Properties}
 
 object AsyncApi20SecuritySchemeObject extends DialectNode {
@@ -15,17 +24,19 @@ object AsyncApi20SecuritySchemeObject extends DialectNode {
     .withName("type")
     .withMinCount(1)
     .withNodePropertyMapping(SecuritySchemeModel.Type.value.iri())
-    .withEnum(Seq(
-      "userPassword",
-      "apiKey",
-      "X509",
-      "symmetricEncryption",
-      "asymmetricEncryption",
-      "httpApiKey",
-      "http",
-      "oauth2",
-      "openIdConnect"
-    ))
+    .withEnum(
+      Seq(
+        "userPassword",
+        "apiKey",
+        "X509",
+        "symmetricEncryption",
+        "asymmetricEncryption",
+        "httpApiKey",
+        "http",
+        "oauth2",
+        "openIdConnect"
+      )
+    )
     .withLiteralRange(xsdString.iri())
   override def properties: Seq[PropertyMapping] = Seq(
     `type`,
@@ -48,17 +59,19 @@ object AsyncApi20SecuritySettingsObject extends DialectNode {
       .withName("type")
       .withMinCount(1)
       .withNodePropertyMapping(SecuritySchemeModel.Type.value.iri())
-      .withEnum(Seq(
-        "userPassword",
-        "apiKey",
-        "X509",
-        "symmetricEncryption",
-        "asymmetricEncryption",
-        "httpApiKey",
-        "http",
-        "oauth2",
-        "openIdConnect"
-      ))
+      .withEnum(
+        Seq(
+          "userPassword",
+          "apiKey",
+          "X509",
+          "symmetricEncryption",
+          "asymmetricEncryption",
+          "httpApiKey",
+          "http",
+          "oauth2",
+          "openIdConnect"
+        )
+      )
       .withLiteralRange(xsdString.iri()),
     PropertyMapping()
       .withId(AsyncApi20Dialect.DialectLocation + "#/declarations/securityScheme/description")
@@ -67,7 +80,6 @@ object AsyncApi20SecuritySettingsObject extends DialectNode {
       .withLiteralRange(xsdString.iri())
   )
 }
-
 
 object AsyncAPI20ApiKeySecurityObject extends DialectNode {
   override def name: String            = "ApiKeySecurityObject"
@@ -83,7 +95,8 @@ object AsyncAPI20ApiKeySecurityObject extends DialectNode {
         Seq(
           "user",
           "password"
-        ))
+        )
+      )
   )
 }
 
@@ -95,23 +108,24 @@ object AsyncAPI20HttpApiKeySecurityObject extends DialectNode {
   override def properties: Seq[PropertyMapping] = AsyncApi20SecuritySchemeObject.properties ++
     Seq(
       PropertyMapping()
-      .withId(AsyncApi20Dialect.DialectLocation + "#/declarations/securityScheme/in")
-      .withName("in")
-      .withMinCount(1)
-      .withNodePropertyMapping(ApiKeySettingsModel.In.value.iri())
-      .withLiteralRange(xsdString.iri())
-      .withEnum(
-        Seq(
-          "query",
-          "header",
-          "cookie"
-        )),
+        .withId(AsyncApi20Dialect.DialectLocation + "#/declarations/securityScheme/in")
+        .withName("in")
+        .withMinCount(1)
+        .withNodePropertyMapping(ApiKeySettingsModel.In.value.iri())
+        .withLiteralRange(xsdString.iri())
+        .withEnum(
+          Seq(
+            "query",
+            "header",
+            "cookie"
+          )
+        ),
       PropertyMapping()
         .withId(AsyncApi20Dialect.DialectLocation + "#/declarations/securityScheme/name")
         .withName("name")
         .withMinCount(1)
         .withNodePropertyMapping(ApiKeySettingsModel.Name.value.iri())
-        .withLiteralRange(xsdString.iri()),
+        .withLiteralRange(xsdString.iri())
     )
 }
 
@@ -177,7 +191,8 @@ object Oauth2FlowObject extends DialectNode with Oauth2Properties {
           "password",
           "clientCredentials",
           "authorizationCode"
-        ))
+        )
+      )
       .withLiteralRange(xsdString.iri())
 }
 
@@ -209,6 +224,6 @@ object AsyncAPI20FlowObject extends DialectNode {
       .withMapTermKeyProperty(ScopeModel.Name.value.iri())
       .withMapTermValueProperty(ScopeModel.Description.value.iri())
       .withAllowMultiple(true)
-      .withObjectRange(Seq(AsyncAPI20ScopeObject.id)),
+      .withObjectRange(Seq(AsyncAPI20ScopeObject.id))
   )
 }

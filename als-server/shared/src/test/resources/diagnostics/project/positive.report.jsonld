@@ -1,0 +1,40 @@
+[
+  {
+    "@context": {
+      "conforms": {
+        "@id": "http://www.w3.org/ns/shacl#conforms"
+      },
+      "doc": "http://a.ml/vocabularies/document#",
+      "meta": "http://a.ml/vocabularies/meta#",
+      "reportSchema": "https://raw.githubusercontent.com/aml-org/models/master/src/main/dialects/validation-report.yaml#/declarations/",
+      "shacl": "http://www.w3.org/ns/shacl#"
+    },
+    "@id": "dialect-instance",
+    "@type": [
+      "meta:DialectInstance",
+      "doc:Document",
+      "doc:Fragment",
+      "doc:Module",
+      "doc:Unit"
+    ],
+    "doc:encodes": [
+      {
+        "@id": "validation-report",
+        "@type": [
+          "reportSchema:ReportNode",
+          "shacl:ValidationReport"
+        ],
+        "conforms": true
+      }
+    ],
+    "doc:processingData": [
+      {
+        "@id": "processing-data",
+        "@type": [
+          "doc:DialectInstanceProcessingData"
+        ],
+        "doc:sourceSpec": "Validation Report 1.0"
+      }
+    ]
+  }
+]

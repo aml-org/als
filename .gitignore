@@ -2,7 +2,7 @@
 *.log
 *.iml
 .idea
-
+.bsp/
 target/
 *.cache
 build/
@@ -13,6 +13,7 @@ node_modules
 
 als-node-client/node-package/tmp/
 als-server/js/node-package/tmp/
+als-server/js/node-package/dist/
 
 *als-suggestions.js
 *als-suggestions.js.map

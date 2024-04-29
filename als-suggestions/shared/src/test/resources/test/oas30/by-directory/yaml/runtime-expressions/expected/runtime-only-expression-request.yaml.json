@@ -1,0 +1,182 @@
+[
+  {
+    "label": "$request.body",
+    "kind": [
+      
+    ],
+    "detail": "RuntimeExpression",
+    "documentation": "{$request.body}",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "11$request.body",
+    "filterText": "\"{$request.body}\"",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 35,
+          "character": 10
+        },
+        "end": {
+          "line": 35,
+          "character": 23
+        }
+      },
+      "newText": "\"{$request.body}\""
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "$request.body#",
+    "kind": [
+      
+    ],
+    "detail": "RuntimeExpression",
+    "documentation": "{$request.body#}",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "11$request.body#",
+    "filterText": "\"{$request.body#}\"",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 35,
+          "character": 10
+        },
+        "end": {
+          "line": 35,
+          "character": 23
+        }
+      },
+      "newText": "\"{$request.body#}\""
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "$request.header.",
+    "kind": [
+      
+    ],
+    "detail": "RuntimeExpression",
+    "documentation": "{$request.header.}",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "11$request.header.",
+    "filterText": "\"{$request.header.}\"",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 35,
+          "character": 10
+        },
+        "end": {
+          "line": 35,
+          "character": 23
+        }
+      },
+      "newText": "\"{$request.header.}\""
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "$request.path.",
+    "kind": [
+      
+    ],
+    "detail": "RuntimeExpression",
+    "documentation": "{$request.path.}",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "11$request.path.",
+    "filterText": "\"{$request.path.}\"",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 35,
+          "character": 10
+        },
+        "end": {
+          "line": 35,
+          "character": 23
+        }
+      },
+      "newText": "\"{$request.path.}\""
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "$request.query.",
+    "kind": [
+      
+    ],
+    "detail": "RuntimeExpression",
+    "documentation": "{$request.query.}",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "11$request.query.",
+    "filterText": "\"{$request.query.}\"",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 35,
+          "character": 10
+        },
+        "end": {
+          "line": 35,
+          "character": 23
+        }
+      },
+      "newText": "\"{$request.query.}\""
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  }
+]

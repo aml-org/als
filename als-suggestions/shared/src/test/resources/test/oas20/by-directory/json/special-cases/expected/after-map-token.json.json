@@ -1,13 +1,19 @@
 [
   {
-    "label": "description",
-    "kind": [],
-    "detail": "docs",
-    "documentation": "description",
-    "deprecated": [],
-    "preselect": [],
-    "sortText": "10description",
-    "filterText": "\"description\": \"$1\"",
+    "label": "New headers",
+    "kind": [
+      
+    ],
+    "detail": "template",
+    "documentation": "headers",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "21New headers",
+    "filterText": "\"headers\": {\n  \"$1\": {\n    \"description\": \"$2\",\n    \"type\": \"$3\"\n  }\n},",
     "insertText": null,
     "insertTextFormat": [
       2
@@ -23,7 +29,79 @@
           "character": 18
         }
       },
-      "newText": "\"description\": \"$1\""
+      "newText": "\"headers\": {\n  \"$1\": {\n    \"description\": \"$2\",\n    \"type\": \"$3\"\n  }\n},"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "New schema",
+    "kind": [
+      
+    ],
+    "detail": "template",
+    "documentation": "schema",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "21New schema",
+    "filterText": "\"schema\": {\n  \"description\": \"$1\",\n  \"type\": \"$2\"\n},",
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 14,
+          "character": 18
+        },
+        "end": {
+          "line": 14,
+          "character": 18
+        }
+      },
+      "newText": "\"schema\": {\n  \"description\": \"$1\",\n  \"type\": \"$2\"\n},"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "description",
+    "kind": [
+      
+    ],
+    "detail": "docs",
+    "documentation": "description",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "10description",
+    "filterText": "\"description\": \"$1\",",
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 14,
+          "character": 18
+        },
+        "end": {
+          "line": 14,
+          "character": 18
+        }
+      },
+      "newText": "\"description\": \"$1\","
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -31,13 +109,19 @@
   },
   {
     "label": "examples",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "docs",
     "documentation": "examples",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11examples",
-    "filterText": "\"examples\": {\n  \"$1\"\n}",
+    "filterText": "\"examples\": {\n  \"$1\"\n},",
     "insertText": null,
     "insertTextFormat": [
       2
@@ -53,7 +137,7 @@
           "character": 18
         }
       },
-      "newText": "\"examples\": {\n  \"$1\"\n}"
+      "newText": "\"examples\": {\n  \"$1\"\n},"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -61,13 +145,19 @@
   },
   {
     "label": "headers",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "parameters",
     "documentation": "headers",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11headers",
-    "filterText": "\"headers\": {\n  \"$1\"\n}",
+    "filterText": "\"headers\": {\n  \"$1\"\n},",
     "insertText": null,
     "insertTextFormat": [
       2
@@ -83,7 +173,7 @@
           "character": 18
         }
       },
-      "newText": "\"headers\": {\n  \"$1\"\n}"
+      "newText": "\"headers\": {\n  \"$1\"\n},"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -91,13 +181,19 @@
   },
   {
     "label": "schema",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "schemas",
     "documentation": "schema",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11schema",
-    "filterText": "\"schema\": {\n  \"$1\"\n}",
+    "filterText": "\"schema\": {\n  \"$1\"\n},",
     "insertText": null,
     "insertTextFormat": [
       2
@@ -113,7 +209,7 @@
           "character": 18
         }
       },
-      "newText": "\"schema\": {\n  \"$1\"\n}"
+      "newText": "\"schema\": {\n  \"$1\"\n},"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,

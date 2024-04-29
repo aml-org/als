@@ -1,17 +1,23 @@
 package org.mulesoft.als.server.workspace.command
 
-import amf.core.parser._
-import amf.plugins.document.vocabularies.model.document.Dialect
-import org.mulesoft.als.server.logger.Logger
+import amf.apicontract.client.scala.APIConfiguration
+import amf.core.internal.parser.YMapOps
+import amf.core.internal.unsafe.PlatformSecrets
 import org.mulesoft.als.server.protocol.textsync.IndexDialectParams
-import org.mulesoft.amfintegration.AmfInstance
+import org.mulesoft.als.server.workspace.WorkspaceManager
+import org.mulesoft.amfintegration.dialect.integration.BaseAlsDialectProvider
 import org.yaml.model.YMap
 
-import scala.concurrent.Future
 import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.Future
 
-class IndexDialectCommandExecutor(val logger: Logger, amfConfiguration: AmfInstance)
-    extends CommandExecutor[IndexDialectParams, Unit] {
+/** This will index at workspace level
+  * @param Logger
+  * @param amfConfiguration
+  */
+class IndexDialectCommandExecutor(workspaceManager: WorkspaceManager)
+    extends CommandExecutor[IndexDialectParams, Unit]
+    with PlatformSecrets {
   override protected def buildParamFromMap(ast: YMap): Option[IndexDialectParams] = {
     val content: Option[String] = ast.key("content").map(e => e.value.asScalar.map(_.text).getOrElse(e.value.toString))
     ast.key("uri").map(e => e.value.asScalar.map(_.text).getOrElse(e.value.toString)) match {
@@ -20,7 +26,25 @@ class IndexDialectCommandExecutor(val logger: Logger, amfConfiguration: AmfInsta
     }
   }
 
-  override protected def runCommand(param: IndexDialectParams): Future[Unit] = {
-    amfConfiguration.modelBuilder().indexMetadata(param.uri, param.content).map(_ => Unit)
-  }
+  def loadFromEnv(uri: String): Future[String] =
+    platform
+      .fetchContent(
+        uri,
+        APIConfiguration
+          .API()
+          .withResourceLoaders(
+            workspaceManager.environmentProvider.getResourceLoader +: workspaceManager.editorConfiguration.resourceLoaders.toList
+          )
+      )
+      .map(_.toString())
+
+  override protected def runCommand(param: IndexDialectParams): Future[Unit] =
+    param.content
+      .map(Future(_))
+      .getOrElse(loadFromEnv(param.uri))
+      .map(content => {
+        BaseAlsDialectProvider.indexDialect(param.uri, content)
+        workspaceManager.editorConfiguration.withDialect(param.uri)
+      })
+
 }

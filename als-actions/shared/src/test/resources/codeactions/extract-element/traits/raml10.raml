@@ -1,0 +1,93 @@
+#%RAML 1.0
+title: Test api
+securitySchemes:
+  auth:
+    type: OAuth 2.0
+types:
+  Org:
+    type: object
+    properties:
+      Head: Person
+  Person:
+    type: object
+    properties:
+      firstname: string
+      lastname:  string
+      title?:    string
+resourceTypes:
+  rt:
+   uriParameters:
+     id:
+       type: number
+   patch:
+     responses:
+       "200":
+          body: Person
+
+traits:
+  chargeable:
+    headers:
+      X-Dept:
+        type: array
+        description: |
+          A department code to be charged.
+          Multiple of such headers are allowed.
+        items:
+          pattern: ^\d+\-\w+$
+          example: 230-OCTO
+  traceable:
+    headers:
+      X-Tracker:
+        description: A code to track API calls end to end
+        pattern: ^\w{16}$
+        example: abcdefghijklmnop
+/parent:
+   get:
+     protocols:
+       - HTTP
+       - HTTPS
+/root:
+    /{id}:
+        delete:
+          queryParameters:
+            s:
+              type: string
+        patch:
+          securedBy:
+            - auth
+        uriParameters:
+          id: number
+    get:
+      protocols:
+        - HTTP
+        - HTTPS
+      responses:
+        200:
+          body:
+            application/json:
+              Person
+    post:
+      securedBy:
+        - auth
+    put:
+      description: put operation is done
+      headers:
+        A-IM:
+          type: string
+
+/users:
+  type: rt
+  get:
+    is: [ chargeable, traceable ]
+    description: |
+      The HTTP interaction will look like
+
+      GET /users HTTP/1.1
+      X-Dept: 18-FINANCE
+      X-Dept: 200-MISC
+      X-Tracker: gfr456d03ygh38s2
+    headers:
+      X-Dept:
+        example: [ 18-FINANCE, 200-MISC ]
+      X-Tracker:
+        example: gfr456d03ygh38s2

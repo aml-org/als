@@ -1,13 +1,16 @@
 package org.mulesoft.als.actions.codeactions.plugins.declarations.common
 
-import amf.core.model.domain.AmfObject
-import amf.core.remote.{Mimes, Vendor}
-import org.mulesoft.als.actions.codeactions.plugins.base.CodeActionRequestParams
-import org.mulesoft.als.actions.codeactions.plugins.declarations.common.ExtractorCommon.singularize
+import amf.aml.client.scala.model.document.Dialect
+import amf.aml.client.scala.model.domain.SemanticExtension
+import amf.core.client.scala.model.document.Document
+import amf.core.client.scala.model.domain.AmfObject
+import amf.core.internal.remote.{Mimes, Spec}
+import org.mulesoft.als.actions.codeactions.TreeKnowledge
+import org.mulesoft.als.common.{ObjectInTree, YamlUtils}
 import org.mulesoft.als.common.YamlUtils.isJson
-import org.mulesoft.als.common.dtoTypes.{Position, PositionRange}
-import org.mulesoft.als.common.{ObjectInTree, YPartBranch}
+import org.mulesoft.als.common.dtoTypes.PositionRange
 import org.mulesoft.als.convert.LspRangeConverter
+import org.mulesoft.als.declarations.DeclarationCreator
 import org.mulesoft.amfintegration.AmfImplicits.{AmfAnnotationsImp, AmfObjectImp, BaseUnitImp, DialectImplicits}
 import org.mulesoft.lsp.edit.TextEdit
 import org.mulesoft.lsp.feature.common.Range
@@ -17,74 +20,57 @@ import org.yaml.render.{JsonRender, JsonRenderOptions, YamlRender, YamlRenderOpt
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
-trait BaseElementDeclarableExtractors {
+trait BaseElementDeclarableExtractors extends TreeKnowledge with DeclarationCreator {
 
-  protected val params: CodeActionRequestParams
+  protected val afterInfoRange: PositionRange =
+    afterInfoNode(params.bu, yPartBranch.map(_.strict).getOrElse(YamlUtils.isJson(params.bu)))
+      .map(p => PositionRange(p, p))
+      .getOrElse(PositionRange.TopLine)
 
   private lazy val baseName: String =
     amfObject
-      .flatMap(_.declarableKey(params.dialect))
-      .map(singularize)
-      .map(t => s"new$t")
+      .flatMap(ExtractorCommon.declarationName(_, params.definedBy))
       .getOrElse("newDeclaration")
 
-  /**
-    * Placeholder for the new name (key and reference)
+  /** Placeholder for the new name (key and reference)
     */
   protected def newName: String = ExtractorCommon.nameNotInList(baseName, params.bu.declaredNames.toSet)
 
-  protected val maybeTree: Option[ObjectInTree] =
-    params.tree.treeWithUpperElement(params.range, params.uri)
+  protected lazy val amfObject: Option[AmfObject] =
+    extractAmfObject(maybeTree, params.definedBy)
 
-  /**
-    * Based on the chosen position from the range
+  /** Selected object if there is a clean match in the range and it is a declarable, or the parents range
     */
-  protected lazy val position: Option[Position] =
-    maybeTree.map(_.amfPosition).map(Position(_))
+  protected final def extractAmfObject(maybeTree: Option[ObjectInTree], dialect: Dialect): Option[AmfObject] =
+    extractable(maybeTree.map(_.obj), dialect) orElse
+      extractable(maybeTree.flatMap(_.stack.headOption), dialect)
 
-  /**
-    * Information about the AST for the chosen position
-    */
-  protected lazy val yPartBranch: Option[YPartBranch] =
-    position.map(params.yPartBranch.getCachedOrNew(_, params.uri))
+  protected def extractable(maybeObject: Option[AmfObject], dialect: Dialect): Option[AmfObject] =
+    maybeObject
+      .filterNot(_.isInstanceOf[Document])
+      .find(o => o.declarableKey(dialect).isDefined)
 
-  protected lazy val amfObject: Option[AmfObject] = ExtractorCommon.amfObject(maybeTree, params.dialect)
-
-  /**
-    * The original node with lexical info for the declared node
+  /** The original node with lexical info for the declared node
     */
   protected lazy val entryAst: Option[YPart] =
-    amfObject.flatMap(_.annotations.ast()) match {
+    amfObject.flatMap(_.annotations.yPart()) match {
       case Some(entry: YMapEntry) => Some(entry.value)
       case c                      => c
     }
 
-  /** gets the range for the whole value of the parent */
-  private def getRangeForAML(entryAst: YPart): Option[Range] = yPartBranch.flatMap { b =>
-    val wholeStack = b.node +: b.stack
-    val ix         = wholeStack.indexOf(entryAst)
-    wholeStack(ix + 1)
-    if (ix >= 0 && (ix + 1) < wholeStack.length)
-      Some(LspRangeConverter.toLspRange(PositionRange(wholeStack(ix + 1).range)))
-    else None
-  }
-
-  /**
-    * The original range info for the declared node
+  /** The original range info for the declared node
     */
   protected lazy val entryRange: Option[Range] =
-    if (vendor != Vendor.AML)
-      entryAst
-        .map(_.range)
-        .map(PositionRange(_))
-        .map(LspRangeConverter.toLspRange)
-    else entryAst.flatMap(getRangeForAML)
+    entryAst
+      .map(_.range)
+      .map(PositionRange(_))
+      .map(LspRangeConverter.toLspRange)
 
-  /**
-    * The indentation for the existing node, as we already ensured it is a key, the first position gives de current indentation
+  /** The indentation for the existing node, as we already ensured it is a key, the first position gives de current
+    * indentation
     */
   protected lazy val entryIndentation: Int =
-    yPartBranch.flatMap(_.parentEntry).map(_.range.columnFrom).getOrElse(0)
+    yPartBranch.flatMap(_.parentEntry.map(_.key)).map(_.range.columnFrom).getOrElse(0)
 
   protected def positionIsExtracted: Boolean =
     entryRange
@@ -94,26 +80,26 @@ trait BaseElementDeclarableExtractors {
   protected lazy val sourceName: String =
     entryAst.map(_.sourceName).getOrElse(params.uri)
 
-  /**
-    * Fallback entry, should not be necessary as the link should be rendered
+  /** Fallback entry, should not be necessary as the link should be rendered
     */
   protected lazy val jsonRefEntry: YNode =
     YNode(
       YMap(
         IndexedSeq(YMapEntry(YNode("$ref"), YNode(s"$newName"))),
         sourceName
-      ))
+      )
+    )
 
-  /**
-    * Render of the link generated by the new object
+  /** Render of the link generated by the new object
     */
   protected lazy val renderLink: Future[Option[YNode]] = Future.successful(None)
 
-  protected lazy val vendor: Vendor =
-    (maybeTree.flatMap(_.objVendor) orElse params.bu.sourceVendor).getOrElse(Vendor.AML)
+  protected val findDialectForSemantic: String => Option[(SemanticExtension, Dialect)]
 
-  /**
-    * The entry which holds the reference for the new declaration (`{"$ref": "declaration/$1"}`)
+  protected lazy val spec: Spec =
+    maybeTree.flatMap(_.objSpec(findDialectForSemantic)) getOrElse params.bu.sourceSpec.getOrElse(Spec.AML)
+
+  /** The entry which holds the reference for the new declaration (`{"$ref": "declaration/$1"}`)
     */
   protected lazy val linkEntry: Future[Option[TextEdit]] =
     renderLink.map { rl =>
@@ -121,27 +107,29 @@ trait BaseElementDeclarableExtractors {
         entryRange.map(
           TextEdit(
             _,
-            JsonRender.render(rl.getOrElse(jsonRefEntry), entryIndentation, jsonOptions)
-          ))
-      else if (params.dialect.isJsonStyle)
+            JsonRender.render(rl.getOrElse(jsonRefEntry), entryIndentation + jsonOptions.indentationSize, jsonOptions)
+          )
+        )
+      else if (params.definedBy.isJsonStyle)
         entryRange.map(
           TextEdit(
             _,
-            s"\n${YamlRender.render(rl.getOrElse(jsonRefEntry), entryIndentation, yamlOptions)}\n"
-          ))
+            s"\n${YamlRender.render(rl.getOrElse(jsonRefEntry), entryIndentation + yamlOptions.indentationSize, yamlOptions)}\n"
+          )
+        )
       else // default as raml style if none defined
         entryRange.map(TextEdit(_, s" ${rl.map(YamlRender.render(_, 0, yamlOptions).trim).getOrElse(newName)}\n"))
     }
 
   protected val jsonOptions: JsonRenderOptions = JsonRenderOptions().withIndentationSize(
     params.configuration
-      .getFormatOptionForMime(Mimes.`APPLICATION/JSON`)
-      .indentationSize
+      .getFormatOptionForMime(Mimes.`application/json`)
+      .tabSize
   )
 
   protected val yamlOptions: YamlRenderOptions = YamlRenderOptions().withIndentationSize(
     params.configuration
-      .getFormatOptionForMime(Mimes.`APPLICATION/YAML`)
-      .indentationSize
+      .getFormatOptionForMime(Mimes.`application/yaml`)
+      .tabSize
   )
 }

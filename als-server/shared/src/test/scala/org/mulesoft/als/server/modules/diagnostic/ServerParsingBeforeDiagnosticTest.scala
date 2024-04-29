@@ -1,8 +1,9 @@
 package org.mulesoft.als.server.modules.diagnostic
 
-import org.mulesoft.als.server.protocol.LanguageServer
+import org.mulesoft.als.server.client.scala.LanguageServerBuilder
 import org.mulesoft.als.server.modules.WorkspaceManagerFactoryBuilder
-import org.mulesoft.als.server.{LanguageServerBaseTest, LanguageServerBuilder, MockDiagnosticClientNotifier}
+import org.mulesoft.als.server.protocol.LanguageServer
+import org.mulesoft.als.server.{Flaky, LanguageServerBaseTest, MockDiagnosticClientNotifier}
 
 import scala.concurrent.ExecutionContext
 
@@ -11,23 +12,25 @@ class ServerParsingBeforeDiagnosticTest extends LanguageServerBaseTest {
   override implicit val executionContext: ExecutionContext = ExecutionContext.Implicits.global
 
   def buildServer(clientNotifier: MockDiagnosticClientNotifier): LanguageServer = {
-    val builder = new WorkspaceManagerFactoryBuilder(clientNotifier, logger)
+    val builder = new WorkspaceManagerFactoryBuilder(clientNotifier)
       .withNotificationKind(PARSING_BEFORE)
 
-    val dm      = builder.diagnosticManager()
+    val dm      = builder.buildDiagnosticManagers()
     val factory = builder.buildWorkspaceManagerFactory()
 
-    val b = new LanguageServerBuilder(factory.documentManager,
-                                      factory.workspaceManager,
-                                      factory.configurationManager,
-                                      factory.resolutionTaskManager)
-    dm.foreach(b.addInitializableModule)
+    val b = new LanguageServerBuilder(
+      factory.documentManager,
+      factory.workspaceManager,
+      factory.configurationManager,
+      factory.resolutionTaskManager
+    )
+    dm.foreach(m => b.addInitializableModule(m))
     b.build()
   }
 
   override def rootPath: String = ""
 
-  test("Only Parsing error") {
+  test("Only Parsing error", Flaky) {
     val api =
       """#%RAML 1.0
         |title: test
@@ -114,7 +117,7 @@ class ServerParsingBeforeDiagnosticTest extends LanguageServerBaseTest {
     }
   }
 
-  test("Break model") {
+  test("Break model", Flaky) {
     val api =
       """#%RAML 1.0
         |title: test

@@ -1,9 +1,13 @@
 package org.mulesoft.als.suggestions.plugins.aml.webapi.raml
 
-import amf.core.model.domain.{AmfArray, AmfObject}
-import amf.core.parser.{FieldEntry, Value}
-import amf.plugins.domain.webapi.metamodel.security.{OAuth2FlowModel, OAuth2SettingsModel}
-import amf.plugins.domain.webapi.models.security.{OAuth2Flow, OAuth2Settings, ParametrizedSecurityScheme, Scope}
+import amf.apicontract.client.scala.model.domain.security.{
+  OAuth2Flow,
+  OAuth2Settings,
+  ParametrizedSecurityScheme,
+  Scope
+}
+import amf.apicontract.internal.metamodel.domain.security.OAuth2FlowModel
+import amf.core.client.scala.model.domain.AmfObject
 import org.mulesoft.als.suggestions.RawSuggestion
 import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
 import org.mulesoft.als.suggestions.interfaces.AMLCompletionPlugin
@@ -28,13 +32,16 @@ object SecurityScopesCompletionPlugin extends AMLCompletionPlugin {
               RawSuggestion(
                 t,
                 isAKey = false,
-                category = CategoryRegistry(OAuth2FlowModel.`type`.head.iri(),
-                                            OAuth2FlowModel.Scopes.value.iri(),
-                                            request.actualDialect.id),
+                category = CategoryRegistry(
+                  OAuth2FlowModel.`type`.head.iri(),
+                  OAuth2FlowModel.Scopes.value.iri(),
+                  request.actualDialect.id
+                ),
                 mandatory = false
-            ))
+              )
+            )
         case p: ParametrizedSecurityScheme
-            if request.fieldEntry.isEmpty && request.yPartBranch.isKey && p.scheme.`type`.value() == "OAuth 2.0" =>
+            if request.fieldEntry.isEmpty && request.astPartBranch.isKey && p.scheme.`type`.value() == "OAuth 2.0" =>
           Seq(RawSuggestion.arrayProp("scopes", "security"))
 
         case _ => Nil

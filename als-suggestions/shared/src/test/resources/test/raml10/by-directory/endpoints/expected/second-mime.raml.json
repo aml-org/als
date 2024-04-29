@@ -1,0 +1,38 @@
+[
+  {
+    "label": "application/json",
+    "kind": [
+      
+    ],
+    "detail": "unknown",
+    "documentation": "application/json",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "11application/json",
+    "filterText": "application/json:\n  ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 9,
+          "character": 6
+        },
+        "end": {
+          "line": 9,
+          "character": 7
+        }
+      },
+      "newText": "application/json:\n  "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  }
+]

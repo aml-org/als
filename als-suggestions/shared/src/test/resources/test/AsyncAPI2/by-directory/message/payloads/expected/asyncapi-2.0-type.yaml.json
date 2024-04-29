@@ -1,12 +1,18 @@
 [
   {
     "label": "array",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "array",
-    "deprecated": [],
-    "preselect": [],
-    "sortText": "11array",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "10array",
     "filterText": "array",
     "insertText": null,
     "insertTextFormat": [
@@ -31,12 +37,18 @@
   },
   {
     "label": "boolean",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "boolean",
-    "deprecated": [],
-    "preselect": [],
-    "sortText": "11boolean",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "10boolean",
     "filterText": "boolean",
     "insertText": null,
     "insertTextFormat": [
@@ -61,12 +73,18 @@
   },
   {
     "label": "integer",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "integer",
-    "deprecated": [],
-    "preselect": [],
-    "sortText": "11integer",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "10integer",
     "filterText": "integer",
     "insertText": null,
     "insertTextFormat": [
@@ -91,12 +109,18 @@
   },
   {
     "label": "null",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "null",
-    "deprecated": [],
-    "preselect": [],
-    "sortText": "11null",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "10null",
     "filterText": "\"null\"",
     "insertText": null,
     "insertTextFormat": [
@@ -121,12 +145,18 @@
   },
   {
     "label": "number",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "number",
-    "deprecated": [],
-    "preselect": [],
-    "sortText": "11number",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "10number",
     "filterText": "number",
     "insertText": null,
     "insertTextFormat": [
@@ -151,12 +181,18 @@
   },
   {
     "label": "object",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "object",
-    "deprecated": [],
-    "preselect": [],
-    "sortText": "11object",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "10object",
     "filterText": "object",
     "insertText": null,
     "insertTextFormat": [
@@ -181,12 +217,18 @@
   },
   {
     "label": "string",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "string",
-    "deprecated": [],
-    "preselect": [],
-    "sortText": "11string",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "10string",
     "filterText": "string",
     "insertText": null,
     "insertTextFormat": [

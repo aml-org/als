@@ -1,13 +1,19 @@
 [
   {
     "label": "maxItems",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "maxItems",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11maxItems",
-    "filterText": "\"maxItems\": \"$1\",",
+    "filterText": "\"maxItems\": $1,",
     "insertText": null,
     "insertTextFormat": [
       2
@@ -20,10 +26,10 @@
         },
         "end": {
           "line": 15,
-          "character": 17
+          "character": 18
         }
       },
-      "newText": "\"maxItems\": \"$1\","
+      "newText": "\"maxItems\": $1,"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,

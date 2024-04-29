@@ -1,7 +1,5 @@
 package org.mulesoft.als.suggestions.test.aml.AsyncAPI
 
-import org.mulesoft.als.suggestions.test.aml.AMLSuggestionsTest
-
 class LibraryTests extends AMLAsyncApi06SuggestionTest {
 
   def rootPath: String = "AML/AsyncAPI"
@@ -11,8 +9,20 @@ class LibraryTests extends AMLAsyncApi06SuggestionTest {
   }
 
   test("test002") {
-    runAsyncApiTest("library/test002.yaml",
-                    Set("externalDocs:\n  ", "description: ", "headers:\n  ", "tags:\n  - "))
+    runAsyncApiTest(
+      "library/test002.yaml",
+      Set(
+        "externalDocs:\n  ",
+        "description: ",
+        "headers:\n  ",
+        "tags:\n  - ",
+        """tags:
+                           |  -
+                           |    name: $1""".stripMargin,
+        """externalDocs:
+                           |  url: $1""".stripMargin
+      )
+    )
   }
 
   test("test003") {

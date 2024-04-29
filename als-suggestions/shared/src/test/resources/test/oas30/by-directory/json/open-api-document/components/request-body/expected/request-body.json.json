@@ -1,16 +1,22 @@
 [
   {
     "label": "$ref",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "reference tag",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "0$ref",
-    "filterText": "\"$ref\"",
+    "filterText": "\"\\$ref\": \"$1\"",
     "insertText": null,
     "insertTextFormat": [
-      1
+      2
     ],
     "textEdit": {
       "range": {
@@ -20,10 +26,10 @@
         },
         "end": {
           "line": 5,
-          "character": 11
+          "character": 10
         }
       },
-      "newText": "\"$ref\""
+      "newText": "\"\\$ref\": \"$1\""
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -31,11 +37,17 @@
   },
   {
     "label": "content",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "content",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11content",
     "filterText": "\"content\": {\n  \"$1\"\n}",
     "insertText": null,
@@ -50,7 +62,7 @@
         },
         "end": {
           "line": 5,
-          "character": 11
+          "character": 10
         }
       },
       "newText": "\"content\": {\n  \"$1\"\n}"
@@ -61,11 +73,17 @@
   },
   {
     "label": "description",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "docs",
     "documentation": "description",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11description",
     "filterText": "\"description\": \"$1\"",
     "insertText": null,
@@ -80,7 +98,7 @@
         },
         "end": {
           "line": 5,
-          "character": 11
+          "character": 10
         }
       },
       "newText": "\"description\": \"$1\""
@@ -91,11 +109,17 @@
   },
   {
     "label": "required",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "parameters",
     "documentation": "required",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11required",
     "filterText": "\"required\": \"$1\"",
     "insertText": null,
@@ -110,7 +134,7 @@
         },
         "end": {
           "line": 5,
-          "character": 11
+          "character": 10
         }
       },
       "newText": "\"required\": \"$1\""

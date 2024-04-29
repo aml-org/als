@@ -1,0 +1,19 @@
+#%RAML 1.0
+title: t
+version: 1
+types:
+  t: string
+securitySchemes:
+  myScheme:
+    type: OAuth 2.0
+    settings:
+      scopes:
+        -
+          myScopeWithERROR:
+        - valid
+        -
+          invalid again:
+        - validAgain
+    describedBy:
+      headers:
+        Accept: any

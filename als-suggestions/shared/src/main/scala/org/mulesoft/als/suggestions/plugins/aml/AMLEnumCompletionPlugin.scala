@@ -1,46 +1,32 @@
 package org.mulesoft.als.suggestions.plugins.aml
 
-import amf.plugins.document.vocabularies.model.domain.PropertyMapping
-import org.mulesoft.als.common.YPartBranch
-import org.mulesoft.als.suggestions.{ObjectRange, RawSuggestion, StringScalarRange}
+import amf.aml.client.scala.model.domain.PropertyMapping
+import org.mulesoft.als.common.ASTPartBranch
+import org.mulesoft.als.suggestions.RawSuggestion
 import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
 import org.mulesoft.als.suggestions.interfaces.AMLCompletionPlugin
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
-object AMLEnumCompletionPlugin extends AMLCompletionPlugin {
+object AMLEnumCompletionPlugin extends AMLCompletionPlugin with EnumSuggestions {
   override def id = "AMLEnumCompletionPlugin"
 
   override def resolve(params: AmlCompletionRequest): Future[Seq[RawSuggestion]] =
     Future {
-      if (params.yPartBranch.isValue || params.yPartBranch.isInArray && params.fieldEntry.isDefined)
-        getSuggestions(params.propertyMapping, params.yPartBranch)
+      if (params.astPartBranch.isValue || params.astPartBranch.isInArray && params.fieldEntry.isDefined)
+        getSuggestions(params.propertyMapping, params.astPartBranch)
       else Nil
     }
 
-  def getSuggestions(propertyMapping: List[PropertyMapping], yPartBranch: YPartBranch): Seq[RawSuggestion] = {
+  def getSuggestions(propertyMapping: List[PropertyMapping], astPartBranch: ASTPartBranch): Seq[RawSuggestion] = {
     propertyMapping match {
-      case head :: Nil => suggestMapping(head)
+      case head :: Nil => suggestMappingWithEnum(head)
       case Nil         => Nil
       case _ =>
-        yPartBranch.parentEntry match {
-          case Some(entry) =>
-            propertyMapping
-              .find(pm => entry.key.asScalar.exists(s => pm.name().option().contains(s.text)))
-              .map(suggestMapping)
-              .getOrElse(Nil)
-          case None => Nil
-        }
+        propertyMapping
+          .find(pm => astPartBranch.parentKey.exists(s => pm.name().option().contains(s)))
+          .map(suggestMappingWithEnum)
+          .getOrElse(Nil)
     }
   }
-
-  def suggestMapping(pm: PropertyMapping): Seq[RawSuggestion] =
-    pm.enum()
-      .flatMap(_.option().map(e => {
-        val raw = pm.toRaw("unknown")
-        raw.copy(newText = e.toString,
-                 displayText = e.toString,
-                 description = e.toString,
-                 options = raw.options.copy(isKey = false))
-      }))
 }

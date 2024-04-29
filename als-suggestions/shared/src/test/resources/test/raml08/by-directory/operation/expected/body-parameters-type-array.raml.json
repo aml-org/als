@@ -1,11 +1,17 @@
 [
   {
     "label": "default",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "parameters",
     "documentation": "default",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11default",
     "filterText": "default: ",
     "insertText": null,
@@ -31,11 +37,17 @@
   },
   {
     "label": "description",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "docs",
     "documentation": "description",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11description",
     "filterText": "description: ",
     "insertText": null,
@@ -61,11 +73,17 @@
   },
   {
     "label": "displayName",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "docs",
     "documentation": "displayName",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11displayName",
     "filterText": "displayName: ",
     "insertText": null,
@@ -91,11 +109,17 @@
   },
   {
     "label": "enum",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "parameters",
     "documentation": "enum",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11enum",
     "filterText": "enum:\n  - ",
     "insertText": null,
@@ -121,13 +145,19 @@
   },
   {
     "label": "example",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "docs",
     "documentation": "example",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11example",
-    "filterText": "example:\n  ",
+    "filterText": "example:\n    ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -143,21 +173,27 @@
           "character": 14
         }
       },
-      "newText": "example:\n  "
+      "newText": "example:\n    "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
     "command": null
   },
   {
-    "label": "repeat",
-    "kind": [],
+    "label": "properties",
+    "kind": [
+      
+    ],
     "detail": "schemas",
-    "documentation": "repeat",
-    "deprecated": [],
-    "preselect": [],
-    "sortText": "11repeat",
-    "filterText": "repeat: ",
+    "documentation": "properties",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "11properties",
+    "filterText": "properties:\n    ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -173,7 +209,7 @@
           "character": 14
         }
       },
-      "newText": "repeat: "
+      "newText": "properties:\n    "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -181,12 +217,18 @@
   },
   {
     "label": "type",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "types and traits",
     "documentation": "type",
-    "deprecated": [],
-    "preselect": [],
-    "sortText": "11type",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "10type",
     "filterText": "type: ",
     "insertText": null,
     "insertTextFormat": [

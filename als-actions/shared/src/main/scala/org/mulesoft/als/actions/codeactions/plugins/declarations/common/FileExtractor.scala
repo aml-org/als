@@ -1,15 +1,10 @@
 package org.mulesoft.als.actions.codeactions.plugins.declarations.common
 
-import amf.ProfileNames
-import amf.core.annotations.ExternalFragmentRef
-import amf.core.errorhandling.UnhandledErrorHandler
-import amf.core.model.domain.{AmfObject, DomainElement, Linkable}
-import amf.core.parser.Annotations
-import amf.plugins.document.webapi.parser.spec.common.emitters.WebApiDomainElementEmitter
-import amf.plugins.domain.shapes.models.AnyShape
-import amf.plugins.domain.shapes.resolution.stages.elements.CompleteShapeTransformationPipeline
+import amf.core.client.scala.model.domain.{DomainElement, Linkable}
+import amf.core.internal.annotations.ExternalFragmentRef
+import amf.core.internal.parser.domain.Annotations
 import org.mulesoft.als.common.edits.AbstractWorkspaceEdit
-import org.mulesoft.amfintegration.LocalIgnoreErrorHandler
+import org.mulesoft.amfintegration.amfconfiguration.ProfileMatcher
 import org.mulesoft.lsp.edit.{CreateFile, TextDocumentEdit, TextEdit}
 import org.mulesoft.lsp.feature.common.VersionedTextDocumentIdentifier
 import org.yaml.model.YNode
@@ -40,21 +35,21 @@ trait FileExtractor extends BaseElementDeclarableExtractors {
   override protected lazy val renderLink: Future[Option[YNode]] =
     finalName().map { name =>
       amfObject
-        .collect {
-          case l: Linkable =>
-            val fileName              = s"$name.$extension"
-            val linkDe: DomainElement = l.link(fileName)
-            linkDe.annotations += ExternalFragmentRef(fileName)
-            linkDe.annotations ++= additionalAnnotations
-            WebApiDomainElementEmitter
-              .emit(linkDe, vendor, UnhandledErrorHandler)
+        .collect { case l: Linkable =>
+          val fileName              = s"$name.$extension"
+          val linkDe: DomainElement = l.link(fileName)
+          linkDe.annotations += ExternalFragmentRef(fileName)
+          linkDe.annotations ++= additionalAnnotations
+          params.alsConfigurationState.configForSpec(spec).emit(linkDe)
         }
     }
 
-  protected def buildFileEdit(editUri: String,
-                              editTextEdit: TextEdit,
-                              newUri: String,
-                              newTextEdit: TextEdit): Seq[AbstractWorkspaceEdit] = {
+  protected def buildFileEdit(
+      editUri: String,
+      editTextEdit: TextEdit,
+      newUri: String,
+      newTextEdit: TextEdit
+  ): Seq[AbstractWorkspaceEdit] = {
     Seq(
       AbstractWorkspaceEdit(
         Seq(
@@ -62,7 +57,8 @@ trait FileExtractor extends BaseElementDeclarableExtractors {
           Left(TextDocumentEdit(VersionedTextDocumentIdentifier(editUri, None), Seq(editTextEdit))),
           Left(TextDocumentEdit(VersionedTextDocumentIdentifier(newUri, None), Seq(newTextEdit)))
         )
-      ))
+      )
+    )
   }
 
 }

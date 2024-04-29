@@ -1,13 +1,37 @@
 package org.mulesoft.amfintegration.dialect.dialects.raml
 
-import amf.core.metamodel.document.BaseUnitModel
-import amf.core.metamodel.domain.extensions.PropertyShapeModel
-import amf.core.vocabulary.Namespace.XsdTypes._
-import amf.plugins.document.vocabularies.model.domain.{NodeMapping, PropertyMapping}
-import amf.plugins.domain.shapes.metamodel._
-import amf.plugins.domain.webapi.metamodel.templates.{ResourceTypeModel, TraitModel}
-import amf.plugins.domain.webapi.metamodel._
-import amf.plugins.domain.webapi.metamodel.api.WebApiModel
+import amf.aml.client.scala.model.domain.{NodeMapping, PropertyMapping}
+import amf.apicontract.internal.metamodel.domain.api.WebApiModel
+import amf.apicontract.internal.metamodel.domain.templates.{ResourceTypeModel, TraitModel}
+import amf.apicontract.internal.metamodel.domain.{
+  EndPointModel,
+  OperationModel,
+  ParameterModel,
+  PayloadModel,
+  RequestModel,
+  ResponseModel,
+  ServerModel
+}
+import amf.core.client.scala.vocabulary.Namespace.XsdTypes.{
+  amlAnyNode,
+  amlNumber,
+  xsdAnyType,
+  xsdBoolean,
+  xsdDouble,
+  xsdInteger,
+  xsdString
+}
+import amf.core.internal.metamodel.document.BaseUnitModel
+import amf.core.internal.metamodel.domain.extensions.PropertyShapeModel
+import amf.shapes.internal.domain.metamodel.{
+  AnyShapeModel,
+  ArrayShapeModel,
+  CreativeWorkModel,
+  ExampleModel,
+  FileShapeModel,
+  NodeShapeModel,
+  ScalarShapeModel
+}
 
 trait RamlDialectNodes {
   protected def scalarTypes: Seq[String] = Seq(
@@ -24,11 +48,6 @@ trait RamlDialectNodes {
   protected val implicitField: String
   def commonShapeProperties(nodeId: String): Seq[PropertyMapping] = {
     Seq(
-      PropertyMapping()
-        .withId(dialectLocation + s"#/declarations/$nodeId/DataTypeNode/required")
-        .withName("required")
-        .withNodePropertyMapping(PropertyShapeModel.MinCount.value.iri())
-        .withLiteralRange(xsdBoolean.iri()),
       // Common properties
       PropertyMapping()
         .withId(dialectLocation + s"#/declarations/$nodeId/DataType/default")
@@ -53,9 +72,11 @@ trait RamlDialectNodes {
         .withName("inherits")
         .withNodePropertyMapping(implicitField)
         .withAllowMultiple(true)
-        .withObjectRange(Seq(
-          DataTypeNodeId
-        )),
+        .withObjectRange(
+          Seq(
+            DataTypeNodeId
+          )
+        ),
       PropertyMapping()
         .withId(dialectLocation + s"#/declarations/$nodeId/DataType/example")
         .withName("example")
@@ -63,7 +84,8 @@ trait RamlDialectNodes {
         .withObjectRange(
           Seq(
             ExampleNode.id
-          )),
+          )
+        ),
       PropertyMapping()
         .withId(dialectLocation + s"#/declarations/$nodeId/DataType/displayName")
         .withName("examples")
@@ -87,9 +109,11 @@ trait RamlDialectNodes {
         .withName("properties")
         .withNodePropertyMapping(NodeShapeModel.Properties.value.iri())
         .withMapTermKeyProperty(PropertyShapeModel.Name.value.iri())
-        .withObjectRange(Seq(
-          DataTypeNodeId
-        )),
+        .withObjectRange(
+          Seq(
+            DataTypeNodeId
+          )
+        ),
       PropertyMapping()
         .withId(dialectLocation + s"#/declarations/$nodeId/ObjectTypeNode/minProperties")
         .withName("minProperties")
@@ -150,12 +174,12 @@ trait RamlDialectNodes {
         .withId(dialectLocation + s"#/declarations/$nodeId/ScalarTypeNode/minimum")
         .withName("minimum")
         .withNodePropertyMapping(ScalarShapeModel.Minimum.value.iri())
-        .withLiteralRange(amlNumber.iri()),
+        .withLiteralRange(xsdDouble.iri()),
       PropertyMapping()
         .withId(dialectLocation + s"#/declarations/$nodeId/ScalarTypeNode/maximum")
         .withName("maximum")
         .withNodePropertyMapping(ScalarShapeModel.Maximum.value.iri())
-        .withLiteralRange(amlNumber.iri()),
+        .withLiteralRange(xsdDouble.iri()),
       PropertyMapping()
         .withId(dialectLocation + s"#/declarations/$nodeId/ScalarTypeNode/format")
         .withName("format")
@@ -170,19 +194,20 @@ trait RamlDialectNodes {
             "long",
             "float",
             "double"
-          ))
+          )
+        )
         .withLiteralRange(xsdString.iri()),
       PropertyMapping()
         .withId(dialectLocation + s"#/declarations/$nodeId/ScalarTypeNode/multipleOf")
         .withName("multipleOf")
         .withNodePropertyMapping(ScalarShapeModel.MultipleOf.value.iri())
-        .withLiteralRange(amlNumber.iri()),
+        .withLiteralRange(xsdDouble.iri()),
       // file types
       PropertyMapping()
         .withId(dialectLocation + s"#/declarations/$nodeId/FileTypeNode/fileTypes")
         .withName("fileTypes")
         .withNodePropertyMapping(FileShapeModel.FileTypes.value.iri())
-        .withLiteralRange(amlNumber.iri())
+        .withLiteralRange(xsdDouble.iri())
     )
   }
 
@@ -190,54 +215,69 @@ trait RamlDialectNodes {
     .withId(dialectLocation + "#/declarations/ExampleNode")
     .withName("ExampleNode")
     .withNodeTypeMapping(ExampleModel.`type`.head.iri())
-    .withPropertiesMapping(Seq(
-      PropertyMapping()
-        .withId(dialectLocation + s"#/declarations/ExampleNode/displayName")
-        .withName("displayName")
-        .withNodePropertyMapping(ExampleModel.DisplayName.value.iri())
-        .withLiteralRange(xsdString.iri()),
-      PropertyMapping()
-        .withId(dialectLocation + s"#/declarations/ExampleNode/description")
-        .withName("description")
-        .withNodePropertyMapping(ExampleModel.Description.value.iri())
-        .withLiteralRange(xsdString.iri()),
-      PropertyMapping()
-        .withId(dialectLocation + s"#/declarations/ExampleNode/value")
-        .withName("value")
-        .withNodePropertyMapping(ExampleModel.Raw.value.iri())
-        .withLiteralRange(amlAnyNode.iri()),
-      PropertyMapping()
-        .withId(dialectLocation + s"#/declarations/ExampleNode/strict")
-        .withName("strict")
-        .withNodePropertyMapping(ExampleModel.Strict.value.iri())
-        .withLiteralRange(xsdBoolean.iri())
-    ))
+    .withPropertiesMapping(
+      Seq(
+        PropertyMapping()
+          .withId(dialectLocation + s"#/declarations/ExampleNode/displayName")
+          .withName("displayName")
+          .withNodePropertyMapping(ExampleModel.DisplayName.value.iri())
+          .withLiteralRange(xsdString.iri()),
+        PropertyMapping()
+          .withId(dialectLocation + s"#/declarations/ExampleNode/name")
+          .withName("name")
+          .withNodePropertyMapping(ExampleModel.Name.value.iri())
+          .withLiteralRange(xsdString.iri()),
+        PropertyMapping()
+          .withId(dialectLocation + s"#/declarations/ExampleNode/description")
+          .withName("description")
+          .withNodePropertyMapping(ExampleModel.Description.value.iri())
+          .withLiteralRange(xsdString.iri()),
+        PropertyMapping()
+          .withId(dialectLocation + s"#/declarations/ExampleNode/value")
+          .withName("value")
+          .withNodePropertyMapping(ExampleModel.Raw.value.iri())
+          .withLiteralRange(amlAnyNode.iri()),
+        PropertyMapping()
+          .withId(dialectLocation + s"#/declarations/ExampleNode/strict")
+          .withName("strict")
+          .withNodePropertyMapping(ExampleModel.Strict.value.iri())
+          .withLiteralRange(xsdBoolean.iri())
+      )
+    )
 
   final lazy val DataTypeNodeId: String = dialectLocation + "#/declarations/DataTypeNode"
   final lazy val DataTypeNode: NodeMapping = NodeMapping()
     .withId(DataTypeNodeId)
     .withName("DataTypeNode")
     .withNodeTypeMapping(ParameterModel.`type`.head.iri())
-    .withPropertiesMapping(commonShapeProperties("DataTypeNode"))
+    .withPropertiesMapping(
+      commonShapeProperties("DataTypeNode") :+ PropertyMapping()
+        .withId(dialectLocation + s"#/declarations/DataTypeNode/DataTypeNode/required")
+        .withName("required")
+        .withNodePropertyMapping(ParameterModel.Required.value.iri())
+        .withLiteralRange(xsdBoolean.iri())
+    )
 
   final lazy val DocumentationNode: NodeMapping = NodeMapping()
     .withId(dialectLocation + "#/declarations/DocumentationNode")
     .withName("DocumentationNode")
     .withNodeTypeMapping(CreativeWorkModel.`type`.head.iri())
-    .withPropertiesMapping(Seq(
-      PropertyMapping()
-        .withId(dialectLocation + "#/declarations/DocumentationNode/title")
-        .withName("title")
-        .withNodePropertyMapping(CreativeWorkModel.Title.value.iri())
-        .withMinCount(1)
-        .withLiteralRange(xsdString.iri()),
-      PropertyMapping()
-        .withId(dialectLocation + "#/declarations/DocumentationNode/content")
-        .withName("content")
-        .withNodePropertyMapping(CreativeWorkModel.Description.value.iri())
-        .withMinCount(1)
-        .withLiteralRange(xsdString.iri())
-    ))
+    .withPropertiesMapping(
+      Seq(
+        PropertyMapping()
+          .withId(dialectLocation + "#/declarations/DocumentationNode/title")
+          .withName("title")
+          .withNodePropertyMapping(CreativeWorkModel.Title.value.iri())
+          .withMinCount(1)
+          .withLiteralRange(xsdString.iri()),
+        PropertyMapping()
+          .withId(dialectLocation + "#/declarations/DocumentationNode/content")
+          .withName("content")
+          .withNodePropertyMapping(CreativeWorkModel.Description.value.iri())
+          .withMinCount(1)
+          .withLiteralRange(xsdString.iri())
+      )
+    )
 
   final lazy val PayloadNode: NodeMapping = NodeMapping()
     .withId(dialectLocation + "#/declarations/PayloadNode")
@@ -250,10 +290,13 @@ trait RamlDialectNodes {
           .withId(dialectLocation + s"#/declarations/PayloadNode/mediaType")
           .withName("mediaType")
           .withNodePropertyMapping(PayloadModel.MediaType.value.iri())
-          .withObjectRange(Seq(
-            DataTypeNodeId
-          ))
-      ) ++ commonShapeProperties("PayloadNode"))
+          .withObjectRange(
+            Seq(
+              DataTypeNodeId
+            )
+          )
+      ) ++ commonShapeProperties("PayloadNode")
+    )
 
   final lazy val ResourceTypeNode: NodeMapping = NodeMapping()
     .withId(dialectLocation + "#/declarations/ResourceTypeNode")
@@ -266,7 +309,8 @@ trait RamlDialectNodes {
           .withName("usage")
           .withNodePropertyMapping(BaseUnitModel.Usage.value.iri())
           .withLiteralRange(xsdString.iri())
-      ))
+      )
+    )
 
   final lazy val TraitNode: NodeMapping = NodeMapping()
     .withId(dialectLocation + "#/declarations/TraitNode")
@@ -279,40 +323,47 @@ trait RamlDialectNodes {
           .withName("usage")
           .withNodePropertyMapping(BaseUnitModel.Usage.value.iri())
           .withLiteralRange(xsdString.iri())
-      ))
+      )
+    )
 
   final lazy val ResponseNode: NodeMapping = NodeMapping()
     .withId(dialectLocation + "#/declarations/ResponseNode")
     .withName("ResponseNode")
     .withNodeTypeMapping(ResponseModel.`type`.head.iri())
-    .withPropertiesMapping(Seq(
-      PropertyMapping()
-        .withId(dialectLocation + s"#/declarations/ResponseNode/statusCode")
-        .withName("statusCode")
-        .withNodePropertyMapping(ResponseModel.StatusCode.value.iri())
-        .withLiteralRange(xsdString.iri()),
-      PropertyMapping()
-        .withId(dialectLocation + s"#/declarations/ResponseNode/description")
-        .withName("description")
-        .withNodePropertyMapping(ResponseModel.Description.value.iri())
-        .withLiteralRange(xsdString.iri()),
-      PropertyMapping()
-        .withId(dialectLocation + "#/declarations/ResponseNode/headers")
-        .withName("headers")
-        .withNodePropertyMapping(ResponseModel.Headers.value.iri())
-        .withMapTermKeyProperty(ParameterModel.Name.value.iri())
-        .withObjectRange(Seq(
-          DataTypeNodeId
-        )),
-      PropertyMapping()
-        .withId(dialectLocation + "#/declarations/ResponseNode/body")
-        .withName("body")
-        .withNodePropertyMapping(ResponseModel.Payloads.value.iri())
-        .withMapTermKeyProperty(PayloadModel.MediaType.value.iri())
-        .withObjectRange(Seq(
-          PayloadNode.id
-        ))
-    ))
+    .withPropertiesMapping(
+      Seq(
+        PropertyMapping()
+          .withId(dialectLocation + s"#/declarations/ResponseNode/statusCode")
+          .withName("statusCode")
+          .withNodePropertyMapping(ResponseModel.StatusCode.value.iri())
+          .withLiteralRange(xsdString.iri()),
+        PropertyMapping()
+          .withId(dialectLocation + s"#/declarations/ResponseNode/description")
+          .withName("description")
+          .withNodePropertyMapping(ResponseModel.Description.value.iri())
+          .withLiteralRange(xsdString.iri()),
+        PropertyMapping()
+          .withId(dialectLocation + "#/declarations/ResponseNode/headers")
+          .withName("headers")
+          .withNodePropertyMapping(ResponseModel.Headers.value.iri())
+          .withMapTermKeyProperty(ParameterModel.Name.value.iri())
+          .withObjectRange(
+            Seq(
+              DataTypeNodeId
+            )
+          ),
+        PropertyMapping()
+          .withId(dialectLocation + "#/declarations/ResponseNode/body")
+          .withName("body")
+          .withNodePropertyMapping(ResponseModel.Payloads.value.iri())
+          .withMapTermKeyProperty(PayloadModel.MediaType.value.iri())
+          .withObjectRange(
+            Seq(
+              PayloadNode.id
+            )
+          )
+      )
+    )
   protected def methodNodeMappings: Seq[PropertyMapping]
   final protected val innerMethodNodeMappings: Seq[PropertyMapping] = Seq(
     PropertyMapping()
@@ -330,33 +381,41 @@ trait RamlDialectNodes {
       .withName("queryParameters")
       .withNodePropertyMapping(RequestModel.QueryParameters.value.iri())
       .withMapTermKeyProperty(ParameterModel.Name.value.iri())
-      .withObjectRange(Seq(
-        DataTypeNodeId
-      )),
+      .withObjectRange(
+        Seq(
+          DataTypeNodeId
+        )
+      ),
     PropertyMapping()
       .withId(dialectLocation + "#/declarations/MethodNode/Request/headers")
       .withName("headers")
       .withNodePropertyMapping(RequestModel.Headers.value.iri())
       .withMapTermKeyProperty(ParameterModel.Name.value.iri())
-      .withObjectRange(Seq(
-        DataTypeNodeId
-      )),
+      .withObjectRange(
+        Seq(
+          DataTypeNodeId
+        )
+      ),
     PropertyMapping()
       .withId(dialectLocation + "#/declarations/MethodNode/responses")
       .withName("responses")
       .withNodePropertyMapping(OperationModel.Responses.value.iri())
       .withMapTermKeyProperty(ResponseModel.StatusCode.value.iri())
-      .withObjectRange(Seq(
-        ResponseNode.id
-      )),
+      .withObjectRange(
+        Seq(
+          ResponseNode.id
+        )
+      ),
     PropertyMapping()
       .withId(dialectLocation + "#/declarations/MethodNode/Request/body")
       .withName("body")
       .withNodePropertyMapping(RequestModel.Payloads.value.iri())
       .withMapTermKeyProperty(PayloadModel.MediaType.value.iri())
-      .withObjectRange(Seq(
-        PayloadNode.id
-      )),
+      .withObjectRange(
+        Seq(
+          PayloadNode.id
+        )
+      ),
     PropertyMapping()
       .withId(dialectLocation + "#/declarations/MethodNode/protocols")
       .withName("protocols")
@@ -365,7 +424,8 @@ trait RamlDialectNodes {
         Seq(
           "HTTP",
           "HTTPS"
-        ))
+        )
+      )
       .withLiteralRange(xsdString.iri())
       .withAllowMultiple(true),
     PropertyMapping()
@@ -437,6 +497,7 @@ trait RamlDialectNodes {
     PropertyMapping()
       .withId(dialectLocation + "#/declarations/ResourceNode/is")
       .withName("is")
+      .withAllowMultiple(true)
       .withNodePropertyMapping(EndPointModel.Extends.value.iri())
       .withObjectRange(Seq(TraitNode.id)),
     PropertyMapping()
@@ -455,9 +516,11 @@ trait RamlDialectNodes {
       .withName("uriParameters")
       .withNodePropertyMapping(EndPointModel.Parameters.value.iri())
       .withMapTermKeyProperty(ParameterModel.Name.value.iri())
-      .withObjectRange(Seq(
-        DataTypeNodeId
-      ))
+      .withObjectRange(
+        Seq(
+          DataTypeNodeId
+        )
+      )
   )
   final lazy val ResourceNode: NodeMapping = NodeMapping()
     .withId(dialectLocation + "#/declarations/ResourceNode")
@@ -488,9 +551,11 @@ trait RamlDialectNodes {
       .withName("baseUriParameters")
       .withNodePropertyMapping(ServerModel.Variables.value.iri())
       .withMapTermKeyProperty(ParameterModel.Name.value.iri())
-      .withObjectRange(Seq(
-        DataTypeNodeId
-      )),
+      .withObjectRange(
+        Seq(
+          DataTypeNodeId
+        )
+      ),
     PropertyMapping()
       .withId(dialectLocation + "#/declarations/RootNode/protocols")
       .withName("protocols")
@@ -499,7 +564,8 @@ trait RamlDialectNodes {
         Seq(
           "HTTP",
           "HTTPS"
-        ))
+        )
+      )
       .withLiteralRange(xsdString.iri())
       .withAllowMultiple(true),
     PropertyMapping()
@@ -512,9 +578,11 @@ trait RamlDialectNodes {
       .withName("documentation")
       .withAllowMultiple(true)
       .withNodePropertyMapping(WebApiModel.Documentations.value.iri())
-      .withObjectRange(Seq(
-        DocumentationNode.id
-      )),
+      .withObjectRange(
+        Seq(
+          DocumentationNode.id
+        )
+      ),
     PropertyMapping()
       .withId(dialectLocation + "#/declarations/RootNode/securedBy")
       .withName("securedBy")

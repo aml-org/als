@@ -1,0 +1,5 @@
+hovers:
+  (45,14):
+    range: Range(common.Position[L:44,C:12],common.Position[L:45,C:0])
+    contents:
+      - Scalar range constraining this scalar shape

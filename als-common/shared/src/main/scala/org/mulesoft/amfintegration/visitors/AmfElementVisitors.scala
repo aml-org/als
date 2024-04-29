@@ -1,12 +1,13 @@
 package org.mulesoft.amfintegration.visitors
 
-import amf.core.model.document.BaseUnit
-import amf.core.model.domain.{AmfElement, AmfObject}
+import amf.core.client.scala.model.document.BaseUnit
+import org.mulesoft.amfintegration.amfconfiguration.AmfParseContext
 import org.mulesoft.amfintegration.relationships.{AliasInfo, RelationshipLink}
 import org.mulesoft.amfintegration.visitors.aliases.{AliasesVisitor, AliasesVisitorType}
 import org.mulesoft.amfintegration.visitors.documentlink.{DocumentLinkVisitor, DocumentLinkVisitorType}
 import org.mulesoft.amfintegration.visitors.noderelationship.NodeRelationshipVisitorType
 import org.mulesoft.amfintegration.visitors.noderelationship.plugins._
+import org.mulesoft.common.collections._
 import org.mulesoft.lsp.feature.link.DocumentLink
 
 import scala.reflect.ClassTag
@@ -15,7 +16,6 @@ object AmfElementDefaultVisitors {
   private val allVisitors: Seq[AmfElementVisitorFactory] = {
     Seq(
       TraitLinksVisitor,
-      AbstractDefinitionLinksVisitor,
       RamlTypeExpressionsVisitor,
       ExternalNodeReferenceVisitor,
       DeclaredLinksVisitor,
@@ -39,8 +39,8 @@ class AmfElementVisitors(allVisitors: Seq[AmfElementVisitor[_]]) {
       .flatMap(_.report)
   }
 
-  final def applyAmfVisitors(elements: BaseUnit): Unit = {
-    val iterator = AlsIteratorStrategy.iterator(elements)
+  final def applyAmfVisitors(elements: BaseUnit, context: AmfParseContext): Unit = {
+    val iterator = AlsIteratorStrategy.iterator(elements, context)
     while (iterator.hasNext) {
       val element = iterator.next()
       allVisitors.foreach(_.visit(element))
@@ -55,6 +55,6 @@ class AmfElementVisitors(allVisitors: Seq[AmfElementVisitor[_]]) {
 
   final def getDocumentLinksFromVisitors: Map[String, Seq[DocumentLink]] =
     collectVisitors[(String, Seq[DocumentLink]), DocumentLinkVisitorType]
-      .groupBy(_._1)
+      .legacyGroupBy(_._1)
       .mapValues(_.flatMap(_._2))
 }

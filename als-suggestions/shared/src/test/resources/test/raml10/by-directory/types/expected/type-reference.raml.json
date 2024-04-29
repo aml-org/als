@@ -1,11 +1,17 @@
 [
   {
     "label": "A",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "A",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11A",
     "filterText": "A",
     "insertText": null,
@@ -31,12 +37,18 @@
   },
   {
     "label": "any",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "any",
-    "deprecated": [],
-    "preselect": [],
-    "sortText": "11any",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "10any",
     "filterText": "any",
     "insertText": null,
     "insertTextFormat": [
@@ -61,12 +73,18 @@
   },
   {
     "label": "array",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "array",
-    "deprecated": [],
-    "preselect": [],
-    "sortText": "11array",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "10array",
     "filterText": "array",
     "insertText": null,
     "insertTextFormat": [
@@ -91,12 +109,18 @@
   },
   {
     "label": "boolean",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "boolean",
-    "deprecated": [],
-    "preselect": [],
-    "sortText": "11boolean",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "10boolean",
     "filterText": "boolean",
     "insertText": null,
     "insertTextFormat": [
@@ -121,12 +145,18 @@
   },
   {
     "label": "date-only",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "date-only",
-    "deprecated": [],
-    "preselect": [],
-    "sortText": "11date-only",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "10date-only",
     "filterText": "date-only",
     "insertText": null,
     "insertTextFormat": [
@@ -151,12 +181,18 @@
   },
   {
     "label": "datetime",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "datetime",
-    "deprecated": [],
-    "preselect": [],
-    "sortText": "11datetime",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "10datetime",
     "filterText": "datetime",
     "insertText": null,
     "insertTextFormat": [
@@ -181,12 +217,18 @@
   },
   {
     "label": "datetime-only",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "datetime-only",
-    "deprecated": [],
-    "preselect": [],
-    "sortText": "11datetime-only",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "10datetime-only",
     "filterText": "datetime-only",
     "insertText": null,
     "insertTextFormat": [
@@ -211,12 +253,18 @@
   },
   {
     "label": "file",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "file",
-    "deprecated": [],
-    "preselect": [],
-    "sortText": "11file",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "10file",
     "filterText": "file",
     "insertText": null,
     "insertTextFormat": [
@@ -241,12 +289,18 @@
   },
   {
     "label": "integer",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "integer",
-    "deprecated": [],
-    "preselect": [],
-    "sortText": "11integer",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "10integer",
     "filterText": "integer",
     "insertText": null,
     "insertTextFormat": [
@@ -271,12 +325,18 @@
   },
   {
     "label": "nil",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "nil",
-    "deprecated": [],
-    "preselect": [],
-    "sortText": "11nil",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "10nil",
     "filterText": "nil",
     "insertText": null,
     "insertTextFormat": [
@@ -301,12 +361,18 @@
   },
   {
     "label": "number",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "number",
-    "deprecated": [],
-    "preselect": [],
-    "sortText": "11number",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "10number",
     "filterText": "number",
     "insertText": null,
     "insertTextFormat": [
@@ -331,12 +397,18 @@
   },
   {
     "label": "object",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "object",
-    "deprecated": [],
-    "preselect": [],
-    "sortText": "11object",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "10object",
     "filterText": "object",
     "insertText": null,
     "insertTextFormat": [
@@ -361,12 +433,18 @@
   },
   {
     "label": "string",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "string",
-    "deprecated": [],
-    "preselect": [],
-    "sortText": "11string",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "10string",
     "filterText": "string",
     "insertText": null,
     "insertTextFormat": [
@@ -391,12 +469,18 @@
   },
   {
     "label": "time-only",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "time-only",
-    "deprecated": [],
-    "preselect": [],
-    "sortText": "11time-only",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "10time-only",
     "filterText": "time-only",
     "insertText": null,
     "insertTextFormat": [

@@ -1,20 +1,22 @@
 package org.mulesoft.language.outline.structure.structureImpl.symbol.corebuilders
 
-import amf.core.metamodel.document.DocumentModel
-import amf.core.metamodel.domain.ShapeModel
-import amf.core.parser
-import amf.core.parser.FieldEntry
-import amf.plugins.domain.webapi.metamodel.api.WebApiModel
+import amf.apicontract.internal.metamodel.domain.api.WebApiModel
+import amf.apicontract.internal.metamodel.domain.templates.ResourceTypeModel
+import amf.core.internal.metamodel.document.DocumentModel
+import amf.core.internal.metamodel.domain.ShapeModel
+import amf.core.internal.parser.domain.FieldEntry
+import org.mulesoft.common.client.lexical.{PositionRange => AmfPositionRange}
 import org.mulesoft.language.outline.structure.structureImpl.symbol.builders.{
   FieldSymbolBuilder,
   IriFieldSymbolBuilderCompanion,
   SymbolBuilder
 }
-import org.mulesoft.language.outline.structure.structureImpl.{DocumentSymbol, StructureContext, SymbolKind}
+import org.mulesoft.language.outline.structure.structureImpl.{DocumentSymbol, StructureContext, SymbolKinds}
 
 trait IgnoreFieldSymbolBuilderCompanion extends IriFieldSymbolBuilderCompanion {
-  override protected def construct(element: FieldEntry)(
-      implicit ctx: StructureContext): Option[SymbolBuilder[FieldEntry]] = Some(IgnoreFieldSymbolBuilder)
+  override protected def construct(element: FieldEntry)(implicit
+      ctx: StructureContext
+  ): Option[SymbolBuilder[FieldEntry]] = Some(IgnoreFieldSymbolBuilder)
 
 }
 
@@ -23,10 +25,14 @@ object IgnoreFieldSymbolBuilder extends FieldSymbolBuilder {
   override val ctx: StructureContext        = null
   override def build(): Seq[DocumentSymbol] = Nil
 
-  override protected val optionName: Option[String]     = None
-  override protected val children: List[DocumentSymbol] = Nil
-  override protected val kind: SymbolKind.SymbolKind    = SymbolKind.Property
-  override protected val range: Option[parser.Range]    = None
+  override protected val optionName: Option[String]      = None
+  override protected val children: List[DocumentSymbol]  = Nil
+  override protected val kind: SymbolKinds.SymbolKind    = SymbolKinds.Property
+  override protected val range: Option[AmfPositionRange] = None
+}
+
+object VariableFieldSymbolBuilderCompanion extends IgnoreFieldSymbolBuilderCompanion {
+  override val supportedIri: String = ResourceTypeModel.Variables.value.iri()
 }
 
 object ReferencesFieldSymbolBuilderCompanion extends IgnoreFieldSymbolBuilderCompanion {

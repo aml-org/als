@@ -1,14 +1,14 @@
 package org.mulesoft.als.suggestions.plugins.aml
 
-import amf.core.model.domain.AmfObject
-import amf.plugins.document.vocabularies.model.document.Dialect
-import amf.plugins.document.vocabularies.model.domain.{NodeMappable, NodeMapping}
-import org.mulesoft.als.common.YPartBranch
+import amf.aml.client.scala.model.document.Dialect
+import amf.aml.client.scala.model.domain.NodeMapping
+import amf.core.client.scala.model.document.Module
+import amf.core.client.scala.model.domain.AmfObject
+import org.mulesoft.als.common.ASTPartBranch
 import org.mulesoft.als.suggestions.RawSuggestion
 import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
 import org.mulesoft.als.suggestions.interfaces.AMLCompletionPlugin
-import org.yaml.model.YMapEntry
-import org.mulesoft.amfintegration.AmfImplicits._
+import org.mulesoft.amfintegration.AmfImplicits.AmfObjectImp
 
 import scala.concurrent.Future
 
@@ -19,27 +19,29 @@ object AMLComponentKeyCompletionPlugin extends AMLCompletionPlugin {
     Future.successful(resolvedSeq(params))
 
   private def resolvedSeq(params: AmlCompletionRequest): Seq[RawSuggestion] = {
-    if (inRoot(params.amfObject, params.actualDialect) && params.yPartBranch.isKey) {
+    if (inRoot(params.amfObject, params.actualDialect) && params.astPartBranch.isKey) {
       params.actualDialect
         .documents()
         .declarationsPath()
         .option()
         .map(_.split('/').last) match {
-        case Some(keyDeclarations) if isSonOf(keyDeclarations, params.yPartBranch) =>
+        case Some(keyDeclarations) if isSonOf(keyDeclarations, params.astPartBranch) =>
           buildDeclaredKeys(params.actualDialect)
         case _ => Seq()
       }
     } else Seq()
   }
 
-  private def inRoot(amfObject: AmfObject, dialect: Dialect): Boolean =
+  private def inRoot(amfObject: AmfObject, dialect: Dialect): Boolean = {
     dialect
       .documents()
       .root()
       .encoded()
       .option()
       .flatMap(id => dialect.declares.collectFirst({ case n: NodeMapping if id == n.id => n }))
-      .exists(i => amfObject.metaURIs.contains(i.nodetypeMapping.value()))
+      .exists(i => amfObject.metaURIs.contains(i.nodetypeMapping.value())) ||
+    amfObject.isInstanceOf[Module]
+  }
 
   private def buildDeclaredKeys(dialect: Dialect) = {
     dialect
@@ -50,10 +52,7 @@ object AMLComponentKeyCompletionPlugin extends AMLCompletionPlugin {
       .map(RawSuggestion.forObject(_, "unknown"))
   }
 
-  private def isSonOf(keyDeclaration: String, yPartBranch: YPartBranch) = {
-    yPartBranch.ancestorOf(classOf[YMapEntry]) match {
-      case Some(e) => e.key.asScalar.exists(_.text == keyDeclaration)
-      case _       => false
-    }
+  private def isSonOf(keyDeclaration: String, astPartBranch: ASTPartBranch) = {
+    astPartBranch.parentKey.contains(keyDeclaration)
   }
 }

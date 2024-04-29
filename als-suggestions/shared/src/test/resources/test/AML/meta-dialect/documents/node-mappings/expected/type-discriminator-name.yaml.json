@@ -1,0 +1,74 @@
+[
+  {
+    "label": "typeDiscriminator",
+    "kind": [
+      
+    ],
+    "detail": "unknown",
+    "documentation": "typeDiscriminator",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "11typeDiscriminator",
+    "filterText": "typeDiscriminator: ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 5,
+          "character": 4
+        },
+        "end": {
+          "line": 5,
+          "character": 4
+        }
+      },
+      "newText": "typeDiscriminator: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "union",
+    "kind": [
+      
+    ],
+    "detail": "unknown",
+    "documentation": "union",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "11union",
+    "filterText": "union:\n  - ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 5,
+          "character": 4
+        },
+        "end": {
+          "line": 5,
+          "character": 4
+        }
+      },
+      "newText": "union:\n  - "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  }
+]

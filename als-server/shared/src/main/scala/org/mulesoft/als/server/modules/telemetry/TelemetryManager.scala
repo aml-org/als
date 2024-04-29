@@ -1,9 +1,8 @@
 package org.mulesoft.als.server.modules.telemetry
 
 import org.mulesoft.als.server.ClientNotifierModule
-import org.mulesoft.als.server.client.ClientNotifier
-import org.mulesoft.als.server.logger.Logger
-import org.mulesoft.lsp.feature.telemetry.MessageTypes.MessageTypes
+import org.mulesoft.als.server.client.platform.ClientNotifier
+import org.mulesoft.lsp.feature.telemetry.MessageTypes.{ERROR_MESSAGE, MessageTypes}
 import org.mulesoft.lsp.ConfigType
 import org.mulesoft.lsp.feature.telemetry.{
   TelemetryClientCapabilities,
@@ -14,7 +13,7 @@ import org.mulesoft.lsp.feature.telemetry.{
 
 import scala.concurrent.Future
 
-class TelemetryManager(private val clientNotifier: ClientNotifier, private val logger: Logger)
+class TelemetryManager(private val clientNotifier: ClientNotifier)
     extends ClientNotifierModule[TelemetryClientCapabilities, Unit]
     with TelemetryProvider {
 
@@ -27,10 +26,15 @@ class TelemetryManager(private val clientNotifier: ClientNotifier, private val l
   override def initialize(): Future[Unit] =
     Future.successful()
 
-  override protected def addTimedMessage(code: String,
-                                         messageType: MessageTypes,
-                                         msg: String,
-                                         uri: String,
-                                         uuid: String): Unit =
+  override def addTimedMessage(
+      code: String,
+      messageType: MessageTypes,
+      msg: String,
+      uri: String,
+      uuid: String
+  ): Unit =
     clientNotifier.notifyTelemetry(TelemetryMessage(code, messageType, msg, uri, System.currentTimeMillis(), uuid))
+
+  override def addErrorMessage(code: String, msg: String, uri: String, uuid: String): Unit =
+    clientNotifier.notifyTelemetry(TelemetryMessage(code, ERROR_MESSAGE, msg, uri, System.currentTimeMillis(), uuid))
 }

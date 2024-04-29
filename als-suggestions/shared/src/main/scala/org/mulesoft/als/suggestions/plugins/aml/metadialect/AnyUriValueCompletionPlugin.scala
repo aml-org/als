@@ -1,18 +1,13 @@
 package org.mulesoft.als.suggestions.plugins.aml.metadialect
 
-import amf.core.model.document.{BaseUnit, DeclaresModel}
-import amf.core.model.domain.{AmfObject, AmfScalar}
-import amf.core.parser.{FieldEntry, Value}
-import amf.core.vocabulary.Namespace.XsdTypes
-import amf.plugins.document.vocabularies.model.domain.{
-  DocumentMapping,
-  NodeMappable,
-  PropertyMapping,
-  PublicNodeMapping
-}
-import org.mulesoft.als.suggestions.{PlainText, RawSuggestion, SuggestionStructure}
+import amf.aml.client.scala.model.domain._
+import amf.core.client.scala.model.document.{BaseUnit, DeclaresModel}
+import amf.core.client.scala.model.domain.{AmfObject, AmfScalar}
+import amf.core.client.scala.vocabulary.Namespace.XsdTypes
+import amf.core.internal.parser.domain.{FieldEntry, Value}
 import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
 import org.mulesoft.als.suggestions.interfaces.AMLCompletionPlugin
+import org.mulesoft.als.suggestions.{PlainText, RawSuggestion, SuggestionStructure}
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
@@ -27,19 +22,21 @@ object AnyUriValueCompletionPlugin extends AMLCompletionPlugin {
         nodeMappings(request.baseUnit)
           .filterNot(_ == name)
           .map(RawSuggestion.apply(_, isAKey = false)) ++ includeSuggestion
-      } else emptySuggestion
+      }
+    else emptySuggestion
 
   private def isInNpReference(request: AmlCompletionRequest) =
     isInUriField(request.fieldEntry) || isInReferenceValueFromAst(request)
 
   private def isInReferenceValueFromAst(request: AmlCompletionRequest) =
     request.amfObject match {
-      case _: NodeMappable    => request.yPartBranch.parentEntryIs("extends") && request.yPartBranch.isValue
-      case _: PropertyMapping => request.yPartBranch.parentEntryIs("range") && request.yPartBranch.isValue
+      case x if isNodeMappable(x) => request.astPartBranch.parentEntryIs("extends") && request.astPartBranch.isValue
+      case _: PropertyLikeMapping[_] =>
+        request.astPartBranch.parentEntryIs("range") && request.astPartBranch.isValue
       case pn: PublicNodeMapping =>
-        request.yPartBranch.isValue && pn.mappedNode().value() == "http://amferror.com/#errorNodeMappable/"
+        request.astPartBranch.isValue && pn.mappedNode().value() == "http://amferror.com/#errorNodeMappable/"
       case dm: DocumentMapping =>
-        request.yPartBranch.isValue && dm.encoded().value() == "http://amferror.com/#errorNodeMappable/"
+        request.astPartBranch.isValue && dm.encoded().value() == "http://amferror.com/#errorNodeMappable/"
       case _ => false
     }
 
@@ -47,11 +44,8 @@ object AnyUriValueCompletionPlugin extends AMLCompletionPlugin {
     fieldEntry.exists(_.field.`type`.`type`.headOption.exists(_.iri() == XsdTypes.xsdUri.iri()))
 
   private val includeSuggestion = Seq(
-    RawSuggestion("!include ",
-                  "!include",
-                  "inclusion tag",
-                  Seq(),
-                  options = SuggestionStructure(rangeKind = PlainText)))
+    RawSuggestion("!include ", "!include", "inclusion tag", Seq(), options = SuggestionStructure(rangeKind = PlainText))
+  )
 
   private def currentName(current: AmfObject) =
     current.fields.fields().find(_.field.value.name.toLowerCase() == "name") match {
@@ -59,10 +53,16 @@ object AnyUriValueCompletionPlugin extends AMLCompletionPlugin {
       case _                                              => ""
     }
 
-  private def nodeMappings(bu: BaseUnit) = {
+  private def nodeMappings(bu: BaseUnit) =
     bu match {
-      case d: DeclaresModel => d.declares.collect({ case nm: NodeMappable => nm.name.option() }).flatten
-      case _                => Nil
+      case d: DeclaresModel =>
+        d.declares
+          .collect({
+            case nm: UnionNodeMapping => nm.name.option()
+            case nm: NodeMapping      => nm.name.option()
+//            case nm: AnnotationMapping => nm.name.option() // covered by AMLRamlStyleDeclarationsReferences
+          })
+          .flatten
+      case _ => Nil
     }
-  }
 }

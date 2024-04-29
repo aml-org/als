@@ -1,8 +1,8 @@
 package org.mulesoft.als.suggestions.plugins.aml
 
-import amf.core.metamodel.Type
-import amf.core.model.domain.AmfObject
+import amf.core.client.scala.model.domain.AmfObject
 import org.mulesoft.als.suggestions.RawSuggestion
+import amf.core.internal.metamodel.Type
 
 trait BooleanSuggestions {
   val booleanSuggestions: Seq[RawSuggestion] = Seq("true", "false").map(RawSuggestion.forBool(_))

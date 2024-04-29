@@ -1,31 +1,28 @@
 package org.mulesoft.als.suggestions.plugins.aml.webapi.raml
 
-import amf.core.model.domain.{AmfObject, Shape}
-import amf.core.parser.FieldEntry
-import amf.plugins.domain.webapi.metamodel.ParameterModel
-import amf.plugins.domain.webapi.models.{Parameter, Request}
+import amf.apicontract.client.scala.model.domain.Parameter
+import amf.apicontract.internal.metamodel.domain.ParameterModel
+import amf.core.client.scala.model.domain.{AmfObject, Shape}
+import amf.core.internal.parser.domain.FieldEntry
 import org.mulesoft.als.suggestions.RawSuggestion
 import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
 import org.mulesoft.als.suggestions.interfaces.AMLCompletionPlugin
-import org.mulesoft.als.suggestions.plugins.aml.webapi.{
-  CommonHeadersValues,
-  WebApiKnownValueCompletionPlugin,
-  WebApiTypeFacetsCompletionPlugin
-}
+import org.mulesoft.als.suggestions.plugins.aml.webapi.WebApiTypeFacetsCompletionPlugin
 import org.mulesoft.amfintegration.dialect.dialects.raml.raml10.Raml10TypesDialect
 
 import scala.concurrent.Future
 
-abstract class RamlParamsCompletionPlugin(typeFacetsCompletionPlugin: WebApiTypeFacetsCompletionPlugin,
-                                          withOthers: Seq[RawSuggestion] = Nil)
-    extends AMLCompletionPlugin {
+abstract class RamlParamsCompletionPlugin(
+    typeFacetsCompletionPlugin: WebApiTypeFacetsCompletionPlugin,
+    withOthers: Seq[RawSuggestion] = Nil
+) extends AMLCompletionPlugin {
   override def id: String = "RamlParamsCompletionPlugin"
 
   override def resolve(params: AmlCompletionRequest): Future[Seq[RawSuggestion]] =
     Future.successful(computeSuggestions(params))
 
   private def computeSuggestions(params: AmlCompletionRequest) = {
-    if (params.yPartBranch.isKey) {
+    if (params.astPartBranch.isKey) {
       params.amfObject match {
         case param: Parameter if isNotName(params) && param.fields.getValueAsOption(ParameterModel.Schema).isDefined =>
           computeParam(param, params.branchStack, typeFacetsCompletionPlugin)
@@ -36,10 +33,12 @@ abstract class RamlParamsCompletionPlugin(typeFacetsCompletionPlugin: WebApiType
     } else Nil
   }
 
-  def computeParam(param: Parameter,
-                   branchStack: Seq[AmfObject],
-                   typeFacetsCompletionPlugin: WebApiTypeFacetsCompletionPlugin): Seq[RawSuggestion] = {
-    typeFacetsCompletionPlugin.resolveShape(param.schema, branchStack, Raml10TypesDialect()) ++ withOthers
+  def computeParam(
+      param: Parameter,
+      branchStack: Seq[AmfObject],
+      typeFacetsCompletionPlugin: WebApiTypeFacetsCompletionPlugin
+  ): Seq[RawSuggestion] = {
+    typeFacetsCompletionPlugin.resolveShape(param.schema, branchStack, Raml10TypesDialect(), Some(typeFacetsCompletionPlugin.stringShapeNode)) ++ withOthers
   }
 
   private def isNotName(params: AmlCompletionRequest): Boolean = {

@@ -1,71 +1,17 @@
 [
   {
-    "label": "$ref",
-    "kind": [],
-    "detail": "unknown",
-    "documentation": "reference tag",
-    "deprecated": [],
-    "preselect": [],
-    "sortText": "0$ref",
-    "filterText": "$ref: ",
-    "insertText": null,
-    "insertTextFormat": [
-      1
-    ],
-    "textEdit": {
-      "range": {
-        "start": {
-          "line": 4,
-          "character": 4
-        },
-        "end": {
-          "line": 4,
-          "character": 4
-        }
-      },
-      "newText": "$ref: "
-    },
-    "additionalTextEdits": null,
-    "commitCharacters": null,
-    "command": null
-  },
-  {
-    "label": "classTerm",
-    "kind": [],
-    "detail": "unknown",
-    "documentation": "classTerm",
-    "deprecated": [],
-    "preselect": [],
-    "sortText": "11classTerm",
-    "filterText": "classTerm: ",
-    "insertText": null,
-    "insertTextFormat": [
-      1
-    ],
-    "textEdit": {
-      "range": {
-        "start": {
-          "line": 4,
-          "character": 4
-        },
-        "end": {
-          "line": 4,
-          "character": 4
-        }
-      },
-      "newText": "classTerm: "
-    },
-    "additionalTextEdits": null,
-    "commitCharacters": null,
-    "command": null
-  },
-  {
     "label": "extends",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "extends",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11extends",
     "filterText": "extends: ",
     "insertText": null,
@@ -75,11 +21,11 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 4,
+          "line": 5,
           "character": 4
         },
         "end": {
-          "line": 4,
+          "line": 5,
           "character": 4
         }
       },
@@ -91,11 +37,17 @@
   },
   {
     "label": "idTemplate",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "idTemplate",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11idTemplate",
     "filterText": "idTemplate: ",
     "insertText": null,
@@ -105,11 +57,11 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 4,
+          "line": 5,
           "character": 4
         },
         "end": {
-          "line": 4,
+          "line": 5,
           "character": 4
         }
       },
@@ -121,11 +73,17 @@
   },
   {
     "label": "mapping",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "mapping",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11mapping",
     "filterText": "mapping:\n  ",
     "insertText": null,
@@ -135,11 +93,11 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 4,
+          "line": 5,
           "character": 4
         },
         "end": {
-          "line": 4,
+          "line": 5,
           "character": 4
         }
       },
@@ -151,11 +109,17 @@
   },
   {
     "label": "patch",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "patch",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11patch",
     "filterText": "patch: ",
     "insertText": null,
@@ -165,105 +129,15 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 4,
+          "line": 5,
           "character": 4
         },
         "end": {
-          "line": 4,
+          "line": 5,
           "character": 4
         }
       },
       "newText": "patch: "
-    },
-    "additionalTextEdits": null,
-    "commitCharacters": null,
-    "command": null
-  },
-  {
-    "label": "typeDiscriminator",
-    "kind": [],
-    "detail": "unknown",
-    "documentation": "typeDiscriminator",
-    "deprecated": [],
-    "preselect": [],
-    "sortText": "11typeDiscriminator",
-    "filterText": "typeDiscriminator: ",
-    "insertText": null,
-    "insertTextFormat": [
-      1
-    ],
-    "textEdit": {
-      "range": {
-        "start": {
-          "line": 4,
-          "character": 4
-        },
-        "end": {
-          "line": 4,
-          "character": 4
-        }
-      },
-      "newText": "typeDiscriminator: "
-    },
-    "additionalTextEdits": null,
-    "commitCharacters": null,
-    "command": null
-  },
-  {
-    "label": "typeDiscriminatorName",
-    "kind": [],
-    "detail": "unknown",
-    "documentation": "typeDiscriminatorName",
-    "deprecated": [],
-    "preselect": [],
-    "sortText": "11typeDiscriminatorName",
-    "filterText": "typeDiscriminatorName: ",
-    "insertText": null,
-    "insertTextFormat": [
-      1
-    ],
-    "textEdit": {
-      "range": {
-        "start": {
-          "line": 4,
-          "character": 4
-        },
-        "end": {
-          "line": 4,
-          "character": 4
-        }
-      },
-      "newText": "typeDiscriminatorName: "
-    },
-    "additionalTextEdits": null,
-    "commitCharacters": null,
-    "command": null
-  },
-  {
-    "label": "union",
-    "kind": [],
-    "detail": "unknown",
-    "documentation": "union",
-    "deprecated": [],
-    "preselect": [],
-    "sortText": "11union",
-    "filterText": "union:\n  - ",
-    "insertText": null,
-    "insertTextFormat": [
-      1
-    ],
-    "textEdit": {
-      "range": {
-        "start": {
-          "line": 4,
-          "character": 4
-        },
-        "end": {
-          "line": 4,
-          "character": 4
-        }
-      },
-      "newText": "union:\n  - "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,

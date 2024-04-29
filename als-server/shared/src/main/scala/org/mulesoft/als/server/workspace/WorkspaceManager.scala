@@ -1,174 +1,157 @@
 package org.mulesoft.als.server.workspace
 
-import amf.core.remote.Platform
-import org.mulesoft.amfintegration.relationships.{AliasInfo, RelationshipLink}
+import amf.core.internal.remote.Platform
+import org.mulesoft.als.common.URIImplicits._
+import org.mulesoft.als.logger.Logger
 import org.mulesoft.als.server.AlsWorkspaceService
-import org.mulesoft.als.server.logger.Logger
 import org.mulesoft.als.server.modules.ast._
-import org.mulesoft.als.server.modules.workspace.{CompilableUnit, WorkspaceContentManager}
+import org.mulesoft.als.server.modules.configuration.ConfigurationProvider
+import org.mulesoft.als.server.modules.workspace.{
+  CompilableUnit,
+  UnitNotFoundException,
+  WorkspaceContentManager,
+  WorkspaceFolderManager
+}
 import org.mulesoft.als.server.textsync.EnvironmentProvider
 import org.mulesoft.als.server.workspace.command._
-import org.mulesoft.als.server.workspace.extract._
+import org.mulesoft.amfintegration.amfconfiguration.EditorConfiguration
+import org.mulesoft.amfintegration.relationships.{AliasInfo, RelationshipLink}
 import org.mulesoft.lsp.configuration.WorkspaceFolder
 import org.mulesoft.lsp.feature.link.DocumentLink
-import org.mulesoft.lsp.feature.telemetry.TelemetryProvider
-import org.mulesoft.lsp.workspace.{DidChangeWorkspaceFoldersParams, ExecuteCommandParams}
-import org.mulesoft.als.common.URIImplicits._
+import org.mulesoft.lsp.workspace.{DidChangeWatchedFilesParams, DidChangeWorkspaceFoldersParams, ExecuteCommandParams}
 
 import scala.collection.mutable
-import scala.collection.mutable.ListBuffer
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
-class WorkspaceManager(environmentProvider: EnvironmentProvider,
-                       telemetryProvider: TelemetryProvider,
-                       val allSubscribers: List[BaseUnitListener],
-                       override val dependencies: List[AccessUnits[CompilableUnit]],
-                       logger: Logger)
-    extends TextListener
+class WorkspaceManager protected (
+    val environmentProvider: EnvironmentProvider,
+    val editorConfiguration: EditorConfiguration,
+    projectConfigurationProvider: ProjectConfigurationProvider,
+    val allSubscribers: List[WorkspaceContentListener[_]],
+    override val dependencies: List[AccessUnits[CompilableUnit]],
+    configurationProvider: ConfigurationProvider
+) extends TextListener
     with UnitWorkspaceManager
-    with UnitsManager[CompilableUnit, BaseUnitListenerParams]
+    with UnitsManager[CompilableUnit, WorkspaceContentListener[_]]
     with AlsWorkspaceService {
 
-  implicit val platform: Platform                  = environmentProvider.platform
-  override def subscribers: List[BaseUnitListener] = allSubscribers.filter(_.isActive)
-  private val rootHandler =
-    new WorkspaceRootHandler(environmentProvider.platform, environmentProvider.environmentSnapshot())
-  private val workspaces: ListBuffer[WorkspaceContentManager] = ListBuffer()
+  implicit val platform: Platform = environmentProvider.platform
 
-  def getWorkspace(uri: String): WorkspaceContentManager =
-    workspaces.find(ws => ws.containsFile(uri)).getOrElse(defaultWorkspace)
+  override def subscribers(): List[WorkspaceContentListener[_]] =
+    allSubscribers.filter(_.isActive)
 
-  def initializeWS(root: String): Future[Unit] =
-    rootHandler.extractConfiguration(root, logger).flatMap { mainOption =>
-      if (!workspaces.exists(w => root.startsWith(w.folder))) { // if there is an existing WS containing the new one, dont add it
-        logger
-          .debug("Adding workspace: " + root, "WorkspaceManager", "initializeWS")
-        val workspace: WorkspaceContentManager =
-          new WorkspaceContentManager(root, environmentProvider, telemetryProvider, logger, subscribers)
-        Future.sequence {
-          replaceWorkspaces(root)
-        } map (_ => {
-          addWorkspace(mainOption, workspace)
-        })
-      } else Future.unit
-    }
+  private val workspaces =
+    new WorkspaceList(
+      environmentProvider,
+      projectConfigurationProvider,
+      editorConfiguration,
+      subscribers,
+      configurationProvider
+    )
+  def allWorkspaces(): Seq[WorkspaceFolderManager] = workspaces.allWorkspaces()
 
-  private def addWorkspace(mainOption: Option[WorkspaceConf], workspace: WorkspaceContentManager): Unit = {
-    this.synchronized {
-      workspaces += workspace
-    }
-    workspace.setConfigMainFile(mainOption)
-    mainOption.foreach(conf =>
-      contentManagerConfiguration(workspace, conf.mainFile, conf.cachables, mainOption.flatMap(_.configReader)))
-  }
-
-  private def replaceWorkspaces(root: String) = {
-    workspaces
-      .filter(ws => ws.folder.startsWith(root))
-      .map(w => {
-        // We remove every workspace that is a subdirectory of the one being added
-        logger.debug("Replacing Workspace: " + w.folder + " due to " + root, "WorkspaceManager", "initializeWS")
-        shutdownWS(w)
-      })
-  }
-
-  def shutdownWS(workspace: WorkspaceContentManager): Future[Unit] = {
-    logger.debug("Removing workspace: " + workspace.folder, "WorkspaceManager", "shutdownWS")
-    workspace.shutdown().map(_ => { this.synchronized { workspaces -= workspace } })
-  }
+  def getWorkspace(uri: String): Future[WorkspaceFolderManager] =
+    workspaces.findWorkspace(uri)
 
   override def getUnit(uri: String, uuid: String): Future[CompilableUnit] =
-    getWorkspace(uri.toAmfUri).getUnit(uri.toAmfUri)
+    getWorkspace(uri.toAmfUri).flatMap {
+      case ws: WorkspaceContentManager => ws.getUnit(uri.toAmfUri)
+      case _ =>
+        Future.failed(UnitNotFoundException(uri, uuid))
+    }
 
   override def getLastUnit(uri: String, uuid: String): Future[CompilableUnit] =
     getUnit(uri.toAmfUri, uuid).flatMap(cu => if (cu.isDirty) getLastCU(cu, uri, uuid) else Future.successful(cu))
 
   private def getLastCU(cu: CompilableUnit, uri: String, uuid: String) =
     cu.getLast.flatMap {
-      case cu if cu.isDirty => getLastUnit(uri, uuid)
-      case _                => Future.successful(cu)
+      case newCu if newCu.isDirty => getLastUnit(uri, uuid)
+      case newCu                  => Future.successful(newCu)
     }
 
-  override def notify(uri: String, kind: NotificationKind): Unit = {
-    val manager: WorkspaceContentManager = getWorkspace(uri.toAmfUri)
-    if (manager.configFile
-          .map(_.toAmfUri)
-          .contains(uri.toAmfUri)) {
-      manager.withConfiguration(ReaderWorkspaceConfigurationProvider(manager))
-      manager.stage(uri.toAmfUri, CHANGE_CONFIG)
-    } else manager.stage(uri.toAmfUri, kind)
+  override def notify(uri: String, kind: NotificationKind): Future[Unit] = getWorkspace(uri.toAmfUri).flatMap {
+    case manager: WorkspaceContentManager => manager.stage(uri.toAmfUri, kind)
+    case _                                => Future.successful()
   }
 
-  def contentManagerConfiguration(manager: WorkspaceContentManager,
-                                  mainSubUri: String,
-                                  dependencies: Set[String],
-                                  reader: Option[ConfigReader]): Unit =
-    manager
-      .withConfiguration(DefaultWorkspaceConfigurationProvider(manager, mainSubUri, dependencies, reader))
-      .stage(mainSubUri, CHANGE_CONFIG)
+  override def didChangeWatchedFiles(params: DidChangeWatchedFilesParams): Future[Unit] = {
+    params.changes.foreach { f =>
+      Logger.debug(s"${f.`type`} : ${f.uri}", "WorkspaceManager", "didChangeWatchedFiles")
+    }
+    Future
+      .sequence(params.changes.map(c => getWorkspace(c.uri)))
+      .map(l => l.distinct)
+      .map(l => l.foreach { case wcm: WorkspaceContentManager => wcm.stage(wcm.folderUri, CHANGE_CONFIG) })
+  }
 
   override def executeCommand(params: ExecuteCommandParams): Future[AnyRef] =
     commandExecutors.get(params.command) match {
       case Some(exe) =>
         exe.runCommand(params)
       case _ =>
-        logger.error(s"Command [${params.command}] not recognized", "WorkspaceManager", "executeCommand")
+        Logger.error(s"Command [${params.command}] not recognized", "WorkspaceManager", "executeCommand")
         Future.successful(Unit) // future failed?
     }
 
   private val commandExecutors: Map[String, CommandExecutor[_, _]] = Map(
-    Commands.DID_FOCUS_CHANGE_COMMAND -> new DidFocusCommandExecutor(logger, this),
-    Commands.DID_CHANGE_CONFIGURATION -> new DidChangeConfigurationCommandExecutor(logger, this),
-    Commands.INDEX_DIALECT            -> new IndexDialectCommandExecutor(logger, environmentProvider.amfConfiguration)
+    Commands.DID_FOCUS_CHANGE_COMMAND -> new DidFocusCommandExecutor(this),
+    Commands.DID_CHANGE_CONFIGURATION -> new DidChangeConfigurationCommandExecutor(this),
+    Commands.INDEX_DIALECT            -> new IndexDialectCommandExecutor(this)
   )
 
-  val defaultWorkspace =
-    new WorkspaceContentManager("", environmentProvider, telemetryProvider, logger, subscribers)
-
-  override def getProjectRootOf(uri: String): Option[String] =
-    getWorkspace(uri).getRootFolderFor(uri)
+  override def getProjectRootOf(uri: String): Future[Option[String]] =
+    getWorkspace(uri).flatMap {
+      case wcm: WorkspaceContentManager => wcm.getRootFolderFor(uri)
+      case other                        => Future.successful(Option(other.folderUri))
+    }
 
   override def initialize(workspaceFolders: List[WorkspaceFolder]): Future[Unit] = {
-    // Drop all old workspaces
-    workspaces.clear()
     val newWorkspaces = extractCleanURIs(workspaceFolders)
-    dependencies.foreach(d => d.withUnitAccessor(this))
-    Future.sequence(newWorkspaces.map(initializeWS)) map (_ => {})
+    workspaces
+      .initialize(newWorkspaces)
+      .map { _ => // Drop all old workspaces
+        dependencies.foreach(d => d.withUnitAccessor(this))
+      }
   }
 
   private def extractCleanURIs(workspaceFolders: List[WorkspaceFolder]) =
     workspaceFolders.flatMap(_.uri).sortBy(_.length).distinct
 
-  override def didChangeWorkspaceFolders(params: DidChangeWorkspaceFoldersParams): Unit = {
-    val event          = params.event
-    val deletedFolders = event.deleted.flatMap(_.uri)
+  override def didChangeWorkspaceFolders(params: DidChangeWorkspaceFoldersParams): Future[Unit] =
+    changeWorkspaceFolders(params)
 
-    workspaces
-      .filter(p => deletedFolders.contains(p.folder))
-      .foreach(shutdownWS)
+  def changeWorkspaceFolders(params: DidChangeWorkspaceFoldersParams): Future[Unit] =
+    workspaces.changeWorkspaces(params.event.added.flatMap(_.uri), params.event.deleted.flatMap(_.uri))
 
-    event.added.flatMap(_.uri).map(initializeWS)
-  }
-
-  dependencies.foreach(d => d.withUnitAccessor(this))
+  override def getWorkspaceFolders: Seq[String] = workspaces.allWorkspaces().map(_.folderUri)
 
   override def getDocumentLinks(uri: String, uuid: String): Future[Seq[DocumentLink]] =
-    getLastUnit(uri.toAmfUri, uuid).flatMap(_ =>
-      getWorkspace(uri.toAmfUri).getRelationships(uri.toAmfUri).getDocumentLinks(uri.toAmfUri))
+    getWorkspace(uri.toAmfUri).flatMap {
+      case wcm: WorkspaceContentManager => wcm.getRelationships(uri.toAmfUri).map(_.getDocumentLinks(uri.toAmfUri))
+      case _                            => Future.successful(Seq.empty)
+    }
 
-  override def getAllDocumentLinks(uri: String, uuid: String): Future[Map[String, Seq[DocumentLink]]] = {
-    val workspace = getWorkspace(uri)
-    workspace.mainFileUri match {
-      case Some(mf) =>
-        getLastUnit(mf, uuid)
-          .flatMap(_ => workspace.getRelationships(mf).getAllDocumentLinks)
+  override def getAllDocumentLinks(uri: String, uuid: String): Future[Map[String, Seq[DocumentLink]]] =
+    getWorkspace(uri).flatMap {
+      case wcm: WorkspaceContentManager =>
+        for {
+          mainFileUri <- wcm.mainFileUri
+          _           <- mainFileUri.map(getLastUnit(_, uuid)).getOrElse(Future.unit)
+          allLinks <- mainFileUri
+            .map(wcm.getRelationships(_).map(_.getAllDocumentLinks))
+            .getOrElse(Future.successful(Map[String, Seq[DocumentLink]]()))
+        } yield allLinks
       case _ => Future.successful(Map.empty)
     }
-  }
 
   override def getAliases(uri: String, uuid: String): Future[Seq[AliasInfo]] =
-    getLastUnit(uri, uuid).flatMap(_ => getWorkspace(uri).getRelationships(uri).getAliases(uri))
+    getLastUnit(uri, uuid)
+      .flatMap(_ => getWorkspace(uri))
+      .flatMap { case wcm: WorkspaceContentManager =>
+        wcm.getRelationships(uri)
+      }
+      .map(_.getAliases(uri))
 
   private def filterDuplicates(links: Seq[RelationshipLink]): Seq[RelationshipLink] = {
     val res = mutable.ListBuffer[RelationshipLink]()
@@ -179,16 +162,43 @@ class WorkspaceManager(environmentProvider: EnvironmentProvider,
     res
   }
 
-  // tepm until have class for all relationships from visitors result associated to CU.
   override def getRelationships(uri: String, uuid: String): Future[(CompilableUnit, Seq[RelationshipLink])] =
-    getLastUnit(uri, uuid)
-      .flatMap(
-        cu =>
-          getWorkspace(uri)
-            .getRelationships(uri)
-            .getRelationships(uri)
-            .map(rl => (cu, filterDuplicates(rl))))
+    for {
+      cu        <- getLastUnit(uri, uuid)
+      workspace <- getWorkspace(uri)
+      relationships <- workspace match {
+        case manager: WorkspaceContentManager => manager.getRelationships(uri)
+        case _ => Future.failed(UnitNotFoundException(uri, uuid)) // should have failed in getLastUnit
+      }
+    } yield {
+      (cu, filterDuplicates(relationships.getRelationships(uri)))
+    }
 
-  override def isInMainTree(uri: String): Boolean =
-    getWorkspace(uri).isInMainTree(uri)
+  override def isInMainTree(uri: String): Future[Boolean] =
+    workspaces.findWorkspace(uri.toAmfUri).map {
+      case wcm: WorkspaceContentManager => wcm.isInMainTree(uri)
+      case _                            => false
+    }
+}
+
+object WorkspaceManager {
+  def apply(
+      environmentProvider: EnvironmentProvider,
+      editorConfiguration: EditorConfiguration,
+      projectConfigurationProvider: ProjectConfigurationProvider,
+      allSubscribers: List[WorkspaceContentListener[_]],
+      dependencies: List[AccessUnits[CompilableUnit]],
+      configurationProvider: ConfigurationProvider
+  ): WorkspaceManager = {
+    val wm = new WorkspaceManager(
+      environmentProvider,
+      editorConfiguration,
+      projectConfigurationProvider,
+      allSubscribers,
+      dependencies,
+      configurationProvider
+    )
+    wm.dependencies.foreach(d => d.withUnitAccessor(wm))
+    wm
+  }
 }

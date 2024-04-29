@@ -1,0 +1,10 @@
+{
+  "main": "api.raml",
+  "name": "api",
+  "classifier": "raml",
+  "tags": [],
+  "groupId": "xxxxxxxxxxxxxxx",
+  "assetId": "api",
+  "version": "1.0.0",
+  "apiVersion": "v1"
+}

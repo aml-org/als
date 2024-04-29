@@ -1,0 +1,15 @@
+#%RAML 1.0
+title: test API
+
+resourceTypes:
+  resourceType1:
+    description: <<param1>>
+    post:
+      description: <<param2>>
+  resourceType2:
+    description: desc
+    get:
+      description: some desc
+
+/resource:
+  type: res*

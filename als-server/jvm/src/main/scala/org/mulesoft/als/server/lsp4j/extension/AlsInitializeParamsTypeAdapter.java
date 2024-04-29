@@ -6,13 +6,14 @@ import com.google.gson.TypeAdapterFactory;
 import com.google.gson.reflect.TypeToken;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonToken;
+import com.google.gson.stream.JsonWriter;
 import org.eclipse.lsp4j.ClientCapabilities;
-import org.eclipse.lsp4j.FormattingOptions;
-import org.eclipse.lsp4j.InitializeParams;
+import org.eclipse.lsp4j.ClientInfo;
 import org.eclipse.lsp4j.adapters.InitializeParamsTypeAdapter;
 import org.eclipse.lsp4j.generator.TypeAdapterImpl;
 
 import java.io.IOException;
+import java.util.Optional;
 
 @TypeAdapterImpl(AlsInitializeParams.class)
 public class AlsInitializeParamsTypeAdapter extends InitializeParamsTypeAdapter {
@@ -41,6 +42,7 @@ public class AlsInitializeParamsTypeAdapter extends InitializeParamsTypeAdapter 
     protected AlsConfiguration readConfiguration(JsonReader in) throws IOException {
         return gson.fromJson(in, AlsConfiguration.class);
     }
+
     @Override
     public AlsInitializeParams read(final JsonReader in) throws IOException {
         JsonToken nextToken = in.peek();
@@ -68,8 +70,18 @@ public class AlsInitializeParamsTypeAdapter extends InitializeParamsTypeAdapter 
                 case "capabilities":
                     result.setCapabilities(readCapabilities(in));
                     break;
+                case "clientInfo":
+                    result.setClientInfo(readClientInfo(in));
+                    break;
                 case "clientName":
-                    result.setClientName(readClientName(in));
+                    Optional.ofNullable(result.getClientInfo())
+                            .ifPresent(clientInfo -> {
+                                try {
+                                    result.setClientInfo(new ClientInfo(readClientInfo(in).getName(), clientInfo.getVersion()));
+                                } catch (IOException e) {
+                                    // Do nothing, maybe log the exception
+                                }
+                            });
                     break;
                 case "trace":
                     result.setTrace(readTrace(in));
@@ -77,8 +89,14 @@ public class AlsInitializeParamsTypeAdapter extends InitializeParamsTypeAdapter 
                 case "workspaceFolders":
                     result.setWorkspaceFolders(readWorkspaceFolders(in));
                     break;
-                case "alsConfiguration":
-                    result.setAlsConfiguration(readConfiguration(in));
+                case "configuration":
+                    result.setConfiguration(readConfiguration(in));
+                    break;
+                case "hotReload":
+                    result.setHotReload(readHotReload(in));
+                    break;
+                case "maxFileSize":
+                    result.setMaxFileSize(readMaxFileSize(in));
                     break;
                 default:
                     in.skipValue();
@@ -87,4 +105,18 @@ public class AlsInitializeParamsTypeAdapter extends InitializeParamsTypeAdapter 
         in.endObject();
         return result;
     }
+
+    private Boolean readHotReload(JsonReader in) {
+        return gson.fromJson(in, Boolean.class);
+    }
+
+    private Integer readMaxFileSize(JsonReader in) {
+        return gson.fromJson(in, Integer.class);
+    }
+
+    @Override
+    protected void writeCapabilities(final JsonWriter out, final ClientCapabilities value) throws IOException {
+        gson.toJson(value,  AlsClientCapabilities.class, out);
+    }
+
 }

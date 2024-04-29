@@ -1,11 +1,17 @@
 [
   {
     "label": "headers",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "parameters",
     "documentation": "headers",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11headers",
     "filterText": "headers:\n  ",
     "insertText": null,
@@ -31,11 +37,17 @@
   },
   {
     "label": "queryParameters",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "parameters",
     "documentation": "queryParameters",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11queryParameters",
     "filterText": "queryParameters:\n  ",
     "insertText": null,
@@ -61,11 +73,17 @@
   },
   {
     "label": "queryString",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "queryString",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11queryString",
     "filterText": "queryString:\n  ",
     "insertText": null,
@@ -91,11 +109,17 @@
   },
   {
     "label": "responses",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "responses",
     "documentation": "responses",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11responses",
     "filterText": "responses:\n  ",
     "insertText": null,

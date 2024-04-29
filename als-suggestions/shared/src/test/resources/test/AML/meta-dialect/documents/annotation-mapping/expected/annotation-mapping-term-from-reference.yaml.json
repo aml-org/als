@@ -1,0 +1,74 @@
+[
+  {
+    "label": "schema-org",
+    "kind": [
+      
+    ],
+    "detail": "unknown",
+    "documentation": "schema-org",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "11schema-org",
+    "filterText": "schema-org",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 9,
+          "character": 18
+        },
+        "end": {
+          "line": 9,
+          "character": 18
+        }
+      },
+      "newText": "schema-org"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "test",
+    "kind": [
+      
+    ],
+    "detail": "unknown",
+    "documentation": "test",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "11test",
+    "filterText": "test",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 9,
+          "character": 18
+        },
+        "end": {
+          "line": 9,
+          "character": 18
+        }
+      },
+      "newText": "test"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  }
+]

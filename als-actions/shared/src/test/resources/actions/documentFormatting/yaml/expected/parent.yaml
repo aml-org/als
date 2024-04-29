@@ -1,7 +1,5 @@
-parent: 
-  son:
-    - value
-    - anotherValue
+parent:
+  son: [ value, anotherValue ]
 root:
       k: v
       seq: [1,2,3]

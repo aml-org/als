@@ -1,0 +1,473 @@
+[
+  {
+    "name": "PropertyTerms",
+    "kind": 7,
+    "deprecated": false,
+    "range": {
+      "start": {
+        "line": 5,
+        "character": 2
+      },
+      "end": {
+        "line": 22,
+        "character": 0
+      }
+    },
+    "selectionRange": {
+      "start": {
+        "line": 5,
+        "character": 2
+      },
+      "end": {
+        "line": 22,
+        "character": 0
+      }
+    },
+    "children": [
+      {
+        "name": "myTerm",
+        "kind": 7,
+        "deprecated": false,
+        "range": {
+          "start": {
+            "line": 5,
+            "character": 2
+          },
+          "end": {
+            "line": 7,
+            "character": 0
+          }
+        },
+        "selectionRange": {
+          "start": {
+            "line": 5,
+            "character": 2
+          },
+          "end": {
+            "line": 7,
+            "character": 0
+          }
+        },
+        "children": [
+          
+        ]
+      },
+      {
+        "name": "int",
+        "kind": 7,
+        "deprecated": false,
+        "range": {
+          "start": {
+            "line": 7,
+            "character": 2
+          },
+          "end": {
+            "line": 9,
+            "character": 0
+          }
+        },
+        "selectionRange": {
+          "start": {
+            "line": 7,
+            "character": 2
+          },
+          "end": {
+            "line": 9,
+            "character": 0
+          }
+        },
+        "children": [
+          
+        ]
+      },
+      {
+        "name": "full",
+        "kind": 7,
+        "deprecated": false,
+        "range": {
+          "start": {
+            "line": 9,
+            "character": 2
+          },
+          "end": {
+            "line": 14,
+            "character": 0
+          }
+        },
+        "selectionRange": {
+          "start": {
+            "line": 9,
+            "character": 2
+          },
+          "end": {
+            "line": 14,
+            "character": 0
+          }
+        },
+        "children": [
+          {
+            "name": "subPropertyOf",
+            "kind": 7,
+            "deprecated": false,
+            "range": {
+              "start": {
+                "line": 13,
+                "character": 4
+              },
+              "end": {
+                "line": 14,
+                "character": 0
+              }
+            },
+            "selectionRange": {
+              "start": {
+                "line": 13,
+                "character": 4
+              },
+              "end": {
+                "line": 14,
+                "character": 0
+              }
+            },
+            "children": [
+              
+            ]
+          }
+        ]
+      },
+      {
+        "name": "a",
+        "kind": 7,
+        "deprecated": false,
+        "range": {
+          "start": {
+            "line": 14,
+            "character": 2
+          },
+          "end": {
+            "line": 16,
+            "character": 0
+          }
+        },
+        "selectionRange": {
+          "start": {
+            "line": 14,
+            "character": 2
+          },
+          "end": {
+            "line": 16,
+            "character": 0
+          }
+        },
+        "children": [
+          
+        ]
+      },
+      {
+        "name": "uri",
+        "kind": 7,
+        "deprecated": false,
+        "range": {
+          "start": {
+            "line": 16,
+            "character": 2
+          },
+          "end": {
+            "line": 18,
+            "character": 0
+          }
+        },
+        "selectionRange": {
+          "start": {
+            "line": 16,
+            "character": 2
+          },
+          "end": {
+            "line": 18,
+            "character": 0
+          }
+        },
+        "children": [
+          
+        ]
+      },
+      {
+        "name": "empty-prop",
+        "kind": 7,
+        "deprecated": false,
+        "range": {
+          "start": {
+            "line": 18,
+            "character": 2
+          },
+          "end": {
+            "line": 19,
+            "character": 0
+          }
+        },
+        "selectionRange": {
+          "start": {
+            "line": 18,
+            "character": 2
+          },
+          "end": {
+            "line": 19,
+            "character": 0
+          }
+        },
+        "children": [
+          
+        ]
+      },
+      {
+        "name": "any",
+        "kind": 7,
+        "deprecated": false,
+        "range": {
+          "start": {
+            "line": 19,
+            "character": 2
+          },
+          "end": {
+            "line": 22,
+            "character": 0
+          }
+        },
+        "selectionRange": {
+          "start": {
+            "line": 19,
+            "character": 2
+          },
+          "end": {
+            "line": 22,
+            "character": 0
+          }
+        },
+        "children": [
+          
+        ]
+      }
+    ]
+  },
+  {
+    "name": "ClassTerms",
+    "kind": 7,
+    "deprecated": false,
+    "range": {
+      "start": {
+        "line": 23,
+        "character": 2
+      },
+      "end": {
+        "line": 40,
+        "character": 0
+      }
+    },
+    "selectionRange": {
+      "start": {
+        "line": 23,
+        "character": 2
+      },
+      "end": {
+        "line": 40,
+        "character": 0
+      }
+    },
+    "children": [
+      {
+        "name": "myClass1",
+        "kind": 7,
+        "deprecated": false,
+        "range": {
+          "start": {
+            "line": 23,
+            "character": 2
+          },
+          "end": {
+            "line": 29,
+            "character": 0
+          }
+        },
+        "selectionRange": {
+          "start": {
+            "line": 23,
+            "character": 2
+          },
+          "end": {
+            "line": 29,
+            "character": 0
+          }
+        },
+        "children": [
+          {
+            "name": "properties",
+            "kind": 7,
+            "deprecated": false,
+            "range": {
+              "start": {
+                "line": 26,
+                "character": 4
+              },
+              "end": {
+                "line": 29,
+                "character": 0
+              }
+            },
+            "selectionRange": {
+              "start": {
+                "line": 26,
+                "character": 4
+              },
+              "end": {
+                "line": 29,
+                "character": 0
+              }
+            },
+            "children": [
+              
+            ]
+          }
+        ]
+      },
+      {
+        "name": "myClass2",
+        "kind": 7,
+        "deprecated": false,
+        "range": {
+          "start": {
+            "line": 29,
+            "character": 2
+          },
+          "end": {
+            "line": 37,
+            "character": 0
+          }
+        },
+        "selectionRange": {
+          "start": {
+            "line": 29,
+            "character": 2
+          },
+          "end": {
+            "line": 37,
+            "character": 0
+          }
+        },
+        "children": [
+          {
+            "name": "properties",
+            "kind": 7,
+            "deprecated": false,
+            "range": {
+              "start": {
+                "line": 33,
+                "character": 4
+              },
+              "end": {
+                "line": 37,
+                "character": 0
+              }
+            },
+            "selectionRange": {
+              "start": {
+                "line": 33,
+                "character": 4
+              },
+              "end": {
+                "line": 37,
+                "character": 0
+              }
+            },
+            "children": [
+              
+            ]
+          },
+          {
+            "name": "subClassOf",
+            "kind": 7,
+            "deprecated": false,
+            "range": {
+              "start": {
+                "line": 30,
+                "character": 4
+              },
+              "end": {
+                "line": 31,
+                "character": 0
+              }
+            },
+            "selectionRange": {
+              "start": {
+                "line": 30,
+                "character": 4
+              },
+              "end": {
+                "line": 31,
+                "character": 0
+              }
+            },
+            "children": [
+              
+            ]
+          }
+        ]
+      },
+      {
+        "name": "empty",
+        "kind": 7,
+        "deprecated": false,
+        "range": {
+          "start": {
+            "line": 37,
+            "character": 2
+          },
+          "end": {
+            "line": 38,
+            "character": 0
+          }
+        },
+        "selectionRange": {
+          "start": {
+            "line": 37,
+            "character": 2
+          },
+          "end": {
+            "line": 38,
+            "character": 0
+          }
+        },
+        "children": [
+          
+        ]
+      },
+      {
+        "name": "displayName",
+        "kind": 7,
+        "deprecated": false,
+        "range": {
+          "start": {
+            "line": 38,
+            "character": 2
+          },
+          "end": {
+            "line": 40,
+            "character": 0
+          }
+        },
+        "selectionRange": {
+          "start": {
+            "line": 38,
+            "character": 2
+          },
+          "end": {
+            "line": 40,
+            "character": 0
+          }
+        },
+        "children": [
+          
+        ]
+      }
+    ]
+  }
+]

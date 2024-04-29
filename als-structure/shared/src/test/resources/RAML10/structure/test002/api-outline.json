@@ -23,7 +23,9 @@
         "character": 0
       }
     },
-    "children": []
+    "children": [
+      
+    ]
   },
   {
     "name": "/someChildUri",
@@ -174,7 +176,9 @@
                             "character": 0
                           }
                         },
-                        "children": []
+                        "children": [
+                          
+                        ]
                       }
                     ]
                   }
@@ -208,7 +212,9 @@
             "character": 0
           }
         },
-        "children": []
+        "children": [
+          
+        ]
       },
       {
         "name": "/anotherChild",
@@ -267,7 +273,7 @@
                 "range": {
                   "start": {
                     "line": 22,
-                    "character": 0
+                    "character": 6
                   },
                   "end": {
                     "line": 25,
@@ -277,7 +283,7 @@
                 "selectionRange": {
                   "start": {
                     "line": 22,
-                    "character": 0
+                    "character": 6
                   },
                   "end": {
                     "line": 25,
@@ -334,7 +340,9 @@
                             "character": 0
                           }
                         },
-                        "children": []
+                        "children": [
+                          
+                        ]
                       }
                     ]
                   }
@@ -370,7 +378,9 @@
         "character": 0
       }
     },
-    "children": []
+    "children": [
+      
+    ]
   },
   {
     "name": "resourceTypes",
@@ -378,8 +388,8 @@
     "deprecated": false,
     "range": {
       "start": {
-        "line": 3,
-        "character": 2
+        "line": 2,
+        "character": 0
       },
       "end": {
         "line": 10,
@@ -388,8 +398,8 @@
     },
     "selectionRange": {
       "start": {
-        "line": 3,
-        "character": 2
+        "line": 2,
+        "character": 0
       },
       "end": {
         "line": 10,
@@ -546,7 +556,9 @@
                                 "character": 0
                               }
                             },
-                            "children": []
+                            "children": [
+                              
+                            ]
                           }
                         ]
                       }

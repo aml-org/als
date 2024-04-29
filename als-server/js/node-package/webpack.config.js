@@ -1,17 +1,14 @@
 const path = require('path')
-const merge = require('webpack-merge')
+const { merge } = require('webpack-merge');
 const TerserPlugin = require('terser-webpack-plugin')
-
+const webpack = require("webpack")
 /** Function for ignoring a list of chunks by name or id */
-
 const createChunkFilter = chunkInfo => chunk => {
   const info = chunkInfo.find(
-    info => (info.name !== undefined && info.name === chunk.name) || (info.id !== undefined && info.id === chunk.id),
+      info => (info.name !== undefined && info.name === chunk.name) || (info.id !== undefined && info.id === chunk.id),
   )
-
   return !info
 }
-
 const baseConfig = {
   mode: 'production',
   target: 'web',
@@ -20,14 +17,38 @@ const baseConfig = {
     chunkFilename: '[name].js',
     path: path.resolve(__dirname, 'dist'),
     libraryTarget: 'var',
-    library: 'AlsServer',
+    library: ['AlsServer', '[name]'],
     globalObject: 'this'
   },
   resolve: {
-    modules: [path.resolve(__dirname, 'node_modules')]
+    modules: [path.resolve(__dirname, 'node_modules')],
+    alias: {
+      os: "os-browserify/browser",
+      path: "path-browserify",
+      https: "https-browserify",
+      url: "url",
+      http: "stream-http",
+      stream: "stream-http",
+      util: require.resolve("util/")
+    },
+    symlinks: false,
+    fallback: {
+      fs: false,
+      xtend: false,
+      net: false,
+      child_process: false,
+      crypto: false
+    }
   },
+  plugins: [
+    new webpack.ProvidePlugin({
+      Buffer: ['buffer', 'Buffer'],
+    }),
+    new webpack.ProvidePlugin({
+      process: 'process/browser',
+    }),
+  ],
   module: {
-
     rules: [
       {
         test: /\.js$/,
@@ -45,36 +66,54 @@ const baseConfig = {
       },
     ],
   },
-  node: {
-    fs: 'empty',
-    net: 'empty',
-    child_process: 'empty',
+  optimization: {
+    minimize: false,
+  },
+}
+const dependenciesConfig = {
+  entry: {
+    'vscode-jsonrpc': ['@babel/polyfill', 'vscode-jsonrpc'],
+    'vscode-languageserver-protocol': ['@babel/polyfill', 'vscode-languageserver-protocol'],
+    'amf-custom-validator': ['@babel/polyfill', '@aml-org/amf-custom-validator-web']
+  },
+  optimization: {
+    splitChunks: {
+      cacheGroups: {
+        default: false
+      }
+    }
+  }
+}
+const fastOptConfig = {
+  entry: {
+    'als-server': ['@babel/polyfill', path.resolve(__dirname, 'lib/als-server.js')],
+  },
+  externals: {
+    "vscode-jsonrpc": "AlsServer['vscode-jsonrpc']",
+    "vscode-languageserver-protocol": "AlsServer['vscode-languageserver-protocol']",
+    "amf-custom-validator": "AlsServer['@aml-org/amf-custom-validator-web']"
   },
   optimization: {
     splitChunks: {
       chunks: 'all',
+      cacheGroups: {
+        defaultVendors: {
+          test: /[\\/]node_modules[\\/]/,
+          name: "vendors~als-server",
+        },
+      },
     },
-    minimize: false,
-  },
+  }
 }
-
-const fastOptConfig = {
-  entry: {
-    'als-server': [
-        '@babel/polyfill',
-        path.resolve(__dirname, 'lib/als-server.js')
-      ]
-  },
-}
-
 const fullOptIgnoredChunks = [{name: 'als-server.min'}]
-
 const fullOptConfig = {
   entry: {
-    'als-server.min': [
-        '@babel/polyfill',
-        path.resolve(__dirname, 'lib/als-server.min.js')
-      ]
+    'als-server.min': ['@babel/polyfill', path.resolve(__dirname, 'lib/als-server.min.js')]
+  },
+  externals: {
+    "vscode-jsonrpc": "AlsServer['vscode-jsonrpc']",
+    "vscode-languageserver-protocol": "AlsServer['vscode-languageserver-protocol']",
+    "amf-custom-validator": "AlsServer['@aml-org/amf-custom-validator-web']"
   },
   optimization: {
     minimize: true,
@@ -82,10 +121,19 @@ const fullOptConfig = {
       extractComments: false,
       chunkFilter: createChunkFilter(fullOptIgnoredChunks),
     })],
-  },
+    splitChunks: {
+      chunks: 'all',
+      cacheGroups: {
+        defaultVendors: {
+          test: /[\\/]node_modules[\\/]/,
+          name: "vendors~als-server.min",
+        },
+      },
+    },
+  }
 }
-
 module.exports = [
+  merge(baseConfig, dependenciesConfig),
   merge(baseConfig, fastOptConfig),
   merge(baseConfig, fullOptConfig),
 ]

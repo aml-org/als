@@ -1,13 +1,13 @@
 package org.mulesoft.als.suggestions.plugins.aml.webapi.raml.raml08
 
-import amf.core.metamodel.domain.ShapeModel
-import amf.core.model.domain.Shape
-import amf.core.parser.Value
-import amf.plugins.document.vocabularies.model.domain.NodeMapping
-import amf.plugins.document.webapi.annotations.Inferred
-import amf.plugins.domain.shapes.metamodel.ScalarShapeModel
-import amf.plugins.domain.shapes.models.{AnyShape, ScalarShape}
-import amf.plugins.domain.webapi.models.Payload
+import amf.aml.client.scala.model.domain.NodeMapping
+import amf.apicontract.client.scala.model.domain.Payload
+import amf.core.client.scala.model.domain.Shape
+import amf.core.internal.annotations.Inferred
+import amf.core.internal.metamodel.domain.ShapeModel
+import amf.core.internal.parser.domain.Value
+import amf.shapes.client.scala.model.domain.{AnyShape, ScalarShape}
+import amf.shapes.internal.domain.metamodel.ScalarShapeModel
 import org.mulesoft.als.suggestions.RawSuggestion
 import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
 import org.mulesoft.als.suggestions.plugins.aml.webapi.WebApiTypeFacetsCompletionPlugin
@@ -19,28 +19,32 @@ import scala.concurrent.Future
 object Raml08TypeFacetsCompletionPlugin extends WebApiTypeFacetsCompletionPlugin with PayloadMediaTypeSeeker {
   override def id: String = "RamlTypeFacetsCompletionPlugin"
 
-  private val formMediaTypes: Seq[String] =
+  val formMediaTypes: Seq[String] =
     Seq("application/x-www-form-urlencoded", "multipart/form-data")
 
   override def resolve(params: AmlCompletionRequest): Future[Seq[RawSuggestion]] = {
     Future.successful(params.amfObject match {
       case shape: Shape
-          if isWritingFacet(params.yPartBranch, shape, params.branchStack, params.actualDialect) &&
-            !isWritingKEYMediaType(params) &&
+          if isWritingFacet(params.astPartBranch, shape, params.branchStack, params.actualDialect) &&
+            !isWritingKeyMediaType(params) &&
             !insideMediaType(params) =>
         resolveShape(shape, params.branchStack, params.actualDialect)
       case shape: Shape
-          if isWritingFacet(params.yPartBranch, shape, params.branchStack, params.actualDialect) &&
-            !isWritingKEYMediaType(params) => {
-        if (insideFormMediaType(params))
-          Seq(RawSuggestion.forObject("formParameters", "schemas"))
-        else Seq()
-      } :+ RawSuggestion("schema", isAKey = true, "schemas", mandatory = false)
-      case p: Payload
-          if formMediaTypes
-            .contains(p.mediaType.value()) =>
-        Seq(RawSuggestion.forObject("formParameters", "schemas"),
-            RawSuggestion("schema", isAKey = true, "schemas", mandatory = false))
+          if isWritingFacet(params.astPartBranch, shape, params.branchStack, params.actualDialect) &&
+            !isWritingKeyMediaType(params) =>
+        {
+          if (insideFormMediaType(params))
+            Seq(RawSuggestion.forObject("formParameters", "schemas"))
+          else Seq()
+        } :+ RawSuggestion("schema", isAKey = true, "schemas", mandatory = false)
+      case p: Payload if params.astPartBranch.isKey && p.mediaType.option().isDefined =>
+        if (formMediaTypes.contains(p.mediaType.value()))
+          Seq(
+            RawSuggestion.forObject("formParameters", "schemas"),
+            RawSuggestion("schema", isAKey = true, "schemas", mandatory = false)
+          )
+        else
+          Seq(RawSuggestion("schema", isAKey = true, "schemas", mandatory = false))
       case _ => Nil
     })
   }
@@ -55,7 +59,7 @@ object Raml08TypeFacetsCompletionPlugin extends WebApiTypeFacetsCompletionPlugin
             Seq(RawSuggestion.forBoolKey("repeat", "schemas"))
           case _ => Nil
         }
-      case a: AnyShape if a.isDefaultEmpty =>
+      case a: AnyShape if a.isNotExplicit =>
         Seq(RawSuggestion.forBoolKey("repeat", "schemas"))
       case _ => Nil
     }
@@ -66,6 +70,8 @@ object Raml08TypeFacetsCompletionPlugin extends WebApiTypeFacetsCompletionPlugin
 
   override def integerShapeNode: NodeMapping =
     Raml08TypesDialect.NumberShapeNode
+
+  def anyShapeNode: NodeMapping = Raml08TypesDialect.AnyShapeNode
 
   override def declarations: Seq[NodeMapping] =
     Raml08TypesDialect.dialect.declares.collect({ case n: NodeMapping => n })
@@ -83,7 +89,8 @@ object Raml08TypeFacetsCompletionPlugin extends WebApiTypeFacetsCompletionPlugin
           .option()
           .exists(mt =>
             formMediaTypes
-              .contains(mt))
+              .contains(mt)
+          )
       case _ => false
     }
 }

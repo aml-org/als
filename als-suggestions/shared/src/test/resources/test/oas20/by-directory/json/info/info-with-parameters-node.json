@@ -1,0 +1,12 @@
+{
+  "swagger": "2.0",
+  "i*"
+  "paths": {},
+  "parameters": {
+    "skipParam": {
+      "name": "skip",
+      "in": "query",
+      "type": "integer"
+    }
+  }
+}

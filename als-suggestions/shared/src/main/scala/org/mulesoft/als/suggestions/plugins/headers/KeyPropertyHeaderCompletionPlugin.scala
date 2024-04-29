@@ -1,12 +1,12 @@
 package org.mulesoft.als.suggestions.plugins.headers
 
-import amf.core.remote.FileMediaType
-import amf.plugins.document.vocabularies.model.document.Dialect
+import amf.aml.client.scala.model.document.Dialect
+import amf.core.internal.remote.{FileMediaType, Spec}
 import org.mulesoft.als.common.dtoTypes.Position
-import org.mulesoft.als.configuration.{AlsConfigurationReader, Configuration}
+import org.mulesoft.als.configuration.{AlsConfigurationReader, Configuration, TemplateTypes}
 import org.mulesoft.als.suggestions.interfaces.HeaderCompletionPlugin
 import org.mulesoft.als.suggestions.{HeaderCompletionParams, RawSuggestion}
-import org.mulesoft.amfintegration.ALSAMLPlugin
+import org.mulesoft.amfintegration.amfconfiguration.ALSConfigurationState
 
 import scala.concurrent.Future
 
@@ -15,26 +15,32 @@ object KeyPropertyHeaderCompletionPlugin extends HeaderCompletionPlugin {
 
   override def resolve(params: HeaderCompletionParams): Future[Seq[RawSuggestion]] =
     Future.successful(
-      KeyPropertyHeaderCompletionPlugin(params.uri.endsWith(".json"),
-                                        params.content.trim.startsWith("{"),
-                                        params.amfInstance.alsAmlPlugin,
-                                        params.position,
-                                        params.configuration).getSuggestions
+      KeyPropertyHeaderCompletionPlugin(
+        params.uri.endsWith(".json"),
+        params.content.trim.startsWith("{"),
+        params.parseContext.state,
+        params.position,
+        params.configuration
+      ).getSuggestions
     )
 
-  def apply(isJson: Boolean,
-            hasBracket: Boolean = false,
-            alsAmlPlugin: ALSAMLPlugin,
-            position: Position,
-            configuration: AlsConfigurationReader) =
-    new KeyPropertyHeaderCompletionPlugin(isJson, hasBracket, alsAmlPlugin, position, configuration)
+  def apply(
+      isJson: Boolean,
+      hasBracket: Boolean = false,
+      alsConfiguration: ALSConfigurationState,
+      position: Position,
+      configuration: AlsConfigurationReader
+  ) =
+    new KeyPropertyHeaderCompletionPlugin(isJson, hasBracket, alsConfiguration, position, configuration)
 }
 
-class KeyPropertyHeaderCompletionPlugin(isJson: Boolean,
-                                        hasBracket: Boolean = false,
-                                        alsAmlPlugin: ALSAMLPlugin,
-                                        position: Position,
-                                        configuration: AlsConfigurationReader) {
+class KeyPropertyHeaderCompletionPlugin(
+    isJson: Boolean,
+    hasBracket: Boolean = false,
+    configurationState: ALSConfigurationState,
+    position: Position,
+    configuration: AlsConfigurationReader
+) {
 
   private lazy val mimeType = FileMediaType
     .mimeFromExtension(if (isJson) "json" else "yaml")
@@ -52,31 +58,48 @@ class KeyPropertyHeaderCompletionPlugin(isJson: Boolean,
     if (hasBracket)
       Flavour(sc, sc, snippets = false)
     else
-      Flavour(inBrackets(sc), sc, Configuration.snippetsEnabled)
+      Flavour(inBrackets(sc), sc, configuration.getTemplateType != TemplateTypes.NONE)
   }
 
   private def simpleContent(key: String, value: String, position: Position) =
     (if (position.column == 0) jsonPrefix else "") + s"${"\"" + key + "\""}: ${"\"" + value + "\""}"
 
   private def jsonPrefix =
-    if (formattingOptions.insertSpaces) " " * formattingOptions.indentationSize else "\t"
+    if (formattingOptions.insertSpaces) " " * formattingOptions.tabSize else "\t"
 
   private def inBrackets(text: String) =
     s"{\n${text.linesIterator.map(l => s"  $l").mkString("\n")}\n}"
 
   private def getSuggestions: Seq[RawSuggestion] = {
-    alsAmlPlugin.registry.amlAdnWebApiDialects
+    configurationState.allDialects
       .filter(d => Option(d.documents()).exists(_.keyProperty().value()))
+      .filter(compliesFormat)
       .map(d => {
         val Flavour(text, label, isASnippet) =
           if (isJson)
-            jsonFlavour(d.name().value(), d.version().value(), hasBracket, position)
-          else yamlFlavour(d.name().value(), d.version().value())
+            jsonFlavour(purgeName(d), d.version().value(), hasBracket, position)
+          else yamlFlavour(purgeName(d), d.version().value())
 
         new RawSuggestion(text, label.trim, s"Define a ${purgedNameAndVersion(d)} file", Seq(), children = Nil)
       })
       .toSeq // TODO: remove when OAS is added as a Dialect
   }
+
+  /** only suggest $schema for json documents
+    * @param dialect
+    * @return
+    */
+  private def compliesFormat(dialect: Dialect): Boolean =
+    if (!isJson)
+      !isJsonSchema(dialect)
+    else true
+
+  private def isJsonSchema(dialect: Dialect) =
+    dialect.name().option().contains(Spec.JSONSCHEMA.toString)
+
+  private def purgeName(d: Dialect) =
+    if (isJsonSchema(d)) "$schema"
+    else d.name().value()
 
   private def purgedNameAndVersion(d: Dialect) = {
     val nameAndVersion = d.nameAndVersion()

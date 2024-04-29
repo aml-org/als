@@ -1,11 +1,11 @@
 package org.mulesoft.als.suggestions.plugins.aml.webapi.raml
 
-import amf.core.model.domain.{AmfScalar, Shape}
-import amf.core.model.domain.extensions.CustomDomainProperty
-import amf.core.parser.Annotations
-import amf.plugins.document.webapi.annotations.Inferred
-import amf.plugins.domain.shapes.metamodel.ScalarShapeModel
-import amf.plugins.domain.shapes.models.{AnyShape, ScalarShape}
+import amf.core.client.scala.model.domain.{AmfScalar, Shape}
+import amf.core.client.scala.model.domain.extensions.CustomDomainProperty
+import amf.core.internal.annotations.Inferred
+import amf.core.internal.parser.domain.Annotations
+import amf.shapes.client.scala.model.domain.ScalarShape
+import amf.shapes.internal.domain.metamodel.ScalarShapeModel
 import org.mulesoft.als.suggestions.RawSuggestion
 import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
 import org.mulesoft.als.suggestions.interfaces.AMLCompletionPlugin
@@ -24,19 +24,19 @@ object AnnotationFacets extends AMLCompletionPlugin {
   override def resolve(request: AmlCompletionRequest): Future[Seq[RawSuggestion]] = {
     Future {
       request.amfObject match {
-        case _: CustomDomainProperty if request.yPartBranch.isKey && request.fieldEntry.isEmpty => typeFacets(request)
+        case _: CustomDomainProperty if request.astPartBranch.isKey && request.fieldEntry.isEmpty => typeFacets(request)
         case s: Shape
-            if request.branchStack.headOption.exists(_.isInstanceOf[CustomDomainProperty]) && isWrittingFacet(
-              request) =>
-          Raml10TypesDialect.AnnotationType.propertiesRaw(d = request.actualDialect)
+            if request.branchStack.headOption
+              .exists(_.isInstanceOf[CustomDomainProperty]) && isWrittingFacet(request) =>
+          Raml10TypesDialect.AnnotationType.propertiesRaw(fromDialect = request.actualDialect)
         case _ => Nil
       }
     }
   }
 
   private def isWrittingFacet(request: AmlCompletionRequest): Boolean =
-    request.yPartBranch.isKey && (request.amfObject match {
-      case s: Shape => s.name.value() != request.yPartBranch.stringValue
+    request.astPartBranch.isKey && (request.amfObject match {
+      case s: Shape => s.name.value() != request.astPartBranch.stringValue
       case _        => false
     })
 
@@ -44,8 +44,10 @@ object AnnotationFacets extends AMLCompletionPlugin {
     val plugin =
       if (request.actualDialect.id == Raml08TypesDialect.DialectLocation) Raml08TypeFacetsCompletionPlugin
       else Raml10TypeFacetsCompletionPlugin
-    plugin.resolveShape(ScalarShape().set(ScalarShapeModel.DataType, AmfScalar("string"), Annotations() += Inferred()),
-                        Nil,
-                        request.actualDialect)
+    plugin.resolveShape(
+      ScalarShape().set(ScalarShapeModel.DataType, AmfScalar("string"), Annotations() += Inferred()),
+      Nil,
+      request.actualDialect
+    )
   }
 }

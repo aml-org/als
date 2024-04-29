@@ -1,15 +1,14 @@
 package org.mulesoft.als.server.modules.links
 
+import amf.core.client.scala.AMFGraphConfiguration
 import org.mulesoft.als.common.{MarkerFinderTest, MarkerInfo}
-import org.mulesoft.als.common.dtoTypes.Position
-import org.mulesoft.als.server.protocol.LanguageServer
+import org.mulesoft.als.server.client.scala.LanguageServerBuilder
 import org.mulesoft.als.server.modules.WorkspaceManagerFactoryBuilder
-import org.mulesoft.als.server.{LanguageServerBaseTest, LanguageServerBuilder, MockDiagnosticClientNotifier}
-import org.mulesoft.als.suggestions.interfaces.Syntax.YAML
-import org.mulesoft.als.suggestions.patcher.{ContentPatcher, PatchedContent}
+import org.mulesoft.als.server.protocol.LanguageServer
+import org.mulesoft.als.server.{LanguageServerBaseTest, MockDiagnosticClientNotifier}
 import org.mulesoft.lsp.feature.common.TextDocumentIdentifier
 import org.mulesoft.lsp.feature.link.{DocumentLink, DocumentLinkParams, DocumentLinkRequestType}
-import org.scalatest.Assertion
+import org.scalatest.compatible.Assertion
 
 import scala.concurrent.{ExecutionContext, Future}
 
@@ -20,13 +19,14 @@ trait FindLinksTest extends LanguageServerBaseTest with MarkerFinderTest {
   override def rootPath: String = "actions/links"
 
   def buildServer(): LanguageServer = {
-
     val managers =
-      new WorkspaceManagerFactoryBuilder(new MockDiagnosticClientNotifier, logger).buildWorkspaceManagerFactory()
-    new LanguageServerBuilder(managers.documentManager,
-                              managers.workspaceManager,
-                              managers.configurationManager,
-                              managers.resolutionTaskManager)
+      new WorkspaceManagerFactoryBuilder(new MockDiagnosticClientNotifier).buildWorkspaceManagerFactory()
+    new LanguageServerBuilder(
+      managers.documentManager,
+      managers.workspaceManager,
+      managers.configurationManager,
+      managers.resolutionTaskManager
+    )
       .addRequestModule(managers.documentLinksManager)
       .build()
   }
@@ -35,7 +35,7 @@ trait FindLinksTest extends LanguageServerBaseTest with MarkerFinderTest {
     withServer[Assertion](buildServer()) { server =>
       val resolved = filePath(platform.encodeURI(path))
       for {
-        content <- this.platform.resolve(resolved)
+        content <- this.platform.fetchContent(resolved, AMFGraphConfiguration.predefined())
         definitions <- {
           val fileContentsStr = content.stream.toString
           val markerInfo      = this.findMarker(fileContentsStr)
@@ -48,16 +48,15 @@ trait FindLinksTest extends LanguageServerBaseTest with MarkerFinderTest {
     }
 
   def getServerLinks(filePath: String, server: LanguageServer, markerInfo: MarkerInfo): Future[Seq[DocumentLink]] = {
-
-    openFile(server)(filePath, markerInfo.content)
-
     val linksHandler = server.resolveHandler(DocumentLinkRequestType).value
-
-    linksHandler(DocumentLinkParams(TextDocumentIdentifier(filePath)))
-      .map(links => {
-        closeFile(server)(filePath)
-        links
-      })
+    openFile(server)(filePath, markerInfo.content)
+      .flatMap { _ =>
+        linksHandler(DocumentLinkParams(TextDocumentIdentifier(filePath)))
+          .flatMap(links => {
+            closeFile(server)(filePath)
+              .map(_ => links)
+          })
+      }
   }
 
 }

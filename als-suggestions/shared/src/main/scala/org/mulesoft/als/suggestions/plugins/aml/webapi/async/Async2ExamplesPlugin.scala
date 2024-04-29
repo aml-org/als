@@ -1,7 +1,7 @@
 package org.mulesoft.als.suggestions.plugins.aml.webapi.async
 
-import amf.plugins.domain.shapes.models.{AnyShape, Example}
-import amf.plugins.domain.webapi.models.Message
+import amf.apicontract.client.scala.model.domain.Message
+import amf.shapes.client.scala.model.domain.{AnyShape, Example}
 import org.mulesoft.als.suggestions.RawSuggestion
 import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
 import org.mulesoft.als.suggestions.interfaces.AMLCompletionPlugin
@@ -15,17 +15,16 @@ object Async2ExamplesPlugin extends AMLCompletionPlugin with ExampleSuggestionPl
 
   def extractShape(request: AmlCompletionRequest): Option[AnyShape] = {
     request.branchStack
-      .collectFirst({
-        case m: Message =>
-          if (request.yPartBranch.isInBranchOf("payload")) {
-            m.payloads.headOption
-              .map(_.schema)
-              .collect({ case s: AnyShape => s })
-          } else if (request.yPartBranch.isInBranchOf("headers")) {
-            Some(m.headerSchema)
-          } else {
-            None
-          }
+      .collectFirst({ case m: Message =>
+        if (request.astPartBranch.isInBranchOf("payload")) {
+          m.payloads.headOption
+            .map(_.schema)
+            .collect({ case s: AnyShape => s })
+        } else if (request.astPartBranch.isInBranchOf("headers")) {
+          Some(m.headerSchema)
+        } else {
+          None
+        }
       })
       .flatten
   }

@@ -1,23 +1,25 @@
 package org.mulesoft.als.suggestions.plugins.aml.webapi.raml
 
-import amf.core.model.domain.DomainElement
-import amf.core.model.domain.templates.{AbstractDeclaration, ParametrizedDeclaration}
-import amf.core.annotations.ErrorDeclaration
-import org.mulesoft.als.common.YPartBranch
-import org.mulesoft.als.suggestions.{ArrayRange, ObjectRange, RawSuggestion, StringScalarRange}
+import amf.core.client.scala.model.domain.DomainElement
+import amf.core.client.scala.model.domain.templates.{AbstractDeclaration, ParametrizedDeclaration}
+import amf.core.internal.annotations.ErrorDeclaration
+import org.mulesoft.als.common.{ASTPartBranch, YPartBranch}
+import org.mulesoft.als.configuration.TemplateTypes
 import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
 import org.mulesoft.als.suggestions.interfaces.AMLCompletionPlugin
 import org.mulesoft.als.suggestions.plugins.aml.AMLRamlStyleDeclarationsReferences
-import org.yaml.model.{YMapEntry, YNode}
+import org.mulesoft.als.suggestions.plugins.aml.templates.TemplateTools
+import org.mulesoft.als.suggestions.{ObjectRange, RawSuggestion}
+import org.yaml.model.YNode
 
-import scala.concurrent.Future
 import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.Future
 
 trait RamlAbstractDeclarationReference extends AMLCompletionPlugin {
 
   protected val elementClass: Class[_ <: DomainElement]
   protected val abstractDeclarationClass: Class[_ <: ParametrizedDeclaration]
-  protected val errorDeclarationClass: Class[_ <: ErrorDeclaration]
+  protected val errorDeclarationClass: Class[_ <: ErrorDeclaration[_]]
 
   protected def entryKey: String
 
@@ -27,25 +29,39 @@ trait RamlAbstractDeclarationReference extends AMLCompletionPlugin {
 
   override def resolve(params: AmlCompletionRequest): Future[Seq[RawSuggestion]] = {
     Future {
-      if ((elementClass.isInstance(params.amfObject)
+      if (
+        (elementClass.isInstance(params.amfObject)
           || abstractDeclarationClass.isInstance(params.amfObject)
           || errorDeclarationClass.isInstance(params.amfObject))
-          && isTypeDef(params.yPartBranch)) {
+        && isTypeDef(params.astPartBranch)
+      ) {
 
         val siblings = getSiblings(params)
 
         val suggestions =
-          new AMLRamlStyleDeclarationsReferences(Seq(iriDeclaration),
-                                                 stringValue(params.yPartBranch),
-                                                 params.declarationProvider,
-                                                 None).resolve().filter(r => !siblings.contains(r.newText))
-        suggestions.map { s =>
+          new AMLRamlStyleDeclarationsReferences(
+            Seq(iriDeclaration),
+            stringValue(params.astPartBranch),
+            params.declarationProvider,
+            None
+          ).resolve().filter(r => !siblings.contains(r.newText))
+        suggestions.flatMap { s =>
           val vars = extractChildren(params, s)
-          s.copy(options = s.options.copy(isKey = vars.nonEmpty,
-                                          rangeKind =
-                                            if (vars.nonEmpty) ObjectRange
-                                            else StringScalarRange),
-                 children = vars)
+          if (vars.nonEmpty) {
+            if (
+              params.configurationReader.getTemplateType != TemplateTypes.NONE &&
+              canTemplate(params.astPartBranch)
+            )
+              Some(
+                s.copy(
+                  options = s.options.copy(isKey = true, rangeKind = ObjectRange),
+                  children = vars,
+                  displayText = s"${TemplateTools.defaultPrefix} ${s.displayText}",
+                  category = TemplateTools.category
+                )
+              )
+            else None
+          } else Some(s)
         }
       } else Nil
     }
@@ -75,31 +91,25 @@ trait RamlAbstractDeclarationReference extends AMLCompletionPlugin {
     element.map(_.extend).getOrElse(Nil).collect({ case pm: ParametrizedDeclaration => pm }).flatMap(_.name.option())
   }
 
-  private def isTypeDef(yPartBranch: YPartBranch) =
-    isValueInType(yPartBranch) || isKeyInTypeMap(yPartBranch)
+  private def isTypeDef(astPart: ASTPartBranch) =
+    isValueInType(astPart) || isKeyInTypeMap(astPart)
 
-  protected def isValue(yPartBranch: YPartBranch): Boolean
+  protected def isValue(astPartBranch: ASTPartBranch): Boolean
 
-  /**
-    * /endpoint:
-    * type: * || type: res*
-    * case type 1 is object endpoint other cases are parametrized declaration parser
+  /** /endpoint: type: * || type: res* case type 1 is object endpoint other cases are parametrized declaration parser
     */
-  private def isValueInType(yPartBranch: YPartBranch) =
-    isValue(yPartBranch) && yPartBranch.parentEntryIs(entryKey)
+  private def isValueInType(astPartBranch: ASTPartBranch) =
+    isValue(astPartBranch) && astPartBranch.parentEntryIs(entryKey)
 
-  /**
-    * /endpoint:
-    * type:
-    * res*
+  private def canTemplate(astPartBranch: ASTPartBranch) = astPartBranch.isKey || astPartBranch.isInArray
+
+  /** /endpoint: type: res*
     */
-  private def isKeyInTypeMap(yPartBranch: YPartBranch): Boolean =
-    yPartBranch.isKey && yPartBranch
-      .ancestorOf(classOf[YMapEntry])
-      .exists(_.key.asScalar.exists(_.text == entryKey))
+  private def isKeyInTypeMap(astPart: ASTPartBranch): Boolean =
+    astPart.isKey && astPart.parentKey.contains(entryKey)
 
-  private def stringValue(yPart: YPartBranch) = {
-    yPart.node match {
+  private def stringValue(astPart: ASTPartBranch) = {
+    astPart.node match {
       case n: YNode => n.asScalar.map(_.text).getOrElse("")
       case _        => ""
     }

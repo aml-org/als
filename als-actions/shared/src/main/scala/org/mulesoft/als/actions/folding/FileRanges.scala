@@ -2,25 +2,28 @@ package org.mulesoft.als.actions.folding
 
 import org.mulesoft.als.common.dtoTypes.PositionRange
 import org.mulesoft.als.convert.LspRangeConverter
+import org.mulesoft.common.client.lexical.ASTElement
 import org.mulesoft.lsp.feature.common.Position
 import org.mulesoft.lsp.feature.folding.FoldingRange
+import org.yaml.model
 import org.yaml.model.YNode.MutRef
 import org.yaml.model._
 
 import scala.annotation.tailrec
 
 object FileRanges {
-  def ranges(yPart: YPart): Seq[FoldingRange] = collectRanges(yPart, yPart)
+  def ranges(astElement: ASTElement): Seq[FoldingRange] = collectRanges(astElement, astElement)
 
-  private def collectRanges(yPart: YPart, parent: YPart): Seq[FoldingRange] =
-    yPart match {
+  private def collectRanges(astElement: ASTElement, parent: ASTElement): Seq[FoldingRange] =
+    astElement match {
       case _: MutRef => Seq.empty
       case d: YDocument =>
         collectRanges(d.node.value, d.node.value)
-      case _ @(_: YMapEntry | _: YNode) =>
-        yPart.children.flatMap(collectRanges(_, yPart))
+      case yPart @ (_: YMapEntry | _: YNode) =>
+        yPart.asInstanceOf[YPart].children.flatMap(collectRanges(_, yPart))
       case _ @(_: YMap | _: YSequence) => // just fold on maps and sequences
-        yPart.foldingRange(parent) +: yPart.children.flatMap(collectRanges(_, yPart))
+        val part = astElement.asInstanceOf[YPart]
+        part.foldingRange(parent.asInstanceOf[YPart]) +: part.children.flatMap(collectRanges(_, part))
       case _ => Seq.empty
     }
 

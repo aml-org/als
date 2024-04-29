@@ -23,7 +23,9 @@
         "character": 0
       }
     },
-    "children": []
+    "children": [
+      
+    ]
   },
   {
     "name": "version",
@@ -49,7 +51,64 @@
         "character": 0
       }
     },
-    "children": []
+    "children": [
+      
+    ]
+  },
+  {
+    "name": "externals",
+    "kind": 7,
+    "deprecated": false,
+    "range": {
+      "start": {
+        "line": 5,
+        "character": 0
+      },
+      "end": {
+        "line": 7,
+        "character": 0
+      }
+    },
+    "selectionRange": {
+      "start": {
+        "line": 5,
+        "character": 0
+      },
+      "end": {
+        "line": 7,
+        "character": 0
+      }
+    },
+    "children": [
+      {
+        "name": "schema-org",
+        "kind": 7,
+        "deprecated": false,
+        "range": {
+          "start": {
+            "line": 6,
+            "character": 2
+          },
+          "end": {
+            "line": 7,
+            "character": 0
+          }
+        },
+        "selectionRange": {
+          "start": {
+            "line": 6,
+            "character": 2
+          },
+          "end": {
+            "line": 7,
+            "character": 0
+          }
+        },
+        "children": [
+          
+        ]
+      }
+    ]
   },
   {
     "name": "NodeMappings",
@@ -132,8 +191,8 @@
                 "deprecated": false,
                 "range": {
                   "start": {
-                    "line": 15,
-                    "character": 0
+                    "line": 14,
+                    "character": 15
                   },
                   "end": {
                     "line": 17,
@@ -142,15 +201,17 @@
                 },
                 "selectionRange": {
                   "start": {
-                    "line": 15,
-                    "character": 0
+                    "line": 14,
+                    "character": 15
                   },
                   "end": {
                     "line": 17,
                     "character": 0
                   }
                 },
-                "children": []
+                "children": [
+                  
+                ]
               },
               {
                 "name": "Mapping1",
@@ -158,8 +219,8 @@
                 "deprecated": false,
                 "range": {
                   "start": {
-                    "line": 12,
-                    "character": 0
+                    "line": 11,
+                    "character": 15
                   },
                   "end": {
                     "line": 14,
@@ -168,15 +229,17 @@
                 },
                 "selectionRange": {
                   "start": {
-                    "line": 12,
-                    "character": 0
+                    "line": 11,
+                    "character": 15
                   },
                   "end": {
                     "line": 14,
                     "character": 0
                   }
                 },
-                "children": []
+                "children": [
+                  
+                ]
               }
             ]
           }
@@ -238,8 +301,8 @@
                 "deprecated": false,
                 "range": {
                   "start": {
-                    "line": 21,
-                    "character": 0
+                    "line": 20,
+                    "character": 15
                   },
                   "end": {
                     "line": 23,
@@ -248,15 +311,17 @@
                 },
                 "selectionRange": {
                   "start": {
-                    "line": 21,
-                    "character": 0
+                    "line": 20,
+                    "character": 15
                   },
                   "end": {
                     "line": 23,
                     "character": 0
                   }
                 },
-                "children": []
+                "children": [
+                  
+                ]
               },
               {
                 "name": "Mapping2",
@@ -264,8 +329,8 @@
                 "deprecated": false,
                 "range": {
                   "start": {
-                    "line": 24,
-                    "character": 0
+                    "line": 23,
+                    "character": 15
                   },
                   "end": {
                     "line": 27,
@@ -274,15 +339,17 @@
                 },
                 "selectionRange": {
                   "start": {
-                    "line": 24,
-                    "character": 0
+                    "line": 23,
+                    "character": 15
                   },
                   "end": {
                     "line": 27,
                     "character": 0
                   }
                 },
-                "children": []
+                "children": [
+                  
+                ]
               }
             ]
           }
@@ -389,7 +456,9 @@
                     "character": 0
                   }
                 },
-                "children": []
+                "children": [
+                  
+                ]
               },
               {
                 "name": "schemes",
@@ -415,7 +484,9 @@
                     "character": 27
                   }
                 },
-                "children": []
+                "children": [
+                  
+                ]
               }
             ]
           }

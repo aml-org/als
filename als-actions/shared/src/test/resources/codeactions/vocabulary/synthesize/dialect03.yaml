@@ -1,0 +1,38 @@
+#%Dialect 1.0
+dialect: Basic
+version: 2
+
+external:
+  v: http://voc.com/#
+
+documents:
+  root:
+    encodes: RootNode
+nodeMappings:
+  A:
+    mapping:
+      text:
+        range: string
+  B:
+    mapping:
+      text:
+        propertyTerm: v.Number
+        range: number
+      newProp:
+        range: A
+  S3ResourceNode:
+    classTerm: v.Union
+    mapping:
+      IDs:
+        sorted: false
+        allowMultiple: false
+        range: string
+  RootNode:
+
+    union:
+      - A
+      - B
+    typeDiscriminatorName: kind
+    typeDiscriminator:
+      TypeA: A
+      TypeB: B

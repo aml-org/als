@@ -1,0 +1,38 @@
+[
+  {
+    "label": "internalApiKey",
+    "kind": [
+      
+    ],
+    "detail": "unknown",
+    "documentation": "internalApiKey",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "11internalApiKey",
+    "filterText": "internalApiKey:\n  - ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 19,
+          "character": 10
+        },
+        "end": {
+          "line": 19,
+          "character": 10
+        }
+      },
+      "newText": "internalApiKey:\n  - "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  }
+]

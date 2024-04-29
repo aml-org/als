@@ -1,8 +1,11 @@
 package org.mulesoft.als.common.edits
 
 import org.mulesoft.lsp.edit.{ResourceOperation, TextDocumentEdit, TextEdit, WorkspaceEdit}
+import org.mulesoft.common.collections._
 
 case class AbstractWorkspaceEdit(documentChanges: Seq[Either[TextDocumentEdit, ResourceOperation]]) {
+
+  def hasChanges: Boolean = documentChanges.nonEmpty
 
   def needsDocumentChanges: Boolean = !documentChanges.forall(_.isLeft)
 
@@ -13,10 +16,10 @@ case class AbstractWorkspaceEdit(documentChanges: Seq[Either[TextDocumentEdit, R
       throw new Exception("Cannot convert to WorkspaceEdit.changes. Contains a Resource Operation")
     else
       documentChanges
-        .collect {
-          case Left(value) => value
+        .collect { case Left(value) =>
+          value
         }
-        .groupBy(_.textDocument.uri)
+        .legacyGroupBy(_.textDocument.uri)
         .map(t => t._1 -> t._2.flatMap(_.edits))
   }
 

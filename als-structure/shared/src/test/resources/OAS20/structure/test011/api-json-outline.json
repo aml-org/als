@@ -23,7 +23,9 @@
         "character": 33
       }
     },
-    "children": []
+    "children": [
+      
+    ]
   },
   {
     "name": "version",
@@ -49,7 +51,9 @@
         "character": 22
       }
     },
-    "children": []
+    "children": [
+      
+    ]
   },
   {
     "name": "Contact",
@@ -75,7 +79,9 @@
         "character": 5
       }
     },
-    "children": []
+    "children": [
+      
+    ]
   },
   {
     "name": "License",
@@ -101,7 +107,9 @@
         "character": 5
       }
     },
-    "children": []
+    "children": [
+      
+    ]
   },
   {
     "name": "basePath",
@@ -127,7 +135,9 @@
         "character": 19
       }
     },
-    "children": []
+    "children": [
+      
+    ]
   },
   {
     "name": "host",
@@ -153,6 +163,8 @@
         "character": 22
       }
     },
-    "children": []
+    "children": [
+      
+    ]
   }
 ]

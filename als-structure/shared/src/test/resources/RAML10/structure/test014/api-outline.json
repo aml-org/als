@@ -23,7 +23,9 @@
         "character": 0
       }
     },
-    "children": []
+    "children": [
+      
+    ]
   },
   {
     "name": "/locations",
@@ -82,7 +84,7 @@
             "range": {
               "start": {
                 "line": 16,
-                "character": 0
+                "character": 4
               },
               "end": {
                 "line": 33,
@@ -92,7 +94,7 @@
             "selectionRange": {
               "start": {
                 "line": 16,
-                "character": 0
+                "character": 4
               },
               "end": {
                 "line": 33,
@@ -174,7 +176,9 @@
                             "character": 0
                           }
                         },
-                        "children": []
+                        "children": [
+                          
+                        ]
                       },
                       {
                         "name": "second",
@@ -200,7 +204,9 @@
                             "character": 0
                           }
                         },
-                        "children": []
+                        "children": [
+                          
+                        ]
                       },
                       {
                         "name": "third",
@@ -226,7 +232,9 @@
                             "character": 48
                           }
                         },
-                        "children": []
+                        "children": [
+                          
+                        ]
                       }
                     ]
                   }
@@ -244,8 +252,8 @@
     "deprecated": false,
     "range": {
       "start": {
-        "line": 3,
-        "character": 2
+        "line": 2,
+        "character": 0
       },
       "end": {
         "line": 14,
@@ -254,8 +262,8 @@
     },
     "selectionRange": {
       "start": {
-        "line": 3,
-        "character": 2
+        "line": 2,
+        "character": 0
       },
       "end": {
         "line": 14,
@@ -295,7 +303,7 @@
             "range": {
               "start": {
                 "line": 4,
-                "character": 4
+                "character": 15
               },
               "end": {
                 "line": 7,
@@ -305,7 +313,7 @@
             "selectionRange": {
               "start": {
                 "line": 4,
-                "character": 4
+                "character": 15
               },
               "end": {
                 "line": 7,
@@ -337,7 +345,9 @@
                     "character": 0
                   }
                 },
-                "children": []
+                "children": [
+                  
+                ]
               },
               {
                 "name": "long",
@@ -363,7 +373,9 @@
                     "character": 0
                   }
                 },
-                "children": []
+                "children": [
+                  
+                ]
               }
             ]
           }
@@ -401,7 +413,7 @@
             "range": {
               "start": {
                 "line": 8,
-                "character": 4
+                "character": 15
               },
               "end": {
                 "line": 10,
@@ -411,7 +423,7 @@
             "selectionRange": {
               "start": {
                 "line": 8,
-                "character": 4
+                "character": 15
               },
               "end": {
                 "line": 10,
@@ -443,7 +455,9 @@
                     "character": 0
                   }
                 },
-                "children": []
+                "children": [
+                  
+                ]
               }
             ]
           }
@@ -481,7 +495,7 @@
             "range": {
               "start": {
                 "line": 11,
-                "character": 4
+                "character": 15
               },
               "end": {
                 "line": 14,
@@ -491,7 +505,7 @@
             "selectionRange": {
               "start": {
                 "line": 11,
-                "character": 4
+                "character": 15
               },
               "end": {
                 "line": 14,
@@ -523,7 +537,9 @@
                     "character": 0
                   }
                 },
-                "children": []
+                "children": [
+                  
+                ]
               },
               {
                 "name": "page-size",
@@ -549,7 +565,9 @@
                     "character": 0
                   }
                 },
-                "children": []
+                "children": [
+                  
+                ]
               }
             ]
           }

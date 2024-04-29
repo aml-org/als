@@ -1,19 +1,26 @@
 package org.mulesoft.als.server
 
 import org.mulesoft.als.server.protocol.actions.{ClientRenameFileActionParams, ClientRenameFileActionResult}
-import org.mulesoft.als.server.protocol.configuration.{ClientAlsClientCapabilities, ClientUpdateConfigurationParams}
+import org.mulesoft.als.server.protocol.configuration.{
+  ClientAlsClientCapabilities,
+  ClientGetWorkspaceConfigurationParams,
+  ClientGetWorkspaceConfigurationResult,
+  ClientUpdateConfigurationParams
+}
 import org.mulesoft.als.server.protocol.diagnostic.{
   ClientAlsPublishDiagnosticsParams,
   ClientCleanDiagnosticTreeParams,
   ClientFilesInProjectParams
 }
+import org.mulesoft.als.server.protocol.filecontents.ClientFileContentsResponse
 import org.mulesoft.als.server.protocol.serialization.{
   ClientConversionParams,
   ClientSerializationParams,
   ClientSerializationResult,
   ClientSerializedDocument
 }
-import org.mulesoft.als.vscode.{NotificationType, RequestType}
+import org.mulesoft.als.server.protocol.textsync.ClientDidFocusParams
+import org.mulesoft.als.vscode.{NotificationType, ParameterStructures, RequestType}
 import org.mulesoft.lsp.feature.common.{ClientLocation, ClientTextDocumentIdentifier}
 
 import scala.scalajs.js
@@ -21,55 +28,93 @@ import scala.scalajs.js.annotation.JSExportTopLevel
 
 @JSExportTopLevel("SerializationEventNotification")
 object SerializationEventNotification {
-  val `type`: NotificationType[ClientSerializationResult, js.Any] =
-    new NotificationType[ClientSerializationResult, js.Any]("SerializeJSONLD")
+  val `type`: NotificationType[ClientSerializationResult] =
+    new NotificationType[ClientSerializationResult]("serializeJSONLD", ParameterStructures.auto)
 }
 
 @JSExportTopLevel("UpdateConfigurationNotification")
 object UpdateClientConfigurationNotification {
-  val `type`: NotificationType[ClientUpdateConfigurationParams, js.Any] =
-    new NotificationType[ClientUpdateConfigurationParams, js.Any]("UpdateConfiguration")
+  val `type`: NotificationType[ClientUpdateConfigurationParams] =
+    new NotificationType[ClientUpdateConfigurationParams]("updateConfiguration", ParameterStructures.auto)
 }
 
 @JSExportTopLevel("FilesInProjectEventNotification")
 object FilesInProjectEventNotification {
-  val `type`: NotificationType[ClientFilesInProjectParams, js.Any] =
-    new NotificationType[ClientFilesInProjectParams, js.Any]("FilesInProject")
+  val `type`: NotificationType[ClientFilesInProjectParams] =
+    new NotificationType[ClientFilesInProjectParams]("filesInProject", ParameterStructures.auto)
 }
+
 @JSExportTopLevel("AlsCapabilitiesNotification")
 object AlsClientCapabilitiesNotification {
-  val `type`: NotificationType[ClientAlsClientCapabilities, js.Any] =
-    new NotificationType[ClientAlsClientCapabilities, js.Any]("NotifyAlsClientCapabilities")
+  val `type`: NotificationType[ClientAlsClientCapabilities] =
+    new NotificationType[ClientAlsClientCapabilities]("notifyAlsClientCapabilities", ParameterStructures.auto)
+}
+
+@JSExportTopLevel("DidFocusNotification")
+object DidFocusNotification {
+  val `type`: NotificationType[ClientDidFocusParams] =
+    new NotificationType[ClientDidFocusParams]("didFocus", ParameterStructures.auto)
 }
 
 @JSExportTopLevel("CleanDiagnosticTreeRequestType")
 object ClientCleanDiagnosticTreeRequestType {
-  val `type`
-    : RequestType[ClientCleanDiagnosticTreeParams, js.Array[ClientAlsPublishDiagnosticsParams], js.Any, js.Any] =
-    new RequestType[ClientCleanDiagnosticTreeParams, js.Array[ClientAlsPublishDiagnosticsParams], js.Any, js.Any](
-      "CleanDiagnosticTree")
+  val `type`: RequestType[ClientCleanDiagnosticTreeParams, js.Array[ClientAlsPublishDiagnosticsParams], js.Any] =
+    new RequestType[ClientCleanDiagnosticTreeParams, js.Array[ClientAlsPublishDiagnosticsParams], js.Any](
+      "cleanDiagnosticTree",
+      ParameterStructures.auto
+    )
 }
 
 @JSExportTopLevel("FileUsageRequestType")
 object FileUsageRequest {
-  val `type`: RequestType[ClientTextDocumentIdentifier, js.Array[ClientLocation], js.Any, js.Any] =
-    new RequestType[ClientTextDocumentIdentifier, js.Array[ClientLocation], js.Any, js.Any]("FileUsage")
+  val `type`: RequestType[ClientTextDocumentIdentifier, js.Array[ClientLocation], js.Any] =
+    new RequestType[ClientTextDocumentIdentifier, js.Array[ClientLocation], js.Any](
+      "fileUsage",
+      ParameterStructures.auto
+    )
+}
+
+@JSExportTopLevel("FileContentsRequestType")
+object FileContentsRequest {
+  val `type`: RequestType[ClientTextDocumentIdentifier, ClientFileContentsResponse, js.Any] =
+    new RequestType[ClientTextDocumentIdentifier, ClientFileContentsResponse, js.Any](
+      "fileContents",
+      ParameterStructures.auto
+    )
 }
 
 @JSExportTopLevel("ConversionRequestType")
 object ClientConversionRequestType {
-  val `type`: RequestType[ClientConversionParams, js.Array[ClientSerializedDocument], js.Any, js.Any] =
-    new RequestType[ClientConversionParams, js.Array[ClientSerializedDocument], js.Any, js.Any]("Conversion")
+  val `type`: RequestType[ClientConversionParams, js.Array[ClientSerializedDocument], js.Any] =
+    new RequestType[ClientConversionParams, js.Array[ClientSerializedDocument], js.Any](
+      "conversion",
+      ParameterStructures.auto
+    )
 }
 
 @JSExportTopLevel("SerializationRequestType")
 object ClientSerializationRequestType {
-  val `type`: RequestType[ClientSerializationParams, ClientSerializationResult, js.Any, js.Any] =
-    new RequestType[ClientSerializationParams, ClientSerializationResult, js.Any, js.Any]("Serialization")
+  val `type`: RequestType[ClientSerializationParams, ClientSerializationResult, js.Any] =
+    new RequestType[ClientSerializationParams, ClientSerializationResult, js.Any](
+      "serialization",
+      ParameterStructures.auto
+    )
 }
 
 @JSExportTopLevel("RenameFileActionRequestType")
 object ClientCleanRenameFileActionRequestType {
-  val `type`: RequestType[ClientRenameFileActionParams, ClientRenameFileActionResult, js.Any, js.Any] =
-    new RequestType[ClientRenameFileActionParams, ClientRenameFileActionResult, js.Any, js.Any]("RenameFile")
+  val `type`: RequestType[ClientRenameFileActionParams, ClientRenameFileActionResult, js.Any] =
+    new RequestType[ClientRenameFileActionParams, ClientRenameFileActionResult, js.Any](
+      "renameFile",
+      ParameterStructures.auto
+    )
+}
+
+@JSExportTopLevel("GetWorkspaceConfigurationRequestType")
+object ClientGetWorkspaceConfigurationRequestType {
+  val `type`: RequestType[ClientGetWorkspaceConfigurationParams, ClientGetWorkspaceConfigurationResult, js.Any] =
+    new RequestType[ClientGetWorkspaceConfigurationParams, ClientGetWorkspaceConfigurationResult, js.Any](
+      "getWorkspaceConfiguration",
+      ParameterStructures.auto
+    )
 }

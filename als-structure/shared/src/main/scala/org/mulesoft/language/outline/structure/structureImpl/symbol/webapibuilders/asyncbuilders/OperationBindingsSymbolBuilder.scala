@@ -1,8 +1,8 @@
 package org.mulesoft.language.outline.structure.structureImpl.symbol.webapibuilders.asyncbuilders
 
-import amf.core.metamodel.Field
-import amf.plugins.domain.webapi.metamodel.bindings.OperationBindingsModel
-import amf.plugins.domain.webapi.models.bindings.OperationBindings
+import amf.apicontract.client.scala.model.domain.bindings.OperationBindings
+import amf.apicontract.internal.metamodel.domain.bindings.OperationBindingsModel
+import amf.core.internal.metamodel.Field
 import org.mulesoft.language.outline.structure.structureImpl.symbol.builders.{
   AmfObjectSimpleBuilderCompanion,
   StructuredSymbolBuilder,
@@ -11,8 +11,8 @@ import org.mulesoft.language.outline.structure.structureImpl.symbol.builders.{
 import org.mulesoft.language.outline.structure.structureImpl.{DocumentSymbol, StructureContext}
 
 class OperationBindingsSymbolBuilder(override val element: OperationBindings)(
-    override implicit val ctx: StructureContext)
-    extends StructuredSymbolBuilder[OperationBindings] {
+    override implicit val ctx: StructureContext
+) extends StructuredSymbolBuilder[OperationBindings] {
 
   override def ignoreFields: List[Field] = super.ignoreFields
   override protected val optionName: Option[String] =
@@ -26,7 +26,8 @@ object OperationBindingsSymbolBuilderCompanion extends AmfObjectSimpleBuilderCom
 
   override def getType: Class[_] = classOf[OperationBindings]
 
-  override protected def construct(element: OperationBindings)(
-      implicit ctx: StructureContext): Option[SymbolBuilder[OperationBindings]] =
+  override protected def construct(element: OperationBindings)(implicit
+      ctx: StructureContext
+  ): Option[SymbolBuilder[OperationBindings]] =
     Some(new OperationBindingsSymbolBuilder(element))
 }

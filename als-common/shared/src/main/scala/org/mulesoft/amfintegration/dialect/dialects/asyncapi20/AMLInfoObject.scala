@@ -1,8 +1,8 @@
 package org.mulesoft.amfintegration.dialect.dialects.asyncapi20
 
-import amf.core.vocabulary.Namespace.XsdTypes.xsdString
-import amf.plugins.document.vocabularies.model.domain.PropertyMapping
-import amf.plugins.domain.webapi.metamodel.api.AsyncApiModel
+import amf.aml.client.scala.model.domain.PropertyMapping
+import amf.apicontract.internal.metamodel.domain.api.AsyncApiModel
+import amf.core.client.scala.vocabulary.Namespace.XsdTypes.xsdString
 import org.mulesoft.amfintegration.dialect.dialects.oas.OasBaseDialect
 import org.mulesoft.amfintegration.dialect.dialects.oas.nodes.{AMLContactObject, AMLLicenseObject, DialectNode}
 
@@ -40,7 +40,8 @@ object AMLInfoObject extends DialectNode {
       .withObjectRange(
         Seq(
           AMLContactObject.id
-        )),
+        )
+      ),
     PropertyMapping()
       .withId(OasBaseDialect.DialectLocation + "#/declarations/InfoObject/license")
       .withName("license")
@@ -48,6 +49,7 @@ object AMLInfoObject extends DialectNode {
       .withObjectRange(
         Seq(
           AMLLicenseObject.id
-        ))
+        )
+      )
   )
 }

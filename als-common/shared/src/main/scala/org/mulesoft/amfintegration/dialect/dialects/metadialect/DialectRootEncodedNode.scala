@@ -1,8 +1,8 @@
 package org.mulesoft.amfintegration.dialect.dialects.metadialect
 
-import amf.core.vocabulary.Namespace.XsdTypes._
-import amf.plugins.document.vocabularies.metamodel.document.DialectModel
-import amf.plugins.document.vocabularies.model.domain.PropertyMapping
+import amf.aml.client.scala.model.domain.PropertyMapping
+import amf.aml.internal.metamodel.document.DialectModel
+import amf.core.client.scala.vocabulary.Namespace.XsdTypes.xsdString
 import org.mulesoft.amfintegration.dialect.dialects.oas.nodes.DialectNode
 
 object DialectRootEncodedNode extends DialectNode {
@@ -36,6 +36,13 @@ object DialectRootEncodedNode extends DialectNode {
       .withNodePropertyMapping(DialectModel.References.value.iri())
       .withName("external")
       .withObjectRange(Seq(ExternalObjectNode.id))
+      .withMapKeyProperty("name")
+      .withMapValueProperty("value"),
+    PropertyMapping()
+      .withId(location + s"#/declarations/$name/extensions")
+      .withNodePropertyMapping(DialectModel.Extensions.value.iri())
+      .withName("extensions")
+      .withObjectRange(Seq(ExtensionsObjectNode.id))
       .withMapKeyProperty("name")
       .withMapValueProperty("value")
   )

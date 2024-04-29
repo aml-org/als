@@ -1,0 +1,13 @@
+openapi: 3.0.0
+info:
+  title: Sample Pet Store App
+  version: 1.0.1
+
+paths:
+  /endpoint1:
+    summary: aa
+    description: an endpoint
+    get:
+      callbacks:
+        callback:
+          'http://notificationServer.com?transactionId={*

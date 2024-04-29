@@ -1,14 +1,24 @@
 package org.mulesoft.als.suggestions.test
 
-import amf.core.model.document.BaseUnit
-import amf.internal.environment.Environment
-import org.mulesoft.amfintegration.AmfInstance
+import amf.aml.client.scala.AMLConfiguration
+import amf.apicontract.client.scala.APIConfiguration
+import amf.core.client.scala.model.document.BaseUnit
+import org.mulesoft.als.common.AmfConfigurationPatcher
+import org.mulesoft.als.logger.{EmptyLogger, Logger}
+import org.mulesoft.amfintegration.amfconfiguration.{
+  ALSConfigurationState,
+  EditorConfiguration,
+  EmptyProjectConfigurationState
+}
 import org.mulesoft.lsp.feature.completion.CompletionItem
-import org.scalatest.{Assertion, AsyncFunSuite}
+import org.scalatest.compatible.Assertion
+import org.scalatest.funsuite.AsyncFunSuite
 
 import scala.concurrent.{ExecutionContext, Future}
 
 trait SuggestionsTest extends AsyncFunSuite with BaseSuggestionsForTest {
+
+  Logger.withLogger(EmptyLogger)
 
   implicit override def executionContext: ExecutionContext =
     scala.concurrent.ExecutionContext.Implicits.global
@@ -27,11 +37,10 @@ trait SuggestionsTest extends AsyncFunSuite with BaseSuggestionsForTest {
     }
   }
 
-  def assertCategory(path: String, suggestions: Set[CompletionItem]): Assertion = {
+  def assertCategory(path: String, suggestions: Set[CompletionItem]): Assertion =
     if (suggestions.forall(matchCategory))
       succeed
     else fail(s"Difference in categories for $path")
-  }
 
   def assert(path: String, actualSet: Set[String], golden: Set[String]): Assertion = {
     def replaceEOL(s: String): String = {
@@ -51,60 +60,86 @@ trait SuggestionsTest extends AsyncFunSuite with BaseSuggestionsForTest {
     if (diff1.isEmpty && diff2.isEmpty) succeed
     else
       fail(s"Difference for $path: got [${actualSet
-        .mkString(", ")}] while expecting [${golden.mkString(", ")}]")
+          .mkString(", ")}] while expecting [${golden.mkString(", ")}]")
   }
 
-  /**
-    * @param path   URI for the API resource
-    * @param label  Pointer placeholder
-    * @param cut    if true, cuts text after label
-    * @param labels set of every label in the file (needed for cleaning API)
+  /** @param path
+    *   URI for the API resource
+    * @param label
+    *   Pointer placeholder
+    * @param cut
+    *   if true, cuts text after label
+    * @param labels
+    *   set of every label in the file (needed for cleaning API)
     */
-  def runTestCategory(path: String,
-                      label: String = "*",
-                      cut: Boolean = false,
-                      labels: Array[String] = Array("*")): Future[Assertion] =
-    this
-      .suggest(path, label)
-      .map(r => assertCategory(path, r.toSet))
+  def runTestCategory(
+      path: String,
+      label: String = "*",
+      cut: Boolean = false,
+      labels: Array[String] = Array("*")
+  ): Future[Assertion] =
+    EditorConfiguration().getState
+      .map(ALSConfigurationState(_, EmptyProjectConfigurationState, None))
+      .flatMap(state => {
+        this
+          .suggest(path, label, state)
+          .map(r => assertCategory(path, r.toSet))
+      })
 
-  /**
-    * @param path                URI for the API resource
-    * @param originalSuggestions Expected result set
-    * @param label               Pointer placeholder
-    * @param cut                 if true, cuts text after label
-    * @param labels              set of every label in the file (needed for cleaning API)
+  /** @param path
+    *   URI for the API resource
+    * @param originalSuggestions
+    *   Expected result set
+    * @param label
+    *   Pointer placeholder
+    * @param cut
+    *   if true, cuts text after label
+    * @param labels
+    *   set of every label in the file (needed for cleaning API)
     */
-  def runSuggestionTest(path: String,
-                        originalSuggestions: Set[String],
-                        label: String = "*",
-                        cut: Boolean = false,
-                        labels: Array[String] = Array("*"),
-                        dialect: Option[String] = None): Future[Assertion] =
+  def runSuggestionTest(
+      path: String,
+      originalSuggestions: Set[String],
+      label: String = "*",
+      cut: Boolean = false,
+      labels: Array[String] = Array("*"),
+      dialectPath: Option[String] = None
+  ): Future[Assertion] =
     this
-      .suggest(path, label, dialect)
+      .suggest(path, label, dialectPath)
       .map(r =>
-        assert(path, r.flatMap(s => s.textEdit.map(_.newText).orElse(s.insertText)).toSet, originalSuggestions))
+        assert(path, r.flatMap(s => s.textEdit.map(_.left.get.newText).orElse(s.insertText)).toSet, originalSuggestions)
+      )
 
   def withDialect(path: String, originalSuggestions: Set[String], dialectPath: String): Future[Assertion] = {
-    runSuggestionTest(path, originalSuggestions, dialect = Some(filePath(dialectPath)))
-
+    runSuggestionTest(filePath(path), originalSuggestions, dialectPath = Some(filePath(dialectPath)))
   }
 
   def rootPath: String
 
-  override def suggest(path: String, label: String, dialect: Option[String] = None): Future[Seq[CompletionItem]] = {
-    dialect match {
-      case Some(d) => platform.resolve(d).flatMap(c => super.suggest(filePath(path), label, Some(c.stream.toString)))
-      case _       => super.suggest(filePath(path), label, None)
-    }
-
+  def suggest(url: String, label: String, dialectPath: Option[String] = None): Future[Seq[CompletionItem]] = {
+    for {
+      dialectContent <- dialectPath
+        .map(d => platform.fetchContent(d, AMLConfiguration.predefined()).map(Some(_)))
+        .getOrElse(Future(None))
+      editorConfiguration <- Future {
+        val dialectUri = "file:///dialect.yaml"
+        val dialectResourceLoader =
+          dialectContent.map(d => AmfConfigurationPatcher.resourceLoaderForFile(dialectUri, d.toString()))
+        val editorConfiguration =
+          EditorConfiguration.withPlatformLoaders(dialectResourceLoader.map(Seq(_)).getOrElse(Seq.empty))
+        dialectPath.foreach(_ => editorConfiguration.withDialect(dialectUri))
+        editorConfiguration
+      }
+      state <- editorConfiguration.getState
+      r     <- super.suggest(url, label, ALSConfigurationState(state, EmptyProjectConfigurationState, None))
+    } yield r
   }
 
   case class ModelResult(u: BaseUnit, url: String, position: Int, originalContent: Option[String])
 
-  def parseAMF(path: String, env: Environment = Environment()): Future[BaseUnit] =
-    AmfInstance.default.modelBuilder().parse(path, env).map(_.baseUnit)
+  def parseAMF(url: String): Future[BaseUnit] =
+    APIConfiguration.APIWithJsonSchema().baseUnitClient().parse(url).map(_.baseUnit)
 
   def filePath(path: String): String = {
     var result =

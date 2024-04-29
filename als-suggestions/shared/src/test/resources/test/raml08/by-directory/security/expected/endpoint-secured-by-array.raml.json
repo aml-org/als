@@ -1,13 +1,19 @@
 [
   {
     "label": "oauth2",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "oauth2",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11oauth2",
-    "filterText": "oauth2:\n  ",
+    "filterText": "oauth2: ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -23,7 +29,7 @@
           "character": 6
         }
       },
-      "newText": "oauth2:\n  "
+      "newText": "oauth2: "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -31,13 +37,19 @@
   },
   {
     "label": "obasic",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "obasic",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11obasic",
-    "filterText": "obasic:\n  ",
+    "filterText": "obasic: ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -53,7 +65,7 @@
           "character": 6
         }
       },
-      "newText": "obasic:\n  "
+      "newText": "obasic: "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,

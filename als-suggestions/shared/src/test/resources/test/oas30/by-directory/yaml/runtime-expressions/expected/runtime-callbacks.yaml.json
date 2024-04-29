@@ -1,13 +1,19 @@
 [
   {
     "label": "$method",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "RuntimeExpression",
-    "documentation": "{$method",
-    "deprecated": [],
-    "preselect": [],
+    "documentation": "{$method}",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11$method",
-    "filterText": "\"{$method\"",
+    "filterText": "\"{$method}\"",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -16,14 +22,14 @@
       "range": {
         "start": {
           "line": 23,
-          "character": 11
+          "character": 10
         },
         "end": {
           "line": 23,
-          "character": 12
+          "character": 14
         }
       },
-      "newText": "\"{$method\""
+      "newText": "\"{$method}\""
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -31,13 +37,19 @@
   },
   {
     "label": "$request.",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "RuntimeExpression",
-    "documentation": "{$request.",
-    "deprecated": [],
-    "preselect": [],
+    "documentation": "{$request.}",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11$request.",
-    "filterText": "\"{$request.\"",
+    "filterText": "\"{$request.}\"",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -46,14 +58,14 @@
       "range": {
         "start": {
           "line": 23,
-          "character": 11
+          "character": 10
         },
         "end": {
           "line": 23,
-          "character": 12
+          "character": 14
         }
       },
-      "newText": "\"{$request.\""
+      "newText": "\"{$request.}\""
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -61,13 +73,19 @@
   },
   {
     "label": "$response.",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "RuntimeExpression",
-    "documentation": "{$response.",
-    "deprecated": [],
-    "preselect": [],
+    "documentation": "{$response.}",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11$response.",
-    "filterText": "\"{$response.\"",
+    "filterText": "\"{$response.}\"",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -76,14 +94,14 @@
       "range": {
         "start": {
           "line": 23,
-          "character": 11
+          "character": 10
         },
         "end": {
           "line": 23,
-          "character": 12
+          "character": 14
         }
       },
-      "newText": "\"{$response.\""
+      "newText": "\"{$response.}\""
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -91,13 +109,19 @@
   },
   {
     "label": "$statusCode",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "RuntimeExpression",
-    "documentation": "{$statusCode",
-    "deprecated": [],
-    "preselect": [],
+    "documentation": "{$statusCode}",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11$statusCode",
-    "filterText": "\"{$statusCode\"",
+    "filterText": "\"{$statusCode}\"",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -106,14 +130,14 @@
       "range": {
         "start": {
           "line": 23,
-          "character": 11
+          "character": 10
         },
         "end": {
           "line": 23,
-          "character": 12
+          "character": 14
         }
       },
-      "newText": "\"{$statusCode\""
+      "newText": "\"{$statusCode}\""
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -121,13 +145,19 @@
   },
   {
     "label": "$url",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "RuntimeExpression",
-    "documentation": "{$url",
-    "deprecated": [],
-    "preselect": [],
+    "documentation": "{$url}",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11$url",
-    "filterText": "\"{$url\"",
+    "filterText": "\"{$url}\"",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -136,14 +166,14 @@
       "range": {
         "start": {
           "line": 23,
-          "character": 11
+          "character": 10
         },
         "end": {
           "line": 23,
-          "character": 12
+          "character": 14
         }
       },
-      "newText": "\"{$url\""
+      "newText": "\"{$url}\""
     },
     "additionalTextEdits": null,
     "commitCharacters": null,

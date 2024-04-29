@@ -1,20 +1,26 @@
 package org.mulesoft.als.server.protocol.convert
 
-import org.mulesoft.als.server.feature.diagnostic.{CleanDiagnosticTreeClientCapabilities, CleanDiagnosticTreeOptions}
+import org.mulesoft.als.configuration.AlsConfiguration
+import org.mulesoft.als.server.feature.configuration.workspace.{
+  GetWorkspaceConfigurationParams,
+  GetWorkspaceConfigurationResult,
+  WorkspaceConfigurationClientCapabilities,
+  WorkspaceConfigurationOptions
+}
+import org.mulesoft.als.server.feature.diagnostic.{
+  CleanDiagnosticTreeClientCapabilities,
+  CleanDiagnosticTreeOptions,
+  CustomValidationClientCapabilities,
+  CustomValidationOptions
+}
+import org.mulesoft.als.server.feature.fileusage.filecontents.FileContentsResponse
 import org.mulesoft.als.server.feature.fileusage.{FileUsageClientCapabilities, FileUsageOptions}
 import org.mulesoft.als.server.feature.renamefile.{
   RenameFileActionClientCapabilities,
   RenameFileActionOptions,
   RenameFileActionResult
 }
-import org.mulesoft.als.server.feature.serialization.{
-  ConversionClientCapabilities,
-  ConversionRequestOptions,
-  SerializationClientCapabilities,
-  SerializationResult,
-  SerializationServerOptions,
-  SerializedDocument
-}
+import org.mulesoft.als.server.feature.serialization._
 import org.mulesoft.als.server.feature.workspace.FilesInProjectParams
 import org.mulesoft.als.server.modules.diagnostic.AlsPublishDiagnosticsParams
 import org.mulesoft.als.server.protocol.actions.{
@@ -23,20 +29,28 @@ import org.mulesoft.als.server.protocol.actions.{
   ClientRenameFileActionServerOptions
 }
 import org.mulesoft.als.server.protocol.configuration._
-import org.mulesoft.als.server.protocol.diagnostic.{ClientAlsPublishDiagnosticsParams, ClientFilesInProjectParams}
-import org.mulesoft.als.server.protocol.serialization.{ClientSerializationResult, ClientSerializedDocument}
+import org.mulesoft.als.server.protocol.diagnostic.{
+  ClientAlsPublishDiagnosticsParams,
+  ClientCustomValidationClientCapabilities,
+  ClientCustomValidationOptions,
+  ClientFilesInProjectParams
+}
+import org.mulesoft.als.server.protocol.filecontents.ClientFileContentsResponse
+import org.mulesoft.als.server.protocol.serialization.{
+  ClientSerializationParams,
+  ClientSerializationResult,
+  ClientSerializedDocument
+}
 import org.mulesoft.als.server.protocol.textsync.{
   ClientDidFocusParams,
   ClientIndexDialectParams,
   DidFocusParams,
   IndexDialectParams
 }
-import org.mulesoft.lsp.configuration.{FormattingOptions, _}
-import org.mulesoft.lsp.feature.diagnostic.{ClientPublishDiagnosticsParams, PublishDiagnosticsParams}
+import org.mulesoft.lsp.configuration._
 
 import scala.language.implicitConversions
 import scala.scalajs.js
-import scala.scalajs.js.JSConverters._
 
 object LspConvertersSharedToClient {
 
@@ -70,9 +84,19 @@ object LspConvertersSharedToClient {
       ClientAlsClientCapabilities(v)
   }
 
+  implicit class ClientAlsClientConfigurationConverter(v: AlsConfiguration) {
+    def toClient: ClientAlsConfiguration =
+      ClientAlsConfiguration(v)
+  }
+
   implicit class ClientUpdateFormatOptionsParamsConverter(v: FormattingOptions) {
     def toClient: ClientFormattingOptions =
       ClientFormattingOptions(v)
+  }
+
+  implicit class ClientCustomValidationClientCapabilitiesConverter(v: CustomValidationClientCapabilities) {
+    def toClient: ClientCustomValidationClientCapabilities =
+      ClientCustomValidationClientCapabilities(v)
   }
 
   implicit class ClientFilesInProjectParamsConverter(v: FilesInProjectParams) {
@@ -120,6 +144,11 @@ object LspConvertersSharedToClient {
       ClientSerializationResult(v)
   }
 
+  implicit class ClientSerializationParamsConverter(v: SerializationParams) {
+    def toClient: ClientSerializationParams =
+      ClientSerializationParams(v)
+  }
+
   implicit class ClientDidFocusParamsConverter(v: DidFocusParams) {
     def toClient: ClientDidFocusParams =
       ClientDidFocusParams(v)
@@ -152,5 +181,30 @@ object LspConvertersSharedToClient {
   implicit class ClientRenameFileActionClientCapabilitiesConverter(i: RenameFileActionClientCapabilities) {
     def toClient: ClientRenameFileActionClientCapabilities =
       ClientRenameFileActionClientCapabilities(i)
+  }
+
+  implicit class ClientGetWorkspaceConfigurationParamsConverter(i: GetWorkspaceConfigurationParams) {
+    def toClient: ClientGetWorkspaceConfigurationParams = ClientGetWorkspaceConfigurationParams(i)
+  }
+
+  implicit class ClientGetWorkspaceConfigurationResultConverter(i: GetWorkspaceConfigurationResult) {
+    def toClient: ClientGetWorkspaceConfigurationResult = ClientGetWorkspaceConfigurationResult(i)
+  }
+
+  implicit class WorkspaceConfigurationClientCapabilitiesConverter(i: WorkspaceConfigurationClientCapabilities) {
+    def toClient: ClientWorkspaceConfigurationClientCapabilities =
+      ClientWorkspaceConfigurationClientCapabilities(i)
+  }
+
+  implicit class ClientClientWorkspaceConfigurationServerOptionsConverter(i: WorkspaceConfigurationOptions) {
+    def toClient: ClientWorkspaceConfigurationServerOptions = ClientWorkspaceConfigurationServerOptions(i)
+  }
+
+  implicit class ClientCustomValidationOptionsConverter(i: CustomValidationOptions) {
+    def toClient: ClientCustomValidationOptions = ClientCustomValidationOptions(i)
+  }
+
+  implicit class ClientFileContentsResponseConverter(i: FileContentsResponse) {
+    def toClient: ClientFileContentsResponse = ClientFileContentsResponse(i)
   }
 }

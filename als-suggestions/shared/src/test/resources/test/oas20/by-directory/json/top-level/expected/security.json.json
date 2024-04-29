@@ -1,16 +1,22 @@
 [
   {
     "label": "mySecurity",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "mySecurity",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11mySecurity",
-    "filterText": "\"mySecurity\"",
+    "filterText": "\"mySecurity\": [\n  \"$1\"\n]",
     "insertText": null,
     "insertTextFormat": [
-      1
+      2
     ],
     "textEdit": {
       "range": {
@@ -23,7 +29,7 @@
           "character": 17
         }
       },
-      "newText": "\"mySecurity\""
+      "newText": "\"mySecurity\": [\n  \"$1\"\n]"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,

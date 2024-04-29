@@ -1,24 +1,31 @@
 package org.mulesoft.amfintegration
 
-import amf.client.parse.DefaultErrorHandler
-import amf.core.errorhandling.ErrorCollector
-import amf.core.model.document.BaseUnit
-import amf.plugins.document.webapi.model.{Extension, Overlay}
+import amf.core.client.scala.AMFResult
+import amf.core.client.scala.errorhandling.{AMFErrorHandler, DefaultErrorHandler}
+import amf.core.client.scala.model.document.BaseUnit
+import org.mulesoft.amfintegration.amfconfiguration.{
+  ALSConfigurationState,
+  AMLSpecificConfiguration,
+  ProjectConfigurationState
+}
+import org.mulesoft.lsp.feature.link.DocumentLink
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
 trait AmfResolvedUnit extends UnitWithNextReference {
   override protected type T = AmfResolvedUnit
+  val alsConfigurationState: ALSConfigurationState
+  val configuration: AMLSpecificConfiguration = AMLSpecificConfiguration(alsConfigurationState.getAmfConfig)
 
-  protected def resolvedUnitFn(): Future[BaseUnit]
+  protected def resolvedUnitFn(): Future[AMFResult]
 
-  val diagnosticsBundle: Map[String, DiagnosticsBundle]
+  val documentLinks: Map[String, Seq[DocumentLink]]
 
-  val eh: ErrorCollector = DefaultErrorHandler()
-  val originalUnit: BaseUnit
+  val eh: AMFErrorHandler = DefaultErrorHandler()
+  val baseUnit: BaseUnit
 
-  final lazy val resolvedUnit: Future[BaseUnit] = resolvedUnitFn()
+  final lazy val resolvedUnit: Future[AMFResult] = resolvedUnitFn()
 
   private def getLastRecursively(r: AmfResolvedUnit): Future[AmfResolvedUnit] =
     r.next match {
@@ -27,6 +34,5 @@ trait AmfResolvedUnit extends UnitWithNextReference {
     }
 
   final def latestBU: Future[BaseUnit] =
-    getLastRecursively(this).flatMap(_.resolvedUnit)
-
+    getLastRecursively(this).flatMap(_.resolvedUnit).map(_.baseUnit)
 }

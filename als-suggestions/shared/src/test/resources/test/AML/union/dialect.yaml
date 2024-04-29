@@ -1,0 +1,38 @@
+#%Dialect 1.0
+dialect: Basic
+version: 1
+documents:
+  root:
+    encodes: RootNode
+external:
+  v: http://voc.val/#
+nodeMappings:
+  A:
+    classTerm: v.myA
+    mapping:
+      text:
+        range: NonRootNode
+  B:
+    mapping:
+      text:
+        range: string
+      newProp:
+        range: string
+
+  RootNode:
+    union:
+      - A
+      - B
+    typeDiscriminatorName: kind
+    typeDiscriminator:
+      TypeA: A
+      TypeB: B
+  NonRootNode:
+    classTerm: v.nonRoot
+    union:
+      - A
+      - B
+    typeDiscriminatorName: discriminator
+    typeDiscriminator:
+      TypeA: A
+      TypeB: B

@@ -1,19 +1,20 @@
 package org.mulesoft.als.server.modules.completion.raml
 
-import amf.client.remote.Content
-import amf.internal.environment.Environment
-import amf.internal.resource.ResourceLoader
+import amf.core.client.common.remote.Content
+import amf.core.client.scala.resource.ResourceLoader
 import org.mulesoft.als.common.DirectoryResolver
+import org.mulesoft.als.common.URIImplicits._
+import org.mulesoft.als.server.MockDiagnosticClientNotifier
+import org.mulesoft.als.server.client.scala.LanguageServerBuilder
 import org.mulesoft.als.server.modules.WorkspaceManagerFactoryBuilder
 import org.mulesoft.als.server.protocol.LanguageServer
 import org.mulesoft.als.server.protocol.configuration.AlsInitializeParams
 import org.mulesoft.als.server.workspace.WorkspaceManager
-import org.mulesoft.als.server.{LanguageServerBuilder, MockDiagnosticClientNotifier}
+import org.mulesoft.amfintegration.amfconfiguration.EditorConfiguration
 import org.mulesoft.lsp.configuration.TraceKind
 import org.mulesoft.lsp.feature.common.{Position, TextDocumentIdentifier, TextDocumentItem}
 import org.mulesoft.lsp.feature.completion.{CompletionParams, CompletionRequestType}
 import org.mulesoft.lsp.textsync.DidOpenTextDocumentParams
-import org.mulesoft.als.common.URIImplicits._
 
 import scala.concurrent.{ExecutionContext, Future}
 
@@ -54,28 +55,27 @@ class DifferentEncodingTest extends RAMLSuggestionTestServer {
       }
 
       override def isDirectory(path: String): Future[Boolean] = Future.successful {
-        allPaths.exists(p =>
-          p.startsWith(path) && (path.endsWith("/") || p.stripPrefix(path).headOption.contains('/')))
+        allPaths.exists(p => p.startsWith(path) && (path.endsWith("/") || p.stripPrefix(path).headOption.contains('/')))
       }
     }
-
-    val env = Environment().withLoaders(Seq(rs))
-
+    val global = EditorConfiguration.withPlatformLoaders(Seq(rs))
     val factory =
-      new WorkspaceManagerFactoryBuilder(new MockDiagnosticClientNotifier, logger, env)
+      new WorkspaceManagerFactoryBuilder(new MockDiagnosticClientNotifier, global)
         .withDirectoryResolver(dr)
         .buildWorkspaceManagerFactory()
     val workspaceManager: WorkspaceManager = factory.workspaceManager
     val server =
-      new LanguageServerBuilder(factory.documentManager,
-                                workspaceManager,
-                                factory.configurationManager,
-                                factory.resolutionTaskManager)
+      new LanguageServerBuilder(
+        factory.documentManager,
+        workspaceManager,
+        factory.configurationManager,
+        factory.resolutionTaskManager
+      )
         .addRequestModule(factory.completionManager)
         .build()
 
     server
-      .initialize(AlsInitializeParams(None, Some(TraceKind.Off), rootUri = Some(root)))
+      .testInitialize(AlsInitializeParams(None, Some(TraceKind.Off), rootUri = Some(root)))
       .andThen { case _ => server.initialized() }
       .map(_ => (server, workspaceManager))
   }
@@ -89,7 +89,6 @@ class DifferentEncodingTest extends RAMLSuggestionTestServer {
       Set(("file:///r/root%20%281%29/api.raml", "file:///r/root%20(1)/api.raml")),
       Position(2, 15),
       Map(
-        "file:///r/exchange.json" -> """{"main": "root (1)/api.raml"}""",
         "file:///r/root%20(1)/api.raml" ->
           """#%RAML 1.0
             |types:
@@ -108,7 +107,6 @@ class DifferentEncodingTest extends RAMLSuggestionTestServer {
       Set(("file:///r/root%20%281%29/api.raml", "file:///r/root%20(1)/api.raml")),
       Position(2, 17),
       Map(
-        "file:///r/exchange.json" -> """{"main": "root (1)/api.raml"}""",
         "file:///r/root%20(1)/api.raml" ->
           """#%RAML 1.0
             |types:
@@ -120,14 +118,13 @@ class DifferentEncodingTest extends RAMLSuggestionTestServer {
           """#%RAML 1.0 DataType
             |type: string""".stripMargin
       ),
-      Set("exchange.json", "root (1)/")
+      Set("root (1)/")
     ),
     TestEntry( // Isolated path in a workspace which contains a Project
       "file:///r/t.raml",
       Set(("file:///r/t.raml", "file:///r/t.raml")),
       Position(2, 15),
       Map(
-        "file:///r/exchange.json" -> """{"main": "root (1)/api.raml"}""",
         "file:///r/root%20(1)/api.raml" ->
           """#%RAML 1.0
             |types:
@@ -143,7 +140,7 @@ class DifferentEncodingTest extends RAMLSuggestionTestServer {
             |types:
             |  t: !include /""".stripMargin
       ),
-      Set("/exchange.json", "/root (1)/")
+      Set("/root (1)/")
     )
   )
 
@@ -153,8 +150,8 @@ class DifferentEncodingTest extends RAMLSuggestionTestServer {
         testSets.map { test =>
           for {
             (server, _) <- buildServer(test.root, test.ws)
-            _ <- Future {
-              test.filesToOpen.foreach { t =>
+            _ <- Future.sequence {
+              test.filesToOpen.map { t =>
                 server.textDocumentSyncConsumer.didOpen(
                   DidOpenTextDocumentParams(TextDocumentItem(t._1, "RAML", 0, test.ws.getOrElse(t._2, "")))
                 )
@@ -165,9 +162,9 @@ class DifferentEncodingTest extends RAMLSuggestionTestServer {
                 .resolveHandler(CompletionRequestType)
                 .map { h =>
                   h(CompletionParams(TextDocumentIdentifier(test.fileUri), test.position))
-                    .map(completions => {
+                    .flatMap(completions => {
                       closeFile(server)(test.fileUri)
-                      completions.left.value
+                        .map(_ => completions.left.value)
                     })
                 }
             }.getOrElse(Future.failed(new Exception("No completion handler")))
@@ -182,10 +179,12 @@ class DifferentEncodingTest extends RAMLSuggestionTestServer {
     }
   }
 
-  case class TestEntry(fileUri: String,
-                       filesToOpen: Set[(String, String)],
-                       position: Position,
-                       ws: Map[String, String],
-                       result: Set[String],
-                       root: String = "file:///r")
+  case class TestEntry(
+      fileUri: String,
+      filesToOpen: Set[(String, String)],
+      position: Position,
+      ws: Map[String, String],
+      result: Set[String],
+      root: String = "file:///r"
+  )
 }

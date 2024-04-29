@@ -1,30 +1,15 @@
 package org.mulesoft.language.outline.structure.structureImpl.companion
 
-import amf.core.model.domain.{AmfElement, AmfObject}
-import amf.core.parser.FieldEntry
+import amf.core.client.scala.model.domain.{AmfElement, AmfObject}
+import amf.core.internal.parser.domain.FieldEntry
 import org.mulesoft.language.outline.structure.structureImpl._
-import org.mulesoft.language.outline.structure.structureImpl.symbol.builders.fieldbuilders.{
-  ArrayFieldTypeSymbolBuilderCompanion,
-  DefaultArrayTypeSymbolBuilder,
-  DefaultObjectTypeSymbolBuilder,
-  DefaultScalarTypeSymbolBuilder,
-  ObjectFieldTypeSymbolBuilder,
-  ObjectFieldTypeSymbolBuilderCompanion,
-  ScalarFieldTypeSymbolBuilderCompanion
-}
-import org.mulesoft.language.outline.structure.structureImpl.symbol.builders.{
-  AmfObjectSimpleBuilderCompanion,
-  FieldSymbolBuilderCompanion,
-  FieldTypeSymbolBuilder,
-  FieldTypeSymbolBuilderCompanion,
-  IriFieldSymbolBuilderCompanion,
-  SymbolBuilder
-}
+import org.mulesoft.language.outline.structure.structureImpl.symbol.builders.fieldbuilders._
+import org.mulesoft.language.outline.structure.structureImpl.symbol.builders._
 
 class FieldCompanionList(
     list: List[FieldSymbolBuilderCompanion],
-    objectCompanionList: CompanionList[AmfObject, AmfObjectSimpleBuilderCompanion[_ <: AmfObject]])
-    extends CompanionList[FieldEntry, FieldSymbolBuilderCompanion](list) {
+    objectCompanionList: CompanionList[AmfObject, AmfObjectSimpleBuilderCompanion[_ <: AmfObject]]
+) extends CompanionList[FieldEntry, FieldSymbolBuilderCompanion](list) {
 
   override protected def newInstance(list: List[FieldSymbolBuilderCompanion]): FieldCompanionList =
     new FieldCompanionList(list, objectCompanionList)
@@ -46,13 +31,14 @@ class FieldCompanionList(
   private val iriObject: FieldTypeSymbolBuilderCompanion[AmfObject] = new FieldTypeSymbolBuilderCompanion[AmfObject] {
     override def getElementType: Class[_ <: AmfElement] = classOf[AmfObject]
 
-    override def construct(element: FieldEntry, value: AmfObject)(
-        implicit ctx: StructureContext): Option[FieldTypeSymbolBuilder[AmfObject]] = {
-      find(value).map { b =>
+    override def construct(e: FieldEntry, v: AmfObject)(implicit
+        context: StructureContext
+    ): Option[FieldTypeSymbolBuilder[AmfObject]] = {
+      find(v).map { b =>
         val builder: ObjectFieldTypeSymbolBuilder = new ObjectFieldTypeSymbolBuilder {
-          override val value: AmfObject               = value
-          override val element: FieldEntry            = element
-          override implicit val ctx: StructureContext = ctx
+          override val value: AmfObject               = v
+          override val element: FieldEntry            = e
+          override implicit val ctx: StructureContext = context
 
           override def build(): Seq[DocumentSymbol] = b.build()
 
@@ -69,7 +55,8 @@ class FieldCompanionList(
     builder match {
       case i: IriFieldSymbolBuilderCompanion =>
         newInstance(
-          iriList.updated(i.supportedIri, i).values.toList ++ arrayFieldList ++ scalarFieldList ++ objectFieldList)
+          iriList.updated(i.supportedIri, i).values.toList ++ arrayFieldList ++ scalarFieldList ++ objectFieldList
+        )
       case a: ArrayFieldTypeSymbolBuilderCompanion =>
         newInstance(iriList.values.toList ++ scalarFieldList ++ objectFieldList :+ a)
       case s: ScalarFieldTypeSymbolBuilderCompanion =>
@@ -101,7 +88,9 @@ class FieldCompanionList(
 }
 
 object FieldCompanionList {
-  def apply(list: List[FieldSymbolBuilderCompanion],
-            objList: List[AmfObjectSimpleBuilderCompanion[_ <: AmfObject]]): FieldCompanionList =
+  def apply(
+      list: List[FieldSymbolBuilderCompanion],
+      objList: List[AmfObjectSimpleBuilderCompanion[_ <: AmfObject]]
+  ): FieldCompanionList =
     new FieldCompanionList(list, new AmfObjectCompanionList(objList))
 }

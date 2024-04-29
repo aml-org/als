@@ -1,8 +1,6 @@
 package org.mulesoft.als.suggestions.plugins.aml.webapi.raml
 
-import amf.core.model.domain.AmfObject
-import amf.core.model.domain.templates.{AbstractDeclaration, ParametrizedDeclaration, VariableValue}
-import amf.plugins.domain.webapi.models.templates.{ParametrizedResourceType, ParametrizedTrait}
+import amf.core.client.scala.model.domain.templates.{AbstractDeclaration, ParametrizedDeclaration}
 import org.mulesoft.als.suggestions.RawSuggestion
 import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
 import org.mulesoft.als.suggestions.interfaces.AMLCompletionPlugin
@@ -14,7 +12,7 @@ object RamlParametrizedDeclarationVariablesRef extends AMLCompletionPlugin {
 
   override def resolve(params: AmlCompletionRequest): Future[Seq[RawSuggestion]] = {
     Future.successful(
-      getParametraizedDeclaration(params) match {
+      getParametrizedDeclaration(params) match {
         case Some(p) if p.target != null =>
           p.target.linkTarget
             .collectFirst({ case p: AbstractDeclaration => p })
@@ -27,13 +25,13 @@ object RamlParametrizedDeclarationVariablesRef extends AMLCompletionPlugin {
     )
   }
 
-  private def getParametraizedDeclaration(params: AmlCompletionRequest): Option[ParametrizedDeclaration] = {
+  private def getParametrizedDeclaration(params: AmlCompletionRequest): Option[ParametrizedDeclaration] = {
     params.amfObject match {
-      case declaration: ParametrizedDeclaration if params.yPartBranch.isKey || params.yPartBranch.isArray =>
+      case declaration: ParametrizedDeclaration if params.astPartBranch.isKey || params.astPartBranch.isArray =>
         Some(declaration)
       case _ =>
         params.branchStack.headOption
-          .collectFirst({ case p: ParametrizedDeclaration if params.yPartBranch.isKey => p })
+          .collectFirst({ case p: ParametrizedDeclaration if params.astPartBranch.isKey => p })
     }
   }
 }

@@ -20,25 +20,29 @@ case class WorkspaceEditSerializer(edit: WorkspaceEdit) {
 
   def entryChanges(e: EntryBuilder): Unit = {
     edit.changes.foreach(changes =>
-      e.entry("changes", p => {
-        p.obj(eb => {
-          changes.foreach(c => emitChangeForUri(c._1, c._2)(eb))
-        })
-      }))
+      e.entry(
+        "changes",
+        p => {
+          p.obj(eb => {
+            changes.foreach(c => emitChangeForUri(c._1, c._2)(eb))
+          })
+        }
+      )
+    )
 
-    edit.documentChanges.foreach(
-      documentChanges =>
-        e.entry(
-          "documentChanges",
-          p => {
-            p.obj(eb => {
-              documentChanges.foreach {
-                case Left(value)  => emitChangeForTextDocumentEdit(value)(eb)
-                case Right(value) => emitChangeForResource(value)(eb)
-              }
-            })
-          }
-      ))
+    edit.documentChanges.foreach(documentChanges =>
+      e.entry(
+        "documentChanges",
+        p => {
+          p.obj(eb => {
+            documentChanges.foreach {
+              case Left(value)  => emitChangeForTextDocumentEdit(value)(eb)
+              case Right(value) => emitChangeForResource(value)(eb)
+            }
+          })
+        }
+      )
+    )
   }
 
   private def toYaml: String = {
@@ -73,8 +77,19 @@ case class WorkspaceEditSerializer(edit: WorkspaceEdit) {
   private def emitTextEdit(textEdit: TextEdit)(eb: EntryBuilder): Unit = {
     eb.entry("from", _.obj(emitPosition(textEdit.range.start)))
     eb.entry("to", _.obj(emitPosition(textEdit.range.end)))
-    eb.entry("content", _.+=("+\n" + textEdit.newText))
+    eb.entry("content", _.+=(addEolIfNecessary(textEdit.newText)))
   }
+
+  /** This method was implemented to avoid the wrongful modification of golden files on OAS3 when content starts with
+    * '\n' (this happens on Delete Declared Node Code Action is excecuted)
+    *
+    * @param content
+    *   TextEdit content
+    * @return
+    *   fixed content on '\n' cases
+    */
+  private def addEolIfNecessary(content: String) =
+    if (content == "\n") s"+$content" else s"+\n$content"
 
   private def emitPosition(position: Position)(eb: EntryBuilder): Unit = {
     eb.entry("line", position.line)

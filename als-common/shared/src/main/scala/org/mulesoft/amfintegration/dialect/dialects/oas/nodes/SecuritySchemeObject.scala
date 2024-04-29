@@ -1,8 +1,17 @@
 package org.mulesoft.amfintegration.dialect.dialects.oas.nodes
 
-import amf.core.vocabulary.Namespace.XsdTypes.{xsdString, xsdUri}
-import amf.plugins.document.vocabularies.model.domain.PropertyMapping
-import amf.plugins.domain.webapi.metamodel.security._
+import amf.aml.client.scala.model.domain.PropertyMapping
+import amf.apicontract.internal.metamodel.domain.security.{
+  ApiKeySettingsModel,
+  HttpSettingsModel,
+  OAuth2FlowModel,
+  OAuth2SettingsModel,
+  OpenIdConnectSettingsModel,
+  ScopeModel,
+  SecuritySchemeModel,
+  SettingsModel
+}
+import amf.core.client.scala.vocabulary.Namespace.XsdTypes.{xsdString, xsdUri}
 import org.mulesoft.amfintegration.dialect.dialects.oas.{OAS20Dialect, OAS30Dialect}
 
 object Oas20SecuritySettingsNode extends DialectNode {
@@ -19,7 +28,8 @@ object Oas20SecuritySettingsNode extends DialectNode {
           "basic",
           "apiKey",
           "oauth2"
-        ))
+        )
+      )
       .withLiteralRange(xsdString.iri()),
     PropertyMapping()
       .withId(OAS20Dialect.DialectLocation + "#/declarations/securityScheme/description")
@@ -37,6 +47,13 @@ object Oas20SecuritySchemeObject extends DialectNode {
       .withId(OAS20Dialect.DialectLocation + "#/declarations/securityScheme/type")
       .withName("type")
       .withMinCount(1)
+      .withEnum(
+        Seq(
+          "basic",
+          "apiKey",
+          "oauth2"
+        )
+      )
       .withLiteralRange(xsdString.iri()),
     PropertyMapping()
       .withId(OAS20Dialect.DialectLocation + "#/declarations/securityScheme/description")
@@ -70,7 +87,8 @@ object Oas20ApiKeySecuritySchemeObject extends ApiKeySecuritySchemeObject {
         Seq(
           "query",
           "header"
-        ))
+        )
+      )
       .withNodePropertyMapping(ApiKeySettingsModel.In.value.iri())
       .withLiteralRange(xsdString.iri())
   )
@@ -87,7 +105,8 @@ object Oas30ApiKeySecuritySchemeObject extends ApiKeySecuritySchemeObject {
           "query",
           "header",
           "cookie"
-        ))
+        )
+      )
       .withNodePropertyMapping(ApiKeySettingsModel.In.value.iri())
       .withLiteralRange(xsdString.iri())
   )
@@ -136,7 +155,8 @@ object Oauth2SecuritySchemeObject extends DialectNode with Oauth2Properties {
           "password",
           "application",
           "accessCode"
-        ))
+        )
+      )
       .withLiteralRange(xsdString.iri())
 }
 
@@ -157,7 +177,8 @@ object Oas2Oauth2FlowSchemeObject extends DialectNode with Oauth2Properties {
           "password",
           "application",
           "accessCode"
-        ))
+        )
+      )
       .withLiteralRange(xsdString.iri())
 }
 
@@ -178,7 +199,8 @@ object Oauth2FlowObject extends DialectNode with Oauth2Properties {
           "password",
           "clientCredentials",
           "authorizationCode"
-        ))
+        )
+      )
       .withLiteralRange(xsdString.iri())
 }
 
@@ -197,7 +219,8 @@ object Oas30SecuritySchemeObject extends DialectNode {
           "http",
           "oauth2",
           "openIdConnect"
-        ))
+        )
+      )
       .withLiteralRange(xsdString.iri()),
     PropertyMapping()
       .withId(OAS30Dialect.DialectLocation + "#/declarations/securityScheme/description")
@@ -222,7 +245,8 @@ object Oas30SecuritySettingsObject extends DialectNode {
           "http",
           "oauth2",
           "openIdConnect"
-        ))
+        )
+      )
       .withLiteralRange(xsdString.iri()),
     PropertyMapping()
       .withId(OAS30Dialect.DialectLocation + "#/declarations/securitySettings/description")
@@ -253,7 +277,8 @@ object Oas30ApiKeySecurityObject extends DialectNode {
           "query",
           "header",
           "cookie"
-        ))
+        )
+      )
   )
 }
 

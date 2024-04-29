@@ -1,20 +1,17 @@
 package org.mulesoft.als.common.diff
 
+import org.mulesoft.als.common.diff.Diff.makeString
+import org.mulesoft.common.io.{AsyncFile, Utf8}
+import org.scalatest.matchers.should.Matchers._
+import org.scalatest.{Assertion, Succeeded}
+
 import java.io.{File, FileNotFoundException, FileReader, Reader}
 import java.lang.System.getProperty
 import java.net.{InetAddress, UnknownHostException}
-
-import org.mulesoft.common.io.{AsyncFile, Utf8}
-import org.scalatest.Matchers._
-import org.scalatest.{Assertion, Succeeded}
-
 import scala.concurrent.{ExecutionContext, Future}
 import scala.util.Random
-import Diff.makeString
 
-/**
-  *
-  */
+/** */
 object Tests {
 
   private implicit val executionContext: ExecutionContext = ExecutionContext.Implicits.global
@@ -91,9 +88,12 @@ object Tests {
   def diff(outFile: File, goldenFile: File): Option[String] = {
     if (!goldenFile.exists())
       fail(
-        String.format("Cannot Open Golden File: \n%s\nfor comparing \n%s",
-                      goldenFile.getAbsolutePath,
-                      outFile.getAbsolutePath))
+        String.format(
+          "Cannot Open Golden File: \n%s\nfor comparing \n%s",
+          goldenFile.getAbsolutePath,
+          outFile.getAbsolutePath
+        )
+      )
     try {
       diff(new FileReader(outFile), outFile.toString, new FileReader(goldenFile), goldenFile.toString)
     } catch {
@@ -147,18 +147,17 @@ object Tests {
     def replaceEOL(s: String): String =
       s.replace("\r\n", "\n")
 
-    a.read(encoding).zip(e.read(encoding)).map {
-      case (actual, expected) =>
-        val diffs = Diff.caseSensitive
-          .diff(replaceEOL(actual.toString), replaceEOL(expected.toString))
-        if (diffs.nonEmpty) {
-          if (goldenOverride) {
-            a.read(encoding).map(content => e.write(content.toString, encoding))
-          } else {
-            fail(s"\ndiff -y -W 150 $a $e \n\n${makeString(diffs)}")
-          }
+    a.read(encoding).zip(e.read(encoding)).map { case (actual, expected) =>
+      val diffs = Diff.caseSensitive
+        .diff(replaceEOL(actual.toString), replaceEOL(expected.toString))
+      if (diffs.nonEmpty) {
+        if (goldenOverride) {
+          a.read(encoding).map(content => e.write(content.toString, encoding))
+        } else {
+          fail(s"\ndiff -y -W 150 $a $e \n\n${makeString(diffs)}")
         }
-        succeed
+      }
+      succeed
     }
   }
 
@@ -191,7 +190,7 @@ object Tests {
 
   private def trimFileProtocol(name: String) = name.stripPrefix("file://").stripPrefix("file:/")
 
-  //~ Inner Classes ................................................................................................................................
+  // ~ Inner Classes ................................................................................................................................
 
   private class GoldenTest(val outputFile: File, val goldenFile: File) {
 

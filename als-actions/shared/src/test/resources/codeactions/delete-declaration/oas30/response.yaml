@@ -1,0 +1,9 @@
+openapi: "3.0.0"
+paths:
+  /path:
+    get:
+      responses:
+        "200":
+          description: "test 1"
+        "201":
+          description: "test 2"

@@ -1,7 +1,7 @@
 package org.mulesoft.als.suggestions.plugins.aml.webapi.oas.oas30
 
-import amf.plugins.document.vocabularies.model.document.Dialect
-import amf.plugins.domain.shapes.metamodel.NodeShapeModel
+import amf.aml.client.scala.model.document.Dialect
+import amf.shapes.internal.domain.metamodel.NodeShapeModel
 import org.mulesoft.als.suggestions.RawSuggestion
 import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
 import org.mulesoft.als.suggestions.plugins.aml.webapi.oas.OasTypeFacetsCompletionPlugin
@@ -17,8 +17,9 @@ object Oas30TypeFacetsCompletionPlugin extends OasTypeFacetsCompletionPlugin {
   override def dialect: Dialect = OAS30Dialect.dialect
 
   override def resolve(params: AmlCompletionRequest): Future[Seq[RawSuggestion]] = {
-    if (Oas30ExceptionPlugins.applyAny(params) || params.fieldEntry.exists(
-          _.field == NodeShapeModel.DiscriminatorMapping)) emptySuggestion
+    if (
+      Oas30ExceptionPlugins.applyAny(params) || params.fieldEntry.exists(_.field == NodeShapeModel.DiscriminatorMapping)
+    ) emptySuggestion
     else super.resolve(params)
   }
 

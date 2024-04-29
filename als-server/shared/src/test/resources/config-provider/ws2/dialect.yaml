@@ -1,0 +1,12 @@
+#%Dialect 1.0
+dialect: Test
+version: 2
+external:
+  myExternal: http://voc.com/#
+nodeMappings:
+  A:
+    classTerm: myExternal.ExternalClass
+    mapping:
+      prop1:
+        range: string
+        propertyTerm: myExternal.stringName

@@ -1,11 +1,17 @@
 [
   {
     "label": "header",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "header",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "10header",
     "filterText": "\"header\"",
     "insertText": null,
@@ -31,11 +37,17 @@
   },
   {
     "label": "query",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "query",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "10query",
     "filterText": "\"query\"",
     "insertText": null,

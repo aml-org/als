@@ -1,11 +1,125 @@
 [
   {
+    "label": "New externalDocs",
+    "kind": [
+      
+    ],
+    "detail": "template",
+    "documentation": "externalDocs",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "21New externalDocs",
+    "filterText": "\"externalDocs\": {\n  \"url\": \"$1\"\n}",
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 2,
+          "character": 2
+        },
+        "end": {
+          "line": 2,
+          "character": 4
+        }
+      },
+      "newText": "\"externalDocs\": {\n  \"url\": \"$1\"\n}"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "New info",
+    "kind": [
+      
+    ],
+    "detail": "template",
+    "documentation": "info",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "20New info",
+    "filterText": "\"info\": {\n  \"title\": \"$1\",\n  \"version\": \"$2\"\n}",
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 2,
+          "character": 2
+        },
+        "end": {
+          "line": 2,
+          "character": 4
+        }
+      },
+      "newText": "\"info\": {\n  \"title\": \"$1\",\n  \"version\": \"$2\"\n}"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "New tags",
+    "kind": [
+      
+    ],
+    "detail": "template",
+    "documentation": "tags",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "21New tags",
+    "filterText": "\"tags\": [\n  {\n    \"name\": \"$1\"\n  }\n]",
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 2,
+          "character": 2
+        },
+        "end": {
+          "line": 2,
+          "character": 4
+        }
+      },
+      "newText": "\"tags\": [\n  {\n    \"name\": \"$1\"\n  }\n]"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
     "label": "basePath",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "root",
     "documentation": "basePath",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11basePath",
     "filterText": "\"basePath\": \"$1\"",
     "insertText": null,
@@ -20,7 +134,7 @@
         },
         "end": {
           "line": 2,
-          "character": 5
+          "character": 4
         }
       },
       "newText": "\"basePath\": \"$1\""
@@ -31,11 +145,17 @@
   },
   {
     "label": "consumes",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "root",
     "documentation": "consumes",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11consumes",
     "filterText": "\"consumes\": [\n  \"$1\"\n]",
     "insertText": null,
@@ -50,7 +170,7 @@
         },
         "end": {
           "line": 2,
-          "character": 5
+          "character": 4
         }
       },
       "newText": "\"consumes\": [\n  \"$1\"\n]"
@@ -61,11 +181,17 @@
   },
   {
     "label": "definitions",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "schemas",
     "documentation": "definitions",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11definitions",
     "filterText": "\"definitions\": {\n  \"$1\"\n}",
     "insertText": null,
@@ -80,7 +206,7 @@
         },
         "end": {
           "line": 2,
-          "character": 5
+          "character": 4
         }
       },
       "newText": "\"definitions\": {\n  \"$1\"\n}"
@@ -91,11 +217,17 @@
   },
   {
     "label": "externalDocs",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "docs",
     "documentation": "externalDocs",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11externalDocs",
     "filterText": "\"externalDocs\": {\n  \"$1\"\n}",
     "insertText": null,
@@ -110,7 +242,7 @@
         },
         "end": {
           "line": 2,
-          "character": 5
+          "character": 4
         }
       },
       "newText": "\"externalDocs\": {\n  \"$1\"\n}"
@@ -121,11 +253,17 @@
   },
   {
     "label": "host",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "root",
     "documentation": "host",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11host",
     "filterText": "\"host\": \"$1\"",
     "insertText": null,
@@ -140,7 +278,7 @@
         },
         "end": {
           "line": 2,
-          "character": 5
+          "character": 4
         }
       },
       "newText": "\"host\": \"$1\""
@@ -151,11 +289,17 @@
   },
   {
     "label": "info",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "docs",
     "documentation": "info",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "10info",
     "filterText": "\"info\": {\n  \"$1\"\n}",
     "insertText": null,
@@ -170,7 +314,7 @@
         },
         "end": {
           "line": 2,
-          "character": 5
+          "character": 4
         }
       },
       "newText": "\"info\": {\n  \"$1\"\n}"
@@ -181,11 +325,17 @@
   },
   {
     "label": "parameters",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "parameters",
     "documentation": "parameters",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11parameters",
     "filterText": "\"parameters\": {\n  \"$1\"\n}",
     "insertText": null,
@@ -200,7 +350,7 @@
         },
         "end": {
           "line": 2,
-          "character": 5
+          "character": 4
         }
       },
       "newText": "\"parameters\": {\n  \"$1\"\n}"
@@ -211,11 +361,17 @@
   },
   {
     "label": "paths",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "root",
     "documentation": "paths",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "10paths",
     "filterText": "\"paths\": {\n  \"$1\"\n}",
     "insertText": null,
@@ -230,7 +386,7 @@
         },
         "end": {
           "line": 2,
-          "character": 5
+          "character": 4
         }
       },
       "newText": "\"paths\": {\n  \"$1\"\n}"
@@ -241,11 +397,17 @@
   },
   {
     "label": "produces",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "root",
     "documentation": "produces",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11produces",
     "filterText": "\"produces\": [\n  \"$1\"\n]",
     "insertText": null,
@@ -260,7 +422,7 @@
         },
         "end": {
           "line": 2,
-          "character": 5
+          "character": 4
         }
       },
       "newText": "\"produces\": [\n  \"$1\"\n]"
@@ -271,11 +433,17 @@
   },
   {
     "label": "responses",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "responses",
     "documentation": "responses",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11responses",
     "filterText": "\"responses\": {\n  \"$1\"\n}",
     "insertText": null,
@@ -290,7 +458,7 @@
         },
         "end": {
           "line": 2,
-          "character": 5
+          "character": 4
         }
       },
       "newText": "\"responses\": {\n  \"$1\"\n}"
@@ -301,11 +469,17 @@
   },
   {
     "label": "schemes",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "root",
     "documentation": "schemes",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11schemes",
     "filterText": "\"schemes\": [\n  \"$1\"\n]",
     "insertText": null,
@@ -320,7 +494,7 @@
         },
         "end": {
           "line": 2,
-          "character": 5
+          "character": 4
         }
       },
       "newText": "\"schemes\": [\n  \"$1\"\n]"
@@ -331,11 +505,17 @@
   },
   {
     "label": "security",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "security",
     "documentation": "security",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11security",
     "filterText": "\"security\": [\n  \"$1\"\n]",
     "insertText": null,
@@ -350,7 +530,7 @@
         },
         "end": {
           "line": 2,
-          "character": 5
+          "character": 4
         }
       },
       "newText": "\"security\": [\n  \"$1\"\n]"
@@ -361,11 +541,17 @@
   },
   {
     "label": "securityDefinitions",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "root",
     "documentation": "securityDefinitions",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11securityDefinitions",
     "filterText": "\"securityDefinitions\": {\n  \"$1\"\n}",
     "insertText": null,
@@ -380,7 +566,7 @@
         },
         "end": {
           "line": 2,
-          "character": 5
+          "character": 4
         }
       },
       "newText": "\"securityDefinitions\": {\n  \"$1\"\n}"
@@ -391,11 +577,17 @@
   },
   {
     "label": "tags",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "tags",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11tags",
     "filterText": "\"tags\": [\n  \"$1\"\n]",
     "insertText": null,
@@ -410,7 +602,7 @@
         },
         "end": {
           "line": 2,
-          "character": 5
+          "character": 4
         }
       },
       "newText": "\"tags\": [\n  \"$1\"\n]"

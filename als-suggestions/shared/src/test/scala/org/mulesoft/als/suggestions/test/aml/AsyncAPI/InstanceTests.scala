@@ -1,8 +1,5 @@
 package org.mulesoft.als.suggestions.test.aml.AsyncAPI
 
-import amf.ProfileName
-import org.mulesoft.als.suggestions.test.aml.AMLSuggestionsTest
-
 class InstanceTests extends AMLAsyncApi06SuggestionTest {
 
   def rootPath: String = "AML/AsyncAPI"
@@ -10,12 +7,26 @@ class InstanceTests extends AMLAsyncApi06SuggestionTest {
   test("test001") {
     runAsyncApiTest(
       "instance/test001.yaml",
-      Set("securitySchemes:\n  ", "schemas:\n  ", "uses:\n  ", "security:\n  - ", "servers:\n  - ", "simpleMap:\n  "))
+      Set(
+        "securitySchemes:\n  ",
+        "schemas:\n  ",
+        "uses:\n  ",
+        "security:\n  - ",
+        "servers:\n  - ",
+        "simpleMap:\n  ",
+        """servers:
+          |  -
+          |    url: $1
+          |    scheme: $2""".stripMargin
+      )
+    )
   }
 
   test("test002") {
-    runAsyncApiTest("instance/test002.yaml",
-                    Set("termsOfService: ", "contact:\n  ", "description: ", "title: ", "license:\n  "))
+    runAsyncApiTest(
+      "instance/test002.yaml",
+      Set("termsOfService: ", "contact:\n  ", "description: ", "title: ", "license:\n  ")
+    )
   }
 
   test("test003") {
@@ -34,8 +45,20 @@ class InstanceTests extends AMLAsyncApi06SuggestionTest {
   }
 
   test("test006") {
-    runAsyncApiTest("instance/test006.yaml",
-                    Set("externalDocs:\n  ", "headers:\n  ", "tags:\n  - ", "simpleMap:\n  "))
+    runAsyncApiTest(
+      "instance/test006.yaml",
+      Set(
+        "externalDocs:\n  ",
+        "headers:\n  ",
+        "tags:\n  - ",
+        "simpleMap:\n  ",
+        """externalDocs:
+                      |  url: $1""".stripMargin,
+        """tags:
+                        |  -
+                        |    name: $1""".stripMargin
+      )
+    )
   }
 
   test("test007") {
@@ -61,7 +84,16 @@ class InstanceTests extends AMLAsyncApi06SuggestionTest {
         "security:\n  - ",
         "simpleMap:\n  ",
         "securitySchemes:\n  ",
-        "uses:\n  "
+        "uses:\n  ",
+        """info:
+          |  title: $1
+          |  version: $2""".stripMargin,
+        """servers:
+          |  -
+          |    url: $1
+          |    scheme: $2""".stripMargin,
+        """externalDocs:
+          |  url: $1""".stripMargin
       )
     )
   }
@@ -83,7 +115,16 @@ class InstanceTests extends AMLAsyncApi06SuggestionTest {
         "externalDocs:\n  ",
         "simpleMap:\n  ",
         "components:\n  ",
-        "uses:\n  "
+        "uses:\n  ",
+        """servers:
+          |  -
+          |    url: $1
+          |    scheme: $2""".stripMargin,
+        """info:
+          |  title: $1
+          |  version: $2""".stripMargin,
+        """externalDocs:
+          |  url: $1""".stripMargin
       ),
       "dialect10.yaml"
     )

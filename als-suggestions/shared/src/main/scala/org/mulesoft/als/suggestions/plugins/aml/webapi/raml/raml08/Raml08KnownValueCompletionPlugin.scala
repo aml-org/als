@@ -1,7 +1,7 @@
 package org.mulesoft.als.suggestions.plugins.aml.webapi.raml.raml08
 
-import amf.plugins.domain.shapes.metamodel.ScalarShapeModel
-import amf.plugins.domain.webapi.metamodel.ParameterModel
+import amf.apicontract.internal.metamodel.domain.ParameterModel
+import amf.shapes.internal.domain.metamodel.ScalarShapeModel
 import org.mulesoft.als.suggestions.RawSuggestion
 import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
 import org.mulesoft.als.suggestions.plugins.aml.webapi.WebApiKnownValueCompletionPlugin
@@ -28,6 +28,6 @@ object Raml08KnownValueCompletionPlugin extends WebApiKnownValueCompletionPlugin
   }
 
   override protected def isHeader(params: AmlCompletionRequest): Boolean =
-    params.yPartBranch.isKeyDescendantOf("headers")
+    params.astPartBranch.isKeyDescendantOf("headers")
 
 }

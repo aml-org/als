@@ -1,7 +1,7 @@
 package org.mulesoft.als.suggestions.plugins.aml.webapi.async
 
-import amf.core.model.domain.Shape
-import amf.plugins.domain.webapi.models.{Payload, Server}
+import amf.apicontract.client.scala.model.domain.{Payload, Server}
+import amf.core.client.scala.model.domain.Shape
 import org.mulesoft.als.suggestions.RawSuggestion
 import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
 import org.mulesoft.als.suggestions.interfaces.AMLCompletionPlugin
@@ -18,7 +18,7 @@ object Async20PayloadCompletionPlugin extends AMLCompletionPlugin with AsyncMedi
       val branchStack = request.branchStack
       branchStack.headOption match {
         case Some(p: Payload)
-            if request.yPartBranch.isKeyDescendantOf("payload") &&
+            if request.astPartBranch.isKeyDescendantOf("payload") &&
               !branchStack.exists(_.isInstanceOf[Server]) =>
           request.amfObject match {
             case s: Shape =>

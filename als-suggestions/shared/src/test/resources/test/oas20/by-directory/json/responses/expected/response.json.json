@@ -1,16 +1,22 @@
 [
   {
     "label": "$ref",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "reference tag",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "0$ref",
-    "filterText": "\"$ref\"",
+    "filterText": "\"\\$ref\": \"$1\"",
     "insertText": null,
     "insertTextFormat": [
-      1
+      2
     ],
     "textEdit": {
       "range": {
@@ -20,10 +26,82 @@
         },
         "end": {
           "line": 12,
-          "character": 15
+          "character": 14
         }
       },
-      "newText": "\"$ref\""
+      "newText": "\"\\$ref\": \"$1\""
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "New headers",
+    "kind": [
+      
+    ],
+    "detail": "template",
+    "documentation": "headers",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "21New headers",
+    "filterText": "\"headers\": {\n  \"$1\": {\n    \"description\": \"$2\",\n    \"type\": \"$3\"\n  }\n}",
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 12,
+          "character": 12
+        },
+        "end": {
+          "line": 12,
+          "character": 14
+        }
+      },
+      "newText": "\"headers\": {\n  \"$1\": {\n    \"description\": \"$2\",\n    \"type\": \"$3\"\n  }\n}"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "New schema",
+    "kind": [
+      
+    ],
+    "detail": "template",
+    "documentation": "schema",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "21New schema",
+    "filterText": "\"schema\": {\n  \"description\": \"$1\",\n  \"type\": \"$2\"\n}",
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 12,
+          "character": 12
+        },
+        "end": {
+          "line": 12,
+          "character": 14
+        }
+      },
+      "newText": "\"schema\": {\n  \"description\": \"$1\",\n  \"type\": \"$2\"\n}"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -31,11 +109,17 @@
   },
   {
     "label": "description",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "docs",
     "documentation": "description",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "10description",
     "filterText": "\"description\": \"$1\"",
     "insertText": null,
@@ -50,7 +134,7 @@
         },
         "end": {
           "line": 12,
-          "character": 15
+          "character": 14
         }
       },
       "newText": "\"description\": \"$1\""
@@ -61,11 +145,17 @@
   },
   {
     "label": "examples",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "docs",
     "documentation": "examples",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11examples",
     "filterText": "\"examples\": {\n  \"$1\"\n}",
     "insertText": null,
@@ -80,7 +170,7 @@
         },
         "end": {
           "line": 12,
-          "character": 15
+          "character": 14
         }
       },
       "newText": "\"examples\": {\n  \"$1\"\n}"
@@ -91,11 +181,17 @@
   },
   {
     "label": "headers",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "parameters",
     "documentation": "headers",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11headers",
     "filterText": "\"headers\": {\n  \"$1\"\n}",
     "insertText": null,
@@ -110,7 +206,7 @@
         },
         "end": {
           "line": 12,
-          "character": 15
+          "character": 14
         }
       },
       "newText": "\"headers\": {\n  \"$1\"\n}"
@@ -121,11 +217,17 @@
   },
   {
     "label": "schema",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "schemas",
     "documentation": "schema",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11schema",
     "filterText": "\"schema\": {\n  \"$1\"\n}",
     "insertText": null,
@@ -140,7 +242,7 @@
         },
         "end": {
           "line": 12,
-          "character": 15
+          "character": 14
         }
       },
       "newText": "\"schema\": {\n  \"$1\"\n}"

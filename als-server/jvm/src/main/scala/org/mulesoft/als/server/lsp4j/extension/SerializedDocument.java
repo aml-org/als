@@ -2,14 +2,14 @@ package org.mulesoft.als.server.lsp4j.extension;
 
 public class SerializedDocument {
     private String uri;
-    private String content;
+    private String model;
 
     public SerializedDocument(String uri,String content) {
         this.uri = uri;
-        this.content = content;
+        this.model = content;
     }
 
     public String getUri() { return uri; }
 
-    public String getContent() { return content; }
+    public String getModel() { return model; }
 }

@@ -1,0 +1,29 @@
+documentChanges:
+  file://als-actions/shared/src/test/resources/codeactions/extract-element/resource-types/raml10.raml:
+    -
+      from:
+        line: 24
+        column: 13
+      to:
+        line: 29
+        column: 0
+      content: |
+        +
+
+              type: resourceType
+    -
+      from:
+        line: 2
+        column: 0
+      to:
+        line: 2
+        column: 0
+      content: |
+        +
+
+        resourceTypes:
+          resourceType:
+            get:
+              responses:
+                "200":
+                  body: Person

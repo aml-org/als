@@ -1,11 +1,17 @@
 [
   {
     "label": "param",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "param",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11param",
     "filterText": "\"param\"",
     "insertText": null,
@@ -31,11 +37,17 @@
   },
   {
     "label": "userId",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "userId",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11userId",
     "filterText": "\"userId\"",
     "insertText": null,

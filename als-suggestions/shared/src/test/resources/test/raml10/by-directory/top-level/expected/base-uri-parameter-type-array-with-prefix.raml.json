@@ -1,0 +1,74 @@
+[
+  {
+    "label": "maxItems",
+    "kind": [
+      
+    ],
+    "detail": "unknown",
+    "documentation": "maxItems",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "11maxItems",
+    "filterText": "maxItems: ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 11,
+          "character": 8
+        },
+        "end": {
+          "line": 11,
+          "character": 9
+        }
+      },
+      "newText": "maxItems: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "minItems",
+    "kind": [
+      
+    ],
+    "detail": "unknown",
+    "documentation": "minItems",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "11minItems",
+    "filterText": "minItems: ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 11,
+          "character": 8
+        },
+        "end": {
+          "line": 11,
+          "character": 9
+        }
+      },
+      "newText": "minItems: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  }
+]

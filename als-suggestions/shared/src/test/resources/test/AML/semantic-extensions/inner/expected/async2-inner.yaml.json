@@ -1,0 +1,38 @@
+[
+  {
+    "label": "inner",
+    "kind": [
+      
+    ],
+    "detail": "unknown",
+    "documentation": "inner",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "11inner",
+    "filterText": "inner: ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 6,
+          "character": 6
+        },
+        "end": {
+          "line": 6,
+          "character": 6
+        }
+      },
+      "newText": "inner: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  }
+]

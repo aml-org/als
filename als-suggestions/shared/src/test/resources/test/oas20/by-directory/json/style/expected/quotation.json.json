@@ -1,11 +1,17 @@
 [
   {
     "label": "array",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "array",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "10array",
     "filterText": "\"array\"",
     "insertText": null,
@@ -19,8 +25,8 @@
           "character": 22
         },
         "end": {
-          "line": 12,
-          "character": 24
+          "line": 13,
+          "character": 12
         }
       },
       "newText": "\"array\""
@@ -31,11 +37,17 @@
   },
   {
     "label": "boolean",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "boolean",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "10boolean",
     "filterText": "\"boolean\"",
     "insertText": null,
@@ -49,8 +61,8 @@
           "character": 22
         },
         "end": {
-          "line": 12,
-          "character": 24
+          "line": 13,
+          "character": 12
         }
       },
       "newText": "\"boolean\""
@@ -61,11 +73,17 @@
   },
   {
     "label": "file",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "file",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "10file",
     "filterText": "\"file\"",
     "insertText": null,
@@ -79,8 +97,8 @@
           "character": 22
         },
         "end": {
-          "line": 12,
-          "character": 24
+          "line": 13,
+          "character": 12
         }
       },
       "newText": "\"file\""
@@ -91,11 +109,17 @@
   },
   {
     "label": "integer",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "integer",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "10integer",
     "filterText": "\"integer\"",
     "insertText": null,
@@ -109,8 +133,8 @@
           "character": 22
         },
         "end": {
-          "line": 12,
-          "character": 24
+          "line": 13,
+          "character": 12
         }
       },
       "newText": "\"integer\""
@@ -121,11 +145,17 @@
   },
   {
     "label": "number",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "number",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "10number",
     "filterText": "\"number\"",
     "insertText": null,
@@ -139,8 +169,8 @@
           "character": 22
         },
         "end": {
-          "line": 12,
-          "character": 24
+          "line": 13,
+          "character": 12
         }
       },
       "newText": "\"number\""
@@ -151,11 +181,17 @@
   },
   {
     "label": "object",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "object",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "10object",
     "filterText": "\"object\"",
     "insertText": null,
@@ -169,8 +205,8 @@
           "character": 22
         },
         "end": {
-          "line": 12,
-          "character": 24
+          "line": 13,
+          "character": 12
         }
       },
       "newText": "\"object\""
@@ -181,11 +217,17 @@
   },
   {
     "label": "string",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "string",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "10string",
     "filterText": "\"string\"",
     "insertText": null,
@@ -199,8 +241,8 @@
           "character": 22
         },
         "end": {
-          "line": 12,
-          "character": 24
+          "line": 13,
+          "character": 12
         }
       },
       "newText": "\"string\""

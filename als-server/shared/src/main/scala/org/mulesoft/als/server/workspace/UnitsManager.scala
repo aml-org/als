@@ -6,15 +6,15 @@ import org.mulesoft.lsp.Initializable
 
 import scala.concurrent.Future
 
-/**
-  * UnitsManager provides the functionality for Listeners to subscribe,
-  * and receive a notification with each new available Unit
+/** UnitsManager provides the functionality for Listeners to subscribe, and receive a notification with each new
+  * available Unit
   */
-trait UnitsManager[UnitType <: UnitWithNextReference, NotificationType]
+trait UnitsManager[UnitType <: UnitWithNextReference, ListenerType <: AstListener[_]]
     extends UnitAccessor[UnitType]
     with Initializable {
 
-  def subscribers: List[AstListener[NotificationType]]
+  def subscribers: List[ListenerType]
+
   val dependencies: List[AccessUnits[UnitType]]
 
   override def initialize(): Future[Unit] =

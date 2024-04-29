@@ -1,10 +1,11 @@
 package org.mulesoft.als.suggestions
 
-import amf.plugins.document.vocabularies.model.document.Dialect
+import amf.aml.client.scala.model.document.Dialect
 import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
 import org.mulesoft.als.suggestions.interfaces.AMLCompletionPlugin
+import org.mulesoft.als.suggestions.plugins.aml.validationprofiles.ValidationProfileTermsSuggestions
+import org.mulesoft.als.suggestions.plugins.aml.webapi.extensions.OasLikeSemanticExtensionsFlavour
 import org.mulesoft.als.suggestions.plugins.aml.{StructureCompletionPlugin, _}
-import org.mulesoft.als.suggestions.plugins.aml.webapi.raml.AMLLibraryPathCompletion
 
 import scala.collection.mutable
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -30,18 +31,20 @@ class CompletionPluginsRegistryAML {
 
   def suggests(params: AmlCompletionRequest): Future[Seq[RawSuggestion]] = suggest(params, pluginsSet.toSet)
 
-  private def suggest(params: AmlCompletionRequest, pluginsSet: Set[AMLCompletionPlugin]): Future[Seq[RawSuggestion]] = {
+  private def suggest(
+      params: AmlCompletionRequest,
+      pluginsSet: Set[AMLCompletionPlugin]
+  ): Future[Seq[RawSuggestion]] = {
     val seq: Seq[Future[Seq[RawSuggestion]]] = pluginsSet
-      .map(
-        p => p.resolve(params)
-//       used for debug <- to check origin plugin for suggestion
-//            .map(r => {
-//              if (r.nonEmpty) {
-//                println(s"${p.id} => ${r.length}")
-//                r.foreach(s => s"${s.newText} => ${s.category}")
-//              }
-//              r
-//            })
+      .map(p => p.resolve(params)
+//      used for debug <- to check origin plugin for suggestion
+//          .map(r => {
+//            if (r.nonEmpty) {
+//              println(s"${p.id} => ${r.length}")
+//              r.foreach(s => s"${s.newText} => ${s.category}")
+//            }
+//            r
+//          })
       )
       .toSeq
     Future.sequence(seq).map(_.flatten)
@@ -52,9 +55,8 @@ class CompletionsPluginHandler {
 
   def filter(ignoredPlugins: Set[AMLCompletionPlugin]): CompletionsPluginHandler = {
     val cloned = new CompletionsPluginHandler()
-    registries.foreach {
-      case (d, plugins) =>
-        cloned.registries.update(d, plugins.filter(ignoredPlugins))
+    registries.foreach { case (d, plugins) =>
+      cloned.registries.update(d, plugins.filter(ignoredPlugins))
     }
     cloned
   }
@@ -88,9 +90,20 @@ class CompletionsPluginHandler {
   def cleanIndex(): Unit = registries.clear()
 }
 
+object CustomBaseCompletionPlugins {
+  var custom: Seq[AMLCompletionPlugin] = Seq.empty
+}
+
 object AMLBaseCompletionPlugins {
-  val all: Seq[AMLCompletionPlugin] = Seq(
-    StructureCompletionPlugin(List(ResolveDefault)),
+  lazy val all: Seq[AMLCompletionPlugin] = CustomBaseCompletionPlugins.custom ++ Seq(
+    StructureCompletionPlugin(
+      List(
+        AMLUnionNodeCompletionPlugin,
+        AMLUnionRangeCompletionPlugin,
+        ValidationProfileTermsSuggestions,
+        ResolveDefault
+      )
+    ),
     AMLEnumCompletionPlugin,
     AMLRootDeclarationsCompletionPlugin,
     AMLRamlStyleDeclarationsReferences,
@@ -98,9 +111,10 @@ object AMLBaseCompletionPlugins {
     AMLComponentKeyCompletionPlugin,
     AMLRefTagCompletionPlugin,
     AMLPathCompletionPlugin,
-    AMLLibraryPathCompletion,
     AMLBooleanPropertyValue,
-    AMLJsonSchemaStyleDeclarationReferences
+    AMLJsonSchemaStyleDeclarationReferences,
+    AMLUnionDiscriminatorCompletionPlugin,
+    OasLikeSemanticExtensionsFlavour
   )
 
   val base: CompletionPluginsRegistryAML = {

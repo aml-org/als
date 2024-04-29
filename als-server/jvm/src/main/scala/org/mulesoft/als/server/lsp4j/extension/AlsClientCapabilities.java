@@ -15,6 +15,10 @@ public class AlsClientCapabilities extends ClientCapabilities {
 
     private RenameFileActionClientCapabilities renameFileAction;
 
+    private WorkspaceConfigurationClientCapabilities workspaceConfiguration;
+
+    private CustomValidationClientCapabilities customValidations;
+
     @Pure
     public SerializationClientCapabilities getSerialization() {
         return this.serialization;
@@ -35,6 +39,17 @@ public class AlsClientCapabilities extends ClientCapabilities {
         return renameFileAction;
     }
 
+    @Pure
+    public ConversionClientCapabilities getConversion() {
+        return conversion;
+    }
+
+    @Pure
+    public CustomValidationClientCapabilities getCustomValidations() {
+        return customValidations;
+    }
+
+
     public void setSerialization(SerializationClientCapabilities serialization){
         this.serialization = serialization;
     }
@@ -51,8 +66,23 @@ public class AlsClientCapabilities extends ClientCapabilities {
         this.conversion = conversion;
     }
 
-    @Pure
-    public ConversionClientCapabilities getConversion() {
-        return conversion;
+    public void setRenameFileAction(RenameFileActionClientCapabilities renameFileAction) {
+        this.renameFileAction = renameFileAction;
+    }
+
+    public void setConversion(ConversionClientCapabilities conversion) {
+        this.conversion = conversion;
+    }
+
+    public WorkspaceConfigurationClientCapabilities getWorkspaceConfiguration() {
+        return workspaceConfiguration;
+    }
+
+    public void setWorkspaceConfiguration(WorkspaceConfigurationClientCapabilities workspaceConfiguration) {
+        this.workspaceConfiguration = workspaceConfiguration;
+    }
+
+    public void setCustomValidations(CustomValidationClientCapabilities customValidations) {
+        this.customValidations = customValidations;
     }
 }

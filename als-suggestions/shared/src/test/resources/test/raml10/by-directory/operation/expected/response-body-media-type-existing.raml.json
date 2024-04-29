@@ -1,11 +1,17 @@
 [
   {
     "label": "application/xml",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "application/xml",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11application/xml",
     "filterText": "application/xml:\n  ",
     "insertText": null,

@@ -1,11 +1,17 @@
 [
   {
     "label": "annotation.raml",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Path suggestion",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11annotation.raml",
     "filterText": "annotation.raml",
     "insertText": null,
@@ -31,11 +37,17 @@
   },
   {
     "label": "api.raml",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Path suggestion",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11api.raml",
     "filterText": "api.raml",
     "insertText": null,
@@ -60,12 +72,90 @@
     "command": null
   },
   {
-    "label": "data-type.raml",
-    "kind": [],
+    "label": "data-type-properties.raml",
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Path suggestion",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "11data-type-properties.raml",
+    "filterText": "data-type-properties.raml",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 2,
+          "character": 14
+        },
+        "end": {
+          "line": 2,
+          "character": 14
+        }
+      },
+      "newText": "data-type-properties.raml"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "data-type-uses.raml",
+    "kind": [
+      
+    ],
+    "detail": "unknown",
+    "documentation": "Path suggestion",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "11data-type-uses.raml",
+    "filterText": "data-type-uses.raml",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 2,
+          "character": 14
+        },
+        "end": {
+          "line": 2,
+          "character": 14
+        }
+      },
+      "newText": "data-type-uses.raml"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "data-type.raml",
+    "kind": [
+      
+    ],
+    "detail": "unknown",
+    "documentation": "Path suggestion",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11data-type.raml",
     "filterText": "data-type.raml",
     "insertText": null,
@@ -90,12 +180,54 @@
     "command": null
   },
   {
-    "label": "documentation-item.raml",
-    "kind": [],
+    "label": "documentation-item-uses.raml",
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Path suggestion",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "11documentation-item-uses.raml",
+    "filterText": "documentation-item-uses.raml",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 2,
+          "character": 14
+        },
+        "end": {
+          "line": 2,
+          "character": 14
+        }
+      },
+      "newText": "documentation-item-uses.raml"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "documentation-item.raml",
+    "kind": [
+      
+    ],
+    "detail": "unknown",
+    "documentation": "Path suggestion",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11documentation-item.raml",
     "filterText": "documentation-item.raml",
     "insertText": null,
@@ -121,11 +253,17 @@
   },
   {
     "label": "expected/",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Path suggestion",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11expected/",
     "filterText": "expected/",
     "insertText": null,
@@ -151,11 +289,17 @@
   },
   {
     "label": "extension-extends.raml",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Path suggestion",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11extension-extends.raml",
     "filterText": "extension-extends.raml",
     "insertText": null,
@@ -181,11 +325,17 @@
   },
   {
     "label": "extension.raml",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Path suggestion",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11extension.raml",
     "filterText": "extension.raml",
     "insertText": null,
@@ -211,11 +361,17 @@
   },
   {
     "label": "include-annotation.raml",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Path suggestion",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11include-annotation.raml",
     "filterText": "include-annotation.raml",
     "insertText": null,
@@ -241,11 +397,17 @@
   },
   {
     "label": "include-named-example.raml",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Path suggestion",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11include-named-example.raml",
     "filterText": "include-named-example.raml",
     "insertText": null,
@@ -271,11 +433,17 @@
   },
   {
     "label": "include-resource-type.raml",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Path suggestion",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11include-resource-type.raml",
     "filterText": "include-resource-type.raml",
     "insertText": null,
@@ -301,11 +469,17 @@
   },
   {
     "label": "include-security-scheme.raml",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Path suggestion",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11include-security-scheme.raml",
     "filterText": "include-security-scheme.raml",
     "insertText": null,
@@ -331,11 +505,17 @@
   },
   {
     "label": "include-trait.raml",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Path suggestion",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11include-trait.raml",
     "filterText": "include-trait.raml",
     "insertText": null,
@@ -360,12 +540,54 @@
     "command": null
   },
   {
-    "label": "named-example.raml",
-    "kind": [],
+    "label": "named-example-uses.raml",
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Path suggestion",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "11named-example-uses.raml",
+    "filterText": "named-example-uses.raml",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 2,
+          "character": 14
+        },
+        "end": {
+          "line": 2,
+          "character": 14
+        }
+      },
+      "newText": "named-example-uses.raml"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "named-example.raml",
+    "kind": [
+      
+    ],
+    "detail": "unknown",
+    "documentation": "Path suggestion",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11named-example.raml",
     "filterText": "named-example.raml",
     "insertText": null,
@@ -391,11 +613,17 @@
   },
   {
     "label": "overlay-extends.raml",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Path suggestion",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11overlay-extends.raml",
     "filterText": "overlay-extends.raml",
     "insertText": null,
@@ -421,11 +649,17 @@
   },
   {
     "label": "overlay.raml",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Path suggestion",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11overlay.raml",
     "filterText": "overlay.raml",
     "insertText": null,
@@ -450,12 +684,54 @@
     "command": null
   },
   {
-    "label": "resource-type.raml",
-    "kind": [],
+    "label": "resource-type-uses.raml",
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Path suggestion",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "11resource-type-uses.raml",
+    "filterText": "resource-type-uses.raml",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 2,
+          "character": 14
+        },
+        "end": {
+          "line": 2,
+          "character": 14
+        }
+      },
+      "newText": "resource-type-uses.raml"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "resource-type.raml",
+    "kind": [
+      
+    ],
+    "detail": "unknown",
+    "documentation": "Path suggestion",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11resource-type.raml",
     "filterText": "resource-type.raml",
     "insertText": null,
@@ -480,12 +756,54 @@
     "command": null
   },
   {
-    "label": "security-scheme.raml",
-    "kind": [],
+    "label": "security-scheme-uses.raml",
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Path suggestion",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "11security-scheme-uses.raml",
+    "filterText": "security-scheme-uses.raml",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 2,
+          "character": 14
+        },
+        "end": {
+          "line": 2,
+          "character": 14
+        }
+      },
+      "newText": "security-scheme-uses.raml"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "security-scheme.raml",
+    "kind": [
+      
+    ],
+    "detail": "unknown",
+    "documentation": "Path suggestion",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11security-scheme.raml",
     "filterText": "security-scheme.raml",
     "insertText": null,
@@ -511,11 +829,17 @@
   },
   {
     "label": "trait.raml",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Path suggestion",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11trait.raml",
     "filterText": "trait.raml",
     "insertText": null,

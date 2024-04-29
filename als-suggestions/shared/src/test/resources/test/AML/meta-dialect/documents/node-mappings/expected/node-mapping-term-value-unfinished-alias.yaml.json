@@ -1,0 +1,38 @@
+[
+  {
+    "label": "my-voc",
+    "kind": [
+      
+    ],
+    "detail": "unknown",
+    "documentation": "my-voc",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "11my-voc",
+    "filterText": "my-voc",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 7,
+          "character": 15
+        },
+        "end": {
+          "line": 7,
+          "character": 21
+        }
+      },
+      "newText": "my-voc"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  }
+]

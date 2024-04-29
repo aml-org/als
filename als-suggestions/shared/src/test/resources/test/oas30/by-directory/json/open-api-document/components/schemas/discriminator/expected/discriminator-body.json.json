@@ -1,11 +1,17 @@
 [
   {
     "label": "mapping",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "mapping",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11mapping",
     "filterText": "\"mapping\": \"$1\"",
     "insertText": null,
@@ -20,7 +26,7 @@
         },
         "end": {
           "line": 40,
-          "character": 13
+          "character": 12
         }
       },
       "newText": "\"mapping\": \"$1\""
@@ -31,11 +37,17 @@
   },
   {
     "label": "propertyName",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "propertyName",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11propertyName",
     "filterText": "\"propertyName\": \"$1\"",
     "insertText": null,
@@ -50,7 +62,7 @@
         },
         "end": {
           "line": 40,
-          "character": 13
+          "character": 12
         }
       },
       "newText": "\"propertyName\": \"$1\""

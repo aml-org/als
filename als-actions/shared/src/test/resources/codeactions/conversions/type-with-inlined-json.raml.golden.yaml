@@ -3,11 +3,11 @@ documentChanges:
   file://als-actions/shared/src/test/resources/codeactions/conversions/inlined-json.raml:
     -
       from:
-        line: 6
-        column: 9
+        line: 3
+        column: 4
       to:
         line: 16
-        column: 10
+        column: 13
       content: |
         +
          !include json-schema.json
@@ -28,7 +28,6 @@ documentChanges:
             "A": {
               "description": "inlined json schema",
               "type": "object",
-              "additionalProperties": true,
               "properties": {
                 "input": {
                   "type": "string"

@@ -1,6 +1,6 @@
 package org.mulesoft.als.suggestions.plugins.aml.webapi.oas
 
-import amf.plugins.domain.webapi.models.{Parameter, Server}
+import amf.apicontract.client.scala.model.domain.{Parameter, Server}
 import org.mulesoft.als.suggestions.RawSuggestion
 import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
 import org.mulesoft.als.suggestions.plugins.aml._
@@ -10,8 +10,7 @@ import org.mulesoft.amfintegration.dialect.dialects.oas.nodes.DialectNode
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
-
-trait VariableValueParam extends ExceptionPlugin{
+trait VariableValueParam extends ExceptionPlugin {
   protected def isParamWithName(request: AmlCompletionRequest): Boolean = {
     request.amfObject match {
       case p: Parameter =>
@@ -25,8 +24,9 @@ trait VariableValueParam extends ExceptionPlugin{
   protected val variableDialectNode: DialectNode
   override def resolve(request: AmlCompletionRequest): Future[Seq[RawSuggestion]] =
     if (applies(request)) Future {
-      variableDialectNode.Obj.propertiesRaw(d = request.actualDialect).filter(_.displayText != "name")
-    } else
+      variableDialectNode.Obj.propertiesRaw(fromDialect = request.actualDialect).filter(_.displayText != "name")
+    }
+    else
       emptySuggestion
 
   override def id: String = "VariableValueParam"

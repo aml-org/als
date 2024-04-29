@@ -1,8 +1,7 @@
 package org.mulesoft.als.suggestions.plugins.aml.webapi.raml
 
-import amf.core.model.domain.ObjectNode
-import amf.plugins.domain.shapes.metamodel.ExampleModel
-import amf.plugins.domain.shapes.models.Example
+import amf.shapes.client.scala.model.domain.Example
+import amf.shapes.internal.domain.metamodel.ExampleModel
 import org.mulesoft.als.suggestions.RawSuggestion
 import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
 import org.mulesoft.als.suggestions.interfaces.AMLCompletionPlugin
@@ -19,10 +18,10 @@ object ExampleStructure extends AMLCompletionPlugin {
     Future {
       request.amfObject match {
         case e: Example
-            if request.fieldEntry.exists(_.field == ExampleModel.Name) && request.yPartBranch.stringValue != e.name
-              .value() && request.yPartBranch.isKey =>
-          Raml10DialectNodes.ExampleNode.propertiesRaw(d = request.actualDialect)
-        // ugly hack. How i can know that the only property that exists is from the k: added in the patch?
+            if request.fieldEntry.exists(_.field == ExampleModel.Name) && request.astPartBranch.stringValue != e.name
+              .option()
+              .getOrElse("") && request.astPartBranch.isKey =>
+          Raml10DialectNodes.ExampleNode.propertiesRaw(fromDialect = request.actualDialect)
         case _ => Nil
       }
     }

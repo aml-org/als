@@ -1,0 +1,14 @@
+{
+  "name": "als-suggestions",
+  "version": "1.0.0",
+  "description": "ALS Suggestions",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "@aml-org/amf-antlr-parsers": "0.7.25",
+    "ajv": "6.12.6"
+  },
+  "author": "",
+  "license": "ISC"
+}

@@ -1,88 +1,94 @@
 package org.mulesoft.als.server.modules.diagnostic
 
-import amf.ProfileNames
-import amf.client.plugins.{AMFPlugin, ValidationMode}
-import amf.client.remote.Content
-import amf.core.model.document.PayloadFragment
-import amf.core.model.domain.Shape
-import amf.core.validation.{AMFPayloadValidationPlugin, AMFValidationReport, PayloadValidator}
-import amf.internal.environment.Environment
-import amf.internal.resource.ResourceLoader
+import amf.core.client.common.remote.Content
+import amf.core.client.common.validation.{ProfileNames, ValidationMode}
+import amf.core.client.common.{NormalPriority, PluginPriority}
+import amf.core.client.scala.model.document.PayloadFragment
+import amf.core.client.scala.model.domain.Shape
+import amf.core.client.scala.resource.ResourceLoader
+import amf.core.client.scala.validation.AMFValidationReport
+import amf.core.client.scala.validation.payload.{
+  AMFShapePayloadValidationPlugin,
+  AMFShapePayloadValidator,
+  ShapeValidationConfiguration,
+  ValidatePayloadRequest
+}
+import org.mulesoft.als.server.client.scala.LanguageServerBuilder
 import org.mulesoft.als.server.modules.WorkspaceManagerFactoryBuilder
 import org.mulesoft.als.server.protocol.LanguageServer
-import org.mulesoft.als.server.{LanguageServerBaseTest, LanguageServerBuilder, MockDiagnosticClientNotifier}
-import org.mulesoft.amfintegration.AmfInstance
+import org.mulesoft.als.server.{LanguageServerBaseTest, MockDiagnosticClientNotifier}
+import org.mulesoft.amfintegration.amfconfiguration.EditorConfiguration
 
 import scala.concurrent.{ExecutionContext, Future}
 
 class CustomValidationPluginTest extends LanguageServerBaseTest {
 
-  override implicit val executionContext = ExecutionContext.Implicits.global
+  override implicit val executionContext: ExecutionContext = ExecutionContext.Implicits.global
 
-  val rl: ResourceLoader = new ResourceLoader {
+  trait Counter {
+    def total: Int
+  }
+
+  val rl: ResourceLoader with Counter = new ResourceLoader with Counter {
+    var acc                                               = 0
     override def fetch(resource: String): Future[Content] = Future.failed(new Exception("error"))
 
-    override def accepts(resource: String): Boolean = false
-  }
-  val env: Environment = Environment().add(rl)
-
-  val plugin = new AMFPayloadValidationPlugin {
-    override val payloadMediaType: Seq[String] = Seq("application/xml")
-
-    override def canValidate(shape: Shape, env: Environment): Boolean = true
-    var rls: Seq[ResourceLoader]                                      = Nil
-    override def validator(s: Shape, envi: Environment, validationMode: ValidationMode): PayloadValidator = {
-      rls = env.loaders
-      new PayloadValidator {
-        override val shape: Shape                   = s
-        override val defaultSeverity: String        = "VIOLATION"
-        override val validationMode: ValidationMode = ValidationMode.StrictValidationMode
-
-        override def validate(mediaType: String, payload: String)(
-            implicit executionContext: ExecutionContext): Future[AMFValidationReport] =
-          Future(new AMFValidationReport(true, "", ProfileNames.RAML10, Nil))
-
-        override def validate(payloadFragment: PayloadFragment)(
-            implicit executionContext: ExecutionContext): Future[AMFValidationReport] =
-          Future(new AMFValidationReport(true, "", ProfileNames.RAML10, Nil))
-
-        override def syncValidate(mediaType: String, payload: String): AMFValidationReport =
-          new AMFValidationReport(true, "", ProfileNames.RAML10, Nil)
-
-        override def isValid(mediaType: String, payload: String)(
-            implicit executionContext: ExecutionContext): Future[Boolean] = Future(true)
-
-        override val env: Environment = envi
-
-      }
+    override def accepts(resource: String): Boolean = {
+      acc += 1
+      false
     }
 
-    override val ID: String = "MyPlugin"
+    override def total: Int = acc
+  }
 
-    override def dependencies(): Seq[AMFPlugin] = Nil
+  val plugin: AMFShapePayloadValidationPlugin = new AMFShapePayloadValidationPlugin {
+    override def priority: PluginPriority = NormalPriority
 
-    override def init()(implicit executionContext: ExecutionContext): Future[AMFPlugin] = Future(this)
+    override def applies(element: ValidatePayloadRequest): Boolean = element.mediaType == "application/xml"
+
+    override def validator(
+        shape: Shape,
+        mediaType: String,
+        config: ShapeValidationConfiguration,
+        validationMode: ValidationMode
+    ): AMFShapePayloadValidator = {
+      new AMFShapePayloadValidator {
+        override def validate(payload: String): Future[AMFValidationReport] =
+          Future(new AMFValidationReport(payload, ProfileNames.RAML10, Nil))
+
+        override def validate(payloadFragment: PayloadFragment): Future[AMFValidationReport] =
+          Future(new AMFValidationReport(payloadFragment.raw.getOrElse(""), ProfileNames.RAML10, Nil))
+
+        override def syncValidate(payload: String): AMFValidationReport =
+          new AMFValidationReport(payload, ProfileNames.RAML10, Nil)
+      }
+    }
+    override val id: String = "MyPlugin"
   }
 
   def buildServer(diagnosticNotifier: MockDiagnosticClientNotifier): LanguageServer = {
-    val amfInstance = new AmfInstance(Seq(plugin), platform, env)
-    val builder     = new WorkspaceManagerFactoryBuilder(diagnosticNotifier, logger, env).withAmfConfiguration(amfInstance)
-    val dm          = builder.diagnosticManager()
-    val factory     = builder.buildWorkspaceManagerFactory()
-    val b = new LanguageServerBuilder(factory.documentManager,
-                                      factory.workspaceManager,
-                                      factory.configurationManager,
-                                      factory.resolutionTaskManager)
+    val editorConfiguration = EditorConfiguration(rl +: platform.loaders(), Seq.empty, Seq(plugin))
+    val builder =
+      new WorkspaceManagerFactoryBuilder(diagnosticNotifier, editorConfiguration)
+    val dm      = builder.buildDiagnosticManagers()
+    val factory = builder.buildWorkspaceManagerFactory()
+    val b = new LanguageServerBuilder(
+      factory.documentManager,
+      factory.workspaceManager,
+      factory.configurationManager,
+      factory.resolutionTaskManager
+    )
 
-    dm.foreach(b.addInitializableModule)
+    dm.foreach(m => b.addInitializableModule(m))
     b.build()
   }
 
   override def rootPath: String = ???
 
   test("Test resource loader invocation from custom plugin") {
-    val diagnosticNotifier: MockDiagnosticClientNotifier = new MockDiagnosticClientNotifier(3000)
-    withServer(buildServer(diagnosticNotifier)) { server =>
+    val diagnosticNotifier: MockDiagnosticClientNotifier = new MockDiagnosticClientNotifier(10000)
+    val server                                           = buildServer(diagnosticNotifier)
+    withServer(server) { server =>
       val apiPath = s"file://api.raml"
 
       val apiContent =
@@ -102,16 +108,12 @@ class CustomValidationPluginTest extends LanguageServerBaseTest {
           |       </object>
         """.stripMargin
 
-      /*
-        register dialect -> open invalid instance -> fix -> invalid again
-       */
       for {
         _ <- openFileNotification(server)(apiPath, apiContent)
         _ <- diagnosticNotifier.nextCall
       } yield {
         server.shutdown()
-        assert(plugin.rls.size == 3)
-        assert(plugin.rls.contains(rl))
+        assert(rl.total > 0)
       }
     }
   }

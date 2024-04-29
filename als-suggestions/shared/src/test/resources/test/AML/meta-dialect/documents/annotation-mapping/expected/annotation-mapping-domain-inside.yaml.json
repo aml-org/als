@@ -1,0 +1,110 @@
+[
+  {
+    "label": "age",
+    "kind": [
+      
+    ],
+    "detail": "unknown",
+    "documentation": "Age",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "11age",
+    "filterText": "my-voc.age",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 10,
+          "character": 12
+        },
+        "end": {
+          "line": 10,
+          "character": 19
+        }
+      },
+      "newText": "my-voc.age"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "model",
+    "kind": [
+      
+    ],
+    "detail": "unknown",
+    "documentation": "Model",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "11model",
+    "filterText": "my-voc.model",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 10,
+          "character": 12
+        },
+        "end": {
+          "line": 10,
+          "character": 19
+        }
+      },
+      "newText": "my-voc.model"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "name",
+    "kind": [
+      
+    ],
+    "detail": "unknown",
+    "documentation": "Name",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "11name",
+    "filterText": "my-voc.name",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 10,
+          "character": 12
+        },
+        "end": {
+          "line": 10,
+          "character": 19
+        }
+      },
+      "newText": "my-voc.name"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  }
+]

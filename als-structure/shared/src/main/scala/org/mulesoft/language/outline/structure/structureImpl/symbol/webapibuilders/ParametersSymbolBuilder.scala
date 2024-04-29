@@ -1,30 +1,30 @@
 package org.mulesoft.language.outline.structure.structureImpl.symbol.webapibuilders
 
-import amf.core.metamodel.Field
-import amf.plugins.domain.webapi.metamodel.{ParametersFieldModel, RequestModel}
-import amf.plugins.domain.webapi.models.Parameter
+import amf.apicontract.client.scala.model.domain.Parameter
+import amf.apicontract.internal.metamodel.domain.{ParametersFieldModel, RequestModel}
+import amf.core.internal.metamodel.Field
 import org.mulesoft.als.common.dtoTypes.{EmptyPositionRange, PositionRange}
 import org.mulesoft.language.outline.structure.structureImpl.{DocumentSymbol, KindForResultMatcher, StructureContext}
+import org.mulesoft.common.collections._
 
-/**
-  * Creates an structure for the parameters category and each parameter. All parameters must be off the same binding
+/** Creates an structure for the parameters category and each parameter. All parameters must be off the same binding
   */
-class ParametersSymbolBuilder(parameters: Seq[Parameter], range: Option[PositionRange], field: Option[Field])(
-    implicit val ctx: StructureContext) {
+class ParametersSymbolBuilder(parameters: Seq[Parameter], range: Option[PositionRange], field: Option[Field])(implicit
+    val ctx: StructureContext
+) {
   def build(): List[DocumentSymbol] = {
     parameters
-      .groupBy(_.binding.value())
-      .map {
-        case (k, parameters) =>
-          val children = parameters.flatMap(e => ctx.factory.builderFor(e).map(_.build()).getOrElse(Nil))
-          val r        = range.orElse(children.headOption.map(_.range)).getOrElse(EmptyPositionRange)
-          DocumentSymbol(
-            ParameterBindingLabelMapper.toLabel(k),
-            KindForResultMatcher
-              .kindForField(field.getOrElse(fieldFromBinding(k))), // all param fields are the same
-            r,
-            children.toList
-          )
+      .legacyGroupBy(_.binding.value())
+      .map { case (k, parameters) =>
+        val children = parameters.flatMap(e => ctx.factory.builderFor(e).map(_.build()).getOrElse(Nil))
+        val r        = range.orElse(children.headOption.map(_.range)).getOrElse(EmptyPositionRange)
+        DocumentSymbol(
+          ParameterBindingLabelMapper.toLabel(k),
+          KindForResultMatcher
+            .kindForField(field.getOrElse(fieldFromBinding(k))), // all param fields are the same
+          r,
+          children.toList
+        )
       }
       .toList
   }

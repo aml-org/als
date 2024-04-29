@@ -1,11 +1,17 @@
 [
   {
     "label": "is",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "is",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11is",
     "filterText": "is: ",
     "insertText": null,

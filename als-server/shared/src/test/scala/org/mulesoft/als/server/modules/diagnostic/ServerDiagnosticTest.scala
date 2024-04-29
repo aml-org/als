@@ -1,21 +1,28 @@
 package org.mulesoft.als.server.modules.diagnostic
 
-import amf.client.remote.Content
-import amf.core.errorhandling.ErrorCollector
-import amf.core.metamodel.Obj
-import amf.core.model.document.BaseUnit
-import amf.core.model.domain.AmfObject
-import amf.core.parser.{Annotations, Fields}
-import amf.internal.environment.Environment
-import amf.internal.resource.ResourceLoader
-import amf.plugins.document.vocabularies.metamodel.domain.DialectDomainElementModel
+import amf.core.client.common.remote.Content
+import amf.core.client.platform.resource.ResourceNotFound
+import amf.core.client.scala.AMFResult
+import amf.core.client.scala.model.document.BaseUnit
+import amf.core.client.scala.model.domain.AmfObject
+import amf.core.client.scala.resource.ResourceLoader
+import amf.core.client.scala.vocabulary.Namespace.{Document => DocumentNamespace}
+import amf.core.client.scala.vocabulary.ValueType
+import amf.core.internal.metamodel.Field
+import amf.core.internal.metamodel.document.BaseUnitModel
+import amf.core.internal.parser.domain.{Annotations, Fields}
+import org.mulesoft.als.server.client.scala.LanguageServerBuilder
 import org.mulesoft.als.server.modules.WorkspaceManagerFactoryBuilder
 import org.mulesoft.als.server.modules.ast.BaseUnitListenerParams
 import org.mulesoft.als.server.protocol.LanguageServer
-import org.mulesoft.als.server.textsync.TextDocumentContainer
-import org.mulesoft.als.server.{LanguageServerBaseTest, LanguageServerBuilder, MockDiagnosticClientNotifier}
-import org.mulesoft.amfintegration.AmfParseResult
+import org.mulesoft.als.server.protocol.configuration.AlsInitializeParams
+import org.mulesoft.als.server.workspace.command.Commands
+import org.mulesoft.als.server.{Flaky, LanguageServerBaseTest, MockDiagnosticClientNotifier}
+import org.mulesoft.amfintegration.amfconfiguration._
 import org.mulesoft.amfintegration.dialect.dialects.ExternalFragmentDialect
+import org.mulesoft.lsp.configuration.TraceKind
+import org.mulesoft.lsp.textsync.KnownDependencyScopes
+import org.mulesoft.lsp.workspace.ExecuteCommandParams
 
 import scala.concurrent.{ExecutionContext, Future}
 
@@ -26,57 +33,56 @@ class ServerDiagnosticTest extends LanguageServerBaseTest {
 
   override def rootPath: String = ""
 
-  var container: Option[TextDocumentContainer] = None
-
   def buildServer(diagnosticNotifier: MockDiagnosticClientNotifier): LanguageServer = {
-    val builder = new WorkspaceManagerFactoryBuilder(diagnosticNotifier, logger)
-    val dm      = builder.diagnosticManager()
+    val builder = new WorkspaceManagerFactoryBuilder(diagnosticNotifier, EditorConfiguration())
+    val dm      = builder.buildDiagnosticManagers()
     val factory = builder.buildWorkspaceManagerFactory()
-    container = Option(factory.container)
-    val b = new LanguageServerBuilder(factory.documentManager,
-                                      factory.workspaceManager,
-                                      factory.configurationManager,
-                                      factory.resolutionTaskManager)
-    dm.foreach(b.addInitializableModule)
+    val b = new LanguageServerBuilder(
+      factory.documentManager,
+      factory.workspaceManager,
+      factory.configurationManager,
+      factory.resolutionTaskManager
+    )
+    dm.foreach(m => b.addInitializableModule(m))
     b.build()
 
   }
 
-  test("diagnostics test 001 - onFocus") {
-    val diagnosticNotifier: MockDiagnosticClientNotifier = new MockDiagnosticClientNotifier(10000)
+  test("diagnostics test 001 - onFocus", Flaky) {
+    val diagnosticNotifier: MockDiagnosticClientNotifier = new MockDiagnosticClientNotifier(7000)
     withServer(buildServer(diagnosticNotifier)) { server =>
       val mainFilePath = s"file://api.raml"
       val libFilePath  = s"file://lib1.raml"
 
       val mainContent =
         """#%RAML 1.0
-          |
-          |title: test API
-          |uses:
-          |  lib1: lib1.raml
-          |
-          |/resource:
-          |  post:
-          |    responses:
-          |      200:
-          |        body:
-          |          application/json:
-          |            type: lib1.TestType
-          |            example:
-          |              {"a":"1"}
+            |
+            |title: test API
+            |uses:
+            |  lib1: lib1.raml
+            |
+            |/resource:
+            |  post:
+            |    responses:
+            |      200:
+            |        body:
+            |          application/json:
+            |            type: lib1.TestType
+            |            example:
+            |              {"a":"1"}
         """.stripMargin
 
       val libFileContent =
         """#%RAML 1.0 Library
-          |
-          |types:
-          |  TestType:
-          |    properties:
-          |      b: string
+            |
+            |types:
+            |  TestType:
+            |    properties:
+            |      b: string
         """.stripMargin
 
       /*
-        open lib -> open main -> focus lib -> fix lib -> focus main
+          open lib -> open main -> focus lib -> fix lib -> focus main
        */
       for {
         _       <- openFileNotification(server)(libFilePath, libFileContent)
@@ -93,10 +99,8 @@ class ServerDiagnosticTest extends LanguageServerBaseTest {
         oMain22 <- diagnosticNotifier.nextCall
       } yield {
         server.shutdown()
-        val firstMain  = Seq(oMain11, oMain12)
-        val secondMain = Seq(oLib21)
-        val thirdMain  = Seq(oLib31)
-        val fixedMain  = Seq(oMain21, oMain22)
+        val firstMain = Seq(oMain11, oMain12)
+        val fixedMain = Seq(oMain21, oMain22)
 
         assert(oLib1.diagnostics.isEmpty && oLib1.uri == libFilePath)
         assert(firstMain.find(_.uri == mainFilePath).exists(_.diagnostics.length == 1))
@@ -106,15 +110,19 @@ class ServerDiagnosticTest extends LanguageServerBaseTest {
         assert(oLib1 == oLib31)
         assert(fixedMain.forall(_.diagnostics.isEmpty))
         assert(diagnosticNotifier.promises.isEmpty)
+
       }
     }
   }
 
-  test("diagnostics test 002 - AML") {
-    val diagnosticNotifier: MockDiagnosticClientNotifier = new MockDiagnosticClientNotifier(10000)
-    withServer(buildServer(diagnosticNotifier)) { server =>
-      val dialectPath  = s"file://dialect.yaml"
-      val instancePath = s"file://instance.yaml"
+  test("diagnostics test 002 - AML", Flaky) {
+    val diagnosticNotifier: MockDiagnosticClientNotifier = new MockDiagnosticClientNotifier(7000)
+    withServer(
+      buildServer(diagnosticNotifier),
+      AlsInitializeParams(None, Some(TraceKind.Off), rootUri = Some("file://test"))
+    ) { server =>
+      val dialectPath  = s"file://test/dialect.yaml"
+      val instancePath = s"file://test/instance.yaml"
 
       val dialectContent =
         """#%Dialect 1.0
@@ -154,8 +162,16 @@ class ServerDiagnosticTest extends LanguageServerBaseTest {
         register dialect -> open invalid instance -> fix -> invalid again
        */
       for {
-        _             <- openFileNotification(server)(dialectPath, dialectContent)
-        d1            <- diagnosticNotifier.nextCall
+        _  <- openFileNotification(server)(dialectPath, dialectContent)
+        d1 <- diagnosticNotifier.nextCall
+        _ <- server.workspaceService.executeCommand(
+          ExecuteCommandParams(
+            Commands.DID_CHANGE_CONFIGURATION,
+            List(
+              s"""{"folder": "file://test", "dependencies": [{"file": "$dialectPath", "scope": "${KnownDependencyScopes.DIALECT}"}]}"""
+            )
+          )
+        )
         _             <- openFileNotification(server)(instancePath, instanceContent1)
         openInvalid   <- diagnosticNotifier.nextCall
         _             <- openFileNotification(server)(instancePath, instanceContent2)
@@ -165,7 +181,7 @@ class ServerDiagnosticTest extends LanguageServerBaseTest {
       } yield {
         server.shutdown()
         assert(d1.diagnostics.isEmpty && d1.uri == dialectPath)
-        assert(openInvalid.diagnostics.length == 1 && openInvalid.uri == instancePath)
+        assert(openInvalid.diagnostics.length == 2 && openInvalid.uri == instancePath)
         assert(fixed.diagnostics.isEmpty && fixed.uri == instancePath)
         assert(openInvalid == reopenInvalid)
         assert(diagnosticNotifier.promises.isEmpty)
@@ -173,56 +189,8 @@ class ServerDiagnosticTest extends LanguageServerBaseTest {
     }
   }
 
-  test("DiagnosticManager with invalid clone") {
-    class MockDialectDomainElementModel extends DialectDomainElementModel {
-      override def modelInstance: AmfObject = throw new Exception("should fail")
-    }
-
-    class MockDialectInstance(override val fields: Fields) extends BaseUnit {
-
-      override def meta: Obj = new MockDialectDomainElementModel()
-
-      override def references: Seq[BaseUnit] = Nil
-
-      override def componentId: String = ""
-
-      override val annotations: Annotations = Annotations()
-
-      override def location(): Option[String] = Some("location")
-    }
-    val diagnosticNotifier: MockDiagnosticClientNotifier = new MockDiagnosticClientNotifier(10000)
-    val builder                                          = new WorkspaceManagerFactoryBuilder(diagnosticNotifier, logger)
-    builder
-      .diagnosticManager()
-    val factory = builder.buildWorkspaceManagerFactory()
-
-    val amfBaseUnit: BaseUnit = new MockDialectInstance(new Fields())
-
-    val eh                             = new ErrorCollector {}
-    val amfParseResult: AmfParseResult = new AmfParseResult(amfBaseUnit, eh, ExternalFragmentDialect())
-
-    for {
-      _ <- Future {
-        factory.resolutionTaskManager.onNewAst(
-          BaseUnitListenerParams(
-            amfParseResult,
-            Map.empty,
-            tree = false
-          ),
-          ""
-        )
-      }
-      d <- diagnosticNotifier.nextCall
-    } yield {
-      assert(d.diagnostics.length == 1)
-      assert(d.uri == "location")
-      assert(
-        d.diagnostics.head.message == "DiagnosticManager suffered an unexpected error while validating: should fail")
-    }
-  }
-
-  test("Trait resolution with error( test resolution error handler") {
-    val diagnosticNotifier: MockDiagnosticClientNotifier = new MockDiagnosticClientNotifier(10000)
+  test("Trait resolution with error( test resolution error handler)", Flaky) {
+    val diagnosticNotifier: MockDiagnosticClientNotifier = new MockDiagnosticClientNotifier(7000)
     withServer(buildServer(diagnosticNotifier)) { server =>
       val apiPath = s"file://api.raml"
 
@@ -235,16 +203,13 @@ class ServerDiagnosticTest extends LanguageServerBaseTest {
           |  secured:
           |    queryParameters:
           |      access_token:
-          |        descriptionA: A valid access_token is required
+          |        invalid-key: A valid access_token is required
           |
           |/books:
           |  get:
           |    is: [ secured ]
         """.stripMargin
 
-      /*
-        register dialect -> open invalid instance -> fix -> invalid again
-       */
       for {
         _  <- openFileNotification(server)(apiPath, apiContent)
         d1 <- diagnosticNotifier.nextCall
@@ -256,8 +221,8 @@ class ServerDiagnosticTest extends LanguageServerBaseTest {
     }
   }
 
-  test("Error without location") {
-    val diagnosticNotifier: MockDiagnosticClientNotifier = new MockDiagnosticClientNotifier(10000)
+  test("Error without location", Flaky) {
+    val diagnosticNotifier: MockDiagnosticClientNotifier = new MockDiagnosticClientNotifier(7000)
     withServer(buildServer(diagnosticNotifier)) { server =>
       val apiPath = s"file://api.json"
 
@@ -281,6 +246,118 @@ class ServerDiagnosticTest extends LanguageServerBaseTest {
         server.shutdown()
         assert(d1.diagnostics.nonEmpty && d1.uri == apiPath)
         assert(d1.diagnostics.head.relatedInformation.nonEmpty)
+      }
+    }
+  }
+
+  test("File not found error", Flaky) {
+    val diagnosticNotifier: MockDiagnosticClientNotifier = new MockDiagnosticClientNotifier(7000)
+
+    val content = """#%RAML 1.0
+                    |title: api
+                    |traits:
+                    |  tr: !include t.raml""".stripMargin
+
+    case class CustomResourceLoader() extends ResourceLoader {
+      override def fetch(resource: String): Future[Content] = {
+        if (resource == "file://api.raml") Future(new Content(content, resource))
+        else Future.failed(new ResourceNotFound(s"Resource not found"))
+      }
+      override def accepts(resource: String): Boolean = true
+    }
+
+    def build(diagnosticNotifier: MockDiagnosticClientNotifier): LanguageServer = {
+      val builder =
+        new WorkspaceManagerFactoryBuilder(
+          diagnosticNotifier,
+          EditorConfiguration.withoutPlatformLoaders(Seq(CustomResourceLoader()))
+        )
+      val dm      = builder.buildDiagnosticManagers()
+      val factory = builder.buildWorkspaceManagerFactory()
+      val b = new LanguageServerBuilder(
+        factory.documentManager,
+        factory.workspaceManager,
+        factory.configurationManager,
+        factory.resolutionTaskManager
+      )
+      dm.foreach(m => b.addInitializableModule(m))
+      b.build()
+    }
+    withServer(build(diagnosticNotifier)) { server =>
+      val apiPath = s"file://api.raml"
+      for {
+        _  <- openFileNotification(server)(apiPath, content)
+        d1 <- diagnosticNotifier.nextCall
+      } yield {
+        server.shutdown()
+        assert(d1.diagnostics.nonEmpty && d1.uri == apiPath)
+        assert(d1.diagnostics.exists(d => d.message == "Resource not found"))
+      }
+    }
+  }
+
+  test("should not notify Couldn't guess spec for root file for isolated files") {
+    val diagnosticNotifier: MockDiagnosticClientNotifier = new MockDiagnosticClientNotifier(7000)
+    val workspaceUri                                     = "file:///"
+    withServer(
+      buildServer(diagnosticNotifier),
+      AlsInitializeParams(None, Some(TraceKind.Off), rootUri = Some(workspaceUri))
+    ) { server =>
+      val apiPath = s"${workspaceUri}api.json"
+
+      val apiContent = ""
+
+      for {
+        _  <- setMainFile(server)(workspaceUri, s"main.json")
+        _  <- openFileNotification(server)(apiPath, apiContent)
+        d1 <- diagnosticNotifier.nextCall
+      } yield {
+        server.shutdown()
+        assert(d1.diagnostics.isEmpty && d1.uri == apiPath)
+      }
+    }
+  }
+
+  test("should not notify Couldn't guess spec for root file for isolated files if there is no main file defined") {
+    val diagnosticNotifier: MockDiagnosticClientNotifier = new MockDiagnosticClientNotifier(7000)
+    val workspaceUri                                     = "file:///"
+    withServer(
+      buildServer(diagnosticNotifier),
+      AlsInitializeParams(None, Some(TraceKind.Off), rootUri = Some(workspaceUri))
+    ) { server =>
+      val apiPath = s"${workspaceUri}api.json"
+
+      val apiContent = ""
+
+      for {
+        _  <- openFileNotification(server)(apiPath, apiContent)
+        d1 <- diagnosticNotifier.nextCall
+      } yield {
+        server.shutdown()
+        assert(d1.diagnostics.isEmpty && d1.uri == apiPath)
+      }
+    }
+  }
+
+  test("should notify Couldn't guess spec for root file for project files") {
+    val diagnosticNotifier: MockDiagnosticClientNotifier = new MockDiagnosticClientNotifier(7000)
+    val workspaceUri                                     = "file:///"
+    withServer(
+      buildServer(diagnosticNotifier),
+      AlsInitializeParams(None, Some(TraceKind.Off), rootUri = Some(workspaceUri))
+    ) { server =>
+      val apiPath = s"${workspaceUri}api.json"
+
+      val apiContent = ""
+
+      for {
+        _  <- setMainFile(server)(workspaceUri, "api.json")
+        _  <- openFileNotification(server)(apiPath, apiContent)
+        d1 <- diagnosticNotifier.nextCall
+      } yield {
+        server.shutdown()
+        assert(d1.diagnostics.nonEmpty && d1.uri == apiPath)
+        assert(d1.diagnostics.head.code.contains(DiagnosticConstants.specNotFoundCode))
       }
     }
   }

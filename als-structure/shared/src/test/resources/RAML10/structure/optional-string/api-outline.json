@@ -23,7 +23,9 @@
         "character": 0
       }
     },
-    "children": []
+    "children": [
+      
+    ]
   },
   {
     "name": "types",
@@ -31,8 +33,8 @@
     "deprecated": false,
     "range": {
       "start": {
-        "line": 4,
-        "character": 2
+        "line": 2,
+        "character": 0
       },
       "end": {
         "line": 8,
@@ -41,8 +43,8 @@
     },
     "selectionRange": {
       "start": {
-        "line": 4,
-        "character": 2
+        "line": 2,
+        "character": 0
       },
       "end": {
         "line": 8,
@@ -82,7 +84,7 @@
             "range": {
               "start": {
                 "line": 6,
-                "character": 4
+                "character": 15
               },
               "end": {
                 "line": 8,
@@ -92,7 +94,7 @@
             "selectionRange": {
               "start": {
                 "line": 6,
-                "character": 4
+                "character": 15
               },
               "end": {
                 "line": 8,
@@ -124,7 +126,9 @@
                     "character": 0
                   }
                 },
-                "children": []
+                "children": [
+                  
+                ]
               },
               {
                 "name": "zipcode",
@@ -150,7 +154,9 @@
                     "character": 23
                   }
                 },
-                "children": []
+                "children": [
+                  
+                ]
               }
             ]
           }

@@ -1,17 +1,17 @@
 package org.mulesoft.language.outline.structure.structureImpl.symbol.webapibuilders
 
-import amf.core.model.domain.AmfArray
-import amf.core.parser.FieldEntry
-import amf.plugins.domain.webapi.metamodel.api.WebApiModel
-import amf.plugins.domain.webapi.models.EndPoint
+import amf.apicontract.client.scala.model.domain.EndPoint
+import amf.apicontract.internal.metamodel.domain.api.WebApiModel
+import amf.core.client.scala.model.domain.AmfArray
+import amf.core.internal.parser.domain.FieldEntry
 import org.mulesoft.language.outline.structure.structureImpl._
-import org.mulesoft.language.outline.structure.structureImpl.symbol.builders.{
-  FieldTypeSymbolBuilder,
-  IriFieldSymbolBuilderCompanion
-}
 import org.mulesoft.language.outline.structure.structureImpl.symbol.builders.fieldbuilders.{
   ArrayFieldTypeSymbolBuilder,
   ArrayFieldTypeSymbolBuilderCompanion
+}
+import org.mulesoft.language.outline.structure.structureImpl.symbol.builders.{
+  FieldTypeSymbolBuilder,
+  IriFieldSymbolBuilderCompanion
 }
 import org.mulesoft.language.outline.structure.structureImpl.symbol.webapibuilders.ramlbuilders.RamlEndPointSymbolBuilder
 
@@ -19,14 +19,15 @@ object EndPointFieldBuilderCompanion extends IriFieldSymbolBuilderCompanion with
 
   override val supportedIri: String = WebApiModel.EndPoints.value.iri()
 
-  override def construct(element: FieldEntry, value: AmfArray)(
-      implicit ctx: StructureContext): Option[FieldTypeSymbolBuilder[AmfArray]] =
+  override def construct(element: FieldEntry, value: AmfArray)(implicit
+      ctx: StructureContext
+  ): Option[FieldTypeSymbolBuilder[AmfArray]] =
     Some(new EndPointFieldSymbolBuilder(value, element))
 }
 
 class EndPointFieldSymbolBuilder(override val value: AmfArray, override val element: FieldEntry)(
-    override implicit val ctx: StructureContext)
-    extends ArrayFieldTypeSymbolBuilder {
+    override implicit val ctx: StructureContext
+) extends ArrayFieldTypeSymbolBuilder {
 
   override def build(): Seq[DocumentSymbol] = {
 

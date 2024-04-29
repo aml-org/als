@@ -1,0 +1,13 @@
+#%RAML 1.0
+title: Fake Api
+
+/endpoint:
+  get:
+    description: get
+    responses:
+      200:
+  post:
+    description: post
+    responses:
+      200:
+    

@@ -1,11 +1,17 @@
 [
   {
     "label": "#/definitions/a",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Reference to #/definitions/a",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11#/definitions/a",
     "filterText": "\"#/definitions/a\"",
     "insertText": null,
@@ -31,11 +37,17 @@
   },
   {
     "label": "array-schema.yml",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Path suggestion",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11array-schema.yml",
     "filterText": "array-schema.yml",
     "insertText": null,
@@ -61,11 +73,17 @@
   },
   {
     "label": "boolean-format.yml",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Path suggestion",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11boolean-format.yml",
     "filterText": "boolean-format.yml",
     "insertText": null,
@@ -90,12 +108,90 @@
     "command": null
   },
   {
-    "label": "definition.yml",
-    "kind": [],
+    "label": "definition-name-after-declaration.yml",
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Path suggestion",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "11definition-name-after-declaration.yml",
+    "filterText": "definition-name-after-declaration.yml",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 5,
+          "character": 10
+        },
+        "end": {
+          "line": 5,
+          "character": 10
+        }
+      },
+      "newText": "definition-name-after-declaration.yml"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "definition-name.yml",
+    "kind": [
+      
+    ],
+    "detail": "unknown",
+    "documentation": "Path suggestion",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "11definition-name.yml",
+    "filterText": "definition-name.yml",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 5,
+          "character": 10
+        },
+        "end": {
+          "line": 5,
+          "character": 10
+        }
+      },
+      "newText": "definition-name.yml"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "definition.yml",
+    "kind": [
+      
+    ],
+    "detail": "unknown",
+    "documentation": "Path suggestion",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11definition.yml",
     "filterText": "definition.yml",
     "insertText": null,
@@ -121,11 +217,17 @@
   },
   {
     "label": "definitios.yml",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Path suggestion",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11definitios.yml",
     "filterText": "definitios.yml",
     "insertText": null,
@@ -151,11 +253,17 @@
   },
   {
     "label": "expected/",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Path suggestion",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11expected/",
     "filterText": "expected/",
     "insertText": null,
@@ -181,11 +289,17 @@
   },
   {
     "label": "externalDocs-schema.yml",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Path suggestion",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11externalDocs-schema.yml",
     "filterText": "externalDocs-schema.yml",
     "insertText": null,
@@ -211,11 +325,17 @@
   },
   {
     "label": "integer-format.yml",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Path suggestion",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11integer-format.yml",
     "filterText": "integer-format.yml",
     "insertText": null,
@@ -241,11 +361,17 @@
   },
   {
     "label": "items-schema.yml",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Path suggestion",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11items-schema.yml",
     "filterText": "items-schema.yml",
     "insertText": null,
@@ -271,11 +397,17 @@
   },
   {
     "label": "jsonschema.json",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Path suggestion",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11jsonschema.json",
     "filterText": "jsonschema.json",
     "insertText": null,
@@ -301,11 +433,17 @@
   },
   {
     "label": "number-format.yml",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Path suggestion",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11number-format.yml",
     "filterText": "number-format.yml",
     "insertText": null,
@@ -331,11 +469,17 @@
   },
   {
     "label": "number-schema.yml",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Path suggestion",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11number-schema.yml",
     "filterText": "number-schema.yml",
     "insertText": null,
@@ -361,11 +505,17 @@
   },
   {
     "label": "object-schema.yml",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Path suggestion",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11object-schema.yml",
     "filterText": "object-schema.yml",
     "insertText": null,
@@ -391,11 +541,17 @@
   },
   {
     "label": "properties-schema.yml",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Path suggestion",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11properties-schema.yml",
     "filterText": "properties-schema.yml",
     "insertText": null,
@@ -421,11 +577,17 @@
   },
   {
     "label": "property-schema.yml",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Path suggestion",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11property-schema.yml",
     "filterText": "property-schema.yml",
     "insertText": null,
@@ -450,12 +612,54 @@
     "command": null
   },
   {
-    "label": "required-properties-name-existing.yml",
-    "kind": [],
+    "label": "readOnly-properties.yml",
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Path suggestion",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "11readOnly-properties.yml",
+    "filterText": "readOnly-properties.yml",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 5,
+          "character": 10
+        },
+        "end": {
+          "line": 5,
+          "character": 10
+        }
+      },
+      "newText": "readOnly-properties.yml"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "required-properties-name-existing.yml",
+    "kind": [
+      
+    ],
+    "detail": "unknown",
+    "documentation": "Path suggestion",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11required-properties-name-existing.yml",
     "filterText": "required-properties-name-existing.yml",
     "insertText": null,
@@ -481,11 +685,17 @@
   },
   {
     "label": "required-properties-name.yml",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Path suggestion",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11required-properties-name.yml",
     "filterText": "required-properties-name.yml",
     "insertText": null,
@@ -511,11 +721,17 @@
   },
   {
     "label": "schema-path-nav-two.yml",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Path suggestion",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11schema-path-nav-two.yml",
     "filterText": "schema-path-nav-two.yml",
     "insertText": null,
@@ -541,11 +757,17 @@
   },
   {
     "label": "schema-path-nav-withoutbar.yml",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Path suggestion",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11schema-path-nav-withoutbar.yml",
     "filterText": "schema-path-nav-withoutbar.yml",
     "insertText": null,
@@ -571,11 +793,17 @@
   },
   {
     "label": "schema-path-nav.yml",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Path suggestion",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11schema-path-nav.yml",
     "filterText": "schema-path-nav.yml",
     "insertText": null,
@@ -601,11 +829,17 @@
   },
   {
     "label": "schema-ref-comment.yml",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Path suggestion",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11schema-ref-comment.yml",
     "filterText": "schema-ref-comment.yml",
     "insertText": null,
@@ -631,11 +865,17 @@
   },
   {
     "label": "schema-ref-separator-two.yml",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Path suggestion",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11schema-ref-separator-two.yml",
     "filterText": "schema-ref-separator-two.yml",
     "insertText": null,
@@ -661,11 +901,17 @@
   },
   {
     "label": "schema-ref-separator.yml",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Path suggestion",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11schema-ref-separator.yml",
     "filterText": "schema-ref-separator.yml",
     "insertText": null,
@@ -691,11 +937,17 @@
   },
   {
     "label": "string-format.yml",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Path suggestion",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11string-format.yml",
     "filterText": "string-format.yml",
     "insertText": null,
@@ -721,11 +973,17 @@
   },
   {
     "label": "string-schema.yml",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Path suggestion",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11string-schema.yml",
     "filterText": "string-schema.yml",
     "insertText": null,
@@ -751,11 +1009,17 @@
   },
   {
     "label": "types-schema.yml",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Path suggestion",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11types-schema.yml",
     "filterText": "types-schema.yml",
     "insertText": null,
@@ -781,11 +1045,17 @@
   },
   {
     "label": "xmlObject-schema.yml",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Path suggestion",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11xmlObject-schema.yml",
     "filterText": "xmlObject-schema.yml",
     "insertText": null,

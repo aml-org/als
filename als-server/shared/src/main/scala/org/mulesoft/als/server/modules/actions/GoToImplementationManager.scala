@@ -1,14 +1,13 @@
 package org.mulesoft.als.server.modules.actions
 
-import org.mulesoft.amfintegration.relationships.LinkTypes
 import org.mulesoft.als.actions.references.FindReferences
 import org.mulesoft.als.common.dtoTypes.Position
 import org.mulesoft.als.convert.LspRangeConverter
 import org.mulesoft.als.server.RequestModule
-import org.mulesoft.als.server.logger.Logger
 import org.mulesoft.als.server.workspace.WorkspaceManager
+import org.mulesoft.amfintegration.relationships.LinkTypes
 import org.mulesoft.lsp.ConfigType
-import org.mulesoft.lsp.configuration.StaticRegistrationOptions
+import org.mulesoft.lsp.configuration.WorkDoneProgressOptions
 import org.mulesoft.lsp.feature.TelemeteredRequestHandler
 import org.mulesoft.lsp.feature.common.{Location, LocationLink}
 import org.mulesoft.lsp.feature.implementation.{
@@ -23,14 +22,13 @@ import org.mulesoft.lsp.feature.telemetry.{MessageTypes, TelemetryProvider}
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
-class GoToImplementationManager(val workspace: WorkspaceManager,
-                                private val telemetryProvider: TelemetryProvider,
-                                private val logger: Logger)
-    extends RequestModule[ImplementationClientCapabilities, Either[Boolean, StaticRegistrationOptions]] {
+class GoToImplementationManager(
+    val workspace: WorkspaceManager
+) extends RequestModule[ImplementationClientCapabilities, Either[Boolean, WorkDoneProgressOptions]] {
 
   private var conf: Option[ImplementationClientCapabilities] = None
 
-  override val `type`: ConfigType[ImplementationClientCapabilities, Either[Boolean, StaticRegistrationOptions]] =
+  override val `type`: ConfigType[ImplementationClientCapabilities, Either[Boolean, WorkDoneProgressOptions]] =
     ImplementationConfigType
 
   override val getRequestHandlers: Seq[TelemeteredRequestHandler[_, _]] = Seq(
@@ -40,8 +38,6 @@ class GoToImplementationManager(val workspace: WorkspaceManager,
 
       override def task(params: ImplementationParams): Future[Either[Seq[Location], Seq[LocationLink]]] =
         goToImplementation(params.textDocument.uri, LspRangeConverter.toPosition(params.position), uuid(params))
-
-      override protected def telemetry: TelemetryProvider = telemetryProvider
 
       override protected def code(params: ImplementationParams): String = "GotoImplementationManager"
 
@@ -53,18 +49,25 @@ class GoToImplementationManager(val workspace: WorkspaceManager,
         s"request for go to implementation on ${params.textDocument.uri}"
 
       override protected def uri(params: ImplementationParams): String = params.textDocument.uri
+
+      /** If Some(_), this will be sent as a response as a default for a managed exception
+        */
+      override protected val empty: Option[Either[Seq[Location], Seq[LocationLink]]] = Some(Right(Seq()))
     }
   )
 
   override def applyConfig(
-      config: Option[ImplementationClientCapabilities]): Either[Boolean, StaticRegistrationOptions] = {
+      config: Option[ImplementationClientCapabilities]
+  ): Either[Boolean, WorkDoneProgressOptions] = {
     conf = config
     Left(true)
   }
 
-  def goToImplementation(uri: String,
-                         position: Position,
-                         uuid: String): Future[Either[Seq[Location], Seq[LocationLink]]] =
+  def goToImplementation(
+      uri: String,
+      position: Position,
+      uuid: String
+  ): Future[Either[Seq[Location], Seq[LocationLink]]] =
     workspace
       .getLastUnit(uri, uuid)
       .flatMap(_.getLast)
@@ -78,9 +81,9 @@ class GoToImplementationManager(val workspace: WorkspaceManager,
             workspace
               .getRelationships(uri, uuid)
               .map(_._2.filter(_.linkType == LinkTypes.TRAITRESOURCES)),
-            cu.yPartBranch
+            cu.astPartBranch
           )
-          .map(_.map(_._1))
+          .map(_.map(_.source))
 
       })
       .map(Left(_))

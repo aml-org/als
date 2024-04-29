@@ -1,0 +1,49 @@
+documentChanges:
+  file://als-actions/shared/src/test/resources/codeactions/extract-element/resource-types/raml10.raml:
+    -
+      from:
+        line: 16
+        column: 8
+      to:
+        line: 38
+        column: 0
+      content: |
+        +
+
+          /{id}:
+            uriParameters:
+              id:
+                type: number
+            get:
+              responses:
+                "200":
+                  body: Person
+            /brother:
+              get:
+                responses:
+                  "200":
+                    body: Person
+            /complex/{id}:
+              uriParameters:
+                id:
+                  type: number
+          type: resourceType
+    -
+      from:
+        line: 2
+        column: 0
+      to:
+        line: 2
+        column: 0
+      content: |
+        +
+
+        resourceTypes:
+          resourceType:
+            get:
+              responses:
+                "200":
+                  body:
+                    items: Person
+            post:
+              description: Create a person object

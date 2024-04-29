@@ -1,11 +1,17 @@
 [
   {
     "label": "authorizationUrl",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "security",
     "documentation": "authorizationUrl",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11authorizationUrl",
     "filterText": "\"authorizationUrl\": \"$1\"",
     "insertText": null,
@@ -20,7 +26,7 @@
         },
         "end": {
           "line": 5,
-          "character": 9
+          "character": 8
         }
       },
       "newText": "\"authorizationUrl\": \"$1\""
@@ -31,11 +37,17 @@
   },
   {
     "label": "description",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "docs",
     "documentation": "description",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11description",
     "filterText": "\"description\": \"$1\"",
     "insertText": null,
@@ -50,7 +62,7 @@
         },
         "end": {
           "line": 5,
-          "character": 9
+          "character": 8
         }
       },
       "newText": "\"description\": \"$1\""
@@ -61,11 +73,17 @@
   },
   {
     "label": "flow",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "security",
     "documentation": "flow",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "10flow",
     "filterText": "\"flow\": \"$1\"",
     "insertText": null,
@@ -80,7 +98,7 @@
         },
         "end": {
           "line": 5,
-          "character": 9
+          "character": 8
         }
       },
       "newText": "\"flow\": \"$1\""
@@ -91,11 +109,17 @@
   },
   {
     "label": "scopes",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "security",
     "documentation": "scopes",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11scopes",
     "filterText": "\"scopes\": {\n  \"$1\"\n}",
     "insertText": null,
@@ -110,7 +134,7 @@
         },
         "end": {
           "line": 5,
-          "character": 9
+          "character": 8
         }
       },
       "newText": "\"scopes\": {\n  \"$1\"\n}"
@@ -121,11 +145,17 @@
   },
   {
     "label": "tokenUrl",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "security",
     "documentation": "tokenUrl",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11tokenUrl",
     "filterText": "\"tokenUrl\": \"$1\"",
     "insertText": null,
@@ -140,7 +170,7 @@
         },
         "end": {
           "line": 5,
-          "character": 9
+          "character": 8
         }
       },
       "newText": "\"tokenUrl\": \"$1\""

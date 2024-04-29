@@ -1,0 +1,192 @@
+[
+  {
+    "name": "/test",
+    "kind": 12,
+    "deprecated": false,
+    "range": {
+      "start": {
+        "line": 1,
+        "character": 0
+      },
+      "end": {
+        "line": 8,
+        "character": 43
+      }
+    },
+    "selectionRange": {
+      "start": {
+        "line": 1,
+        "character": 0
+      },
+      "end": {
+        "line": 8,
+        "character": 43
+      }
+    },
+    "children": [
+      {
+        "name": "get",
+        "kind": 6,
+        "deprecated": false,
+        "range": {
+          "start": {
+            "line": 2,
+            "character": 2
+          },
+          "end": {
+            "line": 8,
+            "character": 43
+          }
+        },
+        "selectionRange": {
+          "start": {
+            "line": 2,
+            "character": 2
+          },
+          "end": {
+            "line": 8,
+            "character": 43
+          }
+        },
+        "children": [
+          {
+            "name": "responses",
+            "kind": 9,
+            "deprecated": false,
+            "range": {
+              "start": {
+                "line": 3,
+                "character": 4
+              },
+              "end": {
+                "line": 8,
+                "character": 43
+              }
+            },
+            "selectionRange": {
+              "start": {
+                "line": 3,
+                "character": 4
+              },
+              "end": {
+                "line": 8,
+                "character": 43
+              }
+            },
+            "children": [
+              {
+                "name": "200",
+                "kind": 9,
+                "deprecated": false,
+                "range": {
+                  "start": {
+                    "line": 4,
+                    "character": 8
+                  },
+                  "end": {
+                    "line": 8,
+                    "character": 43
+                  }
+                },
+                "selectionRange": {
+                  "start": {
+                    "line": 4,
+                    "character": 8
+                  },
+                  "end": {
+                    "line": 8,
+                    "character": 43
+                  }
+                },
+                "children": [
+                  {
+                    "name": "Payloads",
+                    "kind": 2,
+                    "deprecated": false,
+                    "range": {
+                      "start": {
+                        "line": 5,
+                        "character": 10
+                      },
+                      "end": {
+                        "line": 8,
+                        "character": 43
+                      }
+                    },
+                    "selectionRange": {
+                      "start": {
+                        "line": 5,
+                        "character": 10
+                      },
+                      "end": {
+                        "line": 8,
+                        "character": 43
+                      }
+                    },
+                    "children": [
+                      {
+                        "name": "application/json",
+                        "kind": 13,
+                        "deprecated": false,
+                        "range": {
+                          "start": {
+                            "line": 6,
+                            "character": 12
+                          },
+                          "end": {
+                            "line": 8,
+                            "character": 43
+                          }
+                        },
+                        "selectionRange": {
+                          "start": {
+                            "line": 6,
+                            "character": 12
+                          },
+                          "end": {
+                            "line": 8,
+                            "character": 43
+                          }
+                        },
+                        "children": [
+                          {
+                            "name": "examples",
+                            "kind": 7,
+                            "deprecated": false,
+                            "range": {
+                              "start": {
+                                "line": 8,
+                                "character": 14
+                              },
+                              "end": {
+                                "line": 8,
+                                "character": 43
+                              }
+                            },
+                            "selectionRange": {
+                              "start": {
+                                "line": 8,
+                                "character": 14
+                              },
+                              "end": {
+                                "line": 8,
+                                "character": 43
+                              }
+                            },
+                            "children": [
+                              
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+]

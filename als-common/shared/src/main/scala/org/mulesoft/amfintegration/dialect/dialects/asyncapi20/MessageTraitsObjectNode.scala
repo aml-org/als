@@ -1,10 +1,10 @@
 package org.mulesoft.amfintegration.dialect.dialects.asyncapi20
 
-import amf.core.vocabulary.Namespace.XsdTypes.xsdString
-import amf.plugins.document.vocabularies.model.domain.PropertyMapping
-import amf.plugins.domain.webapi.metamodel.{MessageModel, PayloadModel}
+import amf.aml.client.scala.model.domain.PropertyMapping
+import amf.apicontract.internal.metamodel.domain.{MessageModel, PayloadModel}
+import amf.core.client.scala.vocabulary.Namespace.XsdTypes.xsdString
 import org.mulesoft.amfintegration.dialect.dialects.asyncapi20.bindings.MessageBindingsObjectNode
-import org.mulesoft.amfintegration.dialect.dialects.asyncapi20.schema.{BaseShapeAsync2Node, NodeShapeAsync2Node}
+import org.mulesoft.amfintegration.dialect.dialects.asyncapi20.schema.NodeShapeAsync2Node
 import org.mulesoft.amfintegration.dialect.dialects.oas.nodes.{
   AMLExternalDocumentationObject,
   AMLTagObject,
@@ -18,17 +18,19 @@ trait MessageAbstractObjectNode extends DialectNode {
     .withName("schemaFormat")
     .withNodePropertyMapping(PayloadModel.SchemaMediaType.value.iri())
     .withLiteralRange(xsdString.iri())
-    .withEnum(Seq(
-      "application/vnd.aai.asyncapi;version=2.0.0",
-      "application/vnd.aai.asyncapi+json;version=2.0.0",
-      "application/vnd.aai.asyncapi+yaml;version=2.0.0",
-      "application/vnd.oai.openapi;version=3.0.0",
-      "application/vnd.oai.openapi+json;version=3.0.0",
-      "application/vnd.oai.openapi+yaml;version=3.0.0",
-      "application/schema+json;version=draft-07",
-      "application/schema+yaml;version=draft-07",
-      "application/raml+yaml;version=1.0"
-    ))
+    .withEnum(
+      Seq(
+        "application/vnd.aai.asyncapi;version=2.0.0",
+        "application/vnd.aai.asyncapi+json;version=2.0.0",
+        "application/vnd.aai.asyncapi+yaml;version=2.0.0",
+        "application/vnd.oai.openapi;version=3.0.0",
+        "application/vnd.oai.openapi+json;version=3.0.0",
+        "application/vnd.oai.openapi+yaml;version=3.0.0",
+        "application/schema+json;version=draft-07",
+        "application/schema+yaml;version=draft-07",
+        "application/raml+yaml;version=1.0"
+      )
+    )
   override def properties: Seq[PropertyMapping] = Seq(
     PropertyMapping()
       .withId(location + "#/declarations/Message/headers")

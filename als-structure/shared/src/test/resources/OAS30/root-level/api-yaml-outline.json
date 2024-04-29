@@ -23,7 +23,9 @@
         "character": 0
       }
     },
-    "children": []
+    "children": [
+      
+    ]
   },
   {
     "name": "servers",
@@ -49,7 +51,9 @@
         "character": 0
       }
     },
-    "children": []
+    "children": [
+      
+    ]
   },
   {
     "name": "tags",
@@ -75,7 +79,9 @@
         "character": 0
       }
     },
-    "children": []
+    "children": [
+      
+    ]
   },
   {
     "name": "Security",
@@ -101,7 +107,9 @@
         "character": 0
       }
     },
-    "children": []
+    "children": [
+      
+    ]
   },
   {
     "name": "documentation",
@@ -110,7 +118,7 @@
     "range": {
       "start": {
         "line": 8,
-        "character": 0
+        "character": 13
       },
       "end": {
         "line": 8,
@@ -120,13 +128,15 @@
     "selectionRange": {
       "start": {
         "line": 8,
-        "character": 0
+        "character": 13
       },
       "end": {
         "line": 8,
         "character": 13
       }
     },
-    "children": []
+    "children": [
+      
+    ]
   }
 ]

@@ -1,13 +1,19 @@
 [
   {
     "label": "application/json",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "application/json",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11application/json",
-    "filterText": "\n- application/json",
+    "filterText": "\n[\n  application/json\n]",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -20,10 +26,10 @@
         },
         "end": {
           "line": 4,
-          "character": 16
+          "character": 10
         }
       },
-      "newText": "\n- application/json"
+      "newText": "\n[\n  application/json\n]"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -31,13 +37,19 @@
   },
   {
     "label": "application/xml",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "application/xml",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11application/xml",
-    "filterText": "\n- application/xml",
+    "filterText": "\n[\n  application/xml\n]",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -50,10 +62,10 @@
         },
         "end": {
           "line": 4,
-          "character": 16
+          "character": 10
         }
       },
-      "newText": "\n- application/xml"
+      "newText": "\n[\n  application/xml\n]"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,

@@ -1,0 +1,722 @@
+[
+  {
+    "label": "expected/",
+    "kind": [
+      
+    ],
+    "detail": "unknown",
+    "documentation": "Path suggestion",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "11expected/",
+    "filterText": "expected/",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 9,
+          "character": 27
+        },
+        "end": {
+          "line": 9,
+          "character": 27
+        }
+      },
+      "newText": "expected/"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "raml-1.0-yaml-any.yaml",
+    "kind": [
+      
+    ],
+    "detail": "unknown",
+    "documentation": "Path suggestion",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "11raml-1.0-yaml-any.yaml",
+    "filterText": "raml-1.0-yaml-any.yaml",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 9,
+          "character": 27
+        },
+        "end": {
+          "line": 9,
+          "character": 27
+        }
+      },
+      "newText": "raml-1.0-yaml-any.yaml"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "raml-1.0-yaml-array.yaml",
+    "kind": [
+      
+    ],
+    "detail": "unknown",
+    "documentation": "Path suggestion",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "11raml-1.0-yaml-array.yaml",
+    "filterText": "raml-1.0-yaml-array.yaml",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 9,
+          "character": 27
+        },
+        "end": {
+          "line": 9,
+          "character": 27
+        }
+      },
+      "newText": "raml-1.0-yaml-array.yaml"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "raml-1.0-yaml-boolean.yaml",
+    "kind": [
+      
+    ],
+    "detail": "unknown",
+    "documentation": "Path suggestion",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "11raml-1.0-yaml-boolean.yaml",
+    "filterText": "raml-1.0-yaml-boolean.yaml",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 9,
+          "character": 27
+        },
+        "end": {
+          "line": 9,
+          "character": 27
+        }
+      },
+      "newText": "raml-1.0-yaml-boolean.yaml"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "raml-1.0-yaml-date.yaml",
+    "kind": [
+      
+    ],
+    "detail": "unknown",
+    "documentation": "Path suggestion",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "11raml-1.0-yaml-date.yaml",
+    "filterText": "raml-1.0-yaml-date.yaml",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 9,
+          "character": 27
+        },
+        "end": {
+          "line": 9,
+          "character": 27
+        }
+      },
+      "newText": "raml-1.0-yaml-date.yaml"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "raml-1.0-yaml-datetime-only.yaml",
+    "kind": [
+      
+    ],
+    "detail": "unknown",
+    "documentation": "Path suggestion",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "11raml-1.0-yaml-datetime-only.yaml",
+    "filterText": "raml-1.0-yaml-datetime-only.yaml",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 9,
+          "character": 27
+        },
+        "end": {
+          "line": 9,
+          "character": 27
+        }
+      },
+      "newText": "raml-1.0-yaml-datetime-only.yaml"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "raml-1.0-yaml-datetime.yaml",
+    "kind": [
+      
+    ],
+    "detail": "unknown",
+    "documentation": "Path suggestion",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "11raml-1.0-yaml-datetime.yaml",
+    "filterText": "raml-1.0-yaml-datetime.yaml",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 9,
+          "character": 27
+        },
+        "end": {
+          "line": 9,
+          "character": 27
+        }
+      },
+      "newText": "raml-1.0-yaml-datetime.yaml"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "raml-1.0-yaml-file.yaml",
+    "kind": [
+      
+    ],
+    "detail": "unknown",
+    "documentation": "Path suggestion",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "11raml-1.0-yaml-file.yaml",
+    "filterText": "raml-1.0-yaml-file.yaml",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 9,
+          "character": 27
+        },
+        "end": {
+          "line": 9,
+          "character": 27
+        }
+      },
+      "newText": "raml-1.0-yaml-file.yaml"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "raml-1.0-yaml-include-path.yaml",
+    "kind": [
+      
+    ],
+    "detail": "unknown",
+    "documentation": "Path suggestion",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "11raml-1.0-yaml-include-path.yaml",
+    "filterText": "raml-1.0-yaml-include-path.yaml",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 9,
+          "character": 27
+        },
+        "end": {
+          "line": 9,
+          "character": 27
+        }
+      },
+      "newText": "raml-1.0-yaml-include-path.yaml"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "raml-1.0-yaml-include-tag.yaml",
+    "kind": [
+      
+    ],
+    "detail": "unknown",
+    "documentation": "Path suggestion",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "11raml-1.0-yaml-include-tag.yaml",
+    "filterText": "raml-1.0-yaml-include-tag.yaml",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 9,
+          "character": 27
+        },
+        "end": {
+          "line": 9,
+          "character": 27
+        }
+      },
+      "newText": "raml-1.0-yaml-include-tag.yaml"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "raml-1.0-yaml-integer.yaml",
+    "kind": [
+      
+    ],
+    "detail": "unknown",
+    "documentation": "Path suggestion",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "11raml-1.0-yaml-integer.yaml",
+    "filterText": "raml-1.0-yaml-integer.yaml",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 9,
+          "character": 27
+        },
+        "end": {
+          "line": 9,
+          "character": 27
+        }
+      },
+      "newText": "raml-1.0-yaml-integer.yaml"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "raml-1.0-yaml-nil.yaml",
+    "kind": [
+      
+    ],
+    "detail": "unknown",
+    "documentation": "Path suggestion",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "11raml-1.0-yaml-nil.yaml",
+    "filterText": "raml-1.0-yaml-nil.yaml",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 9,
+          "character": 27
+        },
+        "end": {
+          "line": 9,
+          "character": 27
+        }
+      },
+      "newText": "raml-1.0-yaml-nil.yaml"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "raml-1.0-yaml-number.yaml",
+    "kind": [
+      
+    ],
+    "detail": "unknown",
+    "documentation": "Path suggestion",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "11raml-1.0-yaml-number.yaml",
+    "filterText": "raml-1.0-yaml-number.yaml",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 9,
+          "character": 27
+        },
+        "end": {
+          "line": 9,
+          "character": 27
+        }
+      },
+      "newText": "raml-1.0-yaml-number.yaml"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "raml-1.0-yaml-object.yaml",
+    "kind": [
+      
+    ],
+    "detail": "unknown",
+    "documentation": "Path suggestion",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "11raml-1.0-yaml-object.yaml",
+    "filterText": "raml-1.0-yaml-object.yaml",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 9,
+          "character": 27
+        },
+        "end": {
+          "line": 9,
+          "character": 27
+        }
+      },
+      "newText": "raml-1.0-yaml-object.yaml"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "raml-1.0-yaml-properties.yaml",
+    "kind": [
+      
+    ],
+    "detail": "unknown",
+    "documentation": "Path suggestion",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "11raml-1.0-yaml-properties.yaml",
+    "filterText": "raml-1.0-yaml-properties.yaml",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 9,
+          "character": 27
+        },
+        "end": {
+          "line": 9,
+          "character": 27
+        }
+      },
+      "newText": "raml-1.0-yaml-properties.yaml"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "raml-1.0-yaml-string.yaml",
+    "kind": [
+      
+    ],
+    "detail": "unknown",
+    "documentation": "Path suggestion",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "11raml-1.0-yaml-string.yaml",
+    "filterText": "raml-1.0-yaml-string.yaml",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 9,
+          "character": 27
+        },
+        "end": {
+          "line": 9,
+          "character": 27
+        }
+      },
+      "newText": "raml-1.0-yaml-string.yaml"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "raml-1.0-yaml-time.yaml",
+    "kind": [
+      
+    ],
+    "detail": "unknown",
+    "documentation": "Path suggestion",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "11raml-1.0-yaml-time.yaml",
+    "filterText": "raml-1.0-yaml-time.yaml",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 9,
+          "character": 27
+        },
+        "end": {
+          "line": 9,
+          "character": 27
+        }
+      },
+      "newText": "raml-1.0-yaml-time.yaml"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "raml-1.0-yaml-types.yaml",
+    "kind": [
+      
+    ],
+    "detail": "unknown",
+    "documentation": "Path suggestion",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "11raml-1.0-yaml-types.yaml",
+    "filterText": "raml-1.0-yaml-types.yaml",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 9,
+          "character": 27
+        },
+        "end": {
+          "line": 9,
+          "character": 27
+        }
+      },
+      "newText": "raml-1.0-yaml-types.yaml"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "raml-1.0-yaml-union.yaml",
+    "kind": [
+      
+    ],
+    "detail": "unknown",
+    "documentation": "Path suggestion",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "11raml-1.0-yaml-union.yaml",
+    "filterText": "raml-1.0-yaml-union.yaml",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 9,
+          "character": 27
+        },
+        "end": {
+          "line": 9,
+          "character": 27
+        }
+      },
+      "newText": "raml-1.0-yaml-union.yaml"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "raml-1.0-yaml-with-declared.yaml",
+    "kind": [
+      
+    ],
+    "detail": "unknown",
+    "documentation": "Path suggestion",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "11raml-1.0-yaml-with-declared.yaml",
+    "filterText": "raml-1.0-yaml-with-declared.yaml",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 9,
+          "character": 27
+        },
+        "end": {
+          "line": 9,
+          "character": 27
+        }
+      },
+      "newText": "raml-1.0-yaml-with-declared.yaml"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  }
+]

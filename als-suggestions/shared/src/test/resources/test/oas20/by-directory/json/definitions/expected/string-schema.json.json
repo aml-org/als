@@ -1,13 +1,19 @@
 [
   {
     "label": "allOf",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "schemas",
     "documentation": "allOf",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11allOf",
-    "filterText": "\"allOf\": \"$1\"",
+    "filterText": "\"allOf\": [\n  \"$1\"\n]",
     "insertText": null,
     "insertTextFormat": [
       2
@@ -20,10 +26,10 @@
         },
         "end": {
           "line": 5,
-          "character": 9
+          "character": 8
         }
       },
-      "newText": "\"allOf\": \"$1\""
+      "newText": "\"allOf\": [\n  \"$1\"\n]"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -31,11 +37,17 @@
   },
   {
     "label": "default",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "parameters",
     "documentation": "default",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11default",
     "filterText": "\"default\": \"$1\"",
     "insertText": null,
@@ -50,7 +62,7 @@
         },
         "end": {
           "line": 5,
-          "character": 9
+          "character": 8
         }
       },
       "newText": "\"default\": \"$1\""
@@ -61,11 +73,17 @@
   },
   {
     "label": "description",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "docs",
     "documentation": "description",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "10description",
     "filterText": "\"description\": \"$1\"",
     "insertText": null,
@@ -80,7 +98,7 @@
         },
         "end": {
           "line": 5,
-          "character": 9
+          "character": 8
         }
       },
       "newText": "\"description\": \"$1\""
@@ -91,11 +109,17 @@
   },
   {
     "label": "enum",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "parameters",
     "documentation": "enum",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11enum",
     "filterText": "\"enum\": [\n  \"$1\"\n]",
     "insertText": null,
@@ -110,7 +134,7 @@
         },
         "end": {
           "line": 5,
-          "character": 9
+          "character": 8
         }
       },
       "newText": "\"enum\": [\n  \"$1\"\n]"
@@ -121,11 +145,17 @@
   },
   {
     "label": "example",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "docs",
     "documentation": "example",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11example",
     "filterText": "\"example\": \"$1\"",
     "insertText": null,
@@ -140,7 +170,7 @@
         },
         "end": {
           "line": 5,
-          "character": 9
+          "character": 8
         }
       },
       "newText": "\"example\": \"$1\""
@@ -151,11 +181,17 @@
   },
   {
     "label": "externalDocs",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "docs",
     "documentation": "externalDocs",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11externalDocs",
     "filterText": "\"externalDocs\": {\n  \"$1\"\n}",
     "insertText": null,
@@ -170,7 +206,7 @@
         },
         "end": {
           "line": 5,
-          "character": 9
+          "character": 8
         }
       },
       "newText": "\"externalDocs\": {\n  \"$1\"\n}"
@@ -181,11 +217,17 @@
   },
   {
     "label": "format",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "parameters",
     "documentation": "format",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11format",
     "filterText": "\"format\": \"$1\"",
     "insertText": null,
@@ -200,7 +242,7 @@
         },
         "end": {
           "line": 5,
-          "character": 9
+          "character": 8
         }
       },
       "newText": "\"format\": \"$1\""
@@ -211,13 +253,19 @@
   },
   {
     "label": "maxLength",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "parameters",
     "documentation": "maxLength",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11maxLength",
-    "filterText": "\"maxLength\": \"$1\"",
+    "filterText": "\"maxLength\": $1",
     "insertText": null,
     "insertTextFormat": [
       2
@@ -230,10 +278,10 @@
         },
         "end": {
           "line": 5,
-          "character": 9
+          "character": 8
         }
       },
-      "newText": "\"maxLength\": \"$1\""
+      "newText": "\"maxLength\": $1"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -241,11 +289,17 @@
   },
   {
     "label": "minLength",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "parameters",
     "documentation": "minLength",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11minLength",
     "filterText": "\"minLength\": \"$1\"",
     "insertText": null,
@@ -260,7 +314,7 @@
         },
         "end": {
           "line": 5,
-          "character": 9
+          "character": 8
         }
       },
       "newText": "\"minLength\": \"$1\""
@@ -271,11 +325,17 @@
   },
   {
     "label": "pattern",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "parameters",
     "documentation": "pattern",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11pattern",
     "filterText": "\"pattern\": \"$1\"",
     "insertText": null,
@@ -290,7 +350,7 @@
         },
         "end": {
           "line": 5,
-          "character": 9
+          "character": 8
         }
       },
       "newText": "\"pattern\": \"$1\""
@@ -301,13 +361,19 @@
   },
   {
     "label": "readOnly",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "schemas",
     "documentation": "readOnly",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11readOnly",
-    "filterText": "\"readOnly\": \"$1\"",
+    "filterText": "\"readOnly\": $1",
     "insertText": null,
     "insertTextFormat": [
       2
@@ -320,10 +386,10 @@
         },
         "end": {
           "line": 5,
-          "character": 9
+          "character": 8
         }
       },
-      "newText": "\"readOnly\": \"$1\""
+      "newText": "\"readOnly\": $1"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -331,13 +397,19 @@
   },
   {
     "label": "required",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "parameters",
     "documentation": "required",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11required",
-    "filterText": "\"required\": \"$1\"",
+    "filterText": "\"required\": $1",
     "insertText": null,
     "insertTextFormat": [
       2
@@ -350,10 +422,10 @@
         },
         "end": {
           "line": 5,
-          "character": 9
+          "character": 8
         }
       },
-      "newText": "\"required\": \"$1\""
+      "newText": "\"required\": $1"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -361,11 +433,17 @@
   },
   {
     "label": "title",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "docs",
     "documentation": "title",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11title",
     "filterText": "\"title\": \"$1\"",
     "insertText": null,
@@ -380,7 +458,7 @@
         },
         "end": {
           "line": 5,
-          "character": 9
+          "character": 8
         }
       },
       "newText": "\"title\": \"$1\""
@@ -391,11 +469,17 @@
   },
   {
     "label": "xml",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "schemas",
     "documentation": "xml",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11xml",
     "filterText": "\"xml\": {\n  \"$1\"\n}",
     "insertText": null,
@@ -410,7 +494,7 @@
         },
         "end": {
           "line": 5,
-          "character": 9
+          "character": 8
         }
       },
       "newText": "\"xml\": {\n  \"$1\"\n}"

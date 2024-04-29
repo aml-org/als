@@ -1,17 +1,17 @@
 package org.mulesoft.als.suggestions.aml.webapi
 
-import amf.plugins.document.vocabularies.model.document.Dialect
+import amf.aml.client.scala.model.document.Dialect
 import org.mulesoft.als.suggestions.AMLBaseCompletionPlugins
 import org.mulesoft.als.suggestions.interfaces.AMLCompletionPlugin
 import org.mulesoft.als.suggestions.plugins.aml.webapi.raml._
 import org.mulesoft.als.suggestions.plugins.aml.webapi.raml.raml10._
 import org.mulesoft.als.suggestions.plugins.aml.webapi.raml.raml10.structure.{
-  DisplayNameExampleNode,
+  Raml10NullCompletionPlugin,
   ResolveShapeAndSecurity
 }
 import org.mulesoft.als.suggestions.plugins.aml.webapi.{
   ObjectExamplePropertiesCompletionPlugin,
-  SecuredByCompletionPlugin,
+  RamlParametersCompletionPlugin,
   WebApiKnownValueCompletionPlugin
 }
 import org.mulesoft.als.suggestions.plugins.aml.{ResolveDefault, StructureCompletionPlugin}
@@ -19,18 +19,20 @@ import org.mulesoft.amfintegration.dialect.dialects.raml.raml10.Raml10TypesDiale
 
 object RamlCompletionPluginRegistry extends WebApiCompletionPluginRegistry {
 
-  private val all: Seq[AMLCompletionPlugin] =
+  private lazy val all: Seq[AMLCompletionPlugin] =
     AMLBaseCompletionPlugins.all :+
-      StructureCompletionPlugin(List(
-        ResolveShapeAndSecurity,
-        DisplayNameExampleNode,
-        ResolveUriParameter,
-        ResolveDefault
-      )) :+
+      StructureCompletionPlugin(
+        List(
+          ResolveShapeAndSecurity,
+          ResolveUriParameter,
+          ResolveDefault
+        )
+      ) :+
       Raml10BooleanPropertyValue :+
       Raml10ParamsCompletionPlugin :+
       Raml10TypeFacetsCompletionPlugin :+
       RamlTypeDeclarationReferenceCompletionPlugin :+
+      RamlParametersCompletionPlugin :+
       RamlCustomFacetsCompletionPlugin :+
       AnnotationReferenceCompletionPlugin :+
       RamlResourceTypeReference :+
@@ -43,7 +45,7 @@ object RamlCompletionPluginRegistry extends WebApiCompletionPluginRegistry {
       RamlNumberShapeFormatValues :+
       Raml10HeaderCompletionPlugin :+
       SecurityScopesCompletionPlugin :+
-      SecuredByCompletionPlugin :+
+      RamlSecuredByCompletionPlugin :+
       SecuritySettingsFacetsCompletionPlugin :+
       ObjectExamplePropertiesCompletionPlugin :+
       ExampleStructure :+
@@ -55,7 +57,9 @@ object RamlCompletionPluginRegistry extends WebApiCompletionPluginRegistry {
       UnitDocumentationFacet :+
       DefaultVariablesAbstractDefinition :+
       WebApiKnownValueCompletionPlugin :+
-      RamlEnumCompletionPlugin
+      RamlEnumCompletionPlugin :+
+      Raml10NullCompletionPlugin :+
+      AMLLibraryPathCompletion
 
   override def plugins: Seq[AMLCompletionPlugin] = all
 

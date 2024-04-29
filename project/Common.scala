@@ -1,7 +1,13 @@
-import sbt.Keys.{scalacOptions, _}
+import sbt.Keys._
 import sbt.{Def, config, _}
 
 object Common {
+
+  lazy val workspaceDirectory: File =
+    sys.props.get("sbt.mulesoft") match {
+      case Some(x) => file(x)
+      case _       => Path.userHome / "mulesoft"
+    }
 
   private val nexus = "https://repository-master.mulesoft.org/nexus/content/repositories"
 
@@ -9,9 +15,8 @@ object Common {
   val releases: MavenRepository  = "MuleSoft releases" at s"$nexus/releases"
 
   val settings: Seq[Def.Setting[_]] = Seq(
-    scalaVersion := "2.12.11",
     parallelExecution in Test := false,
-    fork in Test := false,
+    fork in Test              := false,
     scalacOptions ++= Seq("-unchecked", "-target:jvm-1.8" /* , "-deprecation", "-Xfatal-warnings" */ ),
     scalacOptions ++= Seq("-encoding", "utf-8"),
     javacOptions ++= Seq("-source", "1.8", "-target", "1.8")
@@ -28,26 +33,26 @@ object Common {
 
   def credentials(): Seq[Credentials] = {
     val cs =
-      Seq("mule_user"         -> "mule_password",
-          "PUBLIC_NEXUS_USER" -> "PUBLIC_NEXUS_PASS",
-          "NEXUS_USER"        -> "NEXUS_PASSWORD",
-          "NEXUS_USR"         -> "NEXUS_PSW")
-        .flatMap({
-          case (user, password) =>
-            for {
-              u <- sys.env.get(user)
-              p <- sys.env.get(password)
-            } yield u -> p
+      Seq(
+        "mule_user"         -> "mule_password",
+        "PUBLIC_NEXUS_USER" -> "PUBLIC_NEXUS_PASS",
+        "NEXUS_USER"        -> "NEXUS_PASSWORD",
+        "NEXUS_USR"         -> "NEXUS_PSW"
+      )
+        .flatMap({ case (user, password) =>
+          for {
+            u <- sys.env.get(user)
+            p <- sys.env.get(password)
+          } yield u -> p
         })
 
     if (cs.nonEmpty) {
       println("Using System Custom credentials ")
-      cs.flatMap({
-        case (user, password) =>
-          Seq(
-            Credentials("Sonatype Nexus Repository Manager", "repository-master.mulesoft.org", user, password),
-            Credentials("Sonatype Nexus Repository Manager", "repository.mulesoft.org", user, password)
-          )
+      cs.flatMap({ case (user, password) =>
+        Seq(
+          Credentials("Sonatype Nexus Repository Manager", "repository-master.mulesoft.org", user, password),
+          Credentials("Sonatype Nexus Repository Manager", "repository.mulesoft.org", user, password)
+        )
       })
 
     } else {
@@ -55,18 +60,23 @@ object Common {
       val ivyCredentials   = Path.userHome / ".ivy2" / ".credentials"
       val mavenCredentials = Path.userHome / ".m2" / "settings.xml"
 
-      val servers = Map(("mule-ee-releases", "repository-master.mulesoft.org"),
-                        ("mule-ee-customer-releases", "repository.mulesoft.org"))
+      val servers = Map(
+        ("mule-ee-releases", "repository-master.mulesoft.org"),
+        ("mule-ee-customer-releases", "repository.mulesoft.org")
+      )
 
       def loadMavenCredentials(file: java.io.File): Seq[Credentials] = {
         xml.XML.loadFile(file) \ "servers" \ "server" flatMap (s => {
           val id = (s \ "id").text
           if (servers.contains(id)) {
             Some(
-              Credentials("Sonatype Nexus Repository Manager",
-                          servers(id),
-                          (s \ "username").text,
-                          (s \ "password").text))
+              Credentials(
+                "Sonatype Nexus Repository Manager",
+                servers(id),
+                (s \ "username").text,
+                (s \ "password").text
+              )
+            )
           } else {
             None
           }

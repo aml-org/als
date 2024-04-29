@@ -1,0 +1,499 @@
+[
+  {
+    "name": "dialect",
+    "kind": 15,
+    "deprecated": false,
+    "range": {
+      "start": {
+        "line": 1,
+        "character": 0
+      },
+      "end": {
+        "line": 2,
+        "character": 0
+      }
+    },
+    "selectionRange": {
+      "start": {
+        "line": 1,
+        "character": 0
+      },
+      "end": {
+        "line": 2,
+        "character": 0
+      }
+    },
+    "children": [
+      
+    ]
+  },
+  {
+    "name": "version",
+    "kind": 15,
+    "deprecated": false,
+    "range": {
+      "start": {
+        "line": 2,
+        "character": 0
+      },
+      "end": {
+        "line": 3,
+        "character": 0
+      }
+    },
+    "selectionRange": {
+      "start": {
+        "line": 2,
+        "character": 0
+      },
+      "end": {
+        "line": 3,
+        "character": 0
+      }
+    },
+    "children": [
+      
+    ]
+  },
+  {
+    "name": "externals",
+    "kind": 7,
+    "deprecated": false,
+    "range": {
+      "start": {
+        "line": 9,
+        "character": 0
+      },
+      "end": {
+        "line": 12,
+        "character": 0
+      }
+    },
+    "selectionRange": {
+      "start": {
+        "line": 9,
+        "character": 0
+      },
+      "end": {
+        "line": 12,
+        "character": 0
+      }
+    },
+    "children": [
+      {
+        "name": "schema",
+        "kind": 7,
+        "deprecated": false,
+        "range": {
+          "start": {
+            "line": 10,
+            "character": 4
+          },
+          "end": {
+            "line": 12,
+            "character": 0
+          }
+        },
+        "selectionRange": {
+          "start": {
+            "line": 10,
+            "character": 4
+          },
+          "end": {
+            "line": 12,
+            "character": 0
+          }
+        },
+        "children": [
+          
+        ]
+      }
+    ]
+  },
+  {
+    "name": "NodeMappings",
+    "kind": 7,
+    "deprecated": false,
+    "range": {
+      "start": {
+        "line": 13,
+        "character": 4
+      },
+      "end": {
+        "line": 51,
+        "character": 0
+      }
+    },
+    "selectionRange": {
+      "start": {
+        "line": 13,
+        "character": 4
+      },
+      "end": {
+        "line": 51,
+        "character": 0
+      }
+    },
+    "children": [
+      {
+        "name": "Nested",
+        "kind": 7,
+        "deprecated": false,
+        "range": {
+          "start": {
+            "line": 13,
+            "character": 4
+          },
+          "end": {
+            "line": 28,
+            "character": 0
+          }
+        },
+        "selectionRange": {
+          "start": {
+            "line": 13,
+            "character": 4
+          },
+          "end": {
+            "line": 28,
+            "character": 0
+          }
+        },
+        "children": [
+          {
+            "name": "property",
+            "kind": 7,
+            "deprecated": false,
+            "range": {
+              "start": {
+                "line": 15,
+                "character": 8
+              },
+              "end": {
+                "line": 28,
+                "character": 0
+              }
+            },
+            "selectionRange": {
+              "start": {
+                "line": 15,
+                "character": 8
+              },
+              "end": {
+                "line": 28,
+                "character": 0
+              }
+            },
+            "children": [
+              {
+                "name": "n2",
+                "kind": 7,
+                "deprecated": false,
+                "range": {
+                  "start": {
+                    "line": 22,
+                    "character": 15
+                  },
+                  "end": {
+                    "line": 28,
+                    "character": 0
+                  }
+                },
+                "selectionRange": {
+                  "start": {
+                    "line": 22,
+                    "character": 15
+                  },
+                  "end": {
+                    "line": 28,
+                    "character": 0
+                  }
+                },
+                "children": [
+                  
+                ]
+              },
+              {
+                "name": "n1",
+                "kind": 7,
+                "deprecated": false,
+                "range": {
+                  "start": {
+                    "line": 16,
+                    "character": 15
+                  },
+                  "end": {
+                    "line": 22,
+                    "character": 0
+                  }
+                },
+                "selectionRange": {
+                  "start": {
+                    "line": 16,
+                    "character": 15
+                  },
+                  "end": {
+                    "line": 22,
+                    "character": 0
+                  }
+                },
+                "children": [
+                  {
+                    "name": "enum",
+                    "kind": 7,
+                    "deprecated": false,
+                    "range": {
+                      "start": {
+                        "line": 19,
+                        "character": 16
+                      },
+                      "end": {
+                        "line": 22,
+                        "character": 0
+                      }
+                    },
+                    "selectionRange": {
+                      "start": {
+                        "line": 19,
+                        "character": 16
+                      },
+                      "end": {
+                        "line": 22,
+                        "character": 0
+                      }
+                    },
+                    "children": [
+                      
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "Root",
+        "kind": 7,
+        "deprecated": false,
+        "range": {
+          "start": {
+            "line": 28,
+            "character": 4
+          },
+          "end": {
+            "line": 51,
+            "character": 0
+          }
+        },
+        "selectionRange": {
+          "start": {
+            "line": 28,
+            "character": 4
+          },
+          "end": {
+            "line": 51,
+            "character": 0
+          }
+        },
+        "children": [
+          {
+            "name": "property",
+            "kind": 7,
+            "deprecated": false,
+            "range": {
+              "start": {
+                "line": 30,
+                "character": 8
+              },
+              "end": {
+                "line": 51,
+                "character": 0
+              }
+            },
+            "selectionRange": {
+              "start": {
+                "line": 30,
+                "character": 8
+              },
+              "end": {
+                "line": 51,
+                "character": 0
+              }
+            },
+            "children": [
+              {
+                "name": "map",
+                "kind": 7,
+                "deprecated": false,
+                "range": {
+                  "start": {
+                    "line": 47,
+                    "character": 16
+                  },
+                  "end": {
+                    "line": 51,
+                    "character": 0
+                  }
+                },
+                "selectionRange": {
+                  "start": {
+                    "line": 47,
+                    "character": 16
+                  },
+                  "end": {
+                    "line": 51,
+                    "character": 0
+                  }
+                },
+                "children": [
+                  
+                ]
+              },
+              {
+                "name": "obj",
+                "kind": 7,
+                "deprecated": false,
+                "range": {
+                  "start": {
+                    "line": 40,
+                    "character": 16
+                  },
+                  "end": {
+                    "line": 43,
+                    "character": 0
+                  }
+                },
+                "selectionRange": {
+                  "start": {
+                    "line": 40,
+                    "character": 16
+                  },
+                  "end": {
+                    "line": 43,
+                    "character": 0
+                  }
+                },
+                "children": [
+                  
+                ]
+              },
+              {
+                "name": "arrobj",
+                "kind": 7,
+                "deprecated": false,
+                "range": {
+                  "start": {
+                    "line": 43,
+                    "character": 19
+                  },
+                  "end": {
+                    "line": 47,
+                    "character": 0
+                  }
+                },
+                "selectionRange": {
+                  "start": {
+                    "line": 43,
+                    "character": 19
+                  },
+                  "end": {
+                    "line": 47,
+                    "character": 0
+                  }
+                },
+                "children": [
+                  
+                ]
+              },
+              {
+                "name": "sca",
+                "kind": 7,
+                "deprecated": false,
+                "range": {
+                  "start": {
+                    "line": 31,
+                    "character": 16
+                  },
+                  "end": {
+                    "line": 34,
+                    "character": 0
+                  }
+                },
+                "selectionRange": {
+                  "start": {
+                    "line": 31,
+                    "character": 16
+                  },
+                  "end": {
+                    "line": 34,
+                    "character": 0
+                  }
+                },
+                "children": [
+                  
+                ]
+              },
+              {
+                "name": "arr",
+                "kind": 7,
+                "deprecated": false,
+                "range": {
+                  "start": {
+                    "line": 34,
+                    "character": 16
+                  },
+                  "end": {
+                    "line": 40,
+                    "character": 0
+                  }
+                },
+                "selectionRange": {
+                  "start": {
+                    "line": 34,
+                    "character": 16
+                  },
+                  "end": {
+                    "line": 40,
+                    "character": 0
+                  }
+                },
+                "children": [
+                  
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "documents",
+    "kind": 7,
+    "deprecated": false,
+    "range": {
+      "start": {
+        "line": 4,
+        "character": 0
+      },
+      "end": {
+        "line": 9,
+        "character": 0
+      }
+    },
+    "selectionRange": {
+      "start": {
+        "line": 4,
+        "character": 0
+      },
+      "end": {
+        "line": 9,
+        "character": 0
+      }
+    },
+    "children": [
+      
+    ]
+  }
+]

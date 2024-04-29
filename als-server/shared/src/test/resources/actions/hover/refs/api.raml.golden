@@ -1,0 +1,5 @@
+hovers:
+  (4,8):
+    range: Range(common.Position[L:3,C:2],common.Position[L:5,C:0])
+    contents:
+      - Authentication and access control mechanism defined in an API

@@ -1,8 +1,0 @@
-openapi: "3.0.0"
-components:
-  schemas:
-    other:
-      *
-info:
-  version: 1.0.0
-  title: "api aa"

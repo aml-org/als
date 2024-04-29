@@ -74,11 +74,11 @@ import org.mulesoft.lsp.feature.typedefinition.{
   TypeDefinitionClientCapabilities,
   TypeDefinitionParams
 }
-import org.mulesoft.lsp.textsync.{TextDocumentSyncKind, _}
+import org.mulesoft.lsp.textsync._
 import org.mulesoft.lsp.workspace._
 
 import scala.language.implicitConversions
-import scala.scalajs.js.JSON
+import scala.scalajs.js.{JSON, |}
 
 object LspConvertersClientToShared {
   // $COVERAGE-OFF$ Incompatibility between scoverage and scalaJS
@@ -90,9 +90,11 @@ object LspConvertersClientToShared {
 
   implicit class DocumentSymbolClientCapabilitiesConverter(v: ClientDocumentSymbolClientCapabilities) {
     def toShared: DocumentSymbolClientCapabilities =
-      DocumentSymbolClientCapabilities(v.dynamicRegistration.toOption,
-                                       v.symbolKind.toOption.map(_.toShared),
-                                       v.hierarchicalDocumentSymbolSupport.toOption)
+      DocumentSymbolClientCapabilities(
+        v.dynamicRegistration.toOption,
+        v.symbolKind.toOption.map(_.toShared),
+        v.hierarchicalDocumentSymbolSupport.toOption
+      )
   }
 
   implicit class CommandConverter(v: ClientCommand) {
@@ -112,10 +114,12 @@ object LspConvertersClientToShared {
 
   implicit class LocationLinkConverter(v: ClientLocationLink) {
     def toShared: LocationLink =
-      LocationLink(v.targetUri,
-                   v.targetRange.toShared,
-                   v.targetSelectionRange.toShared,
-                   v.originSelectionRange.map(_.toShared).toOption)
+      LocationLink(
+        v.targetUri,
+        v.targetRange.toShared,
+        v.targetSelectionRange.toShared,
+        v.originSelectionRange.map(_.toShared).toOption
+      )
   }
 
   implicit class TextDocumentIdentifierConverter(v: ClientTextDocumentIdentifier) {
@@ -146,8 +150,10 @@ object LspConvertersClientToShared {
 
   implicit class HoverClientCapabilitiesConverter(v: ClientHoverClientCapabilities) {
     def toShared: HoverClientCapabilities =
-      HoverClientCapabilities(v.dynamicRegistration.toOption,
-                              v.contentFormat.toOption.map(_.toSeq).getOrElse(Nil).map(c => MarkupKind.withName(c)))
+      HoverClientCapabilities(
+        v.dynamicRegistration.toOption,
+        v.contentFormat.toOption.map(_.toSeq).getOrElse(Nil).map(c => MarkupKind.withName(c))
+      )
   }
 
   implicit class HoverParamsConverter(v: ClientHoverParams) {
@@ -187,12 +193,14 @@ object LspConvertersClientToShared {
         v.implementation.toOption.map(_.toShared),
         v.typeDefinition.toOption.map(_.toShared),
         v.rename.toOption.map(_.toShared),
-        v.codeAction.toOption.map(_.toShared),
+        v.codeActionCapabilities.toOption.map(_.toShared),
         v.documentLink.toOption.map(_.toShared),
         v.hover.toOption.map(_.toShared),
         v.documentHighlight.toOption.map(_.toShared),
         v.foldingRange.toOption.map(_.toShared),
-        v.selectionRange.toOption.map(_.toShared)
+        v.selectionRange.toOption.map(_.toShared),
+        v.formatting.toOption.map(_.toShared),
+        v.rangeFormatting.toOption.map(_.toShared)
       )
   }
 
@@ -218,13 +226,55 @@ object LspConvertersClientToShared {
           value match {
             case value: String  => Left[String, Boolean](value)
             case value: Boolean => Right[String, Boolean](value)
-        })
+          }
+        )
+      )
+  }
+  implicit class ClientFileOperationsServerCapabilitiesConverter(v: ClientFileOperationsServerCapabilities) {
+    def toShared: FileOperationsServerCapabilities =
+      FileOperationsServerCapabilities(
+        v.didCreate.toOption.map(_.toShared),
+        v.willCreate.toOption.map(_.toShared),
+        v.didRename.toOption.map(_.toShared),
+        v.willRename.toOption.map(_.toShared),
+        v.didDelete.toOption.map(_.toShared),
+        v.willDelete.toOption.map(_.toShared)
+      )
+  }
+  implicit class ClientFileOperationRegistrationOptionsConverter(v: ClientFileOperationRegistrationOptions) {
+    def toShared: FileOperationRegistrationOptions =
+      FileOperationRegistrationOptions(
+        v.filters.toSeq.map(_.toShared)
+      )
+  }
+  implicit class ClientFileOperationFilterConverter(v: ClientFileOperationFilter) {
+    def toShared: FileOperationFilter =
+      FileOperationFilter(
+        v.scheme.toOption,
+        v.pattern.toShared
+      )
+  }
+  implicit class ClientFileOperationPatternConverter(v: ClientFileOperationPattern) {
+    def toShared: FileOperationPattern =
+      FileOperationPattern(
+        v.glob,
+        v.matches.toOption,
+        v.options.toOption.map(_.toShared)
+      )
+  }
+  implicit class ClientFileOperationPatternOptionsConverter(v: ClientFileOperationPatternOptions) {
+    def toShared: FileOperationPatternOptions =
+      FileOperationPatternOptions(
+        v.ignoreCase.toOption
       )
   }
 
   implicit class ClientWorkspaceServerCapabilitiesConverter(v: ClientWorkspaceServerCapabilities) {
     def toShared: WorkspaceServerCapabilities =
-      WorkspaceServerCapabilities(v.workspaceFolders.toOption.map(_.toShared))
+      WorkspaceServerCapabilities(
+        v.workspaceFolders.toOption.map(_.toShared),
+        v.fileOperations.toOption.map(_.toShared)
+      )
   }
 
   implicit class StaticRegistrationOptionsConverter(v: ClientStaticRegistrationOptions) {
@@ -267,6 +317,11 @@ object LspConvertersClientToShared {
       TextEdit(v.range.toShared, v.newText)
   }
 
+  implicit class InsertReplaceEditConverter(v: ClientInsertReplaceEdit) {
+    def toShared: InsertReplaceEdit =
+      InsertReplaceEdit(v.newText, v.insert.toShared, v.replace.toShared)
+  }
+
   implicit class TextDocumentEditConverter(v: ClientTextDocumentEdit) {
     def toShared: TextDocumentEdit =
       TextDocumentEdit(v.textDocument.toShared, v.edits.map(_.toShared).toSeq)
@@ -275,25 +330,6 @@ object LspConvertersClientToShared {
   implicit class CompletionContextConverter(v: ClientCompletionContext) {
     def toShared: CompletionContext =
       CompletionContext(CompletionTriggerKind(v.triggerKind), v.triggerCharacter.toOption.flatMap(_.headOption))
-  }
-
-  implicit class CompletionItemConverter(v: ClientCompletionItem) {
-    def toShared: CompletionItem =
-      CompletionItem(
-        v.label,
-        v.kind.toOption.map(k => CompletionItemKind(k)),
-        v.detail.toOption,
-        v.documentation.toOption,
-        v.deprecated.toOption,
-        v.preselect.toOption,
-        v.sortText.toOption,
-        v.filterText.toOption,
-        v.insertText.toOption,
-        v.insertTextFormat.toOption.map(f => InsertTextFormat(f)),
-        v.textEdit.toOption.map(_.toShared),
-        v.additionalTextEdits.toOption.map(a => a.map(_.toShared).toSeq),
-        v.commitCharacters.toOption.map(a => a.flatMap(_.headOption).toSeq)
-      )
   }
 
   implicit class LocationConverter(v: ClientLocation) {
@@ -318,8 +354,9 @@ object LspConvertersClientToShared {
         v.message,
         v.severity.map(s => DiagnosticSeverity(s)).toOption,
         v.code.toOption,
+        v.codeDescription.toOption.map(_.href),
         v.source.toOption,
-        v.relatedInformation.map(_.toShared).toSeq
+        v.relatedInformation.map(_.map(_.toShared).toSeq).toOption
       )
   }
 
@@ -330,23 +367,22 @@ object LspConvertersClientToShared {
 
   implicit class CompletionItemClientCapabilitiesConverter(v: ClientCompletionItemClientCapabilities) {
     def toShared: CompletionItemClientCapabilities =
-      CompletionItemClientCapabilities(v.snippetSupport.toOption,
-                                       v.commitCharactersSupport.toOption,
-                                       v.deprecatedSupport.toOption,
-                                       v.preselectSupport.toOption)
+      CompletionItemClientCapabilities(
+        v.snippetSupport.toOption,
+        v.commitCharactersSupport.toOption,
+        v.deprecatedSupport.toOption,
+        v.preselectSupport.toOption
+      )
   }
 
   implicit class CompletionClientCapabilitiesConverter(v: ClientCompletionClientCapabilities) {
     def toShared: CompletionClientCapabilities =
-      CompletionClientCapabilities(v.dynamicRegistration.toOption,
-                                   v.completionItem.map(_.toShared).toOption,
-                                   v.completionItemKind.map(_.toShared).toOption,
-                                   v.contextSupport.toOption)
-  }
-
-  implicit class CompletionListConverter(v: ClientCompletionList) {
-    def toShared: CompletionList =
-      CompletionList(v.items.map(_.toShared).toSeq, v.isIncomplete)
+      CompletionClientCapabilities(
+        v.dynamicRegistration.toOption,
+        v.completionItem.map(_.toShared).toOption,
+        v.completionItemKind.map(_.toShared).toOption,
+        v.contextSupport.toOption
+      )
   }
 
   implicit class CompletionOptionsConverter(v: ClientCompletionOptions) {
@@ -361,15 +397,19 @@ object LspConvertersClientToShared {
 
   implicit class CodeActionCapabilitiesConverter(v: ClientCodeActionCapabilities) {
     def toShared: CodeActionCapabilities =
-      CodeActionCapabilities(v.dynamicRegistration.toOption,
-                             v.codeActionLiteralSupport.toOption.map(_.toShared),
-                             v.isPreferredSupport.toOption)
+      CodeActionCapabilities(
+        v.dynamicRegistration.toOption,
+        v.codeActionLiteralSupport.toOption.map(_.toShared),
+        v.isPreferredSupport.toOption
+      )
   }
 
   implicit class CodeActionContextConverter(v: ClientCodeActionContext) {
     def toShared: CodeActionContext =
-      CodeActionContext(v.diagnostics.map(_.toShared).toSeq,
-                        v.only.toOption.map(a => a.map(k => CodeActionKind(k)).toSeq))
+      CodeActionContext(
+        v.diagnostics.map(_.toShared).toSeq,
+        v.only.toOption.map(a => a.map(k => CodeActionKind(k)).toSeq)
+      )
   }
 
   implicit class CodeActionKindCapabilitiesConverter(v: ClientCodeActionKindCapabilities) {
@@ -416,13 +456,15 @@ object LspConvertersClientToShared {
 
   implicit class DocumentSymbolConverter(v: ClientDocumentSymbol) {
     def toShared: DocumentSymbol =
-      DocumentSymbol(v.name,
-                     SymbolKind(v.kind),
-                     v.range.toShared,
-                     v.selectionRange.toShared,
-                     v.children.map(_.toShared).toSeq,
-                     v.detail.toOption,
-                     v.deprecated.toOption)
+      DocumentSymbol(
+        v.name,
+        SymbolKind(v.kind),
+        v.range.toShared,
+        v.selectionRange.toShared,
+        v.children.map(_.toShared).toSeq,
+        v.detail.toOption,
+        v.deprecated.toOption
+      )
   }
 
   implicit class DocumentSymbolParamsConverter(v: ClientDocumentSymbolParams) {
@@ -432,11 +474,13 @@ object LspConvertersClientToShared {
 
   implicit class SymbolInformationConverter(v: ClientSymbolInformation) {
     def toShared: SymbolInformation =
-      SymbolInformation(v.name,
-                        SymbolKind(v.kind),
-                        v.location.toShared,
-                        v.containerName.toOption,
-                        v.deprecated.toOption)
+      SymbolInformation(
+        v.name,
+        SymbolKind(v.kind),
+        v.location.toShared,
+        v.containerName.toOption,
+        v.deprecated.toOption
+      )
   }
 
   implicit class DocumentLinkConverter(v: ClientDocumentLink) {
@@ -505,7 +549,21 @@ object LspConvertersClientToShared {
 
   implicit class DidChangeConfigurationNotificationParamsConverter(v: ClientDidChangeConfigurationNotificationParams) {
     def toShared: DidChangeConfigurationNotificationParams =
-      DidChangeConfigurationNotificationParams(v.mainUri, v.dependencies.toSet)
+      DidChangeConfigurationNotificationParams(
+        v.mainPath.toOption,
+        v.folder,
+        v.dependencies.map { d =>
+          d.asInstanceOf[Any] match {
+            case s: String => Left(s)
+            case _         => Right(d.asInstanceOf[ClientDependencyConfiguration].toShared)
+          }
+        }.toSet
+      )
+  }
+
+  implicit class DependencyConfigurationConverter(v: ClientDependencyConfiguration) {
+    def toShared: DependencyConfiguration =
+      DependencyConfiguration(v.file, v.scope)
   }
 
   implicit class DidChangeTextDocumentParamsConverter(v: ClientDidChangeTextDocumentParams) {
@@ -530,10 +588,12 @@ object LspConvertersClientToShared {
 
   implicit class SynchronizationClientCapabilitiesConverter(v: ClientSynchronizationClientCapabilities) {
     def toShared: SynchronizationClientCapabilities =
-      SynchronizationClientCapabilities(v.dynamicRegistration.toOption,
-                                        v.willSave.toOption,
-                                        v.willSaveWaitUntil.toOption,
-                                        v.didSave.toOption)
+      SynchronizationClientCapabilities(
+        v.dynamicRegistration.toOption,
+        v.willSave.toOption,
+        v.willSaveWaitUntil.toOption,
+        v.didSave.toOption
+      )
   }
 
   implicit class TextDocumentContentChangeEventConverter(v: ClientTextDocumentContentChangeEvent) {
@@ -542,13 +602,19 @@ object LspConvertersClientToShared {
   }
 
   implicit class TextDocumentSyncOptionsConverter(v: ClientTextDocumentSyncOptions) {
+
+    def unionToEither(value: ClientSaveOptions | Boolean): SaveOptions = value.asInstanceOf[Any] match {
+      case value: Boolean => SaveOptions(Some(value))
+      case _              => value.asInstanceOf[ClientSaveOptions].toShared
+    }
+
     def toShared: TextDocumentSyncOptions =
       TextDocumentSyncOptions(
         v.openClose.toOption,
         v.change.toOption.map(k => TextDocumentSyncKind(k)),
         v.willSave.toOption,
         v.willSaveWaitUntil.toOption,
-        v.save.toOption.map(_.toShared)
+        v.save.toOption.map(unionToEither)
       )
   }
 
@@ -609,7 +675,7 @@ object LspConvertersClientToShared {
 
   implicit class FormattingOptionsConverter(v: ClientFormattingOptions) {
     def toShared: FormattingOptions =
-      FormattingOptions(v.tabSize, v.insertSpaces)
+      FormattingOptions(v.tabSize, v.insertSpaces.getOrElse(false))
   }
 
   implicit class DocumentFormattingParamsConverter(v: ClientDocumentFormattingParams) {
@@ -627,7 +693,9 @@ object LspConvertersClientToShared {
       DocumentRangeFormattingParams(v.textDocument.toShared, v.range.toShared, v.options.toShared)
   }
 
-  implicit class DocumentRangeFormattingClientCapabilitiesConverter(v: ClientDocumentRangeFormattingClientCapabilities) {
+  implicit class DocumentRangeFormattingClientCapabilitiesConverter(
+      v: ClientDocumentRangeFormattingClientCapabilities
+  ) {
     def toShared: DocumentRangeFormattingClientCapabilities =
       DocumentRangeFormattingClientCapabilities(v.dynamicRegistration.toOption)
   }

@@ -1,0 +1,22 @@
+#%RAML 1.0
+
+title: a
+version: 2
+
+types:
+  A: string
+  B: string
+  C:
+    A | B # comment
+
+
+
+/root:
+  /a-{first}-{sec}:
+    uriParameters:
+      first:
+        type: any
+  /b:
+    uriParameters:
+      first:
+        type: string

@@ -1,24 +1,24 @@
 package org.mulesoft.als.common.dtoTypes
 
-import amf.core.parser.{Position => AmfPosition}
+import org.mulesoft.common.client.lexical.{Position => AmfPosition}
 import org.mulesoft.lsp.feature.common.{Position => LspPosition}
 
 import scala.collection.mutable.ListBuffer
 
-/**
-  * @param line   Line position in a document (zero-based).
-  * @param column Character offset on a line in a document (zero-based). Assuming that the line is
-  *               represented as a string, the `character` value represents the gap between the
-  *               `character` and `character + 1`.
+/** @param line
+  *   Line position in a document (zero-based).
+  * @param column
+  *   Character offset on a line in a document (zero-based). Assuming that the line is represented as a string, the
+  *   `character` value represents the gap between the `character` and `character + 1`.
   */
 case class Position(line: Int, column: Int) {
 
   def offset(text: String): Int = {
     def innerOffset(lines: List[String], currentLine: Int, currentOffset: Int): Int = lines match {
       case Nil => currentOffset
-      case current :: Nil =>
-        Math.min(currentOffset + column, currentOffset + current.length)
       case current :: _ if currentLine == line =>
+        Math.min(currentOffset + column, currentOffset + current.length)
+      case current :: Nil =>
         Math.min(currentOffset + column, currentOffset + current.length)
       case current :: rest =>
         innerOffset(rest, currentLine + 1, currentOffset + current.length)

@@ -1,11 +1,17 @@
 [
   {
     "label": "p1",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "example",
     "documentation": "p1",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11p1",
     "filterText": "\"p1\": \"$1\"",
     "insertText": null,
@@ -20,7 +26,7 @@
         },
         "end": {
           "line": 12,
-          "character": 13
+          "character": 12
         }
       },
       "newText": "\"p1\": \"$1\""

@@ -1,15 +1,11 @@
 package org.mulesoft.als.suggestions.plugins.aml.webapi.raml
 
-import amf.client.model.domain.OAuth2Flow
-import amf.core.model.domain.DataNode
-import amf.plugins.document.vocabularies.model.document.Dialect
-import amf.plugins.domain.webapi.metamodel.security.SecuritySchemeModel
-import amf.plugins.domain.webapi.models.security.{
+import amf.aml.client.scala.model.document.Dialect
+import amf.apicontract.client.scala.model.domain.security.{
   OAuth1Settings,
+  OAuth2Flow,
   OAuth2Settings,
-  ParametrizedSecurityScheme,
-  SecurityScheme,
-  Settings
+  ParametrizedSecurityScheme
 }
 import org.mulesoft.als.suggestions.RawSuggestion
 import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
@@ -31,7 +27,7 @@ object SecuritySettingsFacetsCompletionPlugin extends AMLCompletionPlugin {
           request.branchStack.exists(_.isInstanceOf[ParametrizedSecurityScheme])
         request.amfObject match {
           case _: OAuth1Settings if !fromReference =>
-            Raml10SecuritySchemesDialect.OAuth1Settings.propertiesRaw(d = request.actualDialect)
+            Raml10SecuritySchemesDialect.OAuth1Settings.propertiesRaw(fromDialect = request.actualDialect)
           case _: OAuth2Settings if fromReference =>
             Seq(RawSuggestion.arrayProp("scopes", "security"))
           case _: OAuth2Settings | _: OAuth2Flow if !fromReference =>
@@ -44,5 +40,5 @@ object SecuritySettingsFacetsCompletionPlugin extends AMLCompletionPlugin {
 
   private def oauth2Settings(d: Dialect) =
     Raml10SecuritySchemesDialect.OAuth2Flows
-      .propertiesRaw(d = d) ++ Raml10SecuritySchemesDialect.OAuth2Settings.propertiesRaw(d = d)
+      .propertiesRaw(fromDialect = d) ++ Raml10SecuritySchemesDialect.OAuth2Settings.propertiesRaw(fromDialect = d)
 }

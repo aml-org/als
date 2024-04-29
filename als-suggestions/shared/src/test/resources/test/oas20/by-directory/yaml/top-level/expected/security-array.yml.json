@@ -1,13 +1,19 @@
 [
   {
     "label": "security",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "security",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11security",
-    "filterText": "security:\n  ",
+    "filterText": "security: ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -23,7 +29,7 @@
           "character": 4
         }
       },
-      "newText": "security:\n  "
+      "newText": "security: "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,

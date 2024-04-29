@@ -1,14 +1,12 @@
 package org.mulesoft.als.suggestions.plugins.aml.webapi.raml
 
-import amf.core.model.domain.{AmfObject, ObjectNode, ScalarNode}
-import amf.core.model.domain.templates.AbstractDeclaration
-import amf.core.parser.FieldEntry
-import org.mulesoft.als.suggestions.{RawSuggestion, StringScalarRange, SuggestionStructure}
+import amf.core.client.scala.model.domain.{AmfObject, ObjectNode, ScalarNode}
+import amf.core.client.scala.model.domain.templates.AbstractDeclaration
+import amf.core.internal.parser.domain.FieldEntry
 import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
 import org.mulesoft.als.suggestions.interfaces.AMLCompletionPlugin
-import amf.core.utils._
-
-import scala.collection.immutable.WrappedString
+import org.mulesoft.als.suggestions.{RawSuggestion, StringScalarRange, SuggestionStructure}
+import amf.core.internal.utils._
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
@@ -18,14 +16,15 @@ object DefaultVariablesAbstractDefinition extends AMLCompletionPlugin {
   override def resolve(request: AmlCompletionRequest): Future[Seq[RawSuggestion]] = {
     Future {
       if (request.branchStack.exists(_.isInstanceOf[AbstractDeclaration])) {
-        valSuggestions(request.amfObject, request.fieldEntry, request.position.column).map(
-          s =>
-            RawSuggestion(s._1,
-                          s._2,
-                          s._2,
-                          Nil,
-                          options =
-                            SuggestionStructure(rangeKind = StringScalarRange, isKey = request.yPartBranch.isKey)))
+        valSuggestions(request.amfObject, request.fieldEntry, request.position.column).map(s =>
+          RawSuggestion(
+            s._1,
+            s._2,
+            s._2,
+            Nil,
+            options = SuggestionStructure(rangeKind = StringScalarRange, isKey = request.astPartBranch.isKey)
+          )
+        )
       } else Nil
     }
   }
@@ -72,13 +71,13 @@ object DefaultVariablesAbstractDefinition extends AMLCompletionPlugin {
     }
     val (content, pos) = if (tempContent.contains(">>")) {
       tempContent.split(">>").toList match {
-        case head :: Nil  => (head.toString, ">>")
-        case head :: tail => (head.toString, ">>" + tail.head)
-        case _            => (tempContent.toString, ">>")
+        case head :: Nil  => (head, ">>")
+        case head :: tail => (head, ">>" + tail.head)
+        case _            => (tempContent, ">>")
       }
-    } else (tempContent.toString, ">>")
+    } else (tempContent, ">>")
 
-    (pre.toString, content.toString, pos.toString)
+    (pre, content, pos)
   }
 
   private val commonNames = Seq("resourcePathName", "resourcePath", "methodName")

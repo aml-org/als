@@ -1,11 +1,17 @@
 [
   {
     "label": "apiKey",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "apiKey",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "10apiKey",
     "filterText": "\"apiKey\"",
     "insertText": null,
@@ -19,8 +25,8 @@
           "character": 16
         },
         "end": {
-          "line": 5,
-          "character": 18
+          "line": 6,
+          "character": 6
         }
       },
       "newText": "\"apiKey\""
@@ -31,11 +37,17 @@
   },
   {
     "label": "http",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "http",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "10http",
     "filterText": "\"http\"",
     "insertText": null,
@@ -49,8 +61,8 @@
           "character": 16
         },
         "end": {
-          "line": 5,
-          "character": 18
+          "line": 6,
+          "character": 6
         }
       },
       "newText": "\"http\""
@@ -61,11 +73,17 @@
   },
   {
     "label": "oauth2",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "oauth2",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "10oauth2",
     "filterText": "\"oauth2\"",
     "insertText": null,
@@ -79,8 +97,8 @@
           "character": 16
         },
         "end": {
-          "line": 5,
-          "character": 18
+          "line": 6,
+          "character": 6
         }
       },
       "newText": "\"oauth2\""
@@ -91,11 +109,17 @@
   },
   {
     "label": "openIdConnect",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "openIdConnect",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "10openIdConnect",
     "filterText": "\"openIdConnect\"",
     "insertText": null,
@@ -109,8 +133,8 @@
           "character": 16
         },
         "end": {
-          "line": 5,
-          "character": 18
+          "line": 6,
+          "character": 6
         }
       },
       "newText": "\"openIdConnect\""

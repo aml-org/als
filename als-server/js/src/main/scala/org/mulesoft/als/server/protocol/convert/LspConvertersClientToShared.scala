@@ -1,44 +1,42 @@
 package org.mulesoft.als.server.protocol.convert
 
-import org.mulesoft.als.server.feature.diagnostic.{
-  CleanDiagnosticTreeClientCapabilities,
-  CleanDiagnosticTreeOptions,
-  CleanDiagnosticTreeParams
-}
-import org.mulesoft.als.server.feature.fileusage.{FileUsageClientCapabilities, FileUsageOptions}
+import org.mulesoft.als.configuration.{AlsConfiguration, TemplateTypes}
 import org.mulesoft.als.server.feature.configuration.UpdateConfigurationParams
+import org.mulesoft.als.server.feature.configuration.workspace.{
+  GetWorkspaceConfigurationParams,
+  GetWorkspaceConfigurationResult,
+  WorkspaceConfigurationClientCapabilities,
+  WorkspaceConfigurationOptions
+}
+import org.mulesoft.als.server.feature.diagnostic._
+import org.mulesoft.als.server.feature.fileusage.{FileUsageClientCapabilities, FileUsageOptions}
 import org.mulesoft.als.server.feature.renamefile.{RenameFileActionClientCapabilities, RenameFileActionParams}
 import org.mulesoft.als.server.feature.serialization._
-import org.mulesoft.als.server.protocol.actions.{
-  ClientRenameFileActionClientCapabilities,
-  ClientRenameFileActionParams
-}
+import org.mulesoft.als.server.protocol.actions.{ClientRenameFileActionClientCapabilities, ClientRenameFileActionParams}
 import org.mulesoft.als.server.protocol.configuration._
-import org.mulesoft.als.server.protocol.diagnostic.ClientCleanDiagnosticTreeParams
-import org.mulesoft.als.server.protocol.serialization.{ClientConversionParams, ClientSerializationParams}
+import org.mulesoft.als.server.protocol.diagnostic.{
+  ClientCleanDiagnosticTreeParams,
+  ClientCustomValidationClientCapabilities,
+  ClientCustomValidationOptions
+}
+import org.mulesoft.als.server.protocol.serialization.{
+  ClientConversionParams,
+  ClientSerializationParams,
+  ClientSerializedDocument
+}
 import org.mulesoft.als.server.protocol.textsync.{
   ClientDidFocusParams,
   ClientIndexDialectParams,
   DidFocusParams,
   IndexDialectParams
 }
-import org.mulesoft.lsp.configuration.{
-  ClientFormattingOptions,
-  ClientStaticRegistrationOptions,
-  FormattingOptions,
-  StaticRegistrationOptions,
-  TraceKind
-}
+import org.mulesoft.lsp.configuration._
 import org.mulesoft.lsp.convert.LspConvertersClientToShared.{
-  ClientWorkspaceServerCapabilitiesConverter,
-  CompletionOptionsConverter,
   TextDocumentClientCapabilitiesConverter,
-  TextDocumentSyncOptionsConverter,
   WorkspaceClientCapabilitiesConverter,
-  WorkspaceFolderConverter
+  WorkspaceFolderConverter,
+  _
 }
-import org.mulesoft.lsp.textsync.{ClientTextDocumentSyncOptions, TextDocumentSyncKind}
-import org.mulesoft.lsp.convert.LspConvertersClientToShared._
 
 object LspConvertersClientToShared {
   // $COVERAGE-OFF$ Incompatibility between scoverage and scalaJS
@@ -77,8 +75,35 @@ object LspConvertersClientToShared {
       cleanDiagnosticTree = v.cleanDiagnosticTree.map(_.toShared).toOption,
       fileUsage = v.fileUsage.map(_.toShared).toOption,
       conversion = v.conversion.map(_.toShared).toOption,
-      renameFileAction = v.renameFileAction.map(_.toShared).toOption
+      renameFileAction = v.renameFileAction.map(_.toShared).toOption,
+      workspaceConfiguration = v.workspaceConfiguration.map(_.toShared).toOption,
+      customValidations = v.customValidations.map(_.toShared).toOption
     )
+  }
+
+  implicit class CustomValidationClientCapabilitiesConverter(v: ClientCustomValidationClientCapabilities) {
+    def toShared: CustomValidationClientCapabilities =
+      CustomValidationClientCapabilities(v.enabled)
+  }
+
+  implicit class CustomValidationOptionsConverter(v: ClientCustomValidationOptions) {
+    def toShared: CustomValidationOptions = CustomValidationOptions(v.enabled)
+  }
+
+  implicit class ClientAlsConfigurationConverter(v: ClientAlsConfiguration) {
+    def toShared: AlsConfiguration =
+      AlsConfiguration(
+        v.formattingOptions.toMap.map({ case (k, value) =>
+          (k -> FormattingOptionsConverter(value).toShared)
+        }),
+        v.templateType match {
+          case TemplateTypes.FULL   => TemplateTypes.FULL
+          case TemplateTypes.SIMPLE => TemplateTypes.SIMPLE
+          case TemplateTypes.NONE   => TemplateTypes.NONE
+          case _                    => TemplateTypes.BOTH
+        },
+        v.prettyPrintSerialization.toOption.getOrElse(false)
+      )
   }
 
   implicit class InitializeParamsConverter(v: ClientAlsInitializeParams) {
@@ -86,11 +111,15 @@ object LspConvertersClientToShared {
       AlsInitializeParams(
         Option(v.capabilities).map(_.toShared),
         v.trace.toOption.map(TraceKind.withName),
-        v.rootUri.toOption,
-        Option(v.processId),
-        Option(v.workspaceFolders).map(_.map(_.toShared).toSeq),
-        v.rootPath.toOption,
-        v.initializationOptions.toOption
+        locale = v.locale.toOption.flatMap(Option(_)),
+        rootUri = v.rootUri.toOption.flatMap(Option(_)), // (it may come as `Some(null)`)
+        processId = Option(v.processId),
+        workspaceFolders = Option(v.workspaceFolders).map(_.map(_.toShared).toSeq),
+        rootPath = v.rootPath.toOption.flatMap(Option(_)), // (it may come as `Some(null)`)
+        initializationOptions = v.initializationOptions.toOption,
+        configuration = v.configuration.toOption.map(_.toShared),
+        hotReload = v.hotReload.toOption,
+        maxFileSize = v.maxFileSize.toOption
       )
   }
 
@@ -124,43 +153,9 @@ object LspConvertersClientToShared {
     }
   }
 
-  implicit class ServerCapabilitiesConverter(v: ClientAlsServerCapabilities) {
-    def toShared: AlsServerCapabilities =
-      AlsServerCapabilities(
-        v.textDocumentSync.toOption.map((textDocumentSync: Any) =>
-          textDocumentSync match {
-            case value: Int => Left(TextDocumentSyncKind(value))
-            case _          => Right(textDocumentSync.asInstanceOf[ClientTextDocumentSyncOptions].toShared)
-        }),
-        v.completionProvider.toOption.map(_.toShared),
-        v.definitionProvider,
-        v.implementationProvider.toOption.map(staticRegistrationToShared),
-        v.typeDefinitionProvider.toOption.map(staticRegistrationToShared),
-        v.referencesProvider,
-        v.documentSymbolProvider,
-        None,
-        None,
-        None,
-        v.workspace.toOption.map(_.toShared),
-        v.experimental.toOption,
-        v.serialization.toOption.map(_.toShared),
-        v.cleanDiagnostics.toOption.map(_.toShared),
-        v.fileUsage.toOption.map(_.toShared),
-        v.conversion.toOption.map(_.toShared),
-        v.documentHighlightProvider.toOption,
-        v.hoverProvider.toOption,
-        v.foldingRangeProvider.toOption
-      )
-  }
-
   private def staticRegistrationToShared: Any => Either[Boolean, StaticRegistrationOptions] = {
     case value: Boolean     => Left(value)
     case staticRegistration => Right(staticRegistration.asInstanceOf[ClientStaticRegistrationOptions].toShared)
-  }
-
-  implicit class InitializeResultConverter(v: ClientAlsInitializeResult) {
-    def toShared: AlsInitializeResult =
-      AlsInitializeResult(v.capabilities.toShared)
   }
 
   implicit class DidFocusParamsConverter(v: ClientDidFocusParams) {
@@ -178,19 +173,28 @@ object LspConvertersClientToShared {
   }
 
   implicit class ClientFormattingOptionsConverter(v: ClientFormattingOptions) {
-    def toShared: FormattingOptions = FormattingOptions(v.tabSize, v.insertSpaces)
+    def toShared: FormattingOptions =
+      FormattingOptions(v.tabSize, v.insertSpaces.getOrElse(false))
   }
 
   implicit class ClientUpdateConfigurationConverter(v: ClientUpdateConfigurationParams) {
     def toShared: UpdateConfigurationParams = UpdateConfigurationParams(
-      v.clientAlsFormattingOptions.toOption.map(_.toMap.map(v =>
-        v._1 -> ClientFormattingOptionsConverter(v._2).toShared)),
-      v.clientGenericOptions.toMap.map(v => v._1 -> v._2)
+      v.formattingOptions.toOption
+        .map(_.toMap.map(v => v._1 -> ClientFormattingOptionsConverter(v._2).toShared)),
+      v.genericOptions.toOption
+        .map(_.toMap.map(v => v._1 -> v._2))
+        .getOrElse(Map.empty),
+      v.templateType.getOrElse("").toUpperCase match {
+        case v if v == TemplateTypes.NONE || v == TemplateTypes.SIMPLE || v == TemplateTypes.FULL => v
+        case _                                                                                    => TemplateTypes.BOTH
+      },
+      v.prettyPrintSerialization.toOption.getOrElse(false)
     )
   }
 
-  implicit class ClientSerializationParamsConverter(v: ClientSerializationParams) {
-    def toShared: SerializationParams = SerializationParams(v.documentIdentifier.toShared)
+  implicit class SerializationParamsConverter(v: ClientSerializationParams) {
+    def toShared: SerializationParams =
+      SerializationParams(v.documentIdentifier.toShared, v.clean.getOrElse(false), v.sourcemaps.getOrElse(false))
   }
 
   implicit class ClientRenameFileActionClientCapabilitiesConverter(i: ClientRenameFileActionClientCapabilities) {
@@ -199,6 +203,29 @@ object LspConvertersClientToShared {
 
   implicit class ClientRenameFileActionParamsConverter(i: ClientRenameFileActionParams) {
     def toShared: RenameFileActionParams = RenameFileActionParams(i.oldDocument.toShared, i.newDocument.toShared)
+  }
+
+  implicit class ClientGetWorkspaceConfigurationParamsConverterToShared(s: ClientGetWorkspaceConfigurationParams) {
+    def toShared: GetWorkspaceConfigurationParams = GetWorkspaceConfigurationParams(s.textDocument.toShared)
+  }
+
+  implicit class GetWorkspaceConfigurationResultConverter(s: ClientGetWorkspaceConfigurationResult) {
+    def toShared: GetWorkspaceConfigurationResult =
+      GetWorkspaceConfigurationResult(s.workspace, s.configuration.toShared)
+  }
+
+  implicit class ClientWorkspaceConfigurationClientCapabilitiesConverter(
+      s: ClientWorkspaceConfigurationClientCapabilities
+  ) {
+    def toShared: WorkspaceConfigurationClientCapabilities = WorkspaceConfigurationClientCapabilities(s.get)
+  }
+
+  implicit class ClientWorkspaceConfigurationOptionsConverter(s: ClientWorkspaceConfigurationServerOptions) {
+    def toShared: WorkspaceConfigurationOptions = WorkspaceConfigurationOptions(s.supported)
+  }
+
+  implicit class SerializedDocumentConverter(s: ClientSerializedDocument) {
+    def toShared: SerializedDocument = SerializedDocument(s.uri, s.model)
   }
   // $COVERAGE-ON
 }

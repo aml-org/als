@@ -1,0 +1,10 @@
+#%Dialect 1.0
+
+externals:
+  schema-org: http://schema-org.com
+
+annotationMappings:
+  myNodeMapping:
+    propertyTerm: schema-org.unreal
+    *
+    range: string

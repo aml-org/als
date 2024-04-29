@@ -28,30 +28,31 @@ documentChanges:
             "Board": {
               "description": "board of directors",
               "type": "object",
-              "additionalProperties": true,
               "required": [
                 "members"
               ],
               "properties": {
                 "members": {
                   "items": {
-                    "type": "object",
-                    "description": "my schema",
-                    "additionalProperties": true,
-                    "required": [
-                      "name",
-                      "age"
-                    ],
-                    "properties": {
-                      "name": {
-                        "type": "string"
-                      },
-                      "age": {
-                        "type": "number"
-                      }
-                    }
+                    "$ref": "#/definitions/Person"
                   },
                   "type": "array"
+                }
+              }
+            },
+            "Person": {
+              "description": "my schema",
+              "type": "object",
+              "required": [
+                "name",
+                "age"
+              ],
+              "properties": {
+                "name": {
+                  "type": "string"
+                },
+                "age": {
+                  "type": "number"
                 }
               }
             }
