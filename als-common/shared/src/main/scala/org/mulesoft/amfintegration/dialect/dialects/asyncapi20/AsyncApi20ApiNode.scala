@@ -33,7 +33,7 @@ object AsyncApi20ApiNode extends DialectNode {
       .withName("servers")
       .withObjectRange(
         Seq(
-          AsyncApiServerObject.id
+          AsyncApi20ServerObject.id
         )
       )
       .withMapTermKeyProperty(ServerModel.Name.value.iri()),

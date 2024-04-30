@@ -36,6 +36,42 @@
     "command": null
   },
   {
+    "label": "New tags",
+    "kind": [
+      
+    ],
+    "detail": "template",
+    "documentation": "tags",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "21New tags",
+    "filterText": "tags:\n  -\n    name: $1",
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 9,
+          "character": 6
+        },
+        "end": {
+          "line": 9,
+          "character": 6
+        }
+      },
+      "newText": "tags:\n  -\n    name: $1"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
     "label": "bindings",
     "kind": [
       
@@ -210,6 +246,42 @@
         }
       },
       "newText": "security:\n  - "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "tags",
+    "kind": [
+      
+    ],
+    "detail": "unknown",
+    "documentation": "tags",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "11tags",
+    "filterText": "tags:\n  - ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 9,
+          "character": 6
+        },
+        "end": {
+          "line": 9,
+          "character": 6
+        }
+      },
+      "newText": "tags:\n  - "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,

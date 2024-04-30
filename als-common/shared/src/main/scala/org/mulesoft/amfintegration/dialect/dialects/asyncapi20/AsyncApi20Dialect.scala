@@ -70,7 +70,7 @@ object AsyncApi20Dialect extends BaseDialect {
     AMLContactObject,
     AMLLicenseObject,
     AMLTagObject,
-    AsyncApiServerObject
+    AsyncApi20ServerObject
   )
 
   override def emptyDocument: DocumentsModel =

@@ -4,7 +4,7 @@ import amf.aml.client.scala.model.domain.PropertyMapping
 import amf.apicontract.internal.metamodel.domain.api.AsyncApiModel
 import amf.apicontract.internal.metamodel.domain.{EndPointModel, ServerModel}
 import amf.core.client.scala.vocabulary.Namespace.XsdTypes.xsdString
-import org.mulesoft.amfintegration.dialect.dialects.asyncapi20.{AMLInfoObject, AsyncApiServerObject}
+import org.mulesoft.amfintegration.dialect.dialects.asyncapi20.AMLInfoObject
 import org.mulesoft.amfintegration.dialect.dialects.oas.OAS20Dialect.OwlSameAs
 import org.mulesoft.amfintegration.dialect.dialects.oas.nodes.{
   AMLExternalDocumentationObject,
@@ -34,7 +34,7 @@ object AsyncApi26ApiNode extends DialectNode {
       .withName("servers")
       .withObjectRange(
         Seq(
-          AsyncApiServerObject.id
+          AsyncApi26ServerObject.id
         )
       )
       .withMapTermKeyProperty(ServerModel.Name.value.iri()),

@@ -13,7 +13,6 @@ import org.mulesoft.amfintegration.dialect.dialects.asyncapi20.{
   AsyncAPI20HttpApiKeySecurityObject,
   AsyncAPI20HttpSecurityObject,
   AsyncAPI20penIdConnectUrl,
-  AsyncApiServerObject,
   AsyncApiVariableObject,
   CorrelationIdObjectNode,
   Oauth2FlowObject,
@@ -85,7 +84,7 @@ object AsyncApi26Dialect extends BaseDialect {
     AMLContactObject,
     AMLLicenseObject,
     AMLTagObject,
-    AsyncApiServerObject
+    AsyncApi26ServerObject
   )
 
   override def emptyDocument: DocumentsModel =
@@ -99,7 +98,7 @@ object AsyncApi26Dialect extends BaseDialect {
 
   override def declaredNodes: Map[String, DialectNode] = Map(
     "serverVariables"   -> AsyncApiVariableObject,
-    "servers"           -> AsyncApiServerObject,
+    "servers"           -> AsyncApi26ServerObject,
     "channels"          -> Channel26Object,
     "securitySchemes"   -> AsyncApi26SecuritySchemeObject,
     "messages"          -> Message26ObjectNode,

@@ -59,5 +59,7 @@ object AsyncApi2CompletionPluginRegistry extends AsyncApiCompletionPluginRegistr
   override def dialect: Dialect = AsyncApi20Dialect()
 }
 object AsyncApi26CompletionPluginRegistry extends AsyncApiCompletionPluginRegistry {
+  override def plugins: Seq[AMLCompletionPlugin] = super.plugins ++ Seq(Async26ChannelServersPlugin)
+
   override def dialect: Dialect = AsyncApi26Dialect()
 }
