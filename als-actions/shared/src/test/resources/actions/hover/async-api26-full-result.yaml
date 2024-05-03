@@ -1,0 +1,774 @@
+hovers:
+  (1,4):
+    - Top level element describing a asynchronous API
+  (1,12):
+    - Top level element describing a asynchronous API
+  (2,2):
+    - Contains general information about the defined API, such as title and version
+  (2,5):
+    - Contains general information about the defined API, such as title and version
+  (3,4):
+    - Human readable name for the object
+  (3,16):
+    - Human readable name for the object
+  (4,5):
+    - Version of the API
+  (4,13):
+    - Version of the API
+  (5,7):
+    - Human readable description of an element
+  (5,39):
+    - Human readable description of an element
+  (6,3):
+    - Information about the network accessible locations where the API is available
+  (6,8):
+    - Information about the network accessible locations where the API is available
+  (7,7):
+    - Information about the network accessible locations where the API is available
+  (7,13):
+    - Information about the network accessible locations where the API is available
+  (8,5):
+    - URL (potentially a template) for the server
+  (8,13):
+    - URL (potentially a template) for the server
+  (9,8):
+    - The protocol this URL supports for connection
+  (9,16):
+    - The protocol this URL supports for connection
+  (10,8):
+    - Flow for an OAuth2 security scheme setting
+  (10,13):
+    - Flow for an OAuth2 security scheme setting
+  (11,7):
+    - Flow for an OAuth2 security scheme setting
+  (12,11): []
+  (12,15): []
+  (13,17): []
+  (14,16): []
+  (15,8):
+    - Bindings for this server
+  (15,13): []
+  (16,8):
+    - Binding for a corresponding known type
+  (16,12): []
+  (17,11):
+    - Defines a logical group of IBM MQ server objects. This is necessary to specify multi-endpoint configurations used in high availability deployments. If omitted, the server object is not part of a group.
+  (17,19):
+    - Defines a logical group of IBM MQ server objects. This is necessary to specify multi-endpoint configurations used in high availability deployments. If omitted, the server object is not part of a group.
+  (18,18):
+    - The name of the IBM MQ queue manager to bind to in the CCDT file.
+  (18,32):
+    - The name of the IBM MQ queue manager to bind to in the CCDT file.
+  (19,13):
+    - The recommended cipher specification used to establish a TLS connection between the client and the IBM MQ queue manager.
+  (19,22):
+    - The recommended cipher specification used to establish a TLS connection between the client and the IBM MQ queue manager.
+  (20,17):
+    - If multiEndpointServer is true then multiple connections can be workload balanced and applications should not make assumptions as to where messages are processed. Where message ordering, or affinity to specific message resources is necessary, a single endpoint (multiEndpointServer = false) may be required.
+  (20,31):
+    - If multiEndpointServer is true then multiple connections can be workload balanced and applications should not make assumptions as to where messages are processed. Where message ordering, or affinity to specific message resources is necessary, a single endpoint (multiEndpointServer = false) may be required.
+  (21,16):
+    - The recommended value (in seconds) for the heartbeat sent to the queue manager during periods of inactivity. A value of zero means that no heart beats are sent. A value of 1 means that the client will use the value defined by the queue manager.
+  (21,28):
+    - The recommended value (in seconds) for the heartbeat sent to the queue manager during periods of inactivity. A value of zero means that no heart beats are sent. A value of 1 means that the client will use the value defined by the queue manager.
+  (22,8):
+    - Piece of data required or returned by an Operation
+  (22,14):
+    - Piece of data required or returned by an Operation
+  (23,11):
+    - Human readable name for the object
+  (23,18):
+    - Piece of data required or returned by an Operation
+  (24,11):
+    - Piece of data required or returned by an Operation
+  (24,18):
+    - Piece of data required or returned by an Operation
+  (25,13):
+    - Piece of data required or returned by an Operation
+  (25,28):
+    - Piece of data required or returned by an Operation
+  (26,9):
+    - Human readable name for the object
+  (26,14):
+    - Piece of data required or returned by an Operation
+  (27,11):
+    - Piece of data required or returned by an Operation
+  (27,18):
+    - Piece of data required or returned by an Operation
+  (28,13):
+    - Piece of data required or returned by an Operation
+  (28,26):
+    - Piece of data required or returned by an Operation
+  (29,7):
+    - Information about the network accessible locations where the API is available
+  (29,14):
+    - Information about the network accessible locations where the API is available
+  (30,5):
+    - URL (potentially a template) for the server
+  (30,30):
+    - URL (potentially a template) for the server
+  (31,9):
+    - Human readable description of an element
+  (31,43):
+    - Human readable description of an element
+  (32,8):
+    - The protocol this URL supports for connection
+  (32,16):
+    - The protocol this URL supports for connection
+  (33,8):
+    - Piece of data required or returned by an Operation
+  (33,14):
+    - Piece of data required or returned by an Operation
+  (34,11):
+    - Human readable name for the object
+  (34,18):
+    - Piece of data required or returned by an Operation
+  (35,10):
+    - Piece of data required or returned by an Operation
+  (35,35):
+    - Piece of data required or returned by an Operation
+  (36,9):
+    - Human readable name for the object
+  (36,14):
+    - Piece of data required or returned by an Operation
+  (37,10):
+    - Piece of data required or returned by an Operation
+  (37,33):
+    - Piece of data required or returned by an Operation
+  (38,5):
+    - Information about the network accessible locations where the API is available
+  (38,10):
+    - Information about the network accessible locations where the API is available
+  (39,5):
+    - URL (potentially a template) for the server
+  (39,13):
+    - URL (potentially a template) for the server
+  (40,8):
+    - The protocol this URL supports for connection
+  (40,17):
+    - The protocol this URL supports for connection
+  (41,8):
+    - Bindings for this server
+  (41,13): []
+  (42,9):
+    - Binding for a corresponding known type
+  (42,13): []
+  (43,11):
+    - The pulsar tenant. If omitted, "public" MUST be assumed.
+  (43,18):
+    - The pulsar tenant. If omitted, "public" MUST be assumed.
+  (44,15):
+    - The version of this binding
+  (44,26):
+    - The version of this binding
+  (45,4):
+    - EndPoint in the API holding a number of executable operations
+  (45,9):
+    - EndPoint in the API holding a number of executable operations
+  (46,8):
+    - EndPoint in the API holding a number of executable operations
+  (46,16):
+    - Action that can be executed using a particular HTTP invocation
+  (47,8):
+    - Action that can be executed using a particular HTTP invocation
+  (47,14):
+    - Action that can be executed using a particular HTTP invocation
+  (48,10):
+    - Flow for an OAuth2 security scheme setting
+  (48,15):
+    - Flow for an OAuth2 security scheme setting
+  (49,9):
+    - Flow for an OAuth2 security scheme setting
+  (50,13): []
+  (50,17): []
+  (51,18): []
+  (52,9):
+    - Human readable description of the operation
+  (52,28):
+    - Human readable description of the operation
+  (53,9):
+    - Response information for an operation
+  (53,14):
+    - Encoded payload using certain media-type
+  (54,10):
+    - Human readable name for the term
+  (54,20):
+    - Human readable name for the term
+  (55,11):
+    - Human readable short description of the request/response
+  (55,35):
+    - Human readable short description of the request/response
+  (56,13):
+    - Human readable description of an element
+  (57,0):
+    - End points defined in the API
+  (58,11):
+    - Defines a data type
+  (58,16):
+    - Defines a data type
+  (59,12):
+    - Defines a data type
+  (59,19):
+    - Defines a data type
+  (60,15):
+    - Defines a data type
+  (60,21):
+    - Defines a data type
+  (61,14):
+    - Defines a data type
+  (61,18):
+    - Defines a data type
+  (62,16):
+    - Scalar range constraining this scalar shape
+  (62,23):
+    - Scalar range constraining this scalar shape
+  (63,12):
+    - Encoded payload using certain media-type
+  (63,17):
+    - Encoded payload using certain media-type
+  (64,11):
+    - Encoded payload using certain media-type
+  (65,14):
+    - Human readable name for the term
+  (65,20):
+    - Human readable name for the term
+  (66,15):
+    - Example value for a schema inside an API
+  (66,24):
+    - Example value for a schema inside an API
+  (67,15):
+    - Encoded payload using certain media-type
+  (67,20):
+    - Example value for a schema inside an API
+  (68,20):
+    - Example value for a schema inside an API
+  (68,35):
+    - Example value for a schema inside an API
+  (69,15):
+    - Encoded payload using certain media-type
+  (69,20):
+    - Example value for a schema inside an API
+  (70,17):
+    - Example value for a schema inside an API
+  (70,25):
+    - Example value for a schema inside an API
+  (71,17):
+    - Example value for a schema inside an API
+  (71,25):
+    - Example value for a schema inside an API
+  (72,9):
+    - EndPoint in the API holding a number of executable operations
+  (72,17):
+    - Action that can be executed using a particular HTTP invocation
+  (73,8):
+    - Bindings for this endpoint
+  (73,13): []
+  (74,8):
+    - Binding for a corresponding known type
+  (74,12): []
+  (75,15):
+    - Defines the type of AsyncAPI channel.
+  (75,27):
+    - Defines the type of AsyncAPI channel.
+  (76,10):
+    - Defines the properties of a topic.
+  (76,14): []
+  (77,13):
+    - The value of the IBM MQ topic string to be used.
+  (77,20):
+    - The value of the IBM MQ topic string to be used.
+  (78,15):
+    - The name of the IBM MQ topic object.
+  (78,24):
+    - The name of the IBM MQ topic object.
+  (79,18):
+    - Defines if the subscription may be durable.
+  (79,30):
+    - Defines if the subscription may be durable.
+  (80,17):
+    - Defines if the last message published will be made available to new subscriptions.
+  (80,29):
+    - Defines if the last message published will be made available to new subscriptions.
+  (81,14):
+    - The maximum length of the physical message (in bytes) accepted by the Topic or Queue. Messages produced that are greater in size than this value may fail to be delivered.
+  (81,23):
+    - The maximum length of the physical message (in bytes) accepted by the Topic or Queue. Messages produced that are greater in size than this value may fail to be delivered.
+  (82,15):
+    - The version of this binding
+  (82,26):
+    - The version of this binding
+  (83,7):
+    - Action that can be executed using a particular HTTP invocation
+  (83,12):
+    - Action that can be executed using a particular HTTP invocation
+  (84,10):
+    - Bindings for this operation
+  (84,15): []
+  (85,10):
+    - Binding for a corresponding known type
+  (86,9):
+    - Request information for an operation
+  (86,14):
+    - Encoded payload using certain media-type
+  (87,12):
+    - Bindings for this request/response
+  (87,17): []
+  (88,12):
+    - Binding for a corresponding known type
+  (88,16): []
+  (89,14):
+    - The type of the message
+  (89,21):
+    - The type of the message
+  (90,17): []
+  (90,27): []
+  (91,15):
+    - This is a period of time expressed in milliseconds and set by the application that puts the message.
+  (91,21):
+    - This is a period of time expressed in milliseconds and set by the application that puts the message.
+  (92,19):
+    - The version of this binding
+  (92,30):
+    - The version of this binding
+  (93,15):
+    - Defines the IBM MQ message headers to include with this message. More than one header can be specified as a comma separated list.
+  (93,30):
+    - Defines the IBM MQ message headers to include with this message. More than one header can be specified as a comma separated list.
+  (94,11):
+    - Defines a data type
+  (94,16):
+    - Defines a data type
+  (95,12):
+    - Scalar range constraining this scalar shape
+  (95,19):
+    - Scalar range constraining this scalar shape
+  (96,9):
+    - Human readable description of an element
+  (96,23):
+    - Human readable description of an element
+  (97,8):
+    - EndPoint in the API holding a number of executable operations
+  (97,16):
+    - Action that can be executed using a particular HTTP invocation
+  (98,8):
+    - Bindings for this endpoint
+  (98,13): []
+  (99,11):
+    - Binding for a corresponding known type
+  (99,17): []
+  (100,13):
+    - The destination (queue or exchange) name for this channel.
+  (100,23):
+    - The destination (queue or exchange) name for this channel.
+  (101,15):
+    - The type of destination (either exchange or queue or fifo-queue).
+  (101,29):
+    - The type of destination (either exchange or queue or fifo-queue).
+  (102,15):
+    - The version of this binding
+  (102,26):
+    - The version of this binding
+  (103,9):
+    - Human readable description of an element
+  (103,23):
+    - Human readable description of an element
+  (104,7):
+    - Action that can be executed using a particular HTTP invocation
+  (104,12):
+    - Action that can be executed using a particular HTTP invocation
+  (105,10):
+    - Bindings for this operation
+  (105,15): []
+  (106,13):
+    - Binding for a corresponding known type
+  (107,9):
+    - Request information for an operation
+  (107,14):
+    - Encoded payload using certain media-type
+  (108,12):
+    - Bindings for this request/response
+  (108,17): []
+  (109,15):
+    - Binding for a corresponding known type
+  (109,21): []
+  (110,15):
+    - A Schema object containing the definitions for HTTP-specific headers
+  (110,20):
+    - Defines a data type
+  (111,16):
+    - Defines a data type
+  (111,23):
+    - Defines a data type
+  (112,19):
+    - Defines a data type
+  (112,25):
+    - Defines a data type
+  (113,20):
+    - Defines a data type
+  (113,26):
+    - Defines a data type
+  (114,20):
+    - Scalar range constraining this scalar shape
+  (114,27):
+    - Scalar range constraining this scalar shape
+  (115,19):
+    - The version of this binding
+  (115,30):
+    - The version of this binding
+  (116,11):
+    - Defines a data type
+  (116,16):
+    - Defines a data type
+  (117,12):
+    - Scalar range constraining this scalar shape
+  (117,19):
+    - Scalar range constraining this scalar shape
+  (118,8):
+    - EndPoint in the API holding a number of executable operations
+  (118,16):
+    - Action that can be executed using a particular HTTP invocation
+  (119,7):
+    - Action that can be executed using a particular HTTP invocation
+  (119,12):
+    - Action that can be executed using a particular HTTP invocation
+  (120,10):
+    - Bindings for this operation
+  (120,15): []
+  (121,11):
+    - Binding for a corresponding known type
+  (121,15): []
+  (122,17):
+    - The version of this binding
+  (122,28):
+    - The version of this binding
+  (123,16): []
+  (123,23): []
+  (124,13): []
+  (125,21): []
+  (125,33): []
+  (126,16): []
+  (126,20): []
+  (127,18): []
+  (127,29): []
+  (128,21): []
+  (128,32): []
+  (129,23): []
+  (129,35): []
+  (130,19): []
+  (130,26): []
+  (131,25): []
+  (131,35): []
+  (132,28): []
+  (133,13): []
+  (134,21): []
+  (134,33): []
+  (135,16): []
+  (135,20): []
+  (136,25): []
+  (136,35): []
+  (137,28): []
+  (138,11):
+    - EndPoint in the API holding a number of executable operations
+  (138,21):
+    - EndPoint in the API holding a number of executable operations
+  (139,8):
+    - Bindings for this endpoint
+  (139,13): []
+  (140,12):
+    - Binding for a corresponding known type
+  (140,19): []
+  (141,11):
+    - "An object of key-value pairs "
+  (141,15): []
+  (142,13): []
+  (142,21): []
+  (143,13): []
+  (143,21): []
+  (144,10):
+    - The Google Cloud Pub/Sub Topic name
+  (144,38):
+    - The Google Cloud Pub/Sub Topic name
+  (145,20):
+    - Indicates the minimum duration to retain a message after it is published to the topic
+  (145,37):
+    - Indicates the minimum duration to retain a message after it is published to the topic
+  (146,18):
+    - Policy constraining the set of Google Cloud Platform regions where messages published to the topic may be stored
+  (146,29): []
+  (147,22):
+    - A list of IDs of GCP regions where messages that are published to the topic may be persisted in storage
+  (147,36):
+    - A list of IDs of GCP regions where messages that are published to the topic may be persisted in storage
+  (148,19):
+    - A list of IDs of GCP regions where messages that are published to the topic may be persisted in storage
+  (149,17):
+    - A list of IDs of GCP regions where messages that are published to the topic may be persisted in storage
+  (150,15):
+    - Settings for validating messages published against a schema
+  (150,23): []
+  (151,14):
+    - "The encoding of the message "
+  (151,23):
+    - "The encoding of the message "
+  (152,12):
+    - Name of the schema that messages published should be validated against
+  (152,36):
+    - Name of the schema that messages published should be validated against
+  (153,17):
+    - The minimum (inclusive) revision allowed for validating messages
+  (153,29):
+    - The minimum (inclusive) revision allowed for validating messages
+  (154,17):
+    - The maximum (inclusive) revision allowed for validating messages
+  (154,28):
+    - The maximum (inclusive) revision allowed for validating messages
+  (155,8):
+    - EndPoint in the API holding a number of executable operations
+  (155,16):
+    - EndPoint in the API holding a number of executable operations
+  (156,8):
+    - Bindings for this endpoint
+  (156,13): []
+  (157,9):
+    - Binding for a corresponding known type
+  (157,13): []
+  (158,12):
+    - The namespace the channel is associated with.
+  (158,21):
+    - The namespace the channel is associated with.
+  (159,13):
+    - Persistence of the topic in Pulsar. It MUST be either persistent or non-persistent.
+  (159,23):
+    - Persistence of the topic in Pulsar. It MUST be either persistent or non-persistent.
+  (160,13):
+    - Topic compaction threshold given in Megabytes.
+  (160,21):
+    - Topic compaction threshold given in Megabytes.
+  (161,15):
+    - A list of clusters the topic is replicated to.
+  (161,24):
+    - A list of clusters the topic is replicated to.
+  (162,14):
+    - A list of clusters the topic is replicated to.
+  (163,15):
+    - A list of clusters the topic is replicated to.
+  (164,14):
+    - A list of clusters the topic is replicated to.
+  (165,12):
+    - Topic retention policy.
+  (165,18): []
+  (166,12):
+    - Time given in Minutes. Defaults to 0
+  (166,17):
+    - Time given in Minutes. Defaults to 0
+  (167,12):
+    - Size given in MegaBytes. Defaults to 0
+  (167,17):
+    - Size given in MegaBytes. Defaults to 0
+  (168,9):
+    - Message time-to-live in seconds.
+  (168,14):
+    - Message time-to-live in seconds.
+  (169,14):
+    - Message deduplication. When true, it ensures that each message produced on Pulsar topics is persisted to disk only once.
+  (169,25):
+    - Message deduplication. When true, it ensures that each message produced on Pulsar topics is persisted to disk only once.
+  (170,15):
+    - The version of this binding
+  (170,26):
+    - The version of this binding
+  (171,9):
+    - Human readable description of an element
+  (171,23):
+    - Human readable description of an element
+  (172,5):
+    - Contains reusable definitions
+  (172,11):
+    - Contains reusable definitions
+  (173,6):
+    - Contains declarations of reusable Messages
+  (173,11):
+    - Top level element describing a asynchronous API
+  (174,9): []
+  (174,16): []
+  (175,10):
+    - Bindings for this request/response
+  (175,15): []
+  (176,14):
+    - Binding for a corresponding known type
+  (176,21): []
+  (177,15):
+    - Attributes for this message
+  (177,21): []
+  (178,20): []
+  (178,36): []
+  (179,15):
+    - If non-empty, identifies related messages for which publish order should be respected
+  (179,30):
+    - If non-empty, identifies related messages for which publish order should be respected
+  (180,17):
+    - The version of this binding
+  (180,28):
+    - The version of this binding
+  (181,13):
+    - Define Schema
+  (181,17): []
+  (182,14):
+    - The name of the schema
+  (182,39):
+    - The name of the schema
+  (183,14):
+    - The type of the schema
+  (183,20):
+    - The type of the schema
+  (184,9): []
+  (184,15):
+    - Encoded payload using certain media-type
+  (185,8):
+    - Human readable name for the term
+  (185,17):
+    - Human readable name for the term
+  (186,9):
+    - Human readable short description of the request/response
+  (186,33):
+    - Human readable short description of the request/response
+  (187,10):
+    - Unique Id for request and response message
+  (187,23):
+    - Unique Id for request and response message
+  (188,11):
+    - Human readable description of an element
+  (189,0):
+    - Top level element describing a asynchronous API
+  (190,9):
+    - Defines a data type
+  (190,14):
+    - Defines a data type
+  (191,10):
+    - Defines a data type
+  (191,28):
+    - Defines a data type
+  (192,10):
+    - Encoded payload using certain media-type
+  (192,15):
+    - Encoded payload using certain media-type
+  (193,9):
+    - Encoded payload using certain media-type
+  (194,12):
+    - Human readable name for the term
+  (194,22):
+    - Human readable name for the term
+  (195,13):
+    - Example value for a schema inside an API
+  (195,22):
+    - Example value for a schema inside an API
+  (196,13):
+    - Encoded payload using certain media-type
+  (196,18):
+    - Example value for a schema inside an API
+  (197,15):
+    - Example value for a schema inside an API
+  (197,23):
+    - Example value for a schema inside an API
+  (198,15):
+    - Example value for a schema inside an API
+  (198,23):
+    - Example value for a schema inside an API
+  (199,13):
+    - Encoded payload using certain media-type
+  (199,18):
+    - Example value for a schema inside an API
+  (200,18):
+    - Example value for a schema inside an API
+  (200,32):
+    - Example value for a schema inside an API
+  (201,5):
+    - Contains declarations of reusable Schemas
+  (201,10):
+    - Top level element describing a asynchronous API
+  (202,7):
+    - Human readable name for the object
+  (202,11):
+    - Defines a data type
+  (203,8):
+    - Defines a data type
+  (203,15):
+    - Defines a data type
+  (204,11):
+    - Defines a data type
+  (204,17):
+    - Defines a data type
+  (205,10):
+    - Defines a data type
+  (205,13):
+    - Defines a data type
+  (206,12):
+    - Scalar range constraining this scalar shape
+  (206,19):
+    - Scalar range constraining this scalar shape
+  (207,9):
+    - Top level element describing a asynchronous API
+  (207,18):
+    - Top level element describing a asynchronous API
+  (208,9):
+    - Piece of data required or returned by an Operation
+  (208,16):
+    - Piece of data required or returned by an Operation
+  (209,9):
+    - Piece of data required or returned by an Operation
+  (209,18):
+    - Piece of data required or returned by an Operation
+  (210,11):
+    - Piece of data required or returned by an Operation
+  (210,32):
+    - Piece of data required or returned by an Operation
+  (211,7):
+    - Piece of data required or returned by an Operation
+  (211,12):
+    - Piece of data required or returned by an Operation
+  (212,9):
+    - Piece of data required or returned by an Operation
+  (212,16):
+    - Piece of data required or returned by an Operation
+  (213,11):
+    - Piece of data required or returned by an Operation
+  (213,30):
+    - Piece of data required or returned by an Operation
+  (214,9):
+    - Declarations of reusable authentication mechanisms to ensure secured operations
+  (214,18):
+    - Top level element describing a asynchronous API
+  (215,7):
+    - Authentication and access control mechanism defined in an API
+  (215,11):
+    - Settings for an OAuth2 security scheme
+  (216,8):
+    - Type of security scheme
+  (216,15):
+    - Type of security scheme
+  (217,11):
+    - Human readable description of an element
+  (217,30):
+    - Human readable description of an element
+  (218,8):
+    - Settings for an OAuth2 security scheme
+  (218,12):
+    - Flow for an OAuth2 security scheme setting
+  (219,12):
+    - Flow for an OAuth2 security scheme setting
+  (219,17):
+    - Flow for an OAuth2 security scheme setting
+  (220,18):
+    - Flow for an OAuth2 security scheme setting
+  (220,34):
+    - Flow for an OAuth2 security scheme setting
+  (221,15):
+    - Flow for an OAuth2 security scheme setting
+  (221,28):
+    - Flow for an OAuth2 security scheme setting
+  (222,13): []
+  (222,17): []
+  (223,17): []
+  (223,37): []
+  (224,16): []
+  (224,30): []

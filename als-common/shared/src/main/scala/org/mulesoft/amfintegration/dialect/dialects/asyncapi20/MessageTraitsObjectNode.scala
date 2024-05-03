@@ -3,7 +3,6 @@ package org.mulesoft.amfintegration.dialect.dialects.asyncapi20
 import amf.aml.client.scala.model.domain.PropertyMapping
 import amf.apicontract.internal.metamodel.domain.{MessageModel, PayloadModel}
 import amf.core.client.scala.vocabulary.Namespace.XsdTypes.xsdString
-import org.mulesoft.amfintegration.dialect.dialects.asyncapi20.MessageTraitsObjectNode.location
 import org.mulesoft.amfintegration.dialect.dialects.asyncapi20.bindings.MessageBindingsObjectNode
 import org.mulesoft.amfintegration.dialect.dialects.asyncapi20.schema.NodeShapeAsync2Node
 import org.mulesoft.amfintegration.dialect.dialects.oas.nodes.{
