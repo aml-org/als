@@ -14,17 +14,18 @@ import org.mulesoft.amfintegration.dialect.dialects.oas.nodes.{
 trait MessageAbstractObjectNode extends DialectNode {
 
   val exampleProperty: PropertyMapping
+  val specVersion: String
 
-  val schemaFormatProp: PropertyMapping = PropertyMapping()
+  lazy val schemaFormatProp: PropertyMapping = PropertyMapping()
     .withId(location + "#/declarations/Message/schemaFormat")
     .withName("schemaFormat")
     .withNodePropertyMapping(PayloadModel.SchemaMediaType.value.iri())
     .withLiteralRange(xsdString.iri())
     .withEnum(
       Seq(
-        "application/vnd.aai.asyncapi;version=2.0.0",
-        "application/vnd.aai.asyncapi+json;version=2.0.0",
-        "application/vnd.aai.asyncapi+yaml;version=2.0.0",
+        s"application/vnd.aai.asyncapi;version=$specVersion",
+        s"application/vnd.aai.asyncapi+json;version=$specVersion",
+        s"application/vnd.aai.asyncapi+yaml;version=$specVersion",
         "application/vnd.oai.openapi;version=3.0.0",
         "application/vnd.oai.openapi+json;version=3.0.0",
         "application/vnd.oai.openapi+yaml;version=3.0.0",
@@ -91,7 +92,8 @@ trait MessageAbstractObjectNode extends DialectNode {
 }
 
 object MessageTraitsObjectNode extends MessageAbstractObjectNode {
-  override def name: String = "MessageTraitsObjectNode"
+  override val specVersion: String = "2.0.0"
+  override def name: String        = "MessageTraitsObjectNode"
 
   override def isAbstract: Boolean = true
 

@@ -43,7 +43,6 @@ trait AsyncApiCompletionPluginRegistry extends WebApiCompletionPluginRegistry {
       AsyncApi20RefTag :+
       Async20TypeFacetsCompletionPlugin :+
       Async20ShapeTypeFormatCompletionPlugin :+
-      Async20EnumCompletionPlugin :+
       AsyncMessageContentType :+
       Async20RequiredObjectCompletionPlugin :+
       Async2SecuritySchemeType :+
@@ -57,9 +56,15 @@ trait AsyncApiCompletionPluginRegistry extends WebApiCompletionPluginRegistry {
 }
 object AsyncApi2CompletionPluginRegistry extends AsyncApiCompletionPluginRegistry {
   override def dialect: Dialect = AsyncApi20Dialect()
+  override def plugins: Seq[AMLCompletionPlugin] = super.plugins ++ Seq(
+    Async20EnumCompletionPlugin
+  )
 }
 object AsyncApi26CompletionPluginRegistry extends AsyncApiCompletionPluginRegistry {
-  override def plugins: Seq[AMLCompletionPlugin] = super.plugins ++ Seq(Async26ChannelServersPlugin)
+  override def plugins: Seq[AMLCompletionPlugin] = super.plugins ++ Seq(
+    Async26ChannelServersPlugin,
+    Async26EnumCompletionPlugin
+  )
 
   override def dialect: Dialect = AsyncApi26Dialect()
 }

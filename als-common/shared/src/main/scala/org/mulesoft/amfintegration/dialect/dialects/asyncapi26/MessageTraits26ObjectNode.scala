@@ -11,7 +11,8 @@ import org.mulesoft.amfintegration.dialect.dialects.oas.nodes.{
   AMLTagObject,
   DialectNode
 }
-object MessageTraitsObjectNode extends MessageAbstractObjectNode {
+object MessageTraits26ObjectNode extends MessageAbstractObjectNode {
+  override val specVersion: String = "2.6.0"
   override def name: String = "MessageTraitsObjectNode"
 
   override def isAbstract: Boolean = true

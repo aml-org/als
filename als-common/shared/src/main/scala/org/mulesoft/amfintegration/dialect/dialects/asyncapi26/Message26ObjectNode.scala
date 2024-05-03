@@ -8,7 +8,7 @@ import org.mulesoft.amfintegration.dialect.dialects.asyncapi26.RequestMessage26O
 
 trait Async21MessageMappings extends Async21ExampleMessageMappings {
   override protected def mappingsMessages21: Seq[PropertyMapping] = super.mappingsMessages21 ++ Seq(
-     PropertyMapping()
+    PropertyMapping()
       .withId(location + "#/declarations/Message/messageId")
       .withName("messageId")
       .withNodePropertyMapping(MessageModel.MessageId.value.iri())
@@ -28,6 +28,8 @@ object RequestMessage26ObjectNode extends ConcreteMessageObjectNode with Async21
     .withObjectRange(Seq(Async21MessageExampleNode.id))
 
   override def properties: Seq[PropertyMapping] = super.properties ++ mappingsMessages21
+
+  override val specVersion: String = "2.6.0"
 }
 
 object ResponseMessage26ObjectNode extends ConcreteMessageObjectNode with Async21MessageMappings {
@@ -42,9 +44,12 @@ object ResponseMessage26ObjectNode extends ConcreteMessageObjectNode with Async2
     .withObjectRange(Seq(Async21MessageExampleNode.id))
   override def properties: Seq[PropertyMapping] = super.properties ++ mappingsMessages21
 
+  override val specVersion: String = "2.6.0"
 }
 
 object Message26ObjectNode extends ConcreteMessageObjectNode with Async21MessageMappings {
+
+  override val specVersion: String = "2.6.0"
 
   override def nodeTypeMapping: String = MessageModel.`type`.head.iri()
 
@@ -56,5 +61,4 @@ object Message26ObjectNode extends ConcreteMessageObjectNode with Async21Message
     .withNodePropertyMapping(MessageModel.Examples.value.iri())
     .withObjectRange(Seq(Async21MessageExampleNode.id))
   override def properties: Seq[PropertyMapping] = super.properties ++ mappingsMessages21
-
 }

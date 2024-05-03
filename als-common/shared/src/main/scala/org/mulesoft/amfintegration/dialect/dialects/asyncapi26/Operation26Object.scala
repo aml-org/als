@@ -6,6 +6,7 @@ import amf.core.client.scala.vocabulary.Namespace.XsdTypes.xsdString
 import org.mulesoft.amfintegration.dialect.dialects.asyncapi20.OperationObject
 
 object Operation26Object extends OperationObject {
+  override val messageId: String = Message26ObjectNode.id
   override def properties: Seq[PropertyMapping] = super.properties ++ Seq(
     PropertyMapping()
       .withId(location + "#/declarations/OperationObject/security")

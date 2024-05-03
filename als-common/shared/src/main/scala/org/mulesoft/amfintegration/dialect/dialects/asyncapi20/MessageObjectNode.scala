@@ -21,7 +21,8 @@ trait ConcreteMessageObjectNode extends MessageAbstractObjectNode {
 }
 
 object RequestMessageObjectNode extends ConcreteMessageObjectNode {
-  override def name: String = "RequestMessageObjectNode"
+  override val specVersion: String = "2.0.0"
+  override def name: String        = "RequestMessageObjectNode"
 
   override def nodeTypeMapping: String = RequestModel.`type`.head.iri()
 
@@ -33,7 +34,9 @@ object RequestMessageObjectNode extends ConcreteMessageObjectNode {
 }
 
 object ResponseMessageObjectNode extends ConcreteMessageObjectNode {
-  override def name: String = "ResponseMessageObjectNode"
+
+  override val specVersion: String = "2.0.0"
+  override def name: String        = "ResponseMessageObjectNode"
 
   override def nodeTypeMapping: String = ResponseModel.`type`.head.iri()
 
@@ -45,7 +48,7 @@ object ResponseMessageObjectNode extends ConcreteMessageObjectNode {
 }
 
 object MessageObjectNode extends ConcreteMessageObjectNode {
-
+  override val specVersion: String     = "2.0.0"
   override def nodeTypeMapping: String = MessageModel.`type`.head.iri()
 
   override def name: String = "MessageObjectNode"
