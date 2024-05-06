@@ -1,4 +1,4 @@
-package org.mulesoft.als.suggestions.test.AsyncAPI2
+package org.mulesoft.als.suggestions.test.async2
 
 import amf.core.internal.remote.{Async20YamlHint, Hint}
 import org.mulesoft.als.suggestions.test.SuggestionByDirectoryTest

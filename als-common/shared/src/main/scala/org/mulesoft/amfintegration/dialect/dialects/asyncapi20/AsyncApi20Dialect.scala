@@ -23,13 +23,13 @@ object AsyncApi20Dialect extends BaseDialect {
     AsyncAPI20penIdConnectUrl,
     Oauth2FlowObject,
     AsyncAPI20FlowObject,
-    ChannelObject,
+    Channel20Object,
     CorrelationIdObjectNode,
     MessageObjectNode,
     ResponseMessageObjectNode,
     RequestMessageObjectNode,
     MessageTraitsObjectNode,
-    OperationObject,
+    Operation20Object,
     OperationTraitsObjectNode,
     ParameterObjectNode,
     ChannelBindingsObjectNode,
@@ -70,7 +70,7 @@ object AsyncApi20Dialect extends BaseDialect {
     AMLContactObject,
     AMLLicenseObject,
     AMLTagObject,
-    AsyncApiServerObject
+    AsyncApi20ServerObject
   )
 
   override def emptyDocument: DocumentsModel =

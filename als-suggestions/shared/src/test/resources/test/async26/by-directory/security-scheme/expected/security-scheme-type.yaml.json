@@ -1,0 +1,434 @@
+[
+  {
+    "label": "Gssapi",
+    "kind": [
+      
+    ],
+    "detail": "unknown",
+    "documentation": "Gssapi",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "10Gssapi",
+    "filterText": "Gssapi",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 6,
+          "character": 12
+        },
+        "end": {
+          "line": 6,
+          "character": 12
+        }
+      },
+      "newText": "Gssapi"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "X509",
+    "kind": [
+      
+    ],
+    "detail": "unknown",
+    "documentation": "X509",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "10X509",
+    "filterText": "X509",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 6,
+          "character": 12
+        },
+        "end": {
+          "line": 6,
+          "character": 12
+        }
+      },
+      "newText": "X509"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "apiKey",
+    "kind": [
+      
+    ],
+    "detail": "unknown",
+    "documentation": "apiKey",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "10apiKey",
+    "filterText": "apiKey",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 6,
+          "character": 12
+        },
+        "end": {
+          "line": 6,
+          "character": 12
+        }
+      },
+      "newText": "apiKey"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "asymmetricEncryption",
+    "kind": [
+      
+    ],
+    "detail": "unknown",
+    "documentation": "asymmetricEncryption",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "10asymmetricEncryption",
+    "filterText": "asymmetricEncryption",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 6,
+          "character": 12
+        },
+        "end": {
+          "line": 6,
+          "character": 12
+        }
+      },
+      "newText": "asymmetricEncryption"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "http",
+    "kind": [
+      
+    ],
+    "detail": "unknown",
+    "documentation": "http",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "10http",
+    "filterText": "http",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 6,
+          "character": 12
+        },
+        "end": {
+          "line": 6,
+          "character": 12
+        }
+      },
+      "newText": "http"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "httpApiKey",
+    "kind": [
+      
+    ],
+    "detail": "unknown",
+    "documentation": "httpApiKey",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "10httpApiKey",
+    "filterText": "httpApiKey",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 6,
+          "character": 12
+        },
+        "end": {
+          "line": 6,
+          "character": 12
+        }
+      },
+      "newText": "httpApiKey"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "oauth2",
+    "kind": [
+      
+    ],
+    "detail": "unknown",
+    "documentation": "oauth2",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "10oauth2",
+    "filterText": "oauth2",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 6,
+          "character": 12
+        },
+        "end": {
+          "line": 6,
+          "character": 12
+        }
+      },
+      "newText": "oauth2"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "openIdConnect",
+    "kind": [
+      
+    ],
+    "detail": "unknown",
+    "documentation": "openIdConnect",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "10openIdConnect",
+    "filterText": "openIdConnect",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 6,
+          "character": 12
+        },
+        "end": {
+          "line": 6,
+          "character": 12
+        }
+      },
+      "newText": "openIdConnect"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "scramSha256",
+    "kind": [
+      
+    ],
+    "detail": "unknown",
+    "documentation": "scramSha256",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "10scramSha256",
+    "filterText": "scramSha256",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 6,
+          "character": 12
+        },
+        "end": {
+          "line": 6,
+          "character": 12
+        }
+      },
+      "newText": "scramSha256"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "scramSha512",
+    "kind": [
+      
+    ],
+    "detail": "unknown",
+    "documentation": "scramSha512",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "10scramSha512",
+    "filterText": "scramSha512",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 6,
+          "character": 12
+        },
+        "end": {
+          "line": 6,
+          "character": 12
+        }
+      },
+      "newText": "scramSha512"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "symmetricEncryption",
+    "kind": [
+      
+    ],
+    "detail": "unknown",
+    "documentation": "symmetricEncryption",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "10symmetricEncryption",
+    "filterText": "symmetricEncryption",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 6,
+          "character": 12
+        },
+        "end": {
+          "line": 6,
+          "character": 12
+        }
+      },
+      "newText": "symmetricEncryption"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "userPassword",
+    "kind": [
+      
+    ],
+    "detail": "unknown",
+    "documentation": "userPassword",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "10userPassword",
+    "filterText": "userPassword",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 6,
+          "character": 12
+        },
+        "end": {
+          "line": 6,
+          "character": 12
+        }
+      },
+      "newText": "userPassword"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  }
+]

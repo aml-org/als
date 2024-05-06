@@ -1,0 +1,506 @@
+[
+  {
+    "label": "channelBindings",
+    "kind": [
+      
+    ],
+    "detail": "unknown",
+    "documentation": "channelBindings",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "11channelBindings",
+    "filterText": "channelBindings:\n  ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 7,
+          "character": 2
+        },
+        "end": {
+          "line": 7,
+          "character": 2
+        }
+      },
+      "newText": "channelBindings:\n  "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "channels",
+    "kind": [
+      
+    ],
+    "detail": "unknown",
+    "documentation": "channels",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "11channels",
+    "filterText": "channels:\n  ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 7,
+          "character": 2
+        },
+        "end": {
+          "line": 7,
+          "character": 2
+        }
+      },
+      "newText": "channels:\n  "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "correlationIds",
+    "kind": [
+      
+    ],
+    "detail": "unknown",
+    "documentation": "correlationIds",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "11correlationIds",
+    "filterText": "correlationIds:\n  ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 7,
+          "character": 2
+        },
+        "end": {
+          "line": 7,
+          "character": 2
+        }
+      },
+      "newText": "correlationIds:\n  "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "messageBindings",
+    "kind": [
+      
+    ],
+    "detail": "unknown",
+    "documentation": "messageBindings",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "11messageBindings",
+    "filterText": "messageBindings:\n  ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 7,
+          "character": 2
+        },
+        "end": {
+          "line": 7,
+          "character": 2
+        }
+      },
+      "newText": "messageBindings:\n  "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "messageTraits",
+    "kind": [
+      
+    ],
+    "detail": "unknown",
+    "documentation": "messageTraits",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "11messageTraits",
+    "filterText": "messageTraits:\n  ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 7,
+          "character": 2
+        },
+        "end": {
+          "line": 7,
+          "character": 2
+        }
+      },
+      "newText": "messageTraits:\n  "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "messages",
+    "kind": [
+      
+    ],
+    "detail": "unknown",
+    "documentation": "messages",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "11messages",
+    "filterText": "messages:\n  ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 7,
+          "character": 2
+        },
+        "end": {
+          "line": 7,
+          "character": 2
+        }
+      },
+      "newText": "messages:\n  "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "operationBindings",
+    "kind": [
+      
+    ],
+    "detail": "unknown",
+    "documentation": "operationBindings",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "11operationBindings",
+    "filterText": "operationBindings:\n  ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 7,
+          "character": 2
+        },
+        "end": {
+          "line": 7,
+          "character": 2
+        }
+      },
+      "newText": "operationBindings:\n  "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "operationTraits",
+    "kind": [
+      
+    ],
+    "detail": "unknown",
+    "documentation": "operationTraits",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "11operationTraits",
+    "filterText": "operationTraits:\n  ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 7,
+          "character": 2
+        },
+        "end": {
+          "line": 7,
+          "character": 2
+        }
+      },
+      "newText": "operationTraits:\n  "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "parameters",
+    "kind": [
+      
+    ],
+    "detail": "unknown",
+    "documentation": "parameters",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "11parameters",
+    "filterText": "parameters:\n  ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 7,
+          "character": 2
+        },
+        "end": {
+          "line": 7,
+          "character": 2
+        }
+      },
+      "newText": "parameters:\n  "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "schemas",
+    "kind": [
+      
+    ],
+    "detail": "unknown",
+    "documentation": "schemas",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "11schemas",
+    "filterText": "schemas:\n  ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 7,
+          "character": 2
+        },
+        "end": {
+          "line": 7,
+          "character": 2
+        }
+      },
+      "newText": "schemas:\n  "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "securitySchemes",
+    "kind": [
+      
+    ],
+    "detail": "unknown",
+    "documentation": "securitySchemes",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "11securitySchemes",
+    "filterText": "securitySchemes:\n  ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 7,
+          "character": 2
+        },
+        "end": {
+          "line": 7,
+          "character": 2
+        }
+      },
+      "newText": "securitySchemes:\n  "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "serverBindings",
+    "kind": [
+      
+    ],
+    "detail": "unknown",
+    "documentation": "serverBindings",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "11serverBindings",
+    "filterText": "serverBindings:\n  ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 7,
+          "character": 2
+        },
+        "end": {
+          "line": 7,
+          "character": 2
+        }
+      },
+      "newText": "serverBindings:\n  "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "serverVariables",
+    "kind": [
+      
+    ],
+    "detail": "unknown",
+    "documentation": "serverVariables",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "11serverVariables",
+    "filterText": "serverVariables:\n  ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 7,
+          "character": 2
+        },
+        "end": {
+          "line": 7,
+          "character": 2
+        }
+      },
+      "newText": "serverVariables:\n  "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "servers",
+    "kind": [
+      
+    ],
+    "detail": "unknown",
+    "documentation": "servers",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "11servers",
+    "filterText": "servers:\n  ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 7,
+          "character": 2
+        },
+        "end": {
+          "line": 7,
+          "character": 2
+        }
+      },
+      "newText": "servers:\n  "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  }
+]

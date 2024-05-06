@@ -7,6 +7,7 @@ import amf.core.client.scala.resource.ResourceLoader
 import amf.custom.validation.internal.report.loaders.ProfileDialectLoader
 import org.mulesoft.amfintegration.dialect.dialects.InMemoryDialect
 import org.mulesoft.amfintegration.dialect.dialects.asyncapi20.AsyncApi20Dialect
+import org.mulesoft.amfintegration.dialect.dialects.asyncapi26.AsyncApi26Dialect
 import org.mulesoft.amfintegration.dialect.dialects.graphql.GraphQLDialect
 import org.mulesoft.amfintegration.dialect.dialects.jsonschema.draft2019.JsonSchemaDraft2019Dialect
 import org.mulesoft.amfintegration.dialect.dialects.jsonschema.draft4.JsonSchemaDraft4Dialect
@@ -23,19 +24,20 @@ import scala.concurrent.Future
   *   initialized with the server on startup (for example Web API dialects)
   */
 object BaseAlsDialectProvider {
-  val apiDialects: Set[Dialect] = Set(
+  lazy val apiDialects: Set[Dialect] = Set(
     Raml08TypesDialect(),
     Raml10TypesDialect(),
     OAS20Dialect(),
     OAS30Dialect(),
     AsyncApi20Dialect(),
+    AsyncApi26Dialect(),
     GraphQLDialect(),
     JsonSchemaDraft4Dialect(),
     JsonSchemaDraft7Dialect(),
     JsonSchemaDraft2019Dialect()
   )
 
-  val allBaseDialects: Set[Dialect] = apiDialects + MetaDialect()
+  lazy val allBaseDialects: Set[Dialect] = apiDialects + MetaDialect()
 
   val rawDialects: Seq[Future[Dialect]] = Seq(ProfileDialectLoader.dialect)
 

@@ -9,6 +9,7 @@ import amf.core.internal.annotations.Aliases
 import org.mulesoft.als.common.{ASTPartBranch, YPartBranch}
 import org.mulesoft.amfintegration.AmfImplicits.AmfObjectImp
 import org.mulesoft.amfintegration.dialect.dialects.asyncapi20.AsyncApi20Dialect
+import org.mulesoft.amfintegration.dialect.dialects.asyncapi26.AsyncApi26Dialect
 import org.mulesoft.amfintegration.dialect.dialects.oas.{OAS20Dialect, OAS30Dialect}
 import org.mulesoft.amfintegration.dialect.dialects.raml.raml08.Raml08TypesDialect
 import org.mulesoft.amfintegration.dialect.dialects.raml.raml10.Raml10TypesDialect
@@ -25,7 +26,8 @@ class PatchedHover private (provider: VocabularyProvider) {
       Raml08TypesDialect.dialect.id -> "raml08",
       OAS20Dialect.dialect.id       -> "oas2",
       OAS30Dialect.dialect.id       -> "oas3",
-      AsyncApi20Dialect.dialect.id  -> "asyncapi2"
+      AsyncApi20Dialect.dialect.id  -> "asyncapi2",
+      AsyncApi26Dialect.dialect.id  -> "asyncapi2"
     )
 
   def getHover(

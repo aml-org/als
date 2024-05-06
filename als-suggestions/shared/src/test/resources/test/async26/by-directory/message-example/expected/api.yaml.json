@@ -1,0 +1,182 @@
+[
+  {
+    "label": "$ref",
+    "kind": [
+      
+    ],
+    "detail": "unknown",
+    "documentation": "reference tag",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "0$ref",
+    "filterText": "$ref: ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 32,
+          "character": 12
+        },
+        "end": {
+          "line": 32,
+          "character": 12
+        }
+      },
+      "newText": "$ref: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "headers",
+    "kind": [
+      
+    ],
+    "detail": "parameters",
+    "documentation": "headers",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "11headers",
+    "filterText": "headers: ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 32,
+          "character": 12
+        },
+        "end": {
+          "line": 32,
+          "character": 12
+        }
+      },
+      "newText": "headers: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "name",
+    "kind": [
+      
+    ],
+    "detail": "docs",
+    "documentation": "name",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "11name",
+    "filterText": "name: ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 32,
+          "character": 12
+        },
+        "end": {
+          "line": 32,
+          "character": 12
+        }
+      },
+      "newText": "name: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "payload",
+    "kind": [
+      
+    ],
+    "detail": "unknown",
+    "documentation": "payload",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "11payload",
+    "filterText": "payload: ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 32,
+          "character": 12
+        },
+        "end": {
+          "line": 32,
+          "character": 12
+        }
+      },
+      "newText": "payload: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "summary",
+    "kind": [
+      
+    ],
+    "detail": "unknown",
+    "documentation": "summary",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "11summary",
+    "filterText": "summary: ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 32,
+          "character": 12
+        },
+        "end": {
+          "line": 32,
+          "character": 12
+        }
+      },
+      "newText": "summary: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  }
+]

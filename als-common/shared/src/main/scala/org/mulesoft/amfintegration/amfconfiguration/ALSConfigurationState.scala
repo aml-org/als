@@ -206,8 +206,13 @@ case class ALSConfigurationState(
   def definitionFor(bu: BaseUnit): Option[Dialect] = {
     val configurationState = predefinedWithDialects.configurationState()
 
-    def defaultDefinitionSearch = {
+    def defaultDefinitionSearch =
       allDialects(configurationState).find(d => ProfileMatcher.spec(d).contains(bu.sourceSpec.getOrElse(Spec.AMF)))
+
+    def overridenSpecs: Option[Dialect] = {
+      if (bu.sourceSpec.exists(_.id.startsWith("ASYNC 2"))) // the `isAsync` method is not currently working properly
+        allDialects(configurationState).find(d => ProfileMatcher.spec(d).contains(Spec.ASYNC20))
+      else None
     }
 
     bu match {
@@ -225,7 +230,7 @@ case class ALSConfigurationState(
           .find(d => d.version().option().contains(jsonSchema.schemaVersion.value()))
           .orElse(defaultDefinitionSearch)
       case _ =>
-        defaultDefinitionSearch
+        defaultDefinitionSearch.orElse(overridenSpecs)
     }
   }
 

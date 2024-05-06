@@ -3,8 +3,6 @@ package org.mulesoft.amfintegration.dialect.dialects.graphql
 import amf.aml.client.scala.model.domain.DocumentsModel
 import amf.plugins.document.vocabularies.plugin.ReferenceStyles
 import org.mulesoft.amfintegration.dialect.BaseDialect
-import org.mulesoft.amfintegration.dialect.dialects.asyncapi20.AsyncApi20ApiNode
-import org.mulesoft.amfintegration.dialect.dialects.asyncapi20.AsyncApi20Dialect.DialectLocation
 import org.mulesoft.amfintegration.dialect.dialects.oas.nodes.DialectNode
 import org.mulesoft.amfintegration.dialect.dialects.raml.raml10.Raml10TypesDialect
 
