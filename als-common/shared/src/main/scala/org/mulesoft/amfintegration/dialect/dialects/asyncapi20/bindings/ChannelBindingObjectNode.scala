@@ -231,7 +231,7 @@ object Kafka050ChannelBinding extends BaseKafkaChannelBinding {
 
   override def properties: Seq[PropertyMapping] = super.properties ++ Seq(
     PropertyMapping()
-      .withId(location + s"#/declarations/$name/topicConfiguration040")
+      .withId(location + s"#/declarations/$name/topicConfiguration050")
       .withName("topicConfiguration")
       .withNodePropertyMapping(KafkaChannelBinding050Model.TopicConfiguration.value.iri())
       .withObjectRange(Seq(KafkaTopicConfiguration050Object.id))
