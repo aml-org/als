@@ -2,11 +2,14 @@ package org.mulesoft.als.suggestions.plugins.aml
 
 import amf.aml.client.scala.model.document.Dialect
 import amf.aml.client.scala.model.domain.PropertyMapping
+import amf.apicontract.internal.metamodel.domain.ResponseModel
 import amf.apicontract.internal.metamodel.domain.templates.{ResourceTypeModel, TraitModel}
 import amf.core.client.scala.model.domain.DomainElement
 import amf.core.internal.metamodel.domain.DomainElementModel
+import amf.core.internal.metamodel.domain.templates.AbstractDeclarationModel
 import amf.core.internal.parser.domain.FieldEntry
 import amf.plugins.document.vocabularies.plugin.ReferenceStyles
+import amf.shapes.internal.domain.metamodel.operations.AbstractResponseModel
 import org.mulesoft.als.common.SemanticNamedElement._
 import org.mulesoft.als.suggestions.RawSuggestion
 import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
@@ -87,14 +90,15 @@ trait AMLDeclarationReferences extends AMLCompletionPlugin {
       .map(_.objectRange().flatMap(_.option())) match {
       case Some(seq) => seq
       case _ =>
-        params.amfObject.metaURIs.headOption.toSeq
+        params.amfObject.metaURIs.filterNot(exceptions.contains).headOption.toSeq
     }
-    candidates.filterNot(exceptions.contains)
+    candidates
   }
 
-  protected val exceptions = Seq(
+  protected val exceptions: Seq[String] = Seq(
     DomainElementModel.`type`.head.iri(),
     // handled by RamlAbstractDeclarationReference:
+    AbstractDeclarationModel.`type`.head.iri(),
     TraitModel.`type`.head.iri(),
     ResourceTypeModel.`type`.head.iri()
   )
