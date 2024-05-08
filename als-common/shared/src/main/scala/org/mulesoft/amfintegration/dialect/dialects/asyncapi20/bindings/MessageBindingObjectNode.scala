@@ -4,6 +4,8 @@ import amf.aml.client.scala.model.domain.PropertyMapping
 import amf.apicontract.internal.metamodel.domain.bindings.{
   Amqp091MessageBindingModel,
   HttpMessageBindingModel,
+  KafkaMessageBinding010Model,
+  KafkaMessageBinding030Model,
   KafkaMessageBindingModel,
   MessageBindingModel,
   MessageBindingsModel,
@@ -46,7 +48,7 @@ object HttpMessageBindingObjectNode extends DialectNode {
   )
 }
 
-object KafkaMessageBindingObjectNode extends DialectNode {
+trait BaseKafkaMessageBindingObjectNode extends DialectNode {
   override def name: String = "KafkaMessageBindingObjectNode"
 
   override def nodeTypeMapping: String = KafkaMessageBindingModel.`type`.head.iri()
@@ -61,6 +63,31 @@ object KafkaMessageBindingObjectNode extends DialectNode {
       .withId(location + s"#/declarations/$name/bindingVersion")
       .withName("bindingVersion")
       .withNodePropertyMapping(KafkaMessageBindingModel.BindingVersion.value.iri()) // todo: http node mappings?
+      .withLiteralRange(xsdString.iri())
+  )
+}
+object KafkaMessageBindingObjectNode extends BaseKafkaMessageBindingObjectNode
+object KafkaMessageBinding010ObjectNode extends BaseKafkaMessageBindingObjectNode {
+  override def nodeTypeMapping: String = KafkaMessageBinding010Model.`type`.head.iri()
+}
+object KafkaMessageBinding030ObjectNode extends BaseKafkaMessageBindingObjectNode {
+  override def nodeTypeMapping: String = KafkaMessageBinding030Model.`type`.head.iri()
+
+  override def properties: Seq[PropertyMapping] = super.properties ++ Seq(
+    PropertyMapping()
+      .withId(location + s"#/declarations/$name/schemaIdLocation")
+      .withName("schemaIdLocation")
+      .withNodePropertyMapping(KafkaMessageBinding030Model.SchemaIdLocation.value.iri())
+      .withLiteralRange(xsdString.iri()),
+    PropertyMapping()
+      .withId(location + s"#/declarations/$name/schemaIdPayloadEncoding")
+      .withName("schemaIdPayloadEncoding")
+      .withNodePropertyMapping(KafkaMessageBinding030Model.SchemaIdPayloadEncoding.value.iri())
+      .withLiteralRange(xsdString.iri()),
+    PropertyMapping()
+      .withId(location + s"#/declarations/$name/schemaLookupStrategy")
+      .withName("schemaLookupStrategy")
+      .withNodePropertyMapping(KafkaMessageBinding030Model.SchemaLookupStrategy.value.iri())
       .withLiteralRange(xsdString.iri())
   )
 }

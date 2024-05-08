@@ -1,3 +1,74 @@
 [
-  
+  {
+    "label": "schemaRegistryUrl",
+    "kind": [
+      
+    ],
+    "detail": "unknown",
+    "documentation": "schemaRegistryUrl",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "11schemaRegistryUrl",
+    "filterText": "schemaRegistryUrl: ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 6,
+          "character": 8
+        },
+        "end": {
+          "line": 6,
+          "character": 8
+        }
+      },
+      "newText": "schemaRegistryUrl: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "schemaRegistryVendor",
+    "kind": [
+      
+    ],
+    "detail": "unknown",
+    "documentation": "schemaRegistryVendor",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "11schemaRegistryVendor",
+    "filterText": "schemaRegistryVendor: ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 6,
+          "character": 8
+        },
+        "end": {
+          "line": 6,
+          "character": 8
+        }
+      },
+      "newText": "schemaRegistryVendor: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  }
 ]
