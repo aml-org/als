@@ -142,5 +142,41 @@
     "additionalTextEdits": null,
     "commitCharacters": null,
     "command": null
+  },
+  {
+    "label": "vhost",
+    "kind": [
+      
+    ],
+    "detail": "unknown",
+    "documentation": "vhost",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "11vhost",
+    "filterText": "vhost: ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 7,
+          "character": 10
+        },
+        "end": {
+          "line": 7,
+          "character": 10
+        }
+      },
+      "newText": "vhost: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   }
 ]
