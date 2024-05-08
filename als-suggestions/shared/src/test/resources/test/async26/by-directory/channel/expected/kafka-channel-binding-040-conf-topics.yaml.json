@@ -1,19 +1,19 @@
 [
   {
-    "label": "autoDelete",
+    "label": "cleanupPolicy",
     "kind": [
       
     ],
     "detail": "unknown",
-    "documentation": "autoDelete",
+    "documentation": "cleanupPolicy",
     "deprecated": [
       
     ],
     "preselect": [
       
     ],
-    "sortText": "11autoDelete",
-    "filterText": "autoDelete: ",
+    "sortText": "11cleanupPolicy",
+    "filterText": "cleanupPolicy:\n  - ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -21,35 +21,35 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 7,
+          "line": 8,
           "character": 10
         },
         "end": {
-          "line": 7,
+          "line": 8,
           "character": 10
         }
       },
-      "newText": "autoDelete: "
+      "newText": "cleanupPolicy:\n  - "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
     "command": null
   },
   {
-    "label": "durable",
+    "label": "deleteRetentionMs",
     "kind": [
       
     ],
     "detail": "unknown",
-    "documentation": "durable",
+    "documentation": "deleteRetentionMs",
     "deprecated": [
       
     ],
     "preselect": [
       
     ],
-    "sortText": "11durable",
-    "filterText": "durable: ",
+    "sortText": "11deleteRetentionMs",
+    "filterText": "deleteRetentionMs: ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -57,107 +57,35 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 7,
+          "line": 8,
           "character": 10
         },
         "end": {
-          "line": 7,
+          "line": 8,
           "character": 10
         }
       },
-      "newText": "durable: "
+      "newText": "deleteRetentionMs: "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
     "command": null
   },
   {
-    "label": "name",
-    "kind": [
-      
-    ],
-    "detail": "docs",
-    "documentation": "name",
-    "deprecated": [
-      
-    ],
-    "preselect": [
-      
-    ],
-    "sortText": "11name",
-    "filterText": "name: ",
-    "insertText": null,
-    "insertTextFormat": [
-      1
-    ],
-    "textEdit": {
-      "range": {
-        "start": {
-          "line": 7,
-          "character": 10
-        },
-        "end": {
-          "line": 7,
-          "character": 10
-        }
-      },
-      "newText": "name: "
-    },
-    "additionalTextEdits": null,
-    "commitCharacters": null,
-    "command": null
-  },
-  {
-    "label": "type",
-    "kind": [
-      
-    ],
-    "detail": "schemas",
-    "documentation": "type",
-    "deprecated": [
-      
-    ],
-    "preselect": [
-      
-    ],
-    "sortText": "11type",
-    "filterText": "type: ",
-    "insertText": null,
-    "insertTextFormat": [
-      1
-    ],
-    "textEdit": {
-      "range": {
-        "start": {
-          "line": 7,
-          "character": 10
-        },
-        "end": {
-          "line": 7,
-          "character": 10
-        }
-      },
-      "newText": "type: "
-    },
-    "additionalTextEdits": null,
-    "commitCharacters": null,
-    "command": null
-  },
-  {
-    "label": "vhost",
+    "label": "maxMessageBytes",
     "kind": [
       
     ],
     "detail": "unknown",
-    "documentation": "vhost",
+    "documentation": "maxMessageBytes",
     "deprecated": [
       
     ],
     "preselect": [
       
     ],
-    "sortText": "11vhost",
-    "filterText": "vhost: ",
+    "sortText": "11maxMessageBytes",
+    "filterText": "maxMessageBytes: ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -165,15 +93,87 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 7,
+          "line": 8,
           "character": 10
         },
         "end": {
-          "line": 7,
+          "line": 8,
           "character": 10
         }
       },
-      "newText": "vhost: "
+      "newText": "maxMessageBytes: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "retentionBytes",
+    "kind": [
+      
+    ],
+    "detail": "unknown",
+    "documentation": "retentionBytes",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "11retentionBytes",
+    "filterText": "retentionBytes: ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 8,
+          "character": 10
+        },
+        "end": {
+          "line": 8,
+          "character": 10
+        }
+      },
+      "newText": "retentionBytes: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "retentionMs",
+    "kind": [
+      
+    ],
+    "detail": "unknown",
+    "documentation": "retentionMs",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "11retentionMs",
+    "filterText": "retentionMs: ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 8,
+          "character": 10
+        },
+        "end": {
+          "line": 8,
+          "character": 10
+        }
+      },
+      "newText": "retentionMs: "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,

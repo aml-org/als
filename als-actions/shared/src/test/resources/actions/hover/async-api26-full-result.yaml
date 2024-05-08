@@ -444,29 +444,49 @@ hovers:
   (123,16): []
   (123,23): []
   (124,13): []
-  (125,21): []
-  (125,33): []
-  (126,16): []
+  (125,21):
+    - "'queue' or 'topic'. If the type is queue, then the subscriber can bind to the queue, which in turn will subscribe to the topic as represented by the channel name or to the provided topicSubscriptions."
+  (125,33):
+    - "'queue' or 'topic'. If the type is queue, then the subscriber can bind to the queue, which in turn will subscribe to the topic as represented by the channel name or to the provided topicSubscriptions."
+  (126,16):
+    - Defines the properties of a queue.
   (126,20): []
-  (127,18): []
-  (127,29): []
-  (128,21): []
-  (128,32): []
-  (129,23): []
-  (129,35): []
-  (130,19): []
-  (130,26): []
-  (131,25): []
-  (131,35): []
-  (132,28): []
+  (127,18):
+    - Human readable name for the object
+  (127,29):
+    - Human readable name for the object
+  (128,21):
+    - "'exclusive' or 'nonexclusive'. Only applicable when destinationType is 'queue'."
+  (128,32):
+    - "'exclusive' or 'nonexclusive'. Only applicable when destinationType is 'queue'."
+  (129,23):
+    - The maximum amount of message spool that the given queue may use. Only applicable when destinationType is 'queue'.
+  (129,35):
+    - The maximum amount of message spool that the given queue may use. Only applicable when destinationType is 'queue'.
+  (130,19):
+    - The maximum TTL to apply to messages to be spooled. Only applicable when destinationType is 'queue'.
+  (130,26):
+    - The maximum TTL to apply to messages to be spooled. Only applicable when destinationType is 'queue'.
+  (131,25):
+    - A list of topics that the queue subscribes to, only applicable when destinationType is 'queue'. If none is given, the queue subscribes to the topic as represented by the channel name.
+  (131,35):
+    - A list of topics that the queue subscribes to, only applicable when destinationType is 'queue'. If none is given, the queue subscribes to the topic as represented by the channel name.
+  (132,28):
+    - A list of topics that the queue subscribes to, only applicable when destinationType is 'queue'. If none is given, the queue subscribes to the topic as represented by the channel name.
   (133,13): []
-  (134,21): []
-  (134,33): []
-  (135,16): []
+  (134,21):
+    - "'queue' or 'topic'. If the type is queue, then the subscriber can bind to the queue, which in turn will subscribe to the topic as represented by the channel name or to the provided topicSubscriptions."
+  (134,33):
+    - "'queue' or 'topic'. If the type is queue, then the subscriber can bind to the queue, which in turn will subscribe to the topic as represented by the channel name or to the provided topicSubscriptions."
+  (135,16):
+    - Defines the properties of a topic.
   (135,20): []
-  (136,25): []
-  (136,35): []
-  (137,28): []
+  (136,25):
+    - A list of topics that the client subscribes to, only applicable when destinationType is 'topic'. If none is given, the client subscribes to the topic as represented by the channel name.
+  (136,35):
+    - A list of topics that the client subscribes to, only applicable when destinationType is 'topic'. If none is given, the client subscribes to the topic as represented by the channel name.
+  (137,28):
+    - A list of topics that the client subscribes to, only applicable when destinationType is 'topic'. If none is given, the client subscribes to the topic as represented by the channel name.
   (138,11):
     - EndPoint in the API holding a number of executable operations
   (138,21):
@@ -586,7 +606,7 @@ hovers:
   (172,11):
     - Contains reusable definitions
   (173,6):
-    - Contains declarations of reusable Messages
+    - Top level element describing a asynchronous API
   (173,11):
     - Top level element describing a asynchronous API
   (174,9): []
@@ -683,7 +703,7 @@ hovers:
   (200,32):
     - Example value for a schema inside an API
   (201,5):
-    - Contains declarations of reusable Schemas
+    - Top level element describing a asynchronous API
   (201,10):
     - Top level element describing a asynchronous API
   (202,7):
@@ -707,7 +727,7 @@ hovers:
   (206,19):
     - Scalar range constraining this scalar shape
   (207,9):
-    - Top level element describing a asynchronous API
+    - Contains declarations for serverVariables
   (207,18):
     - Top level element describing a asynchronous API
   (208,9):
@@ -735,7 +755,7 @@ hovers:
   (213,30):
     - Piece of data required or returned by an Operation
   (214,9):
-    - Declarations of reusable authentication mechanisms to ensure secured operations
+    - Top level element describing a asynchronous API
   (214,18):
     - Top level element describing a asynchronous API
   (215,7):

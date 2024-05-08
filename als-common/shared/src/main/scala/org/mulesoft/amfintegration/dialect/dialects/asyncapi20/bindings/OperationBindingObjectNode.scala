@@ -2,6 +2,8 @@ package org.mulesoft.amfintegration.dialect.dialects.asyncapi20.bindings
 
 import amf.aml.client.scala.model.domain.PropertyMapping
 import amf.apicontract.internal.metamodel.domain.bindings.{
+  Amqp091OperationBinding010Model,
+  Amqp091OperationBinding030Model,
   Amqp091OperationBindingModel,
   HttpOperationBindingModel,
   KafkaOperationBindingModel,
@@ -77,7 +79,7 @@ object KafkaOperationBindingObjectNode extends DialectNode {
   )
 }
 
-object AmqpOperationBindingObjectNode extends DialectNode {
+trait AmqpOperationBindingObjectNode extends DialectNode {
   override def name: String = "AmqpOperationBindingObjectNode"
 
   override def nodeTypeMapping: String = Amqp091OperationBindingModel.`type`.head.iri()
@@ -122,11 +124,6 @@ object AmqpOperationBindingObjectNode extends DialectNode {
       .withAllowMultiple(true)
       .withLiteralRange(xsdString.iri()),
     PropertyMapping()
-      .withId(location + s"#/declarations/$name/replyTo")
-      .withName("replyTo")
-      .withNodePropertyMapping(Amqp091OperationBindingModel.ReplyTo.value.iri()) // todo: http node mappings?
-      .withLiteralRange(xsdString.iri()),
-    PropertyMapping()
       .withId(location + s"#/declarations/$name/timestamp")
       .withName("timestamp")
       .withNodePropertyMapping(Amqp091OperationBindingModel.Timestamp.value.iri()) // todo: http node mappings?
@@ -140,6 +137,32 @@ object AmqpOperationBindingObjectNode extends DialectNode {
       .withId(location + s"#/declarations/$name/bindingVersion")
       .withName("bindingVersion")
       .withNodePropertyMapping(Amqp091OperationBindingModel.BindingVersion.value.iri()) // todo: http node mappings?
+      .withLiteralRange(xsdString.iri())
+  )
+}
+
+object Amqp091OperationBindingObjectNode extends AmqpOperationBindingObjectNode
+
+object Amqp091OperationBinding010ObjectNode extends AmqpOperationBindingObjectNode {
+
+  override def nodeTypeMapping: String = Amqp091OperationBinding010Model.`type`.head.iri()
+  override def properties: Seq[PropertyMapping] = super.properties ++ Seq(
+    PropertyMapping()
+      .withId(location + s"#/declarations/$name/replyTo")
+      .withName("replyTo")
+      .withNodePropertyMapping(Amqp091OperationBinding010Model.ReplyTo.value.iri()) // todo: http node mappings?
+      .withLiteralRange(xsdString.iri())
+  )
+}
+
+object Amqp091OperationBinding030ObjectNode extends AmqpOperationBindingObjectNode {
+
+  override def nodeTypeMapping: String = Amqp091OperationBinding030Model.`type`.head.iri()
+  override def properties: Seq[PropertyMapping] = super.properties ++ Seq(
+    PropertyMapping()
+      .withId(location + s"#/declarations/$name/replyTo")
+      .withName("replyTo")
+      .withNodePropertyMapping(Amqp091OperationBinding010Model.ReplyTo.value.iri()) // todo: http node mappings?
       .withLiteralRange(xsdString.iri())
   )
 }

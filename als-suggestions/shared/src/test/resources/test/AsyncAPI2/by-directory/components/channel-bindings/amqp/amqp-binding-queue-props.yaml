@@ -3,6 +3,7 @@ channels:
   user/{paramName}/signedup:
     bindings:
       amqp:
+        bindingVersion: 0.2.0
         is: queue
         queue:
           *

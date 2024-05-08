@@ -12,13 +12,18 @@ import org.mulesoft.als.suggestions.plugins.aml.webapi.async.structure._
 import org.mulesoft.als.suggestions.plugins.aml.webapi.oas.OaslikeSecurityScopesCompletionPlugin
 import org.mulesoft.als.suggestions.plugins.aml.webapi.oas.structure.ResolveInfo
 import org.mulesoft.als.suggestions.plugins.aml.webapi.raml.RamlTypeDeclarationReferenceCompletionPlugin
-import org.mulesoft.als.suggestions.plugins.aml.{ResolveDefault, StructureCompletionPlugin}
+import org.mulesoft.als.suggestions.plugins.aml.{
+  Async2AMLJsonSchemaStyleDeclarationReferences,
+  ResolveDefault,
+  StructureCompletionPlugin
+}
 import org.mulesoft.amfintegration.dialect.dialects.asyncapi20.AsyncApi20Dialect
 import org.mulesoft.amfintegration.dialect.dialects.asyncapi26.AsyncApi26Dialect
 
 trait AsyncApiCompletionPluginRegistry extends WebApiCompletionPluginRegistry {
   private lazy val all: Seq[AMLCompletionPlugin] =
     AMLBaseCompletionPlugins.all :+
+      Async2AMLJsonSchemaStyleDeclarationReferences :+
       Async20SecuredByCompletionPlugin :+
       OaslikeSecurityScopesCompletionPlugin :+
       Async20RuntimeExpressionsCompletionPlugin :+

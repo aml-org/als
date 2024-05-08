@@ -21,11 +21,11 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 5,
+          "line": 7,
           "character": 8
         },
         "end": {
-          "line": 5,
+          "line": 7,
           "character": 8
         }
       },
@@ -57,11 +57,11 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 5,
+          "line": 7,
           "character": 8
         },
         "end": {
-          "line": 5,
+          "line": 7,
           "character": 8
         }
       },
@@ -93,15 +93,51 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 5,
+          "line": 7,
           "character": 8
         },
         "end": {
-          "line": 5,
+          "line": 7,
           "character": 8
         }
       },
       "newText": "topic: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "topicConfiguration",
+    "kind": [
+      
+    ],
+    "detail": "unknown",
+    "documentation": "topicConfiguration",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "11topicConfiguration",
+    "filterText": "topicConfiguration:\n  ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 7,
+          "character": 8
+        },
+        "end": {
+          "line": 7,
+          "character": 8
+        }
+      },
+      "newText": "topicConfiguration:\n  "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
