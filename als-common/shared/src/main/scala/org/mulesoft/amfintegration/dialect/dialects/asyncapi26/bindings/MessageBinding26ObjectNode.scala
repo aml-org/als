@@ -9,6 +9,7 @@ import amf.apicontract.internal.metamodel.domain.bindings.{
   MessageBindingModel
 }
 import amf.core.client.scala.vocabulary.Namespace.XsdTypes.{xsdInteger, xsdString}
+import org.mulesoft.amfintegration.dialect.dialects.asyncapi20.bindings.BindingVersionPropertyMapping
 import org.mulesoft.amfintegration.dialect.dialects.asyncapi20.schema.BaseShapeAsync2Node
 import org.mulesoft.amfintegration.dialect.dialects.oas.nodes.DialectNode
 
@@ -77,6 +78,7 @@ object GooglePubSubMessageBindingObject extends DialectNode {
       .withObjectRange(Seq(GooglePubSubSchemaDefinitionObject.id))
   )
 }
+
 object GooglePubSubSchemaDefinitionObject extends DialectNode {
   override def name: String = "GooglePubSubSchemaDefinitionObject"
 
@@ -94,4 +96,18 @@ object GooglePubSubSchemaDefinitionObject extends DialectNode {
       .withNodePropertyMapping(GooglePubSubSchemaDefinitionModel.FieldType.value.iri())
       .withLiteralRange(xsdString.iri())
   )
+}
+
+object AnypointMQMessageBindingObject extends DialectNode with BindingVersionPropertyMapping {
+  override def name: String = "AnypointMQMessageBindingObject"
+
+  override def nodeTypeMapping: String = AnypointMQMessageBindingModel.`type`.head.iri()
+
+  override def properties: Seq[PropertyMapping] = Seq(
+    PropertyMapping()
+      .withId(location + s"#/declarations/$name/headers")
+      .withName("headers")
+      .withNodePropertyMapping(AnypointMQMessageBindingModel.Headers.value.iri())
+      .withObjectRange(Seq(BaseShapeAsync2Node.id)) // id of schemas
+  ) :+ bindingVersion
 }
