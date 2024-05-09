@@ -3,6 +3,7 @@ package org.mulesoft.amfintegration.dialect.dialects.asyncapi26.bindings
 import amf.aml.client.scala.model.domain.PropertyMapping
 import amf.apicontract.internal.metamodel.domain.bindings.{
   IBMMQServerBindingModel,
+  PulsarServerBindingModel,
   ServerBindingModel,
   SolaceServerBindingModel
 }
@@ -65,6 +66,20 @@ object SolaceServerBindingObject extends DialectNode with BindingVersionProperty
       .withId(location + s"#/declarations/$name/msgVpn")
       .withName("msgVpn")
       .withNodePropertyMapping(SolaceServerBindingModel.MsgVpn.value.iri())
+      .withLiteralRange(xsdString.iri())
+  ) :+ bindingVersion
+}
+
+object PulsarServerBindingObject extends DialectNode with BindingVersionPropertyMapping {
+  override def name: String = "PulsarServerBindingObject"
+
+  override def nodeTypeMapping: String = PulsarServerBindingModel.`type`.head.iri()
+
+  override def properties: Seq[PropertyMapping] = Seq(
+    PropertyMapping()
+      .withId(location + s"#/declarations/$name/tenant")
+      .withName("tenant")
+      .withNodePropertyMapping(PulsarServerBindingModel.Tenant.value.iri())
       .withLiteralRange(xsdString.iri())
   ) :+ bindingVersion
 }
