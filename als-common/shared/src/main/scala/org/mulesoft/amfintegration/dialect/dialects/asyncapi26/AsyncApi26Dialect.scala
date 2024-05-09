@@ -20,6 +20,7 @@ import org.mulesoft.amfintegration.dialect.dialects.asyncapi20.{
   ParameterObjectNode
 }
 import org.mulesoft.amfintegration.dialect.dialects.asyncapi26.bindings.{
+  AnypointMQChannelBindingObject,
   ChannelBinding26ObjectNode,
   GooglePubSubChannelBindingObject,
   GooglePubSubMessageStoragePolicyObject,
@@ -116,7 +117,8 @@ object AsyncApi26Dialect extends BaseDialect {
     IBMMQChannelTopicObject,
     GooglePubSubChannelBindingObject,
     GooglePubSubMessageStoragePolicyObject,
-    GooglePubSubSchemaSettingsObject
+    GooglePubSubSchemaSettingsObject,
+    AnypointMQChannelBindingObject
   )
 
   override def emptyDocument: DocumentsModel =

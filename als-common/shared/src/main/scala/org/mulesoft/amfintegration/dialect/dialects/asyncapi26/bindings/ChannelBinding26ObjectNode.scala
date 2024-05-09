@@ -2,6 +2,7 @@ package org.mulesoft.amfintegration.dialect.dialects.asyncapi26.bindings
 
 import amf.aml.client.scala.model.domain.PropertyMapping
 import amf.apicontract.internal.metamodel.domain.bindings.{
+  AnypointMQChannelBindingModel,
   ChannelBindingModel,
   GooglePubSubChannelBindingModel,
   GooglePubSubMessageStoragePolicyModel,
@@ -176,6 +177,25 @@ object GooglePubSubSchemaSettingsObject extends DialectNode {
       .withId(location + s"#/declarations/$name/name")
       .withName("name")
       .withNodePropertyMapping(GooglePubSubSchemaSettingsModel.Name.value.iri())
+      .withLiteralRange(xsdString.iri())
+  )
+}
+
+object AnypointMQChannelBindingObject extends DialectNode {
+  override def name: String = "AnypointMQChannelBindingObject"
+
+  override def nodeTypeMapping: String = AnypointMQChannelBindingModel.`type`.head.iri()
+
+  override def properties: Seq[PropertyMapping] = Seq(
+    PropertyMapping()
+      .withId(location + s"#/declarations/$name/destination")
+      .withName("destination")
+      .withNodePropertyMapping(AnypointMQChannelBindingModel.Destination.value.iri())
+      .withLiteralRange(xsdString.iri()),
+    PropertyMapping()
+      .withId(location + s"#/declarations/$name/destinationType")
+      .withName("destinationType")
+      .withNodePropertyMapping(AnypointMQChannelBindingModel.DestinationType.value.iri())
       .withLiteralRange(xsdString.iri())
   )
 }
