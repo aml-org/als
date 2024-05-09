@@ -14,6 +14,7 @@ import amf.apicontract.internal.metamodel.domain.bindings.{
   PulsarChannelRetentionModel
 }
 import amf.core.client.scala.vocabulary.Namespace.XsdTypes.{xsdBoolean, xsdInteger, xsdString}
+import org.mulesoft.amfintegration.dialect.dialects.asyncapi20.bindings.BindingVersionPropertyMapping
 import org.mulesoft.amfintegration.dialect.dialects.oas.nodes.DialectNode
 
 object ChannelBinding26ObjectNode extends BindingObjectNode26 {
@@ -28,7 +29,7 @@ object ChannelBinding26ObjectNode extends BindingObjectNode26 {
   override def nodeTypeMapping: String = ChannelBindingModel.`type`.head.iri()
 }
 
-object IBMMQChannelBindingObject extends DialectNode {
+object IBMMQChannelBindingObject extends DialectNode with BindingVersionPropertyMapping {
   override def name: String = "IBMMQChannelBindingObject"
 
   override def nodeTypeMapping: String = IBMMQChannelBindingModel.`type`.head.iri()
@@ -49,7 +50,7 @@ object IBMMQChannelBindingObject extends DialectNode {
       .withName("topic")
       .withNodePropertyMapping(IBMMQChannelBindingModel.Topic.value.iri())
       .withObjectRange(Seq(IBMMQChannelTopicObject.id))
-  )
+  ) :+ bindingVersion
 }
 
 object IBMMQChannelQueueObject extends DialectNode {
@@ -105,7 +106,7 @@ object IBMMQChannelTopicObject extends DialectNode {
   )
 }
 
-object GooglePubSubChannelBindingObject extends DialectNode {
+object GooglePubSubChannelBindingObject extends DialectNode with BindingVersionPropertyMapping {
   override def name: String = "GooglePubSubChannelBindingObject"
 
   override def nodeTypeMapping: String = GooglePubSubChannelBindingModel.`type`.head.iri()
@@ -136,7 +137,7 @@ object GooglePubSubChannelBindingObject extends DialectNode {
       .withName("topic")
       .withNodePropertyMapping(GooglePubSubChannelBindingModel.Topic.value.iri())
       .withLiteralRange(xsdString.iri())
-  )
+  ) :+ bindingVersion
 }
 
 object GooglePubSubMessageStoragePolicyObject extends DialectNode {
@@ -183,7 +184,7 @@ object GooglePubSubSchemaSettingsObject extends DialectNode {
   )
 }
 
-object AnypointMQChannelBindingObject extends DialectNode {
+object AnypointMQChannelBindingObject extends DialectNode with BindingVersionPropertyMapping {
   override def name: String = "AnypointMQChannelBindingObject"
 
   override def nodeTypeMapping: String = AnypointMQChannelBindingModel.`type`.head.iri()
@@ -199,10 +200,10 @@ object AnypointMQChannelBindingObject extends DialectNode {
       .withName("destinationType")
       .withNodePropertyMapping(AnypointMQChannelBindingModel.DestinationType.value.iri())
       .withLiteralRange(xsdString.iri())
-  )
+  ) :+ bindingVersion
 }
 
-object PulsarChannelBindingObject extends DialectNode {
+object PulsarChannelBindingObject extends DialectNode with BindingVersionPropertyMapping {
   override def name: String = "PulsarChannelBindingObject"
 
   override def nodeTypeMapping: String = PulsarChannelBindingModel.`type`.head.iri()
@@ -244,7 +245,7 @@ object PulsarChannelBindingObject extends DialectNode {
       .withName("deduplication")
       .withNodePropertyMapping(PulsarChannelBindingModel.Deduplication.value.iri())
       .withLiteralRange(xsdBoolean.iri())
-  )
+  ) :+ bindingVersion
 }
 
 object PulsarChannelRetentionObject extends DialectNode {

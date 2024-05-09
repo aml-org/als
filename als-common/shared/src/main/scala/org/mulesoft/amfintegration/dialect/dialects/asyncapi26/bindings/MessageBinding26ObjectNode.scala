@@ -2,12 +2,14 @@ package org.mulesoft.amfintegration.dialect.dialects.asyncapi26.bindings
 
 import amf.aml.client.scala.model.domain.PropertyMapping
 import amf.apicontract.internal.metamodel.domain.bindings.{
+  AnypointMQMessageBindingModel,
   GooglePubSubMessageBindingModel,
   GooglePubSubSchemaDefinitionModel,
   IBMMQMessageBindingModel,
   MessageBindingModel
 }
 import amf.core.client.scala.vocabulary.Namespace.XsdTypes.{xsdInteger, xsdString}
+import org.mulesoft.amfintegration.dialect.dialects.asyncapi20.schema.BaseShapeAsync2Node
 import org.mulesoft.amfintegration.dialect.dialects.oas.nodes.DialectNode
 
 object MessageBinding26ObjectNode extends BindingObjectNode26 {

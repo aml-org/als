@@ -29,7 +29,7 @@ object OperationBindingsObjectNode extends DialectNode {
   override def properties: Seq[PropertyMapping] = Nil
 }
 
-object HttpOperationBindingObjectNode extends DialectNode {
+object HttpOperationBindingObjectNode extends DialectNode with BindingVersionPropertyMapping {
   override def name: String = "HttpOperationBindingObjectNode"
 
   override def nodeTypeMapping: String = HttpOperationBindingModel.`type`.head.iri()
@@ -46,16 +46,11 @@ object HttpOperationBindingObjectNode extends DialectNode {
       .withName("method")
       .withNodePropertyMapping(HttpOperationBindingModel.Method.value.iri()) // todo: http node mappings?
       .withLiteralRange(xsdString.iri())
-      .withEnum(Seq("GET", "POST", "PUT", "PATCH", "DELETE", "HEAD", "OPTIONS", "CONNECT", "TRACE")),
-    PropertyMapping()
-      .withId(location + s"#/declarations/$name/bindingVersion")
-      .withName("bindingVersion")
-      .withNodePropertyMapping(HttpOperationBindingModel.BindingVersion.value.iri()) // todo: http node mappings?
-      .withLiteralRange(xsdString.iri())
-  )
+      .withEnum(Seq("GET", "POST", "PUT", "PATCH", "DELETE", "HEAD", "OPTIONS", "CONNECT", "TRACE"))
+  ) :+ bindingVersion
 }
 
-object KafkaOperationBindingObjectNode extends DialectNode {
+object KafkaOperationBindingObjectNode extends DialectNode with BindingVersionPropertyMapping {
   override def name: String = "KafkaOperationBindingObjectNode"
 
   override def nodeTypeMapping: String = KafkaOperationBindingModel.`type`.head.iri()
@@ -70,16 +65,11 @@ object KafkaOperationBindingObjectNode extends DialectNode {
       .withId(location + s"#/declarations/$name/clientId")
       .withName("clientId")
       .withNodePropertyMapping(KafkaOperationBindingModel.ClientId.value.iri()) // todo: http node mappings?
-      .withLiteralRange(xsdString.iri()),
-    PropertyMapping()
-      .withId(location + s"#/declarations/$name/bindingVersion")
-      .withName("bindingVersion")
-      .withNodePropertyMapping(KafkaOperationBindingModel.BindingVersion.value.iri()) // todo: http node mappings?
       .withLiteralRange(xsdString.iri())
-  )
+  ) :+ bindingVersion
 }
 
-trait AmqpOperationBindingObjectNode extends DialectNode {
+trait AmqpOperationBindingObjectNode extends DialectNode with BindingVersionPropertyMapping {
   override def name: String = "AmqpOperationBindingObjectNode"
 
   override def nodeTypeMapping: String = Amqp091OperationBindingModel.`type`.head.iri()
@@ -132,13 +122,8 @@ trait AmqpOperationBindingObjectNode extends DialectNode {
       .withId(location + s"#/declarations/$name/ack")
       .withName("ack")
       .withNodePropertyMapping(Amqp091OperationBindingModel.Ack.value.iri()) // todo: http node mappings?
-      .withLiteralRange(xsdBoolean.iri()),
-    PropertyMapping()
-      .withId(location + s"#/declarations/$name/bindingVersion")
-      .withName("bindingVersion")
-      .withNodePropertyMapping(Amqp091OperationBindingModel.BindingVersion.value.iri()) // todo: http node mappings?
-      .withLiteralRange(xsdString.iri())
-  )
+      .withLiteralRange(xsdBoolean.iri())
+  ) :+ bindingVersion
 }
 
 object Amqp091OperationBindingObjectNode extends AmqpOperationBindingObjectNode
@@ -167,7 +152,7 @@ object Amqp091OperationBinding030ObjectNode extends AmqpOperationBindingObjectNo
   )
 }
 
-object MqttOperationBindingObjectNode extends DialectNode {
+object MqttOperationBindingObjectNode extends DialectNode with BindingVersionPropertyMapping {
   override def name: String = "MqttOperationBindingObjectNode"
 
   override def nodeTypeMapping: String = MqttOperationBindingModel.`type`.head.iri()
@@ -182,11 +167,6 @@ object MqttOperationBindingObjectNode extends DialectNode {
       .withId(location + s"#/declarations/$name/retain")
       .withName("retain")
       .withNodePropertyMapping(MqttOperationBindingModel.Retain.value.iri()) // todo: http node mappings?
-      .withLiteralRange(xsdBoolean.iri()),
-    PropertyMapping()
-      .withId(location + s"#/declarations/$name/bindingVersion")
-      .withName("bindingVersion")
-      .withNodePropertyMapping(MqttOperationBindingModel.BindingVersion.value.iri()) // todo: http node mappings?
-      .withLiteralRange(xsdString.iri())
-  )
+      .withLiteralRange(xsdBoolean.iri())
+  ) :+ bindingVersion
 }
