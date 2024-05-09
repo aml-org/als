@@ -9,9 +9,11 @@ import amf.apicontract.internal.metamodel.domain.bindings.{
   GooglePubSubSchemaSettingsModel,
   IBMMQChannelBindingModel,
   IBMMQChannelQueueModel,
-  IBMMQChannelTopicModel
+  IBMMQChannelTopicModel,
+  PulsarChannelBindingModel,
+  PulsarChannelRetentionModel
 }
-import amf.core.client.scala.vocabulary.Namespace.XsdTypes.{xsdBoolean, xsdString}
+import amf.core.client.scala.vocabulary.Namespace.XsdTypes.{xsdBoolean, xsdInteger, xsdString}
 import org.mulesoft.amfintegration.dialect.dialects.oas.nodes.DialectNode
 
 object ChannelBinding26ObjectNode extends BindingObjectNode26 {
@@ -197,5 +199,69 @@ object AnypointMQChannelBindingObject extends DialectNode {
       .withName("destinationType")
       .withNodePropertyMapping(AnypointMQChannelBindingModel.DestinationType.value.iri())
       .withLiteralRange(xsdString.iri())
+  )
+}
+
+object PulsarChannelBindingObject extends DialectNode {
+  override def name: String = "PulsarChannelBindingObject"
+
+  override def nodeTypeMapping: String = PulsarChannelBindingModel.`type`.head.iri()
+
+  override def properties: Seq[PropertyMapping] = Seq(
+    PropertyMapping()
+      .withId(location + s"#/declarations/$name/namespace")
+      .withName("namespace")
+      .withNodePropertyMapping(PulsarChannelBindingModel.Namespace.value.iri())
+      .withLiteralRange(xsdString.iri()),
+    PropertyMapping()
+      .withId(location + s"#/declarations/$name/persistence")
+      .withName("persistence")
+      .withNodePropertyMapping(PulsarChannelBindingModel.Persistence.value.iri())
+      .withLiteralRange(xsdString.iri()),
+    PropertyMapping()
+      .withId(location + s"#/declarations/$name/compaction")
+      .withName("compaction")
+      .withNodePropertyMapping(PulsarChannelBindingModel.Compaction.value.iri())
+      .withLiteralRange(xsdInteger.iri()),
+    PropertyMapping()
+      .withId(location + s"#/declarations/$name/geoReplication")
+      .withName("geoReplication")
+      .withNodePropertyMapping(PulsarChannelBindingModel.GeoReplication.value.iri())
+      .withAllowMultiple(true)
+      .withLiteralRange(xsdString.iri()),
+    PropertyMapping()
+      .withId(location + s"#/declarations/$name/retention")
+      .withName("retention")
+      .withNodePropertyMapping(PulsarChannelBindingModel.Retention.value.iri())
+      .withObjectRange(Seq(PulsarChannelRetentionObject.id)),
+    PropertyMapping()
+      .withId(location + s"#/declarations/$name/ttl")
+      .withName("ttl")
+      .withNodePropertyMapping(PulsarChannelBindingModel.Ttl.value.iri())
+      .withLiteralRange(xsdInteger.iri()),
+    PropertyMapping()
+      .withId(location + s"#/declarations/$name/deduplication")
+      .withName("deduplication")
+      .withNodePropertyMapping(PulsarChannelBindingModel.Deduplication.value.iri())
+      .withLiteralRange(xsdBoolean.iri())
+  )
+}
+
+object PulsarChannelRetentionObject extends DialectNode {
+  override def name: String = "PulsarChannelRetentionObject"
+
+  override def nodeTypeMapping: String = PulsarChannelRetentionModel.`type`.head.iri()
+
+  override def properties: Seq[PropertyMapping] = Seq(
+    PropertyMapping()
+      .withId(location + s"#/declarations/$name/time")
+      .withName("time")
+      .withNodePropertyMapping(PulsarChannelRetentionModel.Time.value.iri())
+      .withLiteralRange(xsdInteger.iri()),
+    PropertyMapping()
+      .withId(location + s"#/declarations/$name/size")
+      .withName("size")
+      .withNodePropertyMapping(PulsarChannelRetentionModel.Size.value.iri())
+      .withLiteralRange(xsdInteger.iri())
   )
 }

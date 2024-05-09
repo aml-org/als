@@ -30,6 +30,8 @@ import org.mulesoft.amfintegration.dialect.dialects.asyncapi26.bindings.{
   IBMMQChannelTopicObject,
   MessageBinding26ObjectNode,
   OperationBinding26ObjectNode,
+  PulsarChannelBindingObject,
+  PulsarChannelRetentionObject,
   ServerBinding26ObjectNode
 }
 import org.mulesoft.amfintegration.dialect.dialects.oas.nodes._
@@ -118,7 +120,9 @@ object AsyncApi26Dialect extends BaseDialect {
     GooglePubSubChannelBindingObject,
     GooglePubSubMessageStoragePolicyObject,
     GooglePubSubSchemaSettingsObject,
-    AnypointMQChannelBindingObject
+    AnypointMQChannelBindingObject,
+    PulsarChannelBindingObject,
+    PulsarChannelRetentionObject
   )
 
   override def emptyDocument: DocumentsModel =
