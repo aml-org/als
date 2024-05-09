@@ -19,6 +19,12 @@ import org.mulesoft.amfintegration.dialect.dialects.asyncapi20.{
   OperationTraitsObjectNode,
   ParameterObjectNode
 }
+import org.mulesoft.amfintegration.dialect.dialects.asyncapi26.bindings.{
+  ChannelBinding26ObjectNode,
+  MessageBinding26ObjectNode,
+  OperationBinding26ObjectNode,
+  ServerBinding26ObjectNode
+}
 import org.mulesoft.amfintegration.dialect.dialects.oas.nodes._
 import org.mulesoft.amfintegration.dialect.dialects.raml.raml10.Raml10TypesDialect
 
@@ -46,19 +52,17 @@ object AsyncApi26Dialect extends BaseDialect {
     Operation26Object,
     OperationTraitsObjectNode,
     ParameterObjectNode,
-    ChannelBindingsObjectNode,
     ServerBindingObjectNode,
-    OperationBindingsObjectNode,
     BaseShapeAsync2Node,
     AnyShapeAsync2Node,
     ArrayShapeAsync2Node,
     NodeShapeAsync2Node,
     NumberShapeAsync2Node,
     StringShapeAsync2Node,
-    ChannelBindingObjectNode,
-    ServerBindingObjectNode,
-    MessageBindingObjectNode,
-    OperationBindingObjectNode,
+    ChannelBinding26ObjectNode,
+    ServerBinding26ObjectNode,
+    MessageBinding26ObjectNode,
+    OperationBinding26ObjectNode,
     ServerBindingsObjectNode,
     OperationBindingsObjectNode,
     ChannelBindingsObjectNode,

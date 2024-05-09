@@ -5,7 +5,8 @@ import org.mulesoft.als.suggestions.AMLBaseCompletionPlugins
 import org.mulesoft.als.suggestions.interfaces.AMLCompletionPlugin
 import org.mulesoft.als.suggestions.plugins.aml.webapi.async._
 import org.mulesoft.als.suggestions.plugins.aml.webapi.async.bindings.{
-  AsyncApiBindingsCompletionPlugin,
+  AsyncApi20BindingsCompletionPlugin,
+  AsyncApi26BindingsCompletionPlugin,
   BindingsDiscreditableProperties
 }
 import org.mulesoft.als.suggestions.plugins.aml.webapi.async.structure._
@@ -43,7 +44,6 @@ trait AsyncApiCompletionPluginRegistry extends WebApiCompletionPluginRegistry {
       Async20PayloadCompletionPlugin :+
       Async20TypeFacetsCompletionPlugin :+
       Async20MessageOneOfCompletionPlugin :+
-      AsyncApiBindingsCompletionPlugin :+
       BindingsDiscreditableProperties :+
       AsyncApi20RefTag :+
       Async20TypeFacetsCompletionPlugin :+
@@ -62,13 +62,15 @@ trait AsyncApiCompletionPluginRegistry extends WebApiCompletionPluginRegistry {
 object AsyncApi2CompletionPluginRegistry extends AsyncApiCompletionPluginRegistry {
   override def dialect: Dialect = AsyncApi20Dialect()
   override def plugins: Seq[AMLCompletionPlugin] = super.plugins ++ Seq(
-    Async20EnumCompletionPlugin
+    Async20EnumCompletionPlugin,
+    AsyncApi20BindingsCompletionPlugin
   )
 }
 object AsyncApi26CompletionPluginRegistry extends AsyncApiCompletionPluginRegistry {
   override def plugins: Seq[AMLCompletionPlugin] = super.plugins ++ Seq(
     Async26ChannelServersPlugin,
-    Async26EnumCompletionPlugin
+    Async26EnumCompletionPlugin,
+    AsyncApi26BindingsCompletionPlugin
   )
 
   override def dialect: Dialect = AsyncApi26Dialect()
