@@ -1,0 +1,146 @@
+[
+  {
+    "label": "deliveryMode",
+    "kind": [
+      
+    ],
+    "detail": "unknown",
+    "documentation": "deliveryMode",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "11deliveryMode",
+    "filterText": "deliveryMode: ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 7,
+          "character": 14
+        },
+        "end": {
+          "line": 7,
+          "character": 14
+        }
+      },
+      "newText": "deliveryMode: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "destinationType",
+    "kind": [
+      
+    ],
+    "detail": "unknown",
+    "documentation": "destinationType",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "11destinationType",
+    "filterText": "destinationType: ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 7,
+          "character": 14
+        },
+        "end": {
+          "line": 7,
+          "character": 14
+        }
+      },
+      "newText": "destinationType: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "queue",
+    "kind": [
+      
+    ],
+    "detail": "unknown",
+    "documentation": "queue",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "11queue",
+    "filterText": "queue:\n    ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 7,
+          "character": 14
+        },
+        "end": {
+          "line": 7,
+          "character": 14
+        }
+      },
+      "newText": "queue:\n    "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "topic",
+    "kind": [
+      
+    ],
+    "detail": "unknown",
+    "documentation": "topic",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "11topic",
+    "filterText": "topic:\n    ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 7,
+          "character": 14
+        },
+        "end": {
+          "line": 7,
+          "character": 14
+        }
+      },
+      "newText": "topic:\n    "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  }
+]

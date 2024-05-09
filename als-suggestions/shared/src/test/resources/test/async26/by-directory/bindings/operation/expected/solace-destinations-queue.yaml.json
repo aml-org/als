@@ -1,0 +1,146 @@
+[
+  {
+    "label": "accessType",
+    "kind": [
+      
+    ],
+    "detail": "unknown",
+    "documentation": "accessType",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "11accessType",
+    "filterText": "accessType: ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 8,
+          "character": 16
+        },
+        "end": {
+          "line": 8,
+          "character": 16
+        }
+      },
+      "newText": "accessType: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "maxMsgSpoolSize",
+    "kind": [
+      
+    ],
+    "detail": "unknown",
+    "documentation": "maxMsgSpoolSize",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "11maxMsgSpoolSize",
+    "filterText": "maxMsgSpoolSize: ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 8,
+          "character": 16
+        },
+        "end": {
+          "line": 8,
+          "character": 16
+        }
+      },
+      "newText": "maxMsgSpoolSize: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "maxTtl",
+    "kind": [
+      
+    ],
+    "detail": "unknown",
+    "documentation": "maxTtl",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "11maxTtl",
+    "filterText": "maxTtl: ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 8,
+          "character": 16
+        },
+        "end": {
+          "line": 8,
+          "character": 16
+        }
+      },
+      "newText": "maxTtl: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "topicSubscriptions",
+    "kind": [
+      
+    ],
+    "detail": "unknown",
+    "documentation": "topicSubscriptions",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "11topicSubscriptions",
+    "filterText": "topicSubscriptions:\n  - ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 8,
+          "character": 16
+        },
+        "end": {
+          "line": 8,
+          "character": 16
+        }
+      },
+      "newText": "topicSubscriptions:\n  - "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  }
+]
