@@ -1,7 +1,11 @@
 package org.mulesoft.amfintegration.dialect.dialects.asyncapi26.bindings
 
 import amf.aml.client.scala.model.domain.PropertyMapping
-import amf.apicontract.internal.metamodel.domain.bindings.{IBMMQServerBindingModel, ServerBindingModel}
+import amf.apicontract.internal.metamodel.domain.bindings.{
+  IBMMQServerBindingModel,
+  ServerBindingModel,
+  SolaceServerBindingModel
+}
 import amf.core.client.scala.vocabulary.Namespace.XsdTypes.{xsdBoolean, xsdInteger, xsdString}
 import org.mulesoft.amfintegration.dialect.dialects.asyncapi20.bindings.BindingVersionPropertyMapping
 import org.mulesoft.amfintegration.dialect.dialects.oas.nodes.DialectNode
@@ -11,7 +15,6 @@ object ServerBinding26ObjectNode extends BindingObjectNode26 {
 
   override protected def keys: Seq[String] = super.keys ++ Seq(
     "ibmmq",
-    "ibmmq-secure",
     "solace",
     "pulsar"
   )
@@ -50,5 +53,18 @@ object IBMMQServerBindingObject extends DialectNode with BindingVersionPropertyM
       .withName("heartBeatInterval")
       .withNodePropertyMapping(IBMMQServerBindingModel.HeartBeatInterval.value.iri())
       .withLiteralRange(xsdInteger.iri())
+  ) :+ bindingVersion
+}
+object SolaceServerBindingObject extends DialectNode with BindingVersionPropertyMapping {
+  override def name: String = "SolaceServerBindingObject"
+
+  override def nodeTypeMapping: String = SolaceServerBindingModel.`type`.head.iri()
+
+  override def properties: Seq[PropertyMapping] = Seq(
+    PropertyMapping()
+      .withId(location + s"#/declarations/$name/msgVpn")
+      .withName("msgVpn")
+      .withNodePropertyMapping(SolaceServerBindingModel.MsgVpn.value.iri())
+      .withLiteralRange(xsdString.iri())
   ) :+ bindingVersion
 }

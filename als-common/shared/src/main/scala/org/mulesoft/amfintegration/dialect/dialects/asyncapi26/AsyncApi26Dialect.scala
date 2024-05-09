@@ -41,7 +41,8 @@ import org.mulesoft.amfintegration.dialect.dialects.asyncapi26.bindings.{
   SolaceOperationBindingObject,
   SolaceOperationDestinationObject,
   SolaceOperationQueueObject,
-  SolaceOperationTopicObject
+  SolaceOperationTopicObject,
+  SolaceServerBindingObject
 }
 import org.mulesoft.amfintegration.dialect.dialects.oas.nodes._
 import org.mulesoft.amfintegration.dialect.dialects.raml.raml10.Raml10TypesDialect
@@ -140,7 +141,8 @@ object AsyncApi26Dialect extends BaseDialect {
     SolaceOperationDestinationObject,
     SolaceOperationQueueObject,
     SolaceOperationTopicObject,
-    IBMMQServerBindingObject
+    IBMMQServerBindingObject,
+    SolaceServerBindingObject
   )
 
   override def emptyDocument: DocumentsModel =
