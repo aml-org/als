@@ -4,6 +4,8 @@ import amf.aml.client.scala.model.domain.PropertyMapping
 import amf.apicontract.internal.metamodel.domain.bindings.{
   ChannelBindingModel,
   GooglePubSubChannelBindingModel,
+  GooglePubSubMessageStoragePolicyModel,
+  GooglePubSubSchemaSettingsModel,
   IBMMQChannelBindingModel,
   IBMMQChannelQueueModel,
   IBMMQChannelTopicModel
@@ -97,5 +99,83 @@ object IBMMQChannelTopicObject extends DialectNode {
       .withName("lastMsgRetained")
       .withNodePropertyMapping(IBMMQChannelTopicModel.LastMsgRetained.value.iri())
       .withLiteralRange(xsdBoolean.iri())
+  )
+}
+
+object GooglePubSubChannelBindingObject extends DialectNode {
+  override def name: String = "GooglePubSubChannelBindingObject"
+
+  override def nodeTypeMapping: String = GooglePubSubChannelBindingModel.`type`.head.iri()
+
+  override def properties: Seq[PropertyMapping] = Seq(
+    PropertyMapping()
+      .withId(location + s"#/declarations/$name/labels")
+      .withName("labels")
+      .withNodePropertyMapping(GooglePubSubChannelBindingModel.Labels.value.iri())
+      .withLiteralRange(xsdString.iri()),
+    PropertyMapping()
+      .withId(location + s"#/declarations/$name/messageRetentionDuration")
+      .withName("messageRetentionDuration")
+      .withNodePropertyMapping(GooglePubSubChannelBindingModel.MessageRetentionDuration.value.iri())
+      .withLiteralRange(xsdString.iri()),
+    PropertyMapping()
+      .withId(location + s"#/declarations/$name/messageStoragePolicy")
+      .withName("messageStoragePolicy")
+      .withNodePropertyMapping(GooglePubSubChannelBindingModel.MessageStoragePolicy.value.iri())
+      .withObjectRange(Seq(GooglePubSubMessageStoragePolicyObject.id)),
+    PropertyMapping()
+      .withId(location + s"#/declarations/$name/schemaSettings")
+      .withName("schemaSettings")
+      .withNodePropertyMapping(GooglePubSubChannelBindingModel.SchemaSettings.value.iri())
+      .withObjectRange(Seq(GooglePubSubSchemaSettingsObject.id)),
+    PropertyMapping()
+      .withId(location + s"#/declarations/$name/topic")
+      .withName("topic")
+      .withNodePropertyMapping(GooglePubSubChannelBindingModel.Topic.value.iri())
+      .withLiteralRange(xsdString.iri())
+  )
+}
+
+object GooglePubSubMessageStoragePolicyObject extends DialectNode {
+  override def name: String = "GooglePubSubMessageStoragePolicyObject"
+
+  override def nodeTypeMapping: String = GooglePubSubMessageStoragePolicyModel.`type`.head.iri()
+
+  override def properties: Seq[PropertyMapping] = Seq(
+    PropertyMapping()
+      .withId(location + s"#/declarations/$name/allowedPersistenceRegions")
+      .withName("allowedPersistenceRegions")
+      .withNodePropertyMapping(GooglePubSubMessageStoragePolicyModel.AllowedPersistenceRegions.value.iri())
+      .withAllowMultiple(true)
+      .withLiteralRange(xsdString.iri())
+  )
+}
+
+object GooglePubSubSchemaSettingsObject extends DialectNode {
+  override def name: String = "GooglePubSubSchemaSettingsObject"
+
+  override def nodeTypeMapping: String = GooglePubSubSchemaSettingsModel.`type`.head.iri()
+
+  override def properties: Seq[PropertyMapping] = Seq(
+    PropertyMapping()
+      .withId(location + s"#/declarations/$name/encoding")
+      .withName("encoding")
+      .withNodePropertyMapping(GooglePubSubSchemaSettingsModel.Encoding.value.iri())
+      .withLiteralRange(xsdString.iri()),
+    PropertyMapping()
+      .withId(location + s"#/declarations/$name/firstRevisionId")
+      .withName("firstRevisionId")
+      .withNodePropertyMapping(GooglePubSubSchemaSettingsModel.FirstRevisionId.value.iri())
+      .withLiteralRange(xsdString.iri()),
+    PropertyMapping()
+      .withId(location + s"#/declarations/$name/lastRevisionId")
+      .withName("lastRevisionId")
+      .withNodePropertyMapping(GooglePubSubSchemaSettingsModel.LastRevisionId.value.iri())
+      .withLiteralRange(xsdString.iri()),
+    PropertyMapping()
+      .withId(location + s"#/declarations/$name/name")
+      .withName("name")
+      .withNodePropertyMapping(GooglePubSubSchemaSettingsModel.Name.value.iri())
+      .withLiteralRange(xsdString.iri())
   )
 }
