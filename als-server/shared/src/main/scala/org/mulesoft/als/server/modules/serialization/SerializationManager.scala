@@ -18,12 +18,10 @@ import org.mulesoft.amfintegration.amfconfiguration.EditorConfiguration
 import org.mulesoft.lsp.feature.TelemeteredRequestHandler
 import org.mulesoft.lsp.feature.telemetry.MessageTypes
 import org.mulesoft.lsp.feature.telemetry.MessageTypes.MessageTypes
-import org.mulesoft.lsp.workspace.WorkspaceFoldersChangeEvent
 
 import java.util.UUID
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.{Future, Promise}
-import scala.reflect.io.Path
 import scala.util.{Failure, Success}
 
 class SerializationManager[S](
