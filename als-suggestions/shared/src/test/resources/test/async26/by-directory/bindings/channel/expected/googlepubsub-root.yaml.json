@@ -1,0 +1,218 @@
+[
+  {
+    "label": "bindingVersion",
+    "kind": [
+      
+    ],
+    "detail": "unknown",
+    "documentation": "bindingVersion",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "11bindingVersion",
+    "filterText": "bindingVersion: ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 6,
+          "character": 10
+        },
+        "end": {
+          "line": 6,
+          "character": 10
+        }
+      },
+      "newText": "bindingVersion: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "labels",
+    "kind": [
+      
+    ],
+    "detail": "unknown",
+    "documentation": "labels",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "11labels",
+    "filterText": "labels: ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 6,
+          "character": 10
+        },
+        "end": {
+          "line": 6,
+          "character": 10
+        }
+      },
+      "newText": "labels: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "messageRetentionDuration",
+    "kind": [
+      
+    ],
+    "detail": "unknown",
+    "documentation": "messageRetentionDuration",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "11messageRetentionDuration",
+    "filterText": "messageRetentionDuration: ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 6,
+          "character": 10
+        },
+        "end": {
+          "line": 6,
+          "character": 10
+        }
+      },
+      "newText": "messageRetentionDuration: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "messageStoragePolicy",
+    "kind": [
+      
+    ],
+    "detail": "unknown",
+    "documentation": "messageStoragePolicy",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "11messageStoragePolicy",
+    "filterText": "messageStoragePolicy:\n  ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 6,
+          "character": 10
+        },
+        "end": {
+          "line": 6,
+          "character": 10
+        }
+      },
+      "newText": "messageStoragePolicy:\n  "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "schemaSettings",
+    "kind": [
+      
+    ],
+    "detail": "unknown",
+    "documentation": "schemaSettings",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "11schemaSettings",
+    "filterText": "schemaSettings:\n  ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 6,
+          "character": 10
+        },
+        "end": {
+          "line": 6,
+          "character": 10
+        }
+      },
+      "newText": "schemaSettings:\n  "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "topic",
+    "kind": [
+      
+    ],
+    "detail": "unknown",
+    "documentation": "topic",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "11topic",
+    "filterText": "topic: ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 6,
+          "character": 10
+        },
+        "end": {
+          "line": 6,
+          "character": 10
+        }
+      },
+      "newText": "topic: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  }
+]

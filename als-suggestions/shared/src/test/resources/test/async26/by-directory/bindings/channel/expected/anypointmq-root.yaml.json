@@ -22,11 +22,11 @@
       "range": {
         "start": {
           "line": 6,
-          "character": 8
+          "character": 10
         },
         "end": {
           "line": 6,
-          "character": 8
+          "character": 10
         }
       },
       "newText": "bindingVersion: "
@@ -36,20 +36,20 @@
     "command": null
   },
   {
-    "label": "queue",
+    "label": "destination",
     "kind": [
       
     ],
-    "detail": "AMQP",
-    "documentation": "queue",
+    "detail": "unknown",
+    "documentation": "destination",
     "deprecated": [
       
     ],
     "preselect": [
       
     ],
-    "sortText": "10queue",
-    "filterText": "queue:\n  ",
+    "sortText": "11destination",
+    "filterText": "destination: ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -58,14 +58,50 @@
       "range": {
         "start": {
           "line": 6,
-          "character": 8
+          "character": 10
         },
         "end": {
           "line": 6,
-          "character": 8
+          "character": 10
         }
       },
-      "newText": "queue:\n  "
+      "newText": "destination: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "destinationType",
+    "kind": [
+      
+    ],
+    "detail": "unknown",
+    "documentation": "destinationType",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "11destinationType",
+    "filterText": "destinationType: ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 6,
+          "character": 10
+        },
+        "end": {
+          "line": 6,
+          "character": 10
+        }
+      },
+      "newText": "destinationType: "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,

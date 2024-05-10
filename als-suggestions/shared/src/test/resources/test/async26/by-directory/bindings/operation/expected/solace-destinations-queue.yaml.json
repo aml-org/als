@@ -1,19 +1,19 @@
 [
   {
-    "label": "bindingVersion",
+    "label": "accessType",
     "kind": [
       
     ],
     "detail": "unknown",
-    "documentation": "bindingVersion",
+    "documentation": "accessType",
     "deprecated": [
       
     ],
     "preselect": [
       
     ],
-    "sortText": "11bindingVersion",
-    "filterText": "bindingVersion: ",
+    "sortText": "11accessType",
+    "filterText": "accessType: ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -21,35 +21,35 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 5,
-          "character": 8
+          "line": 8,
+          "character": 16
         },
         "end": {
-          "line": 5,
-          "character": 8
+          "line": 8,
+          "character": 16
         }
       },
-      "newText": "bindingVersion: "
+      "newText": "accessType: "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
     "command": null
   },
   {
-    "label": "partitions",
+    "label": "maxMsgSpoolSize",
     "kind": [
       
     ],
     "detail": "unknown",
-    "documentation": "partitions",
+    "documentation": "maxMsgSpoolSize",
     "deprecated": [
       
     ],
     "preselect": [
       
     ],
-    "sortText": "11partitions",
-    "filterText": "partitions: ",
+    "sortText": "11maxMsgSpoolSize",
+    "filterText": "maxMsgSpoolSize: ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -57,35 +57,35 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 5,
-          "character": 8
+          "line": 8,
+          "character": 16
         },
         "end": {
-          "line": 5,
-          "character": 8
+          "line": 8,
+          "character": 16
         }
       },
-      "newText": "partitions: "
+      "newText": "maxMsgSpoolSize: "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
     "command": null
   },
   {
-    "label": "replicas",
+    "label": "maxTtl",
     "kind": [
       
     ],
     "detail": "unknown",
-    "documentation": "replicas",
+    "documentation": "maxTtl",
     "deprecated": [
       
     ],
     "preselect": [
       
     ],
-    "sortText": "11replicas",
-    "filterText": "replicas: ",
+    "sortText": "11maxTtl",
+    "filterText": "maxTtl: ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -93,35 +93,35 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 5,
-          "character": 8
+          "line": 8,
+          "character": 16
         },
         "end": {
-          "line": 5,
-          "character": 8
+          "line": 8,
+          "character": 16
         }
       },
-      "newText": "replicas: "
+      "newText": "maxTtl: "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
     "command": null
   },
   {
-    "label": "topic",
+    "label": "topicSubscriptions",
     "kind": [
       
     ],
     "detail": "unknown",
-    "documentation": "topic",
+    "documentation": "topicSubscriptions",
     "deprecated": [
       
     ],
     "preselect": [
       
     ],
-    "sortText": "11topic",
-    "filterText": "topic: ",
+    "sortText": "11topicSubscriptions",
+    "filterText": "topicSubscriptions:\n  - ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -129,15 +129,15 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 5,
-          "character": 8
+          "line": 8,
+          "character": 16
         },
         "end": {
-          "line": 5,
-          "character": 8
+          "line": 8,
+          "character": 16
         }
       },
-      "newText": "topic: "
+      "newText": "topicSubscriptions:\n  - "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,

@@ -1,19 +1,19 @@
 [
   {
-    "label": "bindingVersion",
+    "label": "fieldType",
     "kind": [
       
     ],
     "detail": "unknown",
-    "documentation": "bindingVersion",
+    "documentation": "fieldType",
     "deprecated": [
       
     ],
     "preselect": [
       
     ],
-    "sortText": "11bindingVersion",
-    "filterText": "bindingVersion: ",
+    "sortText": "11fieldType",
+    "filterText": "fieldType: ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -21,35 +21,35 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 5,
-          "character": 8
+          "line": 7,
+          "character": 12
         },
         "end": {
-          "line": 5,
-          "character": 8
+          "line": 7,
+          "character": 12
         }
       },
-      "newText": "bindingVersion: "
+      "newText": "fieldType: "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
     "command": null
   },
   {
-    "label": "is",
+    "label": "name",
     "kind": [
       
     ],
-    "detail": "unknown",
-    "documentation": "is",
+    "detail": "docs",
+    "documentation": "name",
     "deprecated": [
       
     ],
     "preselect": [
       
     ],
-    "sortText": "11is",
-    "filterText": "is: ",
+    "sortText": "11name",
+    "filterText": "name: ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -57,15 +57,15 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 5,
-          "character": 8
+          "line": 7,
+          "character": 12
         },
         "end": {
-          "line": 5,
-          "character": 8
+          "line": 7,
+          "character": 12
         }
       },
-      "newText": "is: "
+      "newText": "name: "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,

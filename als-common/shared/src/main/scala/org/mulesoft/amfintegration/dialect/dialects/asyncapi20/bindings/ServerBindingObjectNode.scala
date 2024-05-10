@@ -24,7 +24,7 @@ object ServerBindingsObjectNode extends DialectNode {
   override def properties: Seq[PropertyMapping] = Nil
 }
 
-object MqttServerBindingObjectNode extends DialectNode {
+object MqttServerBindingObjectNode extends DialectNode with BindingVersionPropertyMapping {
   override def name: String = "MqttServerBindingObjectNode"
 
   override def nodeTypeMapping: String = MqttServerBindingModel.`type`.head.iri()
@@ -49,13 +49,8 @@ object MqttServerBindingObjectNode extends DialectNode {
       .withId(location + s"#/declarations/$name/keepAlive")
       .withName("keepAlive")
       .withNodePropertyMapping(MqttServerBindingModel.KeepAlive.value.iri()) // todo: http node mappings?
-      .withLiteralRange(xsdInteger.iri()),
-    PropertyMapping()
-      .withId(location + s"#/declarations/$name/bindingVersion")
-      .withName("bindingVersion")
-      .withNodePropertyMapping(MqttServerBindingModel.BindingVersion.value.iri()) // todo: http node mappings?
-      .withLiteralRange(xsdString.iri())
-  )
+      .withLiteralRange(xsdInteger.iri())
+  ) :+ bindingVersion
 }
 
 object LastWillMqttServerBindingObject extends DialectNode {

@@ -41,7 +41,7 @@ object ChannelBindingsObjectNode extends DialectNode {
   override def properties: Seq[PropertyMapping] = Nil
 }
 
-object WsChannelBindingObject extends DialectNode {
+object WsChannelBindingObject extends DialectNode with BindingVersionPropertyMapping {
   override def name: String = "WsChannelBindingObject"
 
   override def nodeTypeMapping: String = WebSocketsChannelBindingModel.`type`.head.iri()
@@ -61,16 +61,11 @@ object WsChannelBindingObject extends DialectNode {
       .withId(location + s"#/declarations/$name/headers")
       .withName("headers")
       .withNodePropertyMapping(WebSocketsChannelBindingModel.Headers.value.iri())
-      .withObjectRange(Seq(BaseShapeAsync2Node.id)), // id of schemas
-    PropertyMapping()
-      .withId(location + s"#/declarations/$name/bindingVersion")
-      .withName("bindingVersion")
-      .withNodePropertyMapping(WebSocketsChannelBindingModel.BindingVersion.value.iri())
-      .withLiteralRange(xsdString.iri())
-  )
+      .withObjectRange(Seq(BaseShapeAsync2Node.id)) // id of schemas
+  ) :+ bindingVersion
 }
 
-trait BaseAmqpChannelBindingObject extends DialectNode {
+trait BaseAmqpChannelBindingObject extends DialectNode with BindingVersionPropertyMapping {
   override def name: String = "AmqpChannelBindingObject"
 
   override def nodeTypeMapping: String = Amqp091ChannelBindingModel.`type`.head.iri()
@@ -82,7 +77,7 @@ trait BaseAmqpChannelBindingObject extends DialectNode {
       .withNodePropertyMapping(Amqp091ChannelBindingModel.Is.value.iri())
       .withLiteralRange(xsdString.iri())
       .withEnum(Seq("queue", "routingKey"))
-  )
+  ) :+ bindingVersion
 }
 
 object AmqpChannelBindingObject extends BaseAmqpChannelBindingObject
@@ -187,7 +182,7 @@ object QueueAmqpChannel020Binding extends BaseQueueAmqpChannelBinding {
   )
 }
 
-trait BaseKafkaChannelBinding extends DialectNode {
+trait BaseKafkaChannelBinding extends DialectNode with BindingVersionPropertyMapping {
   override def name: String = "KafkaChannelBinding"
 
   override def nodeTypeMapping: String = KafkaChannelBindingModel.`type`.head.iri()
@@ -208,7 +203,7 @@ trait BaseKafkaChannelBinding extends DialectNode {
       .withName("replicas")
       .withNodePropertyMapping(KafkaChannelBindingModel.Replicas.value.iri())
       .withLiteralRange(xsdString.iri())
-  )
+  ) :+ bindingVersion
 }
 
 object KafkaChannelBinding extends BaseKafkaChannelBinding

@@ -29,7 +29,7 @@ object MessageBindingsObjectNode extends DialectNode {
   override def properties: Seq[PropertyMapping] = Nil
 }
 
-object HttpMessageBindingObjectNode extends DialectNode {
+object HttpMessageBindingObjectNode extends DialectNode with BindingVersionPropertyMapping {
   override def name: String = "HttpMessageBindingObjectNode"
 
   override def nodeTypeMapping: String = HttpMessageBindingModel.`type`.head.iri()
@@ -39,16 +39,11 @@ object HttpMessageBindingObjectNode extends DialectNode {
       .withId(location + s"#/declarations/$name/headers")
       .withName("headers")
       .withNodePropertyMapping(HttpMessageBindingModel.Headers.value.iri()) // todo: http node mappings?
-      .withObjectRange(Seq()),                                              // todo: schema object
-    PropertyMapping()
-      .withId(location + s"#/declarations/$name/bindingVersion")
-      .withName("bindingVersion")
-      .withNodePropertyMapping(HttpMessageBindingModel.BindingVersion.value.iri()) // todo: http node mappings?
-      .withLiteralRange(xsdString.iri())
-  )
+      .withObjectRange(Seq())
+  ) :+ bindingVersion
 }
 
-trait BaseKafkaMessageBindingObjectNode extends DialectNode {
+trait BaseKafkaMessageBindingObjectNode extends DialectNode with BindingVersionPropertyMapping {
   override def name: String = "KafkaMessageBindingObjectNode"
 
   override def nodeTypeMapping: String = KafkaMessageBindingModel.`type`.head.iri()
@@ -58,13 +53,8 @@ trait BaseKafkaMessageBindingObjectNode extends DialectNode {
       .withId(location + s"#/declarations/$name/key")
       .withName("key")
       .withNodePropertyMapping(KafkaMessageBindingModel.MessageKey.value.iri()) // todo: http node mappings?
-      .withLiteralRange(xsdString.iri()),
-    PropertyMapping()
-      .withId(location + s"#/declarations/$name/bindingVersion")
-      .withName("bindingVersion")
-      .withNodePropertyMapping(KafkaMessageBindingModel.BindingVersion.value.iri()) // todo: http node mappings?
       .withLiteralRange(xsdString.iri())
-  )
+  ) :+ bindingVersion
 }
 object KafkaMessageBindingObjectNode extends BaseKafkaMessageBindingObjectNode
 object KafkaMessageBinding010ObjectNode extends BaseKafkaMessageBindingObjectNode {
@@ -92,7 +82,7 @@ object KafkaMessageBinding030ObjectNode extends BaseKafkaMessageBindingObjectNod
   )
 }
 
-object AmqpMessageBindingObjectNode extends DialectNode {
+object AmqpMessageBindingObjectNode extends DialectNode with BindingVersionPropertyMapping {
   override def name: String = "AmqpMessageBindingObjectNode"
 
   override def nodeTypeMapping: String = Amqp091MessageBindingModel.`type`.head.iri()
@@ -107,25 +97,14 @@ object AmqpMessageBindingObjectNode extends DialectNode {
       .withId(location + s"#/declarations/$name/messageType")
       .withName("messageType")
       .withNodePropertyMapping(Amqp091MessageBindingModel.MessageType.value.iri()) // todo: http node mappings?
-      .withLiteralRange(xsdString.iri()),
-    PropertyMapping()
-      .withId(location + s"#/declarations/$name/bindingVersion")
-      .withName("bindingVersion")
-      .withNodePropertyMapping(Amqp091MessageBindingModel.BindingVersion.value.iri()) // todo: http node mappings?
       .withLiteralRange(xsdString.iri())
-  )
+  ) :+ bindingVersion
 }
 
-object MqttMessageBindingObjectNode extends DialectNode {
+object MqttMessageBindingObjectNode extends DialectNode with BindingVersionPropertyMapping {
   override def name: String = "MqttMessageBindingObjectNode"
 
   override def nodeTypeMapping: String = MqttMessageBindingModel.`type`.head.iri()
 
-  override def properties: Seq[PropertyMapping] = Seq(
-    PropertyMapping()
-      .withId(location + s"#/declarations/$name/bindingVersion")
-      .withName("bindingVersion")
-      .withNodePropertyMapping(MqttMessageBindingModel.BindingVersion.value.iri()) // todo: http node mappings?
-      .withLiteralRange(xsdString.iri())
-  )
+  override def properties: Seq[PropertyMapping] = Seq(bindingVersion)
 }
