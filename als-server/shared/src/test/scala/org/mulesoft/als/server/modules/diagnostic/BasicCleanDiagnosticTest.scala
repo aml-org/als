@@ -5,9 +5,12 @@ import org.mulesoft.als.server.modules.WorkspaceManagerFactoryBuilder
 import org.mulesoft.als.server.protocol.LanguageServer
 import org.mulesoft.als.server.{LanguageServerBaseTest, MockDiagnosticClientNotifier}
 
+import scala.concurrent.ExecutionContext
+
 class BasicCleanDiagnosticTest extends LanguageServerBaseTest {
 
-  override def rootPath: String = "diagnostics"
+  override implicit def executionContext: ExecutionContext = scala.concurrent.ExecutionContext.Implicits.global
+  override def rootPath: String                            = "diagnostics"
 
   test("async 2.6 with only one error") {
     withServer(buildServer()) { server =>
