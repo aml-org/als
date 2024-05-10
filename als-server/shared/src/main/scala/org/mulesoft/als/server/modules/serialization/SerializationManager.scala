@@ -23,6 +23,7 @@ import org.mulesoft.lsp.workspace.WorkspaceFoldersChangeEvent
 import java.util.UUID
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.{Future, Promise}
+import scala.reflect.io.Path
 import scala.util.{Failure, Success}
 
 class SerializationManager[S](
@@ -68,7 +69,7 @@ class SerializationManager[S](
       case Some(wcm) =>
         val refinedUri = uri.toAmfDecodedUri(EditorConfiguration.platform)
         for {
-          state                             <- wcm.getConfigurationState(refinedUri)
+          state                             <- wcm.getConfigurationState(uri)
           (_, resolved, configurationState) <- parseAndResolve(refinedUri, state)
         } yield serialize(resolved.baseUnit, configurationState.getAmfConfig, sourcemaps)
       case _ =>

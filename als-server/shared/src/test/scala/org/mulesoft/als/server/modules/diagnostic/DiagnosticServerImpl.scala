@@ -66,7 +66,10 @@ class DiagnosticServerImpl extends LanguageServerBaseTest with DiagnosticServer 
       "file://user.raml" -> """#%RAML 1.0 DataType
                               |properties:
                               |  name: string
-                              |  age?: number""".stripMargin
+                              |  age?: number""".stripMargin,
+      "file:///American%20Flights%20API/american-flights-api.raml" ->
+      """#%RAML 1.0
+        |description: This is the main API for a project with spaces in its name""".stripMargin,
     )
 
     override def fetch(resource: String): Future[Content] =
