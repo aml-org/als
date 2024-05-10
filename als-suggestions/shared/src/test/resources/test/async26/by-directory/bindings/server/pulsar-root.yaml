@@ -3,5 +3,5 @@ components:
   servers:
     myServer:
       bindings:
-        solace:
+        pulsar:
           *

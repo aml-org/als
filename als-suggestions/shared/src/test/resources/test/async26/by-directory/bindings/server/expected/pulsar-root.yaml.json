@@ -36,20 +36,20 @@
     "command": null
   },
   {
-    "label": "msgVpn",
+    "label": "tenant",
     "kind": [
       
     ],
     "detail": "unknown",
-    "documentation": "msgVpn",
+    "documentation": "tenant",
     "deprecated": [
       
     ],
     "preselect": [
       
     ],
-    "sortText": "11msgVpn",
-    "filterText": "msgVpn: ",
+    "sortText": "11tenant",
+    "filterText": "tenant: ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -65,7 +65,7 @@
           "character": 10
         }
       },
-      "newText": "msgVpn: "
+      "newText": "tenant: "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
