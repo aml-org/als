@@ -18,7 +18,6 @@ import org.mulesoft.amfintegration.amfconfiguration.EditorConfiguration
 import org.mulesoft.lsp.feature.TelemeteredRequestHandler
 import org.mulesoft.lsp.feature.telemetry.MessageTypes
 import org.mulesoft.lsp.feature.telemetry.MessageTypes.MessageTypes
-import org.mulesoft.lsp.workspace.WorkspaceFoldersChangeEvent
 
 import java.util.UUID
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -68,7 +67,7 @@ class SerializationManager[S](
       case Some(wcm) =>
         val refinedUri = uri.toAmfDecodedUri(EditorConfiguration.platform)
         for {
-          state                             <- wcm.getConfigurationState(refinedUri)
+          state                             <- wcm.getConfigurationState(uri)
           (_, resolved, configurationState) <- parseAndResolve(refinedUri, state)
         } yield serialize(resolved.baseUnit, configurationState.getAmfConfig, sourcemaps)
       case _ =>

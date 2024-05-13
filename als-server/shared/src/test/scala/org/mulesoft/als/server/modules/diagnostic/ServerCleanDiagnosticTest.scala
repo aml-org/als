@@ -253,4 +253,19 @@ class ServerCleanDiagnosticTest extends DiagnosticServerImpl with ChangesWorkspa
       }
     }
   }
+
+  test("Test clean diagnostic with encoded uri for Project Name with spaces") {
+    val diagnosticNotifier: MockDiagnosticClientNotifier = new MockDiagnosticClientNotifier
+    withServer(buildServer(diagnosticNotifier)) { server =>
+      val apiPath = s"file:///American%20Flights%20API/american-flights-api.raml"
+
+      for {
+        d <- requestCleanDiagnostic(server)(apiPath)
+      } yield {
+        server.shutdown()
+        assert(d.length == 1)
+        d.head.diagnostics.size should be(1)
+      }
+    }
+  }
 }
