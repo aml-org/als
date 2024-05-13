@@ -3,7 +3,7 @@ package org.mulesoft.amfintegration.dialect.dialects.asyncapi20
 import amf.aml.client.scala.model.domain.DocumentsModel
 import amf.plugins.document.vocabularies.plugin.ReferenceStyles
 import org.mulesoft.amfintegration.dialect.BaseDialect
-import org.mulesoft.amfintegration.dialect.dialects.asyncapi20.bindings._
+import org.mulesoft.amfintegration.dialect.dialects.asyncapi20.bindings.{RoutingKeyAmqpChannelBinding, _}
 import org.mulesoft.amfintegration.dialect.dialects.asyncapi20.schema._
 import org.mulesoft.amfintegration.dialect.dialects.oas.nodes._
 import org.mulesoft.amfintegration.dialect.dialects.raml.raml10.Raml10TypesDialect
@@ -23,13 +23,13 @@ object AsyncApi20Dialect extends BaseDialect {
     AsyncAPI20penIdConnectUrl,
     Oauth2FlowObject,
     AsyncAPI20FlowObject,
-    ChannelObject,
+    Channel20Object,
     CorrelationIdObjectNode,
     MessageObjectNode,
     ResponseMessageObjectNode,
     RequestMessageObjectNode,
     MessageTraitsObjectNode,
-    OperationObject,
+    Operation20Object,
     OperationTraitsObjectNode,
     ParameterObjectNode,
     ChannelBindingsObjectNode,
@@ -51,26 +51,43 @@ object AsyncApi20Dialect extends BaseDialect {
     ChannelBindingsObjectNode,
     MessageBindingsObjectNode,
     AmqpChannelBindingObject,
+    AmqpChannel010BindingObject,
+    AmqpChannel020BindingObject,
     WsChannelBindingObject,
     LastWillMqttServerBindingObject,
+    KafkaServerBindingObject,
     MqttServerBindingObjectNode,
     AmqpMessageBindingObjectNode,
     KafkaMessageBindingObjectNode,
+    KafkaMessageBinding010ObjectNode,
+    KafkaMessageBinding030ObjectNode,
     MqttMessageBindingObjectNode,
     HttpMessageBindingObjectNode,
-    AmqpOperationBindingObjectNode,
+    Amqp091OperationBindingObjectNode,
+    Amqp091OperationBinding010ObjectNode,
+    Amqp091OperationBinding030ObjectNode,
     KafkaOperationBindingObjectNode,
     HttpOperationBindingObjectNode,
     MqttOperationBindingObjectNode,
     QueueAmqpChannelBinding,
+    QueueAmqpChannel010Binding,
+    QueueAmqpChannel020Binding,
+    KafkaChannelBinding,
+    Kafka030ChannelBinding,
+    Kafka040ChannelBinding,
+    Kafka050ChannelBinding,
+    KafkaTopicConfiguration040Object,
+    KafkaTopicConfiguration050Object,
     RoutingKeyAmqpChannelBinding,
+    RoutingKeyAmqpChannel010Binding,
+    RoutingKeyAmqpChannel020Binding,
     StringShapeAsync2Node,
     AMLExternalDocumentationObject,
     AMLInfoObject,
     AMLContactObject,
     AMLLicenseObject,
     AMLTagObject,
-    AsyncApiServerObject
+    AsyncApi20ServerObject
   )
 
   override def emptyDocument: DocumentsModel =

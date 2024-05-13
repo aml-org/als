@@ -2,11 +2,15 @@ package org.mulesoft.als.suggestions.plugins.aml
 
 import amf.aml.client.scala.model.document.Dialect
 import amf.aml.client.scala.model.domain.NodeMapping
+import amf.apicontract.internal.metamodel.domain.ResponseModel
+import amf.apicontract.internal.metamodel.domain.templates.{ResourceTypeModel, TraitModel}
 import amf.core.client.scala.model.domain.{AmfElement, AmfObject, DomainElement, Linkable}
 import amf.core.internal.annotations.ErrorDeclaration
-import amf.core.internal.metamodel.domain.ShapeModel
+import amf.core.internal.metamodel.domain.templates.AbstractDeclarationModel
+import amf.core.internal.metamodel.domain.{DomainElementModel, ShapeModel}
 import amf.plugins.document.vocabularies.plugin.ReferenceStyles
 import amf.shapes.internal.domain.metamodel.AnyShapeModel
+import amf.shapes.internal.domain.metamodel.operations.AbstractResponseModel
 import org.mulesoft.als.common.ASTPartBranch
 import org.mulesoft.als.common.SemanticNamedElement._
 import org.mulesoft.als.suggestions.RawSuggestion
@@ -44,7 +48,7 @@ class AMLJsonSchemaStyleDeclarationReferences(
   }
 }
 
-object AMLJsonSchemaStyleDeclarationReferences extends AMLDeclarationReferences {
+trait AbstractAMLJsonSchemaStyleDeclarationReferences extends AMLDeclarationReferences {
   override def id: String = "AMLJsonSchemaStyleDeclarationReferences"
 
   def applies(request: AmlCompletionRequest): Boolean = {
@@ -119,4 +123,17 @@ object AMLJsonSchemaStyleDeclarationReferences extends AMLDeclarationReferences 
     filtered
       .map(route => RawSuggestion(route, route, s"Reference to $route", Nil))
   }
+}
+object AMLJsonSchemaStyleDeclarationReferences extends AbstractAMLJsonSchemaStyleDeclarationReferences
+object Async2AMLJsonSchemaStyleDeclarationReferences extends AbstractAMLJsonSchemaStyleDeclarationReferences {
+  override protected val exceptions: Seq[String] = Seq(
+    DomainElementModel.`type`.head.iri(),
+    // workaround because for async2 an incomplete message reference wraps around a response
+    ResponseModel.`type`.head.iri(),
+    AbstractResponseModel.`type`.head.iri(),
+    // handled by RamlAbstractDeclarationReference:
+    AbstractDeclarationModel.`type`.head.iri(),
+    TraitModel.`type`.head.iri(),
+    ResourceTypeModel.`type`.head.iri()
+  )
 }

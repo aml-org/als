@@ -1,6 +1,7 @@
 package org.mulesoft.amfintegration.dialect.dialects.asyncapi20.bindings
 import amf.aml.client.scala.model.domain.PropertyMapping
 import amf.apicontract.internal.metamodel.domain.bindings.{
+  KafkaServerBindingModel,
   MqttServerBindingModel,
   MqttServerLastWillModel,
   ServerBindingModel,
@@ -23,7 +24,7 @@ object ServerBindingsObjectNode extends DialectNode {
   override def properties: Seq[PropertyMapping] = Nil
 }
 
-object MqttServerBindingObjectNode extends DialectNode {
+object MqttServerBindingObjectNode extends DialectNode with BindingVersionPropertyMapping {
   override def name: String = "MqttServerBindingObjectNode"
 
   override def nodeTypeMapping: String = MqttServerBindingModel.`type`.head.iri()
@@ -48,13 +49,8 @@ object MqttServerBindingObjectNode extends DialectNode {
       .withId(location + s"#/declarations/$name/keepAlive")
       .withName("keepAlive")
       .withNodePropertyMapping(MqttServerBindingModel.KeepAlive.value.iri()) // todo: http node mappings?
-      .withLiteralRange(xsdInteger.iri()),
-    PropertyMapping()
-      .withId(location + s"#/declarations/$name/bindingVersion")
-      .withName("bindingVersion")
-      .withNodePropertyMapping(MqttServerBindingModel.BindingVersion.value.iri()) // todo: http node mappings?
-      .withLiteralRange(xsdString.iri())
-  )
+      .withLiteralRange(xsdInteger.iri())
+  ) :+ bindingVersion
 }
 
 object LastWillMqttServerBindingObject extends DialectNode {
@@ -78,5 +74,24 @@ object LastWillMqttServerBindingObject extends DialectNode {
       .withName("retain")
       .withNodePropertyMapping(MqttServerLastWillModel.Retain.value.iri()) // todo: http node mappings?
       .withLiteralRange(xsdBoolean.iri())
+  )
+}
+
+object KafkaServerBindingObject extends DialectNode {
+  override def name: String = "KafkaServerBindingObject"
+
+  override def nodeTypeMapping: String = KafkaServerBindingModel.`type`.head.iri()
+
+  override def properties: Seq[PropertyMapping] = Seq(
+    PropertyMapping()
+      .withId(location + s"#/declarations/$name/schemaRegistryUrl")
+      .withName("schemaRegistryUrl")
+      .withNodePropertyMapping(KafkaServerBindingModel.SchemaRegistryUrl.value.iri())
+      .withLiteralRange(xsdString.iri()),
+    PropertyMapping()
+      .withId(location + s"#/declarations/$name/schemaRegistryVendor")
+      .withName("schemaRegistryVendor")
+      .withNodePropertyMapping(KafkaServerBindingModel.SchemaRegistryVendor.value.iri())
+      .withLiteralRange(xsdString.iri())
   )
 }

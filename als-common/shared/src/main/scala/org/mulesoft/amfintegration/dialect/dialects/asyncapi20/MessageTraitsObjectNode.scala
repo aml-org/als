@@ -13,16 +13,19 @@ import org.mulesoft.amfintegration.dialect.dialects.oas.nodes.{
 
 trait MessageAbstractObjectNode extends DialectNode {
 
-  val schemaFormatProp: PropertyMapping = PropertyMapping()
+  val exampleProperty: PropertyMapping
+  val specVersion: String
+
+  lazy val schemaFormatProp: PropertyMapping = PropertyMapping()
     .withId(location + "#/declarations/Message/schemaFormat")
     .withName("schemaFormat")
     .withNodePropertyMapping(PayloadModel.SchemaMediaType.value.iri())
     .withLiteralRange(xsdString.iri())
     .withEnum(
       Seq(
-        "application/vnd.aai.asyncapi;version=2.0.0",
-        "application/vnd.aai.asyncapi+json;version=2.0.0",
-        "application/vnd.aai.asyncapi+yaml;version=2.0.0",
+        s"application/vnd.aai.asyncapi;version=$specVersion",
+        s"application/vnd.aai.asyncapi+json;version=$specVersion",
+        s"application/vnd.aai.asyncapi+yaml;version=$specVersion",
         "application/vnd.oai.openapi;version=3.0.0",
         "application/vnd.oai.openapi+json;version=3.0.0",
         "application/vnd.oai.openapi+yaml;version=3.0.0",
@@ -84,18 +87,21 @@ trait MessageAbstractObjectNode extends DialectNode {
       .withName("bindings")
       .withNodePropertyMapping(MessageModel.Bindings.value.iri())
       .withObjectRange(Seq(MessageBindingsObjectNode.id)),
-    PropertyMapping()
-      .withId(location + "#/declarations/Message/examples")
-      .withName("examples")
-      .withNodePropertyMapping(MessageModel.Examples.value.iri())
-      .withObjectRange(Seq(AsyncMessageExampleNode.id))
+    exampleProperty
   )
 }
 
 object MessageTraitsObjectNode extends MessageAbstractObjectNode {
-  override def name: String = "MessageTraitsObjectNode"
+  override val specVersion: String = "2.0.0"
+  override def name: String        = "MessageTraitsObjectNode"
 
   override def isAbstract: Boolean = true
 
   override def nodeTypeMapping: String = MessageModel.`type`.head.iri()
+
+  override val exampleProperty: PropertyMapping = PropertyMapping()
+    .withId(location + "#/declarations/Message/examples")
+    .withName("examples")
+    .withNodePropertyMapping(MessageModel.Examples.value.iri())
+    .withObjectRange(Seq(Async20MessageExampleNode.id))
 }

@@ -1,0 +1,224 @@
+asyncapi: 2.6.0
+info:
+  title: Market Data API
+  version: 1.0.0
+  description: This API provides real-time market data updates.
+servers:
+  production:
+    url: some.com
+    protocol: ibmmq
+    security:
+      -
+        oauth2:
+          - write:pets
+          - read:pets
+    bindings:
+      ibmmq:
+        groupId: test
+        ccdtQueueManagerName: test
+        cipherSpec: test
+        multiEndpointServer: true
+        heartBeatInterval: 123
+    variables:
+      environment:
+        default: api
+        description: API environment
+      version:
+        default: v1
+        description: API version
+  development:
+    url: https://{environment}.example.com/{version}
+    description: Development server using referenced server variables.
+    protocol: https
+    variables:
+      environment:
+        $ref: "#/components/serverVariables/environment"
+      version:
+        $ref: "#/components/serverVariables/version"
+  theName:
+    url: some.com
+    protocol: pulsar
+    bindings:
+      pulsar:
+        tenant: test
+        bindingVersion: 0.1.0
+channels:
+  first-channel:
+    subscribe:
+      security:
+        -
+          oauth2:
+            - read:pets
+      summary: Subscribe to market updates
+      message:
+        name: errorMessage
+        summary: Message with market data information.
+        description: |
+          test
+        payload:
+          type: object
+          properties:
+            prop1:
+              type: string
+        examples:
+          -
+            name: error
+            summary: example
+            headers:
+              exampleHeader: InlineHeader
+            payload:
+              userId: user345
+              status: offline
+  second-channel:
+    bindings:
+      ibmmq:
+        destinationType: topic
+        topic:
+          string: test
+          objectName: test
+          durablePermitted: true
+          lastMsgRetained: false
+        maxMsgLength: 123
+        bindingVersion: test
+    publish:
+      bindings:
+        ibmmq: { }
+      message:
+        bindings:
+          ibmmq:
+            type: binary
+            description: test
+            expiry: 123
+            bindingVersion: test
+            headers: test1, test2, test3
+        payload:
+          type: string
+    description: some channel
+  third-channel:
+    bindings:
+      anypointmq:
+        destination: test
+        destinationType: exchange
+        bindingVersion: 0.1.0
+    description: some channel
+    publish:
+      bindings:
+        anypointmq: {}
+      message:
+        bindings:
+          anypointmq:
+            headers:
+              type: object
+              properties:
+                messageId:
+                  type: string
+            bindingVersion: 0.1.0
+        payload:
+          type: string
+  forth-channel:
+    publish:
+      bindings:
+        solace:
+          bindingVersion: 0.3.0
+          destinations:
+            -
+              destinationType: queue
+              queue:
+                name: CreatedHREvents
+                accessType: exclusive
+                maxMsgSpoolSize: test
+                maxTtl: test
+                topicSubscriptions:
+                  - person/*/created
+            -
+              destinationType: topic
+              topic:
+                topicSubscriptions:
+                  - person/*/updated
+  topic-proto-schema:
+    bindings:
+      googlepubsub:
+        labels:
+          label1: label1
+          label2: label2
+        topic: projects/your-project/topics/topic-proto-schema
+        messageRetentionDuration: 86400s
+        messageStoragePolicy:
+          allowedPersistenceRegions:
+            - us-central1
+            - us-west
+        schemaSettings:
+          encoding: binary
+          name: projects/your-project/schemas/messageAvro
+          firstRevisionId: 1.0.0
+          lastRevisionId: 2.0.0
+  sixth-channel:
+    bindings:
+      pulsar:
+        namespace: test
+        persistence: test
+        compaction: 123
+        geo-replication:
+          - test
+          - strings
+          - list
+        retention:
+          time: 123
+          size: 321
+        ttl: 12
+        deduplication: false
+        bindingVersion: test
+    description: some channel
+components:
+  messages:
+    messageAvro:
+      bindings:
+        googlepubsub:
+          attributes:
+            exampleAttribute: exampleValue
+          orderingKey: userEventOrder
+          bindingVersion: 0.1.0
+          schema:
+            name: projects/your-project/schemas/message-avro
+            type: avro
+    marketData:
+      name: messageName
+      summary: Message with market data information.
+      messageId: messageName1
+      description: |
+        test
+      payload:
+        $ref: "#/components/schemas/market"
+      examples:
+        -
+          name: updatemessage
+          summary: explain
+          payload:
+            userId: user123
+            status: online
+          headers:
+            exampleHeader: HeaderValue
+  schemas:
+    market:
+      type: object
+      properties:
+        type:
+          type: string
+  serverVariables:
+    environment:
+      default: dev-api
+      description: Development API environment
+    version:
+      default: v2
+      description: Development API version
+  securitySchemes:
+    oauth2:
+      type: oauth2
+      description: oauth2 security scheme
+      flows:
+        implicit:
+          authorizationUrl: https://a.ml/
+          refreshUrl: https://a.ml/
+          scopes:
+            write:pets: modify pets in your account
+            read:pets: read your pets

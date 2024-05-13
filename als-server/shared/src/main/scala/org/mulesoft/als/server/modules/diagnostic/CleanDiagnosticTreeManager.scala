@@ -72,7 +72,7 @@ class CleanDiagnosticTreeManager(
   def validate(uri: String): Future[Seq[AlsPublishDiagnosticsParams]] = {
     val refinedUri = uri.toAmfDecodedUri(environmentProvider.platform)
     for {
-      state                                         <- getWorkspaceConfig(refinedUri)
+      state                                         <- getWorkspaceConfig(uri)
       (pr, resolutionResult, alsConfigurationState) <- parseAndResolve(refinedUri, state)
       report <- alsConfigurationState
         .configForUnit(resolutionResult.baseUnit)

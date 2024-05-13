@@ -6,7 +6,8 @@ import amf.core.client.scala.vocabulary.Namespace.XsdTypes.xsdString
 import org.mulesoft.amfintegration.dialect.dialects.asyncapi20.bindings.ServerBindingsObjectNode
 import org.mulesoft.amfintegration.dialect.dialects.oas.nodes.DialectNode
 
-object AsyncApiServerObject extends DialectNode {
+object AsyncApi20ServerObject extends AsyncApiServerObject
+trait AsyncApiServerObject extends DialectNode {
 
   override def name: String = "ServerObject"
 

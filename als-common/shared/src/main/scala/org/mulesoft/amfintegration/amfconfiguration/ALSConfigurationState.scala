@@ -16,7 +16,7 @@ import amf.shapes.client.scala.config.JsonSchemaConfiguration
 import amf.shapes.client.scala.model.document.JsonSchemaDocument
 import amf.shapes.client.scala.model.domain.AnyShape
 import amf.shapes.client.scala.render.JsonSchemaShapeRenderer
-import org.mulesoft.als.configuration.{MaxSizeException, MaxSizeResourceLoader}
+import org.mulesoft.als.configuration.{MaxSizeCounter, MaxSizeException, MaxSizeResourceLoader}
 import org.mulesoft.amfintegration.AmfImplicits._
 import org.mulesoft.amfintegration.ValidationProfile
 import org.mulesoft.amfintegration.dialect.dialects.ExternalFragmentDialect
@@ -130,12 +130,13 @@ case class ALSConfigurationState(
   private def wrapLoadersIfNeeded(amfConfiguration: AMFConfiguration, maxFileSize: Option[Int]) =
     maxFileSize match {
       case Some(maxSize) if maxSize > 0 =>
+        val counter = new MaxSizeCounter(maxSize)
         amfConfiguration
           .withResourceLoaders(
             amfConfiguration
               .configurationState()
               .getResourceLoaders()
-              .map(MaxSizeResourceLoader(_, maxSize))
+              .map(MaxSizeResourceLoader(_, counter))
               .toList
           )
       case _ =>
@@ -205,8 +206,13 @@ case class ALSConfigurationState(
   def definitionFor(bu: BaseUnit): Option[Dialect] = {
     val configurationState = predefinedWithDialects.configurationState()
 
-    def defaultDefinitionSearch = {
+    def defaultDefinitionSearch =
       allDialects(configurationState).find(d => ProfileMatcher.spec(d).contains(bu.sourceSpec.getOrElse(Spec.AMF)))
+
+    def overridenSpecs: Option[Dialect] = {
+      if (bu.sourceSpec.exists(_.id.startsWith("ASYNC 2"))) // the `isAsync` method is not currently working properly
+        allDialects(configurationState).find(d => ProfileMatcher.spec(d).contains(Spec.ASYNC20))
+      else None
     }
 
     bu match {
@@ -224,7 +230,7 @@ case class ALSConfigurationState(
           .find(d => d.version().option().contains(jsonSchema.schemaVersion.value()))
           .orElse(defaultDefinitionSearch)
       case _ =>
-        defaultDefinitionSearch
+        defaultDefinitionSearch.orElse(overridenSpecs)
     }
   }
 

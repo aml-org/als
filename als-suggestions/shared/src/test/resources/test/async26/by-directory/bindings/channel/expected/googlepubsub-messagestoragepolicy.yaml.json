@@ -1,0 +1,38 @@
+[
+  {
+    "label": "allowedPersistenceRegions",
+    "kind": [
+      
+    ],
+    "detail": "unknown",
+    "documentation": "allowedPersistenceRegions",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "11allowedPersistenceRegions",
+    "filterText": "allowedPersistenceRegions:\n  - ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 7,
+          "character": 12
+        },
+        "end": {
+          "line": 7,
+          "character": 12
+        }
+      },
+      "newText": "allowedPersistenceRegions:\n  - "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  }
+]

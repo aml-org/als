@@ -33,7 +33,7 @@ object AsyncApi20ApiNode extends DialectNode {
       .withName("servers")
       .withObjectRange(
         Seq(
-          AsyncApiServerObject.id
+          AsyncApi20ServerObject.id
         )
       )
       .withMapTermKeyProperty(ServerModel.Name.value.iri()),
@@ -56,7 +56,7 @@ object AsyncApi20ApiNode extends DialectNode {
       .withName("channels")
       .withNodePropertyMapping(AsyncApiModel.EndPoints.value.iri())
       .withMapTermKeyProperty(EndPointModel.Path.value.iri())
-      .withObjectRange(Seq(ChannelObject.id))
+      .withObjectRange(Seq(Channel20Object.id))
   )
 
   override def name: String = "AsyncApi2Node"

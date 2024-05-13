@@ -38,6 +38,10 @@ class HoverActionTest extends AsyncFunSuite with BaseHoverTest {
     runTest("async-api20-full.yaml", "async-api20-full-result.yaml")
   }
 
+  test("Complete asyncapi 2.6 test") {
+    runTest("async-api26-full.yaml", "async-api26-full-result.yaml")
+  }
+
   test("Complete raml 0.8 test") {
     runTest("raml08-full.raml", "raml08-full-result.raml")
   }

@@ -72,20 +72,20 @@
     "command": null
   },
   {
-    "label": "name\t",
+    "label": "name",
     "kind": [
       
     ],
-    "detail": "unknown",
-    "documentation": "name\t",
+    "detail": "docs",
+    "documentation": "name",
     "deprecated": [
       
     ],
     "preselect": [
       
     ],
-    "sortText": "11name\t",
-    "filterText": "\"name\\t\": ",
+    "sortText": "11name",
+    "filterText": "name: ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -101,7 +101,7 @@
           "character": 10
         }
       },
-      "newText": "\"name\\t\": "
+      "newText": "name: "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,

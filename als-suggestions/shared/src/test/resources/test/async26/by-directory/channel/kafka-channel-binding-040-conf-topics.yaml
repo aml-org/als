@@ -1,0 +1,9 @@
+asyncapi: 2.6.0
+
+channels:
+  some-channel:
+    bindings:
+      kafka:
+        bindingVersion: 0.4.0
+        topicConfiguration:
+          *

@@ -3,6 +3,7 @@ package org.mulesoft.als.server.acv
 import amf.custom.validation.client.scala.report.model._
 import org.eclipse.lsp4j.{Location, Position, Range}
 import org.mulesoft.als.server.modules.diagnostic.custom.TraceValueParser
+import org.mulesoft.exceptions.PathTweaks
 
 import scala.collection.JavaConverters._
 import scala.language.{implicitConversions, postfixOps}
@@ -31,9 +32,9 @@ object CustomDiagnosticReportBuilder {
     )
   }
   def toLocation(location: OpaLocation): Location =
-    new Location(location.location.getOrElse(""), location.range.map(toRange).getOrElse(rangeZero))
+    new Location(PathTweaks(location.location.getOrElse("")), location.range.map(toRange).getOrElse(rangeZero))
   def toRange(range: OpaRange): Range             = new Range(toPosition(range.start), toPosition(range.end))
-  def toPosition(position: OpaPosition): Position = new Position(position.line, position.column)
+  def toPosition(position: OpaPosition): Position = new Position(position.line - 1, position.column)
   val positionZero                                = new Position(0, 0)
   val rangeZero                                   = new Range(positionZero, positionZero)
 }
