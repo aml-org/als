@@ -1,0 +1,14 @@
+asyncapi: 2.6.0
+channels:
+  eastern-books:
+    subscribe:
+      message:
+        $ref: *
+components:
+  messages:
+    test:
+      payload:
+        type: object
+        properties:
+          id:
+            type: string
