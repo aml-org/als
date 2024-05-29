@@ -19,7 +19,6 @@ trait AsyncApiServerObject extends DialectNode {
         .withId(location + "#/declarations/ServerObject/name")
         .withName("name")
         .withNodePropertyMapping(ServerModel.Name.value.iri())
-        .withMinCount(1)
         .withLiteralRange(xsdString.iri()),
       PropertyMapping()
         .withId(location + "#/declarations/ServerObject/description")
