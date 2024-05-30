@@ -58,16 +58,25 @@ case class ALSConfigurationState(
     }
 
   def configForSpec(spec: Spec): AMLSpecificConfiguration =
-    AMLSpecificConfiguration(getAmlConfig(spec match {
-      case Spec.RAML10     => projectState.customSetUp(RAMLConfiguration.RAML10())
-      case Spec.RAML08     => projectState.customSetUp(RAMLConfiguration.RAML08())
-      case Spec.OAS30      => projectState.customSetUp(OASConfiguration.OAS30())
-      case Spec.OAS20      => projectState.customSetUp(OASConfiguration.OAS20())
-      case Spec.ASYNC20    => projectState.customSetUp(AsyncAPIConfiguration.Async20())
-      case Spec.GRAPHQL    => projectState.customSetUp(ConfigurationAdapter.adapt(GraphQLConfiguration.GraphQL()))
-      case Spec.JSONSCHEMA => projectState.customSetUp(ConfigurationAdapter.adapt(JsonSchemaConfiguration.JsonSchema()))
-      case _               => predefinedWithDialects
-    }))
+    AMLSpecificConfiguration(
+      getAmlConfig(apiConfigurationForSpec(spec).map(projectState.customSetUp).getOrElse(predefinedWithDialects))
+    )
+
+  private def apiConfigurationForSpec(spec: Spec): Option[AMFConfiguration] =
+    spec match {
+      case Spec.RAML10       => Some(RAMLConfiguration.RAML10())
+      case Spec.RAML08       => Some(RAMLConfiguration.RAML08())
+      case Spec.OAS30        => Some(OASConfiguration.OAS30())
+      case Spec.OAS20        => Some(OASConfiguration.OAS20())
+      case Spec.ASYNC20      => Some(AsyncAPIConfiguration.Async20())
+      case Spec.ASYNC26      => Some(AsyncAPIConfiguration.Async20())
+      case Spec.GRAPHQL      => Some(ConfigurationAdapter.adapt(GraphQLConfiguration.GraphQL()))
+      case Spec.JSONSCHEMA   => Some(ConfigurationAdapter.adapt(JsonSchemaConfiguration.JsonSchema()))
+      case _ if spec.isAsync => Some(AsyncAPIConfiguration.Async20())
+      case _ if spec.id.startsWith("ASYNC 2") =>
+        Some(AsyncAPIConfiguration.Async20()) // isAsync currently not working as it should
+      case _ => None
+    }
 
   def getAmfConfig(url: String): AMFConfiguration = {
     val base =
@@ -83,7 +92,8 @@ case class ALSConfigurationState(
     val base = spec match {
       case GRAPHQL => GraphQLConfiguration.GraphQL()
       // case GRPC =>
-      case _ => APIConfiguration.fromSpec(spec)
+      case _ =>
+        APIConfiguration.fromSpec(spec)
     }
     getAmfConfig(base)
   }
