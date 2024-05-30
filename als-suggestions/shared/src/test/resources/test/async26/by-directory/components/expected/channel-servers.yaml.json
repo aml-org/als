@@ -1,38 +1,3 @@
 [
-  {
-    "label": "myServer",
-    "kind": [
-      
-    ],
-    "detail": "Servers",
-    "documentation": "myServer",
-    "deprecated": [
-      
-    ],
-    "preselect": [
-      
-    ],
-    "sortText": "11myServer",
-    "filterText": "myServer",
-    "insertText": null,
-    "insertTextFormat": [
-      1
-    ],
-    "textEdit": {
-      "range": {
-        "start": {
-          "line": 21,
-          "character": 8
-        },
-        "end": {
-          "line": 21,
-          "character": 8
-        }
-      },
-      "newText": "myServer"
-    },
-    "additionalTextEdits": null,
-    "commitCharacters": null,
-    "command": null
-  }
+  
 ]
