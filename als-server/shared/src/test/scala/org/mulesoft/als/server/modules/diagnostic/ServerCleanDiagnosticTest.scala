@@ -202,7 +202,7 @@ class ServerCleanDiagnosticTest extends DiagnosticServerImpl with ChangesWorkspa
         v1.length should be(1)
         val fileDiagnostic = v1.head
         fileDiagnostic.diagnostics.size should be(1)
-        v1.head.diagnostics.head shouldBe (fileDiagnostic.diagnostics.head) // should be the same for req and notification
+        fileDiagnostic.diagnostics.head shouldBe (d.diagnostics.head) // should be the same for req and notification
       }
     }
   }
@@ -265,6 +265,46 @@ class ServerCleanDiagnosticTest extends DiagnosticServerImpl with ChangesWorkspa
         server.shutdown()
         assert(d.length == 1)
         d.head.diagnostics.size should be(1)
+      }
+    }
+  }
+
+  test("Clean diagnostic test for async 2.6") {
+    val diagnosticNotifier: MockDiagnosticClientNotifier = new MockDiagnosticClientNotifier(5000)
+    withServer(buildServer(diagnosticNotifier)) { s =>
+      val mainFilePath = s"file://api.yaml"
+
+      val mainContent = """asyncapi: '2.6.0'
+                          |info:
+                          |  title: async
+                          |  version: '1.0.0'
+                          |servers:
+                          |  server:
+                          |    url: s
+                          |    protocol: s
+                          |    protocolVersion: s
+                          |
+                          |components:
+                          |  servers:
+                          |    myServer:
+                          |      url: url.com
+                          |      protocol: https
+                          |      protocolVersion: 2
+                          |channels:
+                          |  user:
+                          |    servers:
+                          |      - server
+                          |      - myServer
+                          |      - asdasd""".stripMargin
+
+      for {
+        _  <- openFileNotification(s)(mainFilePath, mainContent)
+        v1 <- requestCleanDiagnostic(s)(mainFilePath)
+
+      } yield {
+        s.shutdown()
+        v1.length should be(1)
+        v1.head.diagnostics.size should be(2)
       }
     }
   }
