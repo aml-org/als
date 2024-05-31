@@ -4,6 +4,8 @@ import amf.aml.client.scala.model.domain.PropertyMapping
 import amf.apicontract.internal.metamodel.domain.bindings.{
   AnypointMQChannelBindingModel,
   ChannelBindingModel,
+  GooglePubSubChannelBinding010Model,
+  GooglePubSubChannelBinding020Model,
   GooglePubSubChannelBindingModel,
   GooglePubSubMessageStoragePolicyModel,
   GooglePubSubSchemaSettingsModel,
@@ -106,7 +108,22 @@ object IBMMQChannelTopicObject extends DialectNode {
   )
 }
 
-object GooglePubSubChannelBindingObject extends DialectNode with BindingVersionPropertyMapping {
+object GooglePubSubChannelBinding10Object extends BaseGooglePubSubChannelBindingObject {
+  override def nodeTypeMapping: String = GooglePubSubChannelBinding010Model.`type`.head.iri()
+
+  override def properties: Seq[PropertyMapping] = super.properties ++ Seq(
+    PropertyMapping()
+      .withId(location + s"#/declarations/$name/topic")
+      .withName("topic")
+      .withNodePropertyMapping(GooglePubSubChannelBinding010Model.Topic.value.iri())
+      .withLiteralRange(xsdString.iri())
+  )
+}
+object GooglePubSubChannelBinding20Object extends BaseGooglePubSubChannelBindingObject {
+  override def nodeTypeMapping: String = GooglePubSubChannelBinding020Model.`type`.head.iri()
+
+}
+trait BaseGooglePubSubChannelBindingObject extends DialectNode with BindingVersionPropertyMapping {
   override def name: String = "GooglePubSubChannelBindingObject"
 
   override def nodeTypeMapping: String = GooglePubSubChannelBindingModel.`type`.head.iri()
@@ -131,12 +148,7 @@ object GooglePubSubChannelBindingObject extends DialectNode with BindingVersionP
       .withId(location + s"#/declarations/$name/schemaSettings")
       .withName("schemaSettings")
       .withNodePropertyMapping(GooglePubSubChannelBindingModel.SchemaSettings.value.iri())
-      .withObjectRange(Seq(GooglePubSubSchemaSettingsObject.id)),
-    PropertyMapping()
-      .withId(location + s"#/declarations/$name/topic")
-      .withName("topic")
-      .withNodePropertyMapping(GooglePubSubChannelBindingModel.Topic.value.iri())
-      .withLiteralRange(xsdString.iri())
+      .withObjectRange(Seq(GooglePubSubSchemaSettingsObject.id))
   ) :+ bindingVersion
 }
 

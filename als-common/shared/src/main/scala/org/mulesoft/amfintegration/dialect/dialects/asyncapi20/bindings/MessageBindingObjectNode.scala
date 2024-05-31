@@ -3,15 +3,21 @@ package org.mulesoft.amfintegration.dialect.dialects.asyncapi20.bindings
 import amf.aml.client.scala.model.domain.PropertyMapping
 import amf.apicontract.internal.metamodel.domain.bindings.{
   Amqp091MessageBindingModel,
+  HttpMessageBinding020Model,
+  HttpMessageBinding030Model,
   HttpMessageBindingModel,
   KafkaMessageBinding010Model,
   KafkaMessageBinding030Model,
   KafkaMessageBindingModel,
   MessageBindingModel,
   MessageBindingsModel,
+  MqttMessageBinding010Model,
+  MqttMessageBinding020Model,
   MqttMessageBindingModel
 }
-import amf.core.client.scala.vocabulary.Namespace.XsdTypes.xsdString
+import amf.core.client.scala.vocabulary.Namespace.XsdTypes.{xsdInteger, xsdString}
+import org.mulesoft.amfintegration.dialect.dialects.asyncapi20.bindings.AmqpMessageBindingObjectNode.{location, name}
+import org.mulesoft.amfintegration.dialect.dialects.asyncapi20.schema.NodeShapeAsync2Node
 import org.mulesoft.amfintegration.dialect.dialects.oas.nodes.DialectNode
 
 object MessageBindingObjectNode extends BindingObjectNode {
@@ -29,7 +35,21 @@ object MessageBindingsObjectNode extends DialectNode {
   override def properties: Seq[PropertyMapping] = Nil
 }
 
-object HttpMessageBindingObjectNode extends DialectNode with BindingVersionPropertyMapping {
+object HttpMessageBinding20ObjectNode extends BaseHttpMessageBindingObjectNode {
+  override def nodeTypeMapping: String = HttpMessageBinding020Model.`type`.head.iri()
+
+}
+object HttpMessageBinding30ObjectNode extends BaseHttpMessageBindingObjectNode {
+  override def nodeTypeMapping: String = HttpMessageBinding030Model.`type`.head.iri()
+  override def properties: Seq[PropertyMapping] = super.properties ++ Seq(
+    PropertyMapping()
+      .withId(location + s"#/declarations/$name/statusCode")
+      .withName("statusCode")
+      .withNodePropertyMapping(HttpMessageBinding030Model.StatusCode.value.iri())
+      .withLiteralRange(xsdInteger.iri())
+  )
+}
+trait BaseHttpMessageBindingObjectNode extends DialectNode with BindingVersionPropertyMapping {
   override def name: String = "HttpMessageBindingObjectNode"
 
   override def nodeTypeMapping: String = HttpMessageBindingModel.`type`.head.iri()
@@ -101,7 +121,41 @@ object AmqpMessageBindingObjectNode extends DialectNode with BindingVersionPrope
   ) :+ bindingVersion
 }
 
-object MqttMessageBindingObjectNode extends DialectNode with BindingVersionPropertyMapping {
+object MqttMessageBinding10ObjectNode extends BaseMqttMessageBindingObjectNode {
+  override def nodeTypeMapping: String = MqttMessageBinding010Model.`type`.head.iri()
+}
+object MqttMessageBinding20ObjectNode extends BaseMqttMessageBindingObjectNode {
+  override def nodeTypeMapping: String = MqttMessageBinding020Model.`type`.head.iri()
+
+  override def properties: Seq[PropertyMapping] = super.properties ++ Seq(
+    PropertyMapping()
+      .withId(location + s"#/declarations/$name/payloadFormatIndicator")
+      .withName("payloadFormatIndicator")
+      .withNodePropertyMapping(MqttMessageBinding020Model.PayloadFormatIndicator.value.iri())
+      .withLiteralRange(xsdInteger.iri()),
+    PropertyMapping()
+      .withId(location + s"#/declarations/$name/correlationData")
+      .withName("correlationData")
+      .withNodePropertyMapping(MqttMessageBinding020Model.CorrelationData.value.iri())
+      .withObjectRange(Seq(NodeShapeAsync2Node.id)),
+    PropertyMapping()
+      .withId(location + s"#/declarations/$name/contentType")
+      .withName("contentType")
+      .withNodePropertyMapping(MqttMessageBinding020Model.ContentType.value.iri())
+      .withLiteralRange(xsdString.iri()),
+    PropertyMapping()
+      .withId(location + s"#/declarations/$name/responseTopic")
+      .withName("responseTopic")
+      .withNodePropertyMapping(MqttMessageBinding020Model.ResponseTopic.value.iri())
+      .withLiteralRange(xsdString.iri()),
+    PropertyMapping()
+      .withId(location + s"#/declarations/$name/responseTopicSchema")
+      .withName("responseTopicSchema")
+      .withNodePropertyMapping(MqttMessageBinding020Model.ResponseTopicSchema.value.iri())
+      .withObjectRange(Seq(NodeShapeAsync2Node.id))
+  )
+}
+trait BaseMqttMessageBindingObjectNode extends DialectNode with BindingVersionPropertyMapping {
   override def name: String = "MqttMessageBindingObjectNode"
 
   override def nodeTypeMapping: String = MqttMessageBindingModel.`type`.head.iri()

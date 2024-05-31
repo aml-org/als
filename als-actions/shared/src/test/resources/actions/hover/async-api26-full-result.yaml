@@ -460,13 +460,13 @@ hovers:
   (128,32):
     - "'exclusive' or 'nonexclusive'. Only applicable when destinationType is 'queue'."
   (129,23):
-    - The maximum amount of message spool that the given queue may use. Only applicable when destinationType is 'queue'.
+    - The maximum size of the message spool used by the queue.
   (129,35):
-    - The maximum amount of message spool that the given queue may use. Only applicable when destinationType is 'queue'.
+    - The maximum size of the message spool used by the queue.
   (130,19):
-    - The maximum TTL to apply to messages to be spooled. Only applicable when destinationType is 'queue'.
+    - The maximum time-to-live for messages in the queue.
   (130,26):
-    - The maximum TTL to apply to messages to be spooled. Only applicable when destinationType is 'queue'.
+    - The maximum time-to-live for messages in the queue.
   (131,25):
     - A list of topics that the queue subscribes to, only applicable when destinationType is 'queue'. If none is given, the queue subscribes to the topic as represented by the channel name.
   (131,35):
@@ -531,9 +531,9 @@ hovers:
   (151,23):
     - "The encoding of the message "
   (152,12):
-    - Name of the schema that messages published should be validated against
+    - Human readable name for the object
   (152,36):
-    - Name of the schema that messages published should be validated against
+    - Human readable name for the object
   (153,17):
     - The minimum (inclusive) revision allowed for validating messages
   (153,29):
@@ -634,9 +634,9 @@ hovers:
     - Define Schema
   (181,17): []
   (182,14):
-    - The name of the schema
+    - Human readable name for the object
   (182,39):
-    - The name of the schema
+    - Human readable name for the object
   (183,14):
     - The type of the schema
   (183,20):

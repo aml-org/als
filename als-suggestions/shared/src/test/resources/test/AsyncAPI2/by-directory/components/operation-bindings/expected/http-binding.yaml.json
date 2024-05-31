@@ -1,5 +1,41 @@
 [
   {
+    "label": "New query",
+    "kind": [
+      
+    ],
+    "detail": "template",
+    "documentation": "query",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "21New query",
+    "filterText": "query:\n  description: $1\n  type: $2",
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 6,
+          "character": 10
+        },
+        "end": {
+          "line": 6,
+          "character": 10
+        }
+      },
+      "newText": "query:\n  description: $1\n  type: $2"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
     "label": "bindingVersion",
     "kind": [
       
@@ -66,6 +102,42 @@
         }
       },
       "newText": "method: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "query",
+    "kind": [
+      
+    ],
+    "detail": "unknown",
+    "documentation": "query",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "11query",
+    "filterText": "query:\n  ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 6,
+          "character": 10
+        },
+        "end": {
+          "line": 6,
+          "character": 10
+        }
+      },
+      "newText": "query:\n  "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,

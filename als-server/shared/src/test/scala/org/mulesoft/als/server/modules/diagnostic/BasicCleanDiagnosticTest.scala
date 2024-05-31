@@ -1,5 +1,6 @@
 package org.mulesoft.als.server.modules.diagnostic
 
+import amf.core.client.common.validation.ProfileNames
 import org.mulesoft.als.server.client.scala.LanguageServerBuilder
 import org.mulesoft.als.server.modules.WorkspaceManagerFactoryBuilder
 import org.mulesoft.als.server.protocol.LanguageServer
@@ -21,6 +22,7 @@ class BasicCleanDiagnosticTest extends LanguageServerBaseTest {
         assert(d.size == 1)
         assert(d.head.diagnostics.size == 1)
         assert(d.head.diagnostics.head.message == "Property 'error' not supported in a ASYNC 2.6 webApi node")
+        assert(d.head.profile == ProfileNames.ASYNC26)
       }
     }
   }

@@ -126,8 +126,8 @@ channels:
               queue:
                 name: CreatedHREvents
                 accessType: exclusive
-                maxMsgSpoolSize: test
-                maxTtl: test
+                maxMsgSpoolSize: 1
+                maxTtl: 1
                 topicSubscriptions:
                   - person/*/created
             -

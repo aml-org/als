@@ -36,7 +36,7 @@ object ProfileMatcher {
       case Spec.ASYNC23    => ProfileNames.ASYNC20
       case Spec.ASYNC24    => ProfileNames.ASYNC20
       case Spec.ASYNC25    => ProfileNames.ASYNC20
-      case Spec.ASYNC26    => ProfileNames.ASYNC20
+      case Spec.ASYNC26    => ProfileNames.ASYNC26
       case Spec.AML        => ProfileNames.AML
       case Spec.GRAPHQL    => ProfileNames.GRPC
       case Spec.JSONSCHEMA => ProfileNames.JSONSCHEMA
