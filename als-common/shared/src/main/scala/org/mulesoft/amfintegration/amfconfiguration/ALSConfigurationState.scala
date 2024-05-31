@@ -73,9 +73,7 @@ case class ALSConfigurationState(
       case Spec.GRAPHQL      => Some(ConfigurationAdapter.adapt(GraphQLConfiguration.GraphQL()))
       case Spec.JSONSCHEMA   => Some(ConfigurationAdapter.adapt(JsonSchemaConfiguration.JsonSchema()))
       case _ if spec.isAsync => Some(AsyncAPIConfiguration.Async20())
-      case _ if spec.id.startsWith("ASYNC 2") =>
-        Some(AsyncAPIConfiguration.Async20()) // isAsync currently not working as it should
-      case _ => None
+      case _                 => None
     }
 
   def getAmfConfig(url: String): AMFConfiguration = {
@@ -219,11 +217,10 @@ case class ALSConfigurationState(
     def defaultDefinitionSearch =
       allDialects(configurationState).find(d => ProfileMatcher.spec(d).contains(bu.sourceSpec.getOrElse(Spec.AMF)))
 
-    def overridenSpecs: Option[Dialect] = {
-      if (bu.sourceSpec.exists(_.id.startsWith("ASYNC 2"))) // the `isAsync` method is not currently working properly
+    def overwrittenSpecs: Option[Dialect] =
+      if (bu.sourceSpec.exists(_.isAsync))
         allDialects(configurationState).find(d => ProfileMatcher.spec(d).contains(Spec.ASYNC20))
       else None
-    }
 
     bu match {
       case di: DialectInstanceUnit =>
@@ -240,7 +237,7 @@ case class ALSConfigurationState(
           .find(d => d.version().option().contains(jsonSchema.schemaVersion.value()))
           .orElse(defaultDefinitionSearch)
       case _ =>
-        defaultDefinitionSearch.orElse(overridenSpecs)
+        defaultDefinitionSearch.orElse(overwrittenSpecs)
     }
   }
 
