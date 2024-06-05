@@ -1,24 +1,10 @@
 package org.mulesoft.amfintegration.dialect.dialects.asyncapi26.bindings
 
 import amf.aml.client.scala.model.domain.PropertyMapping
-import amf.apicontract.internal.metamodel.domain.bindings.{
-  AnypointMQMessageBindingModel,
-  GooglePubSubMessageBinding010Model,
-  GooglePubSubMessageBinding020Model,
-  GooglePubSubMessageBindingModel,
-  GooglePubSubSchemaDefinition010Model,
-  GooglePubSubSchemaDefinition020Model,
-  GooglePubSubSchemaDefinitionModel,
-  IBMMQMessageBindingModel,
-  MessageBindingModel
-}
+import amf.apicontract.internal.metamodel.domain.bindings._
 import amf.core.client.scala.vocabulary.Namespace.XsdTypes.{xsdInteger, xsdString}
 import org.mulesoft.amfintegration.dialect.dialects.asyncapi20.bindings.BindingVersionPropertyMapping
 import org.mulesoft.amfintegration.dialect.dialects.asyncapi20.schema.BaseShapeAsync2Node
-import org.mulesoft.amfintegration.dialect.dialects.asyncapi26.bindings.GooglePubSubMessageBinding10Object.{
-  location,
-  name
-}
 import org.mulesoft.amfintegration.dialect.dialects.oas.nodes.DialectNode
 
 object MessageBinding26ObjectNode extends BindingObjectNode26 {
@@ -111,8 +97,8 @@ object GooglePubSubSchemaDefinition10Object extends BaseGooglePubSubSchemaDefini
   override def nodeTypeMapping: String = GooglePubSubSchemaDefinition010Model.`type`.head.iri()
   override def properties: Seq[PropertyMapping] = super.properties ++ Seq(
     PropertyMapping()
-      .withId(location + s"#/declarations/$name/fieldType")
-      .withName("fieldType")
+      .withId(location + s"#/declarations/$name/type")
+      .withName("type")
       .withNodePropertyMapping(GooglePubSubSchemaDefinition010Model.FieldType.value.iri())
       .withLiteralRange(xsdString.iri())
   )
