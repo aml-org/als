@@ -168,7 +168,7 @@ hovers:
   (46,8):
     - EndPoint in the API holding a number of executable operations
   (46,16):
-    - Action that can be executed using a particular HTTP invocation
+    - EndPoint in the API holding a number of executable operations
   (47,8):
     - Action that can be executed using a particular HTTP invocation
   (47,14):
@@ -259,7 +259,7 @@ hovers:
   (72,9):
     - EndPoint in the API holding a number of executable operations
   (72,17):
-    - Action that can be executed using a particular HTTP invocation
+    - EndPoint in the API holding a number of executable operations
   (73,8):
     - Bindings for this endpoint
   (73,13): []
@@ -349,7 +349,7 @@ hovers:
   (97,8):
     - EndPoint in the API holding a number of executable operations
   (97,16):
-    - Action that can be executed using a particular HTTP invocation
+    - EndPoint in the API holding a number of executable operations
   (98,8):
     - Bindings for this endpoint
   (98,13): []
@@ -426,7 +426,7 @@ hovers:
   (118,8):
     - EndPoint in the API holding a number of executable operations
   (118,16):
-    - Action that can be executed using a particular HTTP invocation
+    - EndPoint in the API holding a number of executable operations
   (119,7):
     - Action that can be executed using a particular HTTP invocation
   (119,12):
