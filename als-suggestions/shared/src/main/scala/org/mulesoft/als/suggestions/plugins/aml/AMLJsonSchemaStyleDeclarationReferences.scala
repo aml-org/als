@@ -2,9 +2,9 @@ package org.mulesoft.als.suggestions.plugins.aml
 
 import amf.aml.client.scala.model.document.Dialect
 import amf.aml.client.scala.model.domain.NodeMapping
-import amf.apicontract.internal.metamodel.domain.ResponseModel
 import amf.apicontract.internal.metamodel.domain.templates.{ResourceTypeModel, TraitModel}
-import amf.core.client.scala.model.domain.{AmfElement, AmfObject, DomainElement, Linkable}
+import amf.apicontract.internal.metamodel.domain.{MessageModel, RequestModel, ResponseModel}
+import amf.core.client.scala.model.domain.{AmfElement, AmfObject, Linkable}
 import amf.core.internal.annotations.ErrorDeclaration
 import amf.core.internal.metamodel.domain.templates.AbstractDeclarationModel
 import amf.core.internal.metamodel.domain.{DomainElementModel, ShapeModel}
@@ -136,4 +136,11 @@ object Async2AMLJsonSchemaStyleDeclarationReferences extends AbstractAMLJsonSche
     TraitModel.`type`.head.iri(),
     ResourceTypeModel.`type`.head.iri()
   )
+
+  // publish and subscribe are both messages (use components/messages)
+  override protected def getObjectRangeIds(params: AmlCompletionRequest): Seq[String] =
+    super.getObjectRangeIds(params).map {
+      case id if RequestModel.`type`.headOption.map(_.iri()).contains(id) => MessageModel.`type`.head.iri()
+      case id                                                             => id
+    }
 }

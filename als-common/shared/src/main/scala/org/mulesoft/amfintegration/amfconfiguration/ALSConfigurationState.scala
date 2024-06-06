@@ -58,16 +58,23 @@ case class ALSConfigurationState(
     }
 
   def configForSpec(spec: Spec): AMLSpecificConfiguration =
-    AMLSpecificConfiguration(getAmlConfig(spec match {
-      case Spec.RAML10     => projectState.customSetUp(RAMLConfiguration.RAML10())
-      case Spec.RAML08     => projectState.customSetUp(RAMLConfiguration.RAML08())
-      case Spec.OAS30      => projectState.customSetUp(OASConfiguration.OAS30())
-      case Spec.OAS20      => projectState.customSetUp(OASConfiguration.OAS20())
-      case Spec.ASYNC20    => projectState.customSetUp(AsyncAPIConfiguration.Async20())
-      case Spec.GRAPHQL    => projectState.customSetUp(ConfigurationAdapter.adapt(GraphQLConfiguration.GraphQL()))
-      case Spec.JSONSCHEMA => projectState.customSetUp(ConfigurationAdapter.adapt(JsonSchemaConfiguration.JsonSchema()))
-      case _               => predefinedWithDialects
-    }))
+    AMLSpecificConfiguration(
+      getAmlConfig(apiConfigurationForSpec(spec).map(projectState.customSetUp).getOrElse(predefinedWithDialects))
+    )
+
+  private def apiConfigurationForSpec(spec: Spec): Option[AMFConfiguration] =
+    spec match {
+      case Spec.RAML10       => Some(RAMLConfiguration.RAML10())
+      case Spec.RAML08       => Some(RAMLConfiguration.RAML08())
+      case Spec.OAS30        => Some(OASConfiguration.OAS30())
+      case Spec.OAS20        => Some(OASConfiguration.OAS20())
+      case Spec.ASYNC20      => Some(AsyncAPIConfiguration.Async20())
+      case Spec.ASYNC26      => Some(AsyncAPIConfiguration.Async20())
+      case Spec.GRAPHQL      => Some(ConfigurationAdapter.adapt(GraphQLConfiguration.GraphQL()))
+      case Spec.JSONSCHEMA   => Some(ConfigurationAdapter.adapt(JsonSchemaConfiguration.JsonSchema()))
+      case _ if spec.isAsync => Some(AsyncAPIConfiguration.Async20())
+      case _                 => None
+    }
 
   def getAmfConfig(url: String): AMFConfiguration = {
     val base =
@@ -83,7 +90,8 @@ case class ALSConfigurationState(
     val base = spec match {
       case GRAPHQL => GraphQLConfiguration.GraphQL()
       // case GRPC =>
-      case _ => APIConfiguration.fromSpec(spec)
+      case _ =>
+        APIConfiguration.fromSpec(spec)
     }
     getAmfConfig(base)
   }
@@ -209,11 +217,10 @@ case class ALSConfigurationState(
     def defaultDefinitionSearch =
       allDialects(configurationState).find(d => ProfileMatcher.spec(d).contains(bu.sourceSpec.getOrElse(Spec.AMF)))
 
-    def overridenSpecs: Option[Dialect] = {
-      if (bu.sourceSpec.exists(_.id.startsWith("ASYNC 2"))) // the `isAsync` method is not currently working properly
+    def overwrittenSpecs: Option[Dialect] =
+      if (bu.sourceSpec.exists(_.isAsync))
         allDialects(configurationState).find(d => ProfileMatcher.spec(d).contains(Spec.ASYNC20))
       else None
-    }
 
     bu match {
       case di: DialectInstanceUnit =>
@@ -230,7 +237,7 @@ case class ALSConfigurationState(
           .find(d => d.version().option().contains(jsonSchema.schemaVersion.value()))
           .orElse(defaultDefinitionSearch)
       case _ =>
-        defaultDefinitionSearch.orElse(overridenSpecs)
+        defaultDefinitionSearch.orElse(overwrittenSpecs)
     }
   }
 

@@ -1,19 +1,19 @@
 [
   {
-    "label": "attributes",
+    "label": "#/components/messages/test",
     "kind": [
       
     ],
     "detail": "unknown",
-    "documentation": "attributes",
+    "documentation": "Reference to #/components/messages/test",
     "deprecated": [
       
     ],
     "preselect": [
       
     ],
-    "sortText": "11attributes",
-    "filterText": "attributes: ",
+    "sortText": "11#/components/messages/test",
+    "filterText": "\"#/components/messages/test\"",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -21,35 +21,35 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 6,
-          "character": 10
+          "line": 5,
+          "character": 14
         },
         "end": {
-          "line": 6,
-          "character": 10
+          "line": 5,
+          "character": 14
         }
       },
-      "newText": "attributes: "
+      "newText": "\"#/components/messages/test\""
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
     "command": null
   },
   {
-    "label": "bindingVersion",
+    "label": "expected/",
     "kind": [
       
     ],
     "detail": "unknown",
-    "documentation": "bindingVersion",
+    "documentation": "Path suggestion",
     "deprecated": [
       
     ],
     "preselect": [
       
     ],
-    "sortText": "11bindingVersion",
-    "filterText": "bindingVersion: ",
+    "sortText": "11expected/",
+    "filterText": "expected/",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -57,35 +57,35 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 6,
-          "character": 10
+          "line": 5,
+          "character": 14
         },
         "end": {
-          "line": 6,
-          "character": 10
+          "line": 5,
+          "character": 14
         }
       },
-      "newText": "bindingVersion: "
+      "newText": "expected/"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
     "command": null
   },
   {
-    "label": "orderingKey",
+    "label": "message-id.yaml",
     "kind": [
       
     ],
     "detail": "unknown",
-    "documentation": "orderingKey",
+    "documentation": "Path suggestion",
     "deprecated": [
       
     ],
     "preselect": [
       
     ],
-    "sortText": "11orderingKey",
-    "filterText": "orderingKey: ",
+    "sortText": "11message-id.yaml",
+    "filterText": "message-id.yaml",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -93,35 +93,35 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 6,
-          "character": 10
+          "line": 5,
+          "character": 14
         },
         "end": {
-          "line": 6,
-          "character": 10
+          "line": 5,
+          "character": 14
         }
       },
-      "newText": "orderingKey: "
+      "newText": "message-id.yaml"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
     "command": null
   },
   {
-    "label": "schema",
+    "label": "message-ref-publish.yaml",
     "kind": [
       
     ],
     "detail": "unknown",
-    "documentation": "schema",
+    "documentation": "Path suggestion",
     "deprecated": [
       
     ],
     "preselect": [
       
     ],
-    "sortText": "11schema",
-    "filterText": "schema:\n  ",
+    "sortText": "11message-ref-publish.yaml",
+    "filterText": "message-ref-publish.yaml",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -129,35 +129,35 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 6,
-          "character": 10
+          "line": 5,
+          "character": 14
         },
         "end": {
-          "line": 6,
-          "character": 10
+          "line": 5,
+          "character": 14
         }
       },
-      "newText": "schema:\n  "
+      "newText": "message-ref-publish.yaml"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
     "command": null
   },
   {
-    "label": "schema",
+    "label": "message-root.yaml",
     "kind": [
       
     ],
     "detail": "unknown",
-    "documentation": "schema",
+    "documentation": "Path suggestion",
     "deprecated": [
       
     ],
     "preselect": [
       
     ],
-    "sortText": "11schema",
-    "filterText": "schema:\n  ",
+    "sortText": "11message-root.yaml",
+    "filterText": "message-root.yaml",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -165,15 +165,15 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 6,
-          "character": 10
+          "line": 5,
+          "character": 14
         },
         "end": {
-          "line": 6,
-          "character": 10
+          "line": 5,
+          "character": 14
         }
       },
-      "newText": "schema:\n  "
+      "newText": "message-root.yaml"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,

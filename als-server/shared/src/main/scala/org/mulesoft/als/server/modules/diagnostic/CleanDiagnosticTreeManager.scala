@@ -1,6 +1,7 @@
 package org.mulesoft.als.server.modules.diagnostic
 
-import amf.core.client.scala.AMFResult
+import amf.core.client.common.validation.{ProfileName, ProfileNames}
+import amf.core.client.scala.{AMFParseResult, AMFResult}
 import amf.core.client.scala.model.document.BaseUnit
 import amf.core.client.scala.validation.AMFValidationReport
 import org.mulesoft.als.common.URIImplicits._
@@ -11,7 +12,7 @@ import org.mulesoft.als.server.modules.CleanAmfProcess
 import org.mulesoft.als.server.modules.configuration.WorkspaceConfigurationProvider
 import org.mulesoft.als.server.modules.diagnostic.custom.CustomValidationManager
 import org.mulesoft.als.server.textsync.EnvironmentProvider
-import org.mulesoft.amfintegration.amfconfiguration.{ALSConfigurationState, AmfResult => AmfResultWrap}
+import org.mulesoft.amfintegration.amfconfiguration.{ALSConfigurationState, ProfileMatcher, AmfResult => AmfResultWrap}
 import org.mulesoft.common.collections._
 import org.mulesoft.lsp.ConfigType
 import org.mulesoft.lsp.feature.TelemeteredRequestHandler
@@ -80,7 +81,7 @@ class CleanDiagnosticTreeManager(
         .map(r => CleanValidationPartialResult(pr, r, resolutionResult))
       partialResult <- runCustomValidations(uri, report, alsConfigurationState)
     } yield {
-      val profile = partialResult.resolutionResult.profile
+      val profile = pr.result.baseUnit.sourceSpec.map(ProfileMatcher.profile).getOrElse(ProfileNames.AMF)
       val list    = partialResult.parseResult.tree
       val ge: Map[String, Seq[AlsValidationResult]] =
         partialResult.parseResult.groupedErrors.map(t => (t._1, t._2.map(new AlsValidationResult(_))))

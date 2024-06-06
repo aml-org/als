@@ -128,7 +128,7 @@ hovers:
   (38,8):
     - EndPoint in the API holding a number of executable operations
   (38,16):
-    - Action that can be executed using a particular HTTP invocation
+    - EndPoint in the API holding a number of executable operations
   (39,9):
     - Human readable description of an element
   (39,21):

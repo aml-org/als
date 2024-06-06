@@ -5,13 +5,18 @@ import amf.apicontract.internal.metamodel.domain.bindings.{
   Amqp091OperationBinding010Model,
   Amqp091OperationBinding030Model,
   Amqp091OperationBindingModel,
+  HttpOperationBinding010Model,
+  HttpOperationBinding020Model,
   HttpOperationBindingModel,
   KafkaOperationBindingModel,
+  MqttOperationBinding010Model,
+  MqttOperationBinding020Model,
   MqttOperationBindingModel,
   OperationBindingModel,
   OperationBindingsModel
 }
 import amf.core.client.scala.vocabulary.Namespace.XsdTypes.{xsdBoolean, xsdInteger, xsdString}
+import org.mulesoft.amfintegration.dialect.dialects.asyncapi20.schema.NodeShapeAsync2Node
 import org.mulesoft.amfintegration.dialect.dialects.oas.nodes.DialectNode
 
 object OperationBindingObjectNode extends BindingObjectNode {
@@ -29,24 +34,37 @@ object OperationBindingsObjectNode extends DialectNode {
   override def properties: Seq[PropertyMapping] = Nil
 }
 
-object HttpOperationBindingObjectNode extends DialectNode with BindingVersionPropertyMapping {
+object HttpOperationBinding10ObjectNode extends BaseHttpOperationBindingObjectNode {
+  override def nodeTypeMapping: String = HttpOperationBinding010Model.`type`.head.iri()
+  override def properties: Seq[PropertyMapping] = super.properties ++ Seq(
+    PropertyMapping()
+      .withId(location + s"#/declarations/$name/type")
+      .withName("type")
+      .withNodePropertyMapping(HttpOperationBinding010Model.OperationType.value.iri()) // todo: http node mappings?
+      .withLiteralRange(xsdString.iri())
+      .withEnum(Seq("request", "response"))
+  )
+}
+object HttpOperationBinding20ObjectNode extends BaseHttpOperationBindingObjectNode {
+  override def nodeTypeMapping: String = HttpOperationBinding020Model.`type`.head.iri()
+}
+trait BaseHttpOperationBindingObjectNode extends DialectNode with BindingVersionPropertyMapping {
   override def name: String = "HttpOperationBindingObjectNode"
 
   override def nodeTypeMapping: String = HttpOperationBindingModel.`type`.head.iri()
 
   override def properties: Seq[PropertyMapping] = Seq(
     PropertyMapping()
-      .withId(location + s"#/declarations/$name/type")
-      .withName("type")
-      .withNodePropertyMapping(HttpOperationBindingModel.OperationType.value.iri()) // todo: http node mappings?
-      .withLiteralRange(xsdString.iri())
-      .withEnum(Seq("request", "response")),
-    PropertyMapping()
       .withId(location + s"#/declarations/$name/method")
       .withName("method")
       .withNodePropertyMapping(HttpOperationBindingModel.Method.value.iri()) // todo: http node mappings?
       .withLiteralRange(xsdString.iri())
-      .withEnum(Seq("GET", "POST", "PUT", "PATCH", "DELETE", "HEAD", "OPTIONS", "CONNECT", "TRACE"))
+      .withEnum(Seq("GET", "POST", "PUT", "PATCH", "DELETE", "HEAD", "OPTIONS", "CONNECT", "TRACE")),
+    PropertyMapping()
+      .withId(location + s"#/declarations/$name/query")
+      .withName("query")
+      .withNodePropertyMapping(HttpOperationBindingModel.Query.value.iri()) // todo: http node mappings?
+      .withObjectRange(Seq(NodeShapeAsync2Node.id))
   ) :+ bindingVersion
 }
 
@@ -152,7 +170,27 @@ object Amqp091OperationBinding030ObjectNode extends AmqpOperationBindingObjectNo
   )
 }
 
-object MqttOperationBindingObjectNode extends DialectNode with BindingVersionPropertyMapping {
+object MqttOperationBinding10ObjectNode extends BaseMqttOperationBindingObjectNode {
+  override def nodeTypeMapping: String = MqttOperationBinding010Model.`type`.head.iri()
+}
+
+object MqttOperationBinding20ObjectNode extends BaseMqttOperationBindingObjectNode {
+  override def nodeTypeMapping: String = MqttOperationBinding020Model.`type`.head.iri()
+  override def properties: Seq[PropertyMapping] = Seq(
+    PropertyMapping()
+      .withId(location + s"#/declarations/$name/messageExpiryInterval")
+      .withName("messageExpiryInterval")
+      .withNodePropertyMapping(MqttOperationBinding020Model.MessageExpiryInterval.value.iri())
+      .withLiteralRange(xsdInteger.iri()),
+    PropertyMapping()
+      .withId(location + s"#/declarations/$name/messageExpiryIntervalSchema")
+      .withName("messageExpiryIntervalSchema")
+      .withNodePropertyMapping(MqttOperationBinding020Model.MessageExpiryIntervalSchema.value.iri())
+      .withObjectRange(Seq(NodeShapeAsync2Node.id))
+  )
+}
+
+trait BaseMqttOperationBindingObjectNode extends DialectNode with BindingVersionPropertyMapping {
   override def name: String = "MqttOperationBindingObjectNode"
 
   override def nodeTypeMapping: String = MqttOperationBindingModel.`type`.head.iri()

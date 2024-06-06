@@ -2,12 +2,15 @@ package org.mulesoft.amfintegration.dialect.dialects.asyncapi20.bindings
 import amf.aml.client.scala.model.domain.PropertyMapping
 import amf.apicontract.internal.metamodel.domain.bindings.{
   KafkaServerBindingModel,
+  MqttServerBinding010Model,
+  MqttServerBinding020Model,
   MqttServerBindingModel,
   MqttServerLastWillModel,
   ServerBindingModel,
   ServerBindingsModel
 }
 import amf.core.client.scala.vocabulary.Namespace.XsdTypes.{xsdBoolean, xsdInteger, xsdString}
+import org.mulesoft.amfintegration.dialect.dialects.asyncapi20.schema.NodeShapeAsync2Node
 import org.mulesoft.amfintegration.dialect.dialects.oas.nodes.DialectNode
 
 object ServerBindingObjectNode extends BindingObjectNode {
@@ -23,8 +26,38 @@ object ServerBindingsObjectNode extends DialectNode {
 
   override def properties: Seq[PropertyMapping] = Nil
 }
+object MqttServerBinding10ObjectNode extends BaseMqttServerBindingObjectNode {
+  override def nodeTypeMapping: String = MqttServerBinding010Model.`type`.head.iri()
 
-object MqttServerBindingObjectNode extends DialectNode with BindingVersionPropertyMapping {
+}
+object MqttServerBinding20ObjectNode extends BaseMqttServerBindingObjectNode {
+  override def nodeTypeMapping: String = MqttServerBinding020Model.`type`.head.iri()
+
+  override def properties: Seq[PropertyMapping] = super.properties ++ Seq(
+    PropertyMapping()
+      .withId(location + s"#/declarations/$name/sessionExpiryInterval")
+      .withName("sessionExpiryInterval")
+      .withNodePropertyMapping(MqttServerBinding020Model.SessionExpiryInterval.value.iri())
+      .withLiteralRange(xsdInteger.iri()),
+    PropertyMapping()
+      .withId(location + s"#/declarations/$name/sessionExpiryIntervalSchema")
+      .withName("sessionExpiryIntervalSchema")
+      .withNodePropertyMapping(MqttServerBinding020Model.SessionExpiryIntervalSchema.value.iri())
+      .withObjectRange(Seq(NodeShapeAsync2Node.id)),
+    PropertyMapping()
+      .withId(location + s"#/declarations/$name/maximumPacketSize")
+      .withName("maximumPacketSize")
+      .withNodePropertyMapping(MqttServerBinding020Model.MaximumPacketSize.value.iri())
+      .withLiteralRange(xsdInteger.iri()),
+    PropertyMapping()
+      .withId(location + s"#/declarations/$name/maximumPacketSizeSchema")
+      .withName("maximumPacketSizeSchema")
+      .withNodePropertyMapping(MqttServerBinding020Model.MaximumPacketSizeSchema.value.iri())
+      .withObjectRange(Seq(NodeShapeAsync2Node.id))
+  )
+
+}
+trait BaseMqttServerBindingObjectNode extends DialectNode with BindingVersionPropertyMapping {
   override def name: String = "MqttServerBindingObjectNode"
 
   override def nodeTypeMapping: String = MqttServerBindingModel.`type`.head.iri()

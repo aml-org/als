@@ -1,19 +1,19 @@
 [
   {
-    "label": "myServer",
+    "label": "destinations",
     "kind": [
       
     ],
-    "detail": "Servers",
-    "documentation": "myServer",
+    "detail": "unknown",
+    "documentation": "destinations",
     "deprecated": [
       
     ],
     "preselect": [
       
     ],
-    "sortText": "11myServer",
-    "filterText": "myServer",
+    "sortText": "11destinations",
+    "filterText": "destinations:\n  - ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -21,15 +21,15 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 19,
-          "character": 8
+          "line": 7,
+          "character": 10
         },
         "end": {
-          "line": 19,
-          "character": 8
+          "line": 7,
+          "character": 10
         }
       },
-      "newText": "myServer"
+      "newText": "destinations:\n  - "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,

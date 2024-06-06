@@ -1,19 +1,19 @@
 [
   {
-    "label": "fieldType",
+    "label": "bindingVersion",
     "kind": [
       
     ],
     "detail": "unknown",
-    "documentation": "fieldType",
+    "documentation": "bindingVersion",
     "deprecated": [
       
     ],
     "preselect": [
       
     ],
-    "sortText": "11fieldType",
-    "filterText": "fieldType: ",
+    "sortText": "11bindingVersion",
+    "filterText": "bindingVersion: ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -29,7 +29,7 @@
           "character": 12
         }
       },
-      "newText": "fieldType: "
+      "newText": "bindingVersion: "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -66,6 +66,42 @@
         }
       },
       "newText": "name: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "type",
+    "kind": [
+      
+    ],
+    "detail": "schemas",
+    "documentation": "type",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "11type",
+    "filterText": "type: ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 7,
+          "character": 12
+        },
+        "end": {
+          "line": 7,
+          "character": 12
+        }
+      },
+      "newText": "type: "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,

@@ -6,8 +6,8 @@ import amf.core.client.scala.vocabulary.Namespace.XsdTypes.xsdString
 import org.mulesoft.amfintegration.dialect.dialects.asyncapi20.ConcreteMessageObjectNode
 import org.mulesoft.amfintegration.dialect.dialects.asyncapi26.RequestMessage26ObjectNode.location
 
-trait Async21MessageMappings extends Async21ExampleMessageMappings {
-  override protected def mappingsMessages21: Seq[PropertyMapping] = super.mappingsMessages21 ++ Seq(
+trait Async21MessageMappings {
+  protected def mappingsMessages21: Seq[PropertyMapping] = Seq(
     PropertyMapping()
       .withId(location + "#/declarations/Message/messageId")
       .withName("messageId")
