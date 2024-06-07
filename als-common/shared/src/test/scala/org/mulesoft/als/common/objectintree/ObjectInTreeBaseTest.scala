@@ -27,8 +27,11 @@ case class ObjectInTreeBaseTest(instanceFile: String, dialectFile: String) exten
 
   private val eventualResult: Future[AmfParseResult] = {
     for {
-      s      <- global.getState
-      result <- ALSConfigurationState(s, EmptyProjectConfigurationState, None).parse(uriTemplate(instanceFile))
+      s <- global.getState
+      result <- ALSConfigurationState(s, EmptyProjectConfigurationState, None).parse(
+        uriTemplate(instanceFile),
+        asMain = true
+      )
     } yield result
   }
   private def fn(pos: AmfPosition, result: AmfParseResult, dialect: Dialect): ObjectInTree =

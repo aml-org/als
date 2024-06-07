@@ -98,11 +98,14 @@ class Suggestions(
     }
   }
 
-  private def isHeader(position: Int, originalContent: String): Boolean =
-    !originalContent
-      .substring(0, position)
-      .replaceAll("^\\{?\\s+", "")
-      .contains('\n')
+  private def isHeader(position: Int, originalContent: String): Boolean = {
+    if (originalContent.length < position) false
+    else
+      !originalContent
+        .substring(0, position)
+        .replaceAll("^\\{?\\s+", "")
+        .contains('\n')
+  }
 
   private def buildCompletionProviderAST(
       bu: BaseUnit,

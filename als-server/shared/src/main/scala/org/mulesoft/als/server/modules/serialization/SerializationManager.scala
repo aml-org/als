@@ -69,7 +69,7 @@ class SerializationManager[S](
         for {
           state                             <- wcm.getConfigurationState(uri)
           (_, resolved, configurationState) <- parseAndResolve(refinedUri, state)
-        } yield serialize(resolved.baseUnit, configurationState.getAmfConfig, sourcemaps)
+        } yield serialize(resolved.baseUnit, configurationState.getAmfConfig(false), sourcemaps)
       case _ =>
         Future.failed(new RuntimeException("no workspaceConfigurationManager set"))
     }

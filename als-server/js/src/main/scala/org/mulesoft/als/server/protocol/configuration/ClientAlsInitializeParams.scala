@@ -22,6 +22,7 @@ trait ClientAlsInitializeParams extends js.Object {
   def workspaceFolders: js.Array[ClientWorkspaceFolder] = js.native // Nullable
   def hotReload: UndefOr[Boolean]                       = js.native
   def maxFileSize: UndefOr[Int]                         = js.native
+  def shouldRetryExternalFragments: UndefOr[Boolean]    = js.native
 }
 
 object ClientAlsInitializeParams {
@@ -39,7 +40,8 @@ object ClientAlsInitializeParams {
         rootPath = internal.rootPath.orUndefined,
         initializationOptions = internal.initializationOptions.collect { case js: js.Object => js }.orUndefined,
         hotReload = internal.hotReload.orUndefined,
-        maxFileSize = internal.maxFileSize.orUndefined
+        maxFileSize = internal.maxFileSize.orUndefined,
+        shouldRetryExternalFragments = internal.shouldRetryExternalFragments.orUndefined
       )
       .asInstanceOf[ClientAlsInitializeParams]
   }

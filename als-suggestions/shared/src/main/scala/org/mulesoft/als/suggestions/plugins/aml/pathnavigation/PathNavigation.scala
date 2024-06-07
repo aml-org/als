@@ -69,7 +69,7 @@ private[pathnavigation] case class PathNavigation(
               .parse(
                 c.stream,
                 mime.get,
-                ParserContext(config = ParseConfig(alsConfiguration.getAmfConfig, DefaultErrorHandler()))
+                ParserContext(config = ParseConfig(alsConfiguration.getAmfConfig(false), DefaultErrorHandler()))
               ) match {
               case SyamlParsedDocument(document, _) => Some(document.node)
               case _                                => None

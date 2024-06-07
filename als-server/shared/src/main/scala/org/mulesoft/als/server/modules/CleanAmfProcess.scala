@@ -17,7 +17,7 @@ trait CleanAmfProcess {
       alsConfigurationState: ALSConfigurationState
   ): Future[(AmfResultWrap, AMFResult, ALSConfigurationState)] =
     for {
-      pr <- AMLSpecificConfiguration(alsConfigurationState.getAmfConfig(refinedUri))
+      pr <- AMLSpecificConfiguration(alsConfigurationState.getAmfConfig(refinedUri, asMain = true))
         .parse(refinedUri)
         .map(new AmfResultWrap(_))
       helper <- Future(alsConfigurationState.configForUnit(pr.result.baseUnit))

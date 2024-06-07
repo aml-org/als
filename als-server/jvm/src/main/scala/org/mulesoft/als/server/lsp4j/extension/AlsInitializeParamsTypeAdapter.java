@@ -95,6 +95,9 @@ public class AlsInitializeParamsTypeAdapter extends InitializeParamsTypeAdapter 
                 case "hotReload":
                     result.setHotReload(readHotReload(in));
                     break;
+                case "shouldRetryExternalFragments":
+                    result.setShouldRetryExternalFragments(readShouldRetryExternalFragments(in));
+                    break;
                 case "maxFileSize":
                     result.setMaxFileSize(readMaxFileSize(in));
                     break;
@@ -107,6 +110,9 @@ public class AlsInitializeParamsTypeAdapter extends InitializeParamsTypeAdapter 
     }
 
     private Boolean readHotReload(JsonReader in) {
+        return gson.fromJson(in, Boolean.class);
+    }
+    private Boolean readShouldRetryExternalFragments(JsonReader in) {
         return gson.fromJson(in, Boolean.class);
     }
 

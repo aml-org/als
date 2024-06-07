@@ -52,10 +52,10 @@ class WorkspaceParserRepository() extends Repository[ParsedUnit] {
     emptyFileTree
   }
 
-  def newTree(result: AmfParseResult): Future[MainFileTree] = synchronized {
+  def newTree(result: AmfParseResult, refs: Seq[BaseUnit]): Future[MainFileTree] = synchronized {
     cleanTree()
     MainFileTreeBuilder
-      .build(result, visitors(result.result.baseUnit))
+      .build(result, visitors(result.result.baseUnit), refs)
       .map { nt =>
         tree = nt
         nt.parsedUnits.keys.foreach { removeUnit }

@@ -6,4 +6,5 @@ trait ConfigurationProvider {
   def getConfiguration: AlsConfigurationReader
   def getHotReloadDialects: Boolean
   def getMaxFileSize: Option[Int]
+  def getShouldRetryExternalFragments: Boolean
 }
