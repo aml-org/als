@@ -345,12 +345,21 @@ class WorkspaceContentManager private (
   }
 
   private def getTweakedRefs(baseUnit: BaseUnit): Future[Seq[BaseUnit]] =
-    Future.sequence(baseUnit.flatRefs.map {
-      case bu @ (_: ExternalFragment | _: DataTypeFragment) if shouldRetryExternalFragments =>
-        innerParse(bu.identifier, asMain = false)
-          .map(r => r.result.baseUnit)
-      case bu => Future.successful(bu)
-    })
+    Logger.timeProcess(
+      "AMF Parse - External Fragments",
+      MessageTypes.BEGIN_PARSE_EXTERNAL,
+      MessageTypes.END_PARSE_EXTERNAL,
+      "WorkspaceContentManager : getTweakedRefs",
+      folderUri,
+      () =>
+        Future.sequence(baseUnit.flatRefs.map {
+          case bu @ (_: ExternalFragment | _: DataTypeFragment) if shouldRetryExternalFragments =>
+            innerParse(bu.identifier, asMain = false)
+              .map(r => r.result.baseUnit)
+          case bu => Future.successful(bu)
+        }),
+      UUID.randomUUID().toString
+    )
 
   private def parse(uri: String, asMain: Boolean, uuid: String): Future[AmfParseResult] = {
     Logger.timeProcess(
