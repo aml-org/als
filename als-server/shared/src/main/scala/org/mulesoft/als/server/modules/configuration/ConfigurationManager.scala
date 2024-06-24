@@ -35,6 +35,14 @@ class ConfigurationManager
     */
   def setHotReloadDialects(p: Boolean): Unit = hotReloadDialects = p
 
+  private var shouldRetryExternalFragments: Boolean = false
+
+  override def getShouldRetryExternalFragments: Boolean = shouldRetryExternalFragments
+
+  /** Should only be called from initialization
+    */
+  def setShouldRetryExternalFragments(p: Boolean): Unit = shouldRetryExternalFragments = p
+
   private var maxFileSize: Option[Int] = None
 
   override def getMaxFileSize: Option[Int] = maxFileSize
@@ -58,4 +66,5 @@ class ConfigurationManager
   }
 
   override def initialize(): Future[Unit] = { Future.successful() }
+
 }

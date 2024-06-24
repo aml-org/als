@@ -156,10 +156,11 @@ class DefaultProjectConfigurationProviderTest extends LanguageServerBaseTest {
       )
       p1           <- provider.getProjectInfo(ws1).getOrElse(Future(EmptyProjectConfigurationState))
       editorConfig <- EditorConfiguration().getState
-      parseResult  <- ALSConfigurationState(editorConfig, p1, None).parse(api)
+      parseResult  <- ALSConfigurationState(editorConfig, p1, None).parse(api, asMain = true)
       tree <- MainFileTreeBuilder.build(
         parseResult,
-        new AmfElementVisitors(Seq.empty)
+        new AmfElementVisitors(Seq.empty),
+        parseResult.result.baseUnit.flatRefs
       )
       _ <- provider.afterNewTree(ws1, tree)
       c2 <- provider.newProjectConfiguration(

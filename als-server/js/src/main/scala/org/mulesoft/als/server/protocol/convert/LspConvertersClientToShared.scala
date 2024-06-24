@@ -119,7 +119,8 @@ object LspConvertersClientToShared {
         initializationOptions = v.initializationOptions.toOption,
         configuration = v.configuration.toOption.map(_.toShared),
         hotReload = v.hotReload.toOption,
-        maxFileSize = v.maxFileSize.toOption
+        maxFileSize = v.maxFileSize.toOption,
+        shouldRetryExternalFragments = v.shouldRetryExternalFragments.toOption
       )
   }
 

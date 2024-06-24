@@ -51,8 +51,11 @@ class DeclarationCreatorTests extends AsyncFlatSpec with DeclarationCreator {
 
   private def baseUnit(file: String): Future[BaseUnit] =
     for {
-      state  <- EditorConfiguration().getState
-      result <- ALSConfigurationState(state, EmptyProjectConfigurationState, None).parse(uriTemplate(file))
+      state <- EditorConfiguration().getState
+      result <- ALSConfigurationState(state, EmptyProjectConfigurationState, None).parse(
+        uriTemplate(file),
+        asMain = true
+      )
     } yield {
       result.result.baseUnit
     }

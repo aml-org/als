@@ -70,7 +70,7 @@ trait OutlineTest[T] extends AsyncFunSuite with FileAssertionTest with PlatformS
 
         //        val fileContentsStr = content.stream.toString
         //        configuration.withResourceLoader(loader(url, fileContentsStr))
-        configuration.parse(url).map(cu => (cu.result.baseUnit, cu.definedBy))
+        configuration.parse(url, asMain = true).map(cu => (cu.result.baseUnit, cu.definedBy))
       })
       .map {
         case (amfUnit, d) =>

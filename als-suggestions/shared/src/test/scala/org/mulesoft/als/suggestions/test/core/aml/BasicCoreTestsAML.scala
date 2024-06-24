@@ -55,7 +55,7 @@ class BasicCoreTestsAML extends CoreTest with DummyPlugins {
     for {
       editorConfigState <- editorConfiguration.getState
       alsConfiguration  <- Future(ALSConfigurationState(editorConfigState, EmptyProjectConfigurationState, None))
-      dialect           <- alsConfiguration.getAmfConfig.baseUnitClient().parseDialect(p)
+      dialect           <- alsConfiguration.getAmfConfig(false).baseUnitClient().parseDialect(p)
       result <- {
         val url = filePath("visit01.yaml")
         for {

@@ -57,6 +57,9 @@ object ProfileMatcher {
     DialectWithVendor(MetaDialect(), Spec.AML)
   )
 
+  def dialect(spec: Spec): Option[Dialect] =
+    webApiDialects.find(_.spec == spec).map(_.dialect)
+
   def spec(dialect: Dialect): Option[Spec] =
     webApiDialects.find(_.dialect == dialect).map(_.spec)
 }

@@ -52,7 +52,8 @@ class AlsInitializeParams private (
     val initializationOptions: Option[Any] = None,
     val configuration: Option[AlsConfiguration] = None,
     val hotReload: Option[Boolean] = None,
-    val maxFileSize: Option[Int] = None
+    val maxFileSize: Option[Int] = None,
+    val shouldRetryExternalFragments: Option[Boolean] = None
 )
 
 object AlsInitializeParams {
@@ -68,7 +69,8 @@ object AlsInitializeParams {
       initializationOptions: Option[Any] = None,
       configuration: Option[AlsConfiguration] = None,
       hotReload: Option[Boolean] = None,
-      maxFileSize: Option[Int] = None
+      maxFileSize: Option[Int] = None,
+      shouldRetryExternalFragments: Option[Boolean] = None
   ): AlsInitializeParams =
     new AlsInitializeParams(
       capabilities.getOrElse(AlsClientCapabilities()),
@@ -81,7 +83,8 @@ object AlsInitializeParams {
       initializationOptions,
       configuration,
       hotReload,
-      maxFileSize
+      maxFileSize,
+      shouldRetryExternalFragments
     )
 
   def default: AlsInitializeParams = apply(None, Some(TraceKind.Off))
