@@ -1,9 +1,10 @@
 package org.mulesoft.als.server.modules.workspace
 
 import amf.aml.client.scala.model.document.{Dialect, DialectInstance}
-import amf.core.client.scala.model.document.ExternalFragment
+import amf.core.client.scala.model.document.{BaseUnit, ExternalFragment}
 import amf.core.internal.remote.Platform
 import amf.core.internal.unsafe.PlatformSecrets
+import amf.shapes.client.scala.model.document.DataTypeFragment
 import org.mulesoft.als.common.URIImplicits._
 import org.mulesoft.als.configuration.ProjectConfiguration
 import org.mulesoft.als.logger.Logger
@@ -28,7 +29,8 @@ class WorkspaceContentManager private (
     val projectConfigAdapter: ProjectConfigurationAdapter,
     hotReload: Boolean,
     maxFileSize: Option[Int],
-    switchWorkspace: String => Unit
+    switchWorkspace: String => Unit,
+    shouldRetryExternalFragments: Boolean
 ) extends UnitTaskManager[ParsedUnit, CompilableUnit, NotificationKind]
     with WorkspaceFolderManager
     with PlatformSecrets {
@@ -175,14 +177,14 @@ class WorkspaceContentManager private (
   }
 
   private def processIsolated(file: String, uuid: String): Future[Unit] =
-    parse(file, uuid)
+    parse(file, asMain = false, uuid)
       .flatMap { result =>
         updateUnit(uuid, result, isDependency = false)
       }
 
   private def updateUnit(uuid: String, result: AmfParseResult, isDependency: Boolean): Future[Unit] = {
     repository.updateUnit(result)
-    projectConfigAdapter.getConfigurationState.map(state => {
+    projectConfigAdapter.getConfigurationState.map(_ => {
       Logger.debug(s"Sending new AST from $folderUri", "WorkspaceContentManager", "processIsolated")
       baseUnitSubscribers.foreach(s =>
         try {
@@ -324,9 +326,11 @@ class WorkspaceContentManager private (
         s"${if (folderUri != "" && !mainFile.contains(folderUri))
             trailSlash(folderUri)
           else folderUri}$mainFile",
+        asMain = true,
         uuid
       )
-      _ <- repository.newTree(u).flatMap(t => projectConfigAdapter.newTree(t))
+      refs <- getTweakedRefs(u.result.baseUnit)
+      _    <- repository.newTree(u, refs).flatMap(t => projectConfigAdapter.newTree(t))
     } yield {
       stagingArea.enqueue(snapshot.files.filterNot(_._2 == CHANGE_CONFIG).filter(t => !isInMainTree(t._1)))
       baseUnitSubscribers.foreach(s => {
@@ -340,24 +344,41 @@ class WorkspaceContentManager private (
     }
   }
 
-  private def parse(uri: String, uuid: String): Future[AmfParseResult] = {
+  private def getTweakedRefs(baseUnit: BaseUnit): Future[Seq[BaseUnit]] =
+    Logger.timeProcess(
+      "AMF Parse - External Fragments",
+      MessageTypes.BEGIN_PARSE_EXTERNAL,
+      MessageTypes.END_PARSE_EXTERNAL,
+      "WorkspaceContentManager : getTweakedRefs",
+      folderUri,
+      () =>
+        Future.sequence(baseUnit.flatRefs.map {
+          case bu @ (_: ExternalFragment | _: DataTypeFragment) if shouldRetryExternalFragments =>
+            innerParse(bu.identifier, asMain = false)
+              .map(r => r.result.baseUnit)
+          case bu => Future.successful(bu)
+        }),
+      UUID.randomUUID().toString
+    )
+
+  private def parse(uri: String, asMain: Boolean, uuid: String): Future[AmfParseResult] = {
     Logger.timeProcess(
       "AMF Parse",
       MessageTypes.BEGIN_PARSE,
       MessageTypes.END_PARSE,
       "WorkspaceContentManager : parse",
       uri,
-      innerParse(uri),
+      innerParse(uri, asMain),
       uuid
     )
   }
 
-  private def innerParse(uri: String)(): Future[AmfParseResult] = {
+  private def innerParse(uri: String, asMain: Boolean)(): Future[AmfParseResult] = {
     val decodedUri = uri.toAmfDecodedUri
     Logger.debug(s"Sent uri: $decodedUri", "WorkspaceContentManager", "innerParse")
     (for {
       state <- projectConfigAdapter.getConfigurationState
-      r     <- state.parse(decodedUri, maxFileSize)
+      r     <- state.parse(decodedUri, asMain, maxFileSize)
       newConfig <- projectConfigAdapter.getProjectConfiguration.map(config => {
         new ProjectConfiguration(
           config.folder,
@@ -403,6 +424,7 @@ class WorkspaceContentManager private (
   override protected def disableTasks(): Future[Unit] = Future {
     baseUnitSubscribers.map(d => repository.getAllFilesUris.map(_.toAmfUri).foreach(d.onRemoveFile))
   }
+
 }
 
 object WorkspaceContentManager {
@@ -413,7 +435,8 @@ object WorkspaceContentManager {
       projectConfigAdapter: ProjectConfigurationAdapter,
       switchWorkspace: String => Unit,
       hotReload: Boolean = false,
-      maxFileSize: Option[Int] = None
+      maxFileSize: Option[Int] = None,
+      shouldRetryExternalFragments: Boolean = false
   ): Future[WorkspaceContentManager] = {
     val repository = new WorkspaceParserRepository()
     val wcm = new WorkspaceContentManager(
@@ -424,7 +447,8 @@ object WorkspaceContentManager {
       projectConfigAdapter.withRepository(repository),
       hotReload,
       maxFileSize,
-      switchWorkspace
+      switchWorkspace,
+      shouldRetryExternalFragments
     )
     wcm.init()
     Future.successful(wcm)

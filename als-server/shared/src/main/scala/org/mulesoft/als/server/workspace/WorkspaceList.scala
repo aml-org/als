@@ -46,7 +46,8 @@ class WorkspaceList(
       buildConfigurationAdapter("", IgnoreProjectConfigurationAdapter),
       switchWorkspace,
       configurationProvider.getHotReloadDialects,
-      configurationProvider.getMaxFileSize
+      configurationProvider.getMaxFileSize,
+      configurationProvider.getShouldRetryExternalFragments
     )
   }
 
@@ -97,7 +98,8 @@ class WorkspaceList(
         buildConfigurationAdapter(uri, projectConfigurationProvider),
         switchWorkspace,
         configurationProvider.getHotReloadDialects,
-        configurationProvider.getMaxFileSize
+        configurationProvider.getMaxFileSize,
+        configurationProvider.getShouldRetryExternalFragments
       )
       _ <- Future.sequence(applicableFiles.map(wcm.stage(_, OPEN_FILE)))
     } yield {

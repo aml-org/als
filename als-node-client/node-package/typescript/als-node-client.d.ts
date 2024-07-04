@@ -6596,6 +6596,7 @@ declare module '@aml-org/als-node-client' {
     configuration?: AlsConfiguration
     hotReload?: boolean
     maxFileSize?: number
+    shouldRetryExternalFragments?: boolean
   }
 
   export type DidFocusParams = {

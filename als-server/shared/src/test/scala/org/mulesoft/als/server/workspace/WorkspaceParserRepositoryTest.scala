@@ -4,6 +4,7 @@ import amf.core.client.scala.AMFResult
 import amf.core.client.scala.model.document.BaseUnit
 import amf.core.internal.unsafe.PlatformSecrets
 import org.mulesoft.als.server.modules.workspace.{ParsedUnit, WorkspaceParserRepository}
+import org.mulesoft.amfintegration.AmfImplicits.BaseUnitImp
 import org.mulesoft.amfintegration.amfconfiguration.{
   ALSConfigurationState,
   AmfParseResult,
@@ -138,7 +139,7 @@ class WorkspaceParserRepositoryTest extends AsyncFunSuite with Matchers with Pla
       }
       r <- Future
         .sequence(files.map(f => {
-          aLSConfigurationState.parse(f.uri).map(bu => repository.updateUnit(bu))
+          aLSConfigurationState.parse(f.uri, asMain = true).map(bu => repository.updateUnit(bu))
         }))
         .map(_ => repository)
     } yield r
@@ -155,8 +156,8 @@ class WorkspaceParserRepositoryTest extends AsyncFunSuite with Matchers with Pla
       globalConfiguration <- configWithRL(files)
       repository          <- Future { new WorkspaceParserRepository() }
       _ <- globalConfiguration
-        .parse(mainFile.uri)
-        .flatMap(bu => repository.newTree(bu))
+        .parse(mainFile.uri, asMain = true)
+        .flatMap(bu => repository.newTree(bu, bu.result.baseUnit.flatRefs))
     } yield repository
 
   }

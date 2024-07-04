@@ -16,7 +16,7 @@ import scala.concurrent.Future
 
 trait ProjectConfigurationState {
 
-  def customSetUp(amfConfiguration: AMFConfiguration): AMFConfiguration = amfConfiguration
+  def customSetUp(amfConfiguration: AMFConfiguration, asMain: Boolean): AMFConfiguration = amfConfiguration
   def cache: UnitCache
   def getCompanionForDialect(d: Dialect): Future[Option[Module]] =
     Future
@@ -30,9 +30,8 @@ trait ProjectConfigurationState {
       )
       .map(r => r.flatten.find(_._2).map(_._1))
 
-  def getProjectConfig: AMFConfiguration = {
+  def getProjectConfig(asMain: Boolean): AMFConfiguration =
     GraphQLConfiguration.GraphQL()
-  }
 
   val extensions: Seq[Dialect]
   val profiles: Seq[ValidationProfile]
@@ -40,7 +39,7 @@ trait ProjectConfigurationState {
   val results: Seq[AMFParseResult]
   val resourceLoaders: Seq[ResourceLoader]
   val projectErrors: Seq[AMFValidationResult]
-  val rootProjectConfiguration: AMFConfiguration = APIConfiguration.APIWithJsonSchema()
+  def rootProjectConfiguration(asMain: Boolean): AMFConfiguration = APIConfiguration.APIWithJsonSchema()
 }
 
 case class EmptyProjectConfigurationState(folder: String) extends ProjectConfigurationState() {

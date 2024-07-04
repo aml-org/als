@@ -10,6 +10,8 @@ object MessageTypes extends Enumeration {
   type MessageTypes = String
   val BEGIN_PARSE                               = "BEGIN_PARSE"
   val END_PARSE                                 = "END_PARSE"
+  val BEGIN_PARSE_EXTERNAL                      = "BEGIN_PARSE_EXTERNAL"
+  val END_PARSE_EXTERNAL                        = "END_PARSE_EXTERNAL"
   val BEGIN_PARSE_PATCHED                       = "BEGIN_PARSE_PATCHED"
   val END_PARSE_PATCHED                         = "END_PARSE_PATCHED"
   val BEGIN_REPORT                              = "BEGIN_REPORT"

@@ -5,7 +5,8 @@ import amf.core.client.scala.AMFResult
 import amf.core.client.scala.model.document.BaseUnit
 import org.mulesoft.als.logger.Logger
 import org.mulesoft.amfintegration.AmfImplicits.BaseUnitImp
-import org.mulesoft.amfintegration.amfconfiguration.{AmfParseContext, AmfParseResult}
+import org.mulesoft.amfintegration.amfconfiguration.{AmfParseContext, AmfParseResult, ProfileMatcher}
+import org.mulesoft.amfintegration.dialect.dialects.ExternalFragmentDialect
 import org.mulesoft.amfintegration.relationships.{AliasInfo, RelationshipLink}
 import org.mulesoft.amfintegration.visitors.AmfElementVisitors
 import org.mulesoft.lsp.feature.link.DocumentLink
@@ -27,13 +28,30 @@ class ParsedMainFileTree(
 
   override def parsedUnits: Map[String, ParsedUnit] =
     units
-      .map(t => t._1 -> ParsedUnit(new AmfParseResult(t._2, definedBy, parseContext, t._1), inTree = true, definedBy))
+      .map(t =>
+        t._1 -> {
+          val definedBy = getDialectForBaseUnit(t._2.baseUnit)
+          ParsedUnit(
+            new AmfParseResult(
+              t._2,
+              definedBy,
+              parseContext,
+              t._1
+            ),
+            inTree = true,
+            definedBy
+          )
+        }
+      )
       .toMap
+
+  private def getDialectForBaseUnit(baseUnit: BaseUnit): Dialect =
+    baseUnit.sourceSpec.flatMap(ProfileMatcher.dialect).getOrElse(ExternalFragmentDialect.dialect)
 
   override def references: Map[String, Seq[DocumentLink]] = documentLinks
 
-  def index(): Unit =
-    (main.baseUnit +: main.baseUnit.flatRefs)
+  def index(refs: Seq[BaseUnit]): Unit =
+    (main.baseUnit +: refs)
       .map(AMFResult(_, main.results))
       .foreach(r => units.put(r.baseUnit.identifier, r))
 
@@ -81,7 +99,8 @@ object ParsedMainFileTree {
 object MainFileTreeBuilder {
   def build(
       amfParseResult: AmfParseResult,
-      visitors: AmfElementVisitors
+      visitors: AmfElementVisitors,
+      refs: Seq[BaseUnit]
   ): Future[ParsedMainFileTree] = Future {
     handleVisit(visitors, amfParseResult.result.baseUnit, amfParseResult.context)
     val tree = ParsedMainFileTree(
@@ -92,7 +111,7 @@ object MainFileTreeBuilder {
       amfParseResult.definedBy,
       amfParseResult.context
     )
-    tree.index()
+    tree.index(refs)
     tree
   }
 

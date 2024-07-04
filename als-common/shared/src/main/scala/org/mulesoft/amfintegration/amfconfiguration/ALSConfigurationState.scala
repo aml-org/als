@@ -37,12 +37,12 @@ case class ALSConfigurationState(
     editorResourceLoader: Option[ResourceLoader]
 ) extends PlatformSecrets {
 
-  lazy val amfParseContext: AmfParseContext = AmfParseContext(getAmfConfig, this)
+  lazy val amfParseContext: AmfParseContext = AmfParseContext(getAmfConfig(false), this)
 
   def configForUnit(unit: BaseUnit): AMLSpecificConfiguration =
     configForSpec(unit.sourceSpec.getOrElse(Spec.AML))
 
-  private val rootConfiguration: AMFConfiguration = projectState.rootProjectConfiguration
+  private def rootConfiguration(asMain: Boolean): AMFConfiguration = projectState.rootProjectConfiguration(asMain)
 
   def configForDialect(d: Dialect): AMLSpecificConfiguration =
     ProfileMatcher.spec(d) match {
@@ -52,14 +52,16 @@ case class ALSConfigurationState(
             .contains(
               "file://vocabularies/dialects/metadialect.yaml"
             ) => // TODO change when Dialect name and version be spec
-        AMLSpecificConfiguration(rootConfiguration)
+        AMLSpecificConfiguration(rootConfiguration(false))
       case Some(spec) => configForSpec(spec)
       case _          => AMLSpecificConfiguration(predefinedWithDialects)
     }
 
-  def configForSpec(spec: Spec): AMLSpecificConfiguration =
+  def configForSpec(spec: Spec): AMLSpecificConfiguration = // todo: check if asMain = true has any inconvenience
     AMLSpecificConfiguration(
-      getAmlConfig(apiConfigurationForSpec(spec).map(projectState.customSetUp).getOrElse(predefinedWithDialects))
+      getAmlConfig(
+        apiConfigurationForSpec(spec).map(projectState.customSetUp(_, asMain = true)).getOrElse(predefinedWithDialects)
+      )
     )
 
   private def apiConfigurationForSpec(spec: Spec): Option[AMFConfiguration] =
@@ -76,15 +78,15 @@ case class ALSConfigurationState(
       case _                 => None
     }
 
-  def getAmfConfig(url: String): AMFConfiguration = {
+  def getAmfConfig(url: String, asMain: Boolean): AMFConfiguration = {
     val base =
       if (url.endsWith("graphql"))
-        projectState.getProjectConfig
-      else getAmfConfig.withPlugins(editorState.alsParsingPlugins)
-    getAmfConfig(base)
+        projectState.getProjectConfig(asMain)
+      else getAmfConfig(asMain).withPlugins(editorState.alsParsingPlugins)
+    getAmfConfig(base, asMain)
   }
 
-  def getAmfConfig: AMFConfiguration = getAmfConfig(rootConfiguration)
+  def getAmfConfig(asMain: Boolean): AMFConfiguration = getAmfConfig(rootConfiguration(asMain), asMain)
 
   def getAmfConfig(spec: Spec): AMFConfiguration = {
     val base = spec match {
@@ -93,7 +95,7 @@ case class ALSConfigurationState(
       case _ =>
         APIConfiguration.fromSpec(spec)
     }
-    getAmfConfig(base)
+    getAmfConfig(base, asMain = true) // todo: check if asMain = true has any inconvenience
   }
 
   def allDialects: Seq[Dialect]        = dialects ++ BaseAlsDialectProvider.allBaseDialects
@@ -118,14 +120,14 @@ case class ALSConfigurationState(
     dialects.foldLeft(configuration)((c, dialect) => c.withDialect(dialect))
   }
 
-  def getAmfConfig(base: AMFConfiguration): AMFConfiguration =
-    projectState.customSetUp(getAmlConfig(base).asInstanceOf[AMFConfiguration])
+  def getAmfConfig(base: AMFConfiguration, asMain: Boolean): AMFConfiguration =
+    projectState.customSetUp(getAmlConfig(base).asInstanceOf[AMFConfiguration], asMain)
 
   def findSemanticByName(name: String): Option[(SemanticExtension, Dialect)] =
     configForSpec(Spec.AML).config.configurationState().findSemanticByName(name)
 
-  def parse(url: String, maxFileSize: Option[Int] = None): Future[AmfParseResult] =
-    parse(getAmfConfig(url), url, maxFileSize)
+  def parse(url: String, asMain: Boolean = false, maxFileSize: Option[Int] = None): Future[AmfParseResult] =
+    parse(getAmfConfig(url, asMain), url, maxFileSize)
 
   private def parse(amfConfiguration: AMFConfiguration, uri: String, maxFileSize: Option[Int]): Future[AmfParseResult] =
     wrapLoadersIfNeeded(amfConfiguration, maxFileSize)
@@ -189,12 +191,12 @@ case class ALSConfigurationState(
   }
 
   def findSemanticFor(uri: String): Seq[(SemanticExtension, Dialect)] =
-    getAmfConfig(uri)
+    getAmfConfig(uri, asMain = true) // todo: check if asMain = true has any inconvenience
       .configurationState()
       .findSemanticByTarget(uri)
 
   def findSemanticForName(name: String): Option[(SemanticExtension, Dialect)] =
-    getAmfConfig
+    getAmfConfig(false)
       .configurationState()
       .findSemanticByName(name)
 
@@ -254,12 +256,12 @@ case class ALSConfigurationState(
     predefinedWithDialects.configurationState().getDialects().find(_.nameAndVersion() == nameAndVersion)
 
   def fetchContent(uri: String): Future[Content] = try {
-    platform.fetchContent(uri, getAmfConfig)
+    platform.fetchContent(uri, getAmfConfig(false))
   } catch {
     case e: Exception =>
       Future.failed(e)
   }
 
   def buildJsonSchema(shape: AnyShape): String =
-    JsonSchemaShapeRenderer.buildJsonSchema(shape, getAmfConfig)
+    JsonSchemaShapeRenderer.buildJsonSchema(shape, getAmfConfig(false))
 }

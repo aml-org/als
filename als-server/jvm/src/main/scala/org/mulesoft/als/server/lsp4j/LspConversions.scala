@@ -108,7 +108,8 @@ object LspConversions {
         initializationOptions = Option(p.getInitializationOptions),
         configuration = Option(p.getConfiguration),
         hotReload = Option(p.getHotReload),
-        maxFileSize = Option(p.getMaxFileSize).map(_.toInt)
+        maxFileSize = Option(p.getMaxFileSize).map(_.toInt),
+        shouldRetryExternalFragments = Option(p.getShouldRetryExternalFragments)
       )
     } getOrElse AlsInitializeParams.default
 

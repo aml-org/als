@@ -8,6 +8,7 @@ public class AlsInitializeParams extends InitializeParams {
     private AlsClientCapabilities alsClientCapabilities;
     private AlsConfiguration configuration;
     private Boolean hotReload;
+    private Boolean shouldRetryExternalFragments;
     private Integer maxFileSize;
 
     @Override
@@ -39,9 +40,15 @@ public class AlsInitializeParams extends InitializeParams {
     public Boolean getHotReload() {
         return hotReload;
     }
-
     public void setHotReload(Boolean hotReload) {
         this.hotReload = hotReload;
+    }
+
+    public Boolean getShouldRetryExternalFragments() {
+        return shouldRetryExternalFragments;
+    }
+    public void setShouldRetryExternalFragments(Boolean shouldRetryExternalFragments) {
+        this.shouldRetryExternalFragments = shouldRetryExternalFragments;
     }
 
     public Integer getMaxFileSize() {
