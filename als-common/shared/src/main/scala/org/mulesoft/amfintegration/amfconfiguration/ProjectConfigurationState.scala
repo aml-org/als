@@ -1,8 +1,8 @@
 package org.mulesoft.amfintegration.amfconfiguration
 
 import amf.aml.client.scala.model.document.Dialect
-import amf.apicontract.client.scala.{AMFConfiguration, APIConfiguration}
-import amf.core.client.scala.AMFParseResult
+import amf.apicontract.client.scala.{AMFConfiguration, APIConfiguration, AvroConfiguration}
+import amf.core.client.scala.{AMFGraphConfiguration, AMFParseResult}
 import amf.core.client.scala.config.{CachedReference, UnitCache}
 import amf.core.client.scala.model.document.Module
 import amf.core.client.scala.resource.ResourceLoader
@@ -30,8 +30,10 @@ trait ProjectConfigurationState {
       )
       .map(r => r.flatten.find(_._2).map(_._1))
 
-  def getProjectConfig(asMain: Boolean): AMFConfiguration =
+  def getGraphQLProjectConfig(asMain: Boolean): AMFConfiguration =
     GraphQLConfiguration.GraphQL()
+  def getAvroProjectConfig(asMain: Boolean): AMFConfiguration =
+    AvroConfiguration.Avro()
 
   val extensions: Seq[Dialect]
   val profiles: Seq[ValidationProfile]

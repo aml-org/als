@@ -8,6 +8,7 @@ import amf.custom.validation.internal.report.loaders.ProfileDialectLoader
 import org.mulesoft.amfintegration.dialect.dialects.InMemoryDialect
 import org.mulesoft.amfintegration.dialect.dialects.asyncapi20.AsyncApi20Dialect
 import org.mulesoft.amfintegration.dialect.dialects.asyncapi26.AsyncApi26Dialect
+import org.mulesoft.amfintegration.dialect.dialects.avro.AvroDialect
 import org.mulesoft.amfintegration.dialect.dialects.graphql.GraphQLDialect
 import org.mulesoft.amfintegration.dialect.dialects.jsonschema.draft2019.JsonSchemaDraft2019Dialect
 import org.mulesoft.amfintegration.dialect.dialects.jsonschema.draft4.JsonSchemaDraft4Dialect
@@ -34,7 +35,8 @@ object BaseAlsDialectProvider {
     GraphQLDialect(),
     JsonSchemaDraft4Dialect(),
     JsonSchemaDraft7Dialect(),
-    JsonSchemaDraft2019Dialect()
+    JsonSchemaDraft2019Dialect(),
+    AvroDialect()
   )
 
   lazy val allBaseDialects: Set[Dialect] = apiDialects + MetaDialect()

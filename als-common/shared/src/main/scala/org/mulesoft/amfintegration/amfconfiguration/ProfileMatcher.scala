@@ -12,6 +12,7 @@ import amf.shapes.internal.spec.common.{
 import org.mulesoft.amfintegration.DialectWithVendor
 import org.mulesoft.amfintegration.dialect.dialects.asyncapi20.AsyncApi20Dialect
 import org.mulesoft.amfintegration.dialect.dialects.asyncapi26.AsyncApi26Dialect
+import org.mulesoft.amfintegration.dialect.dialects.avro.AvroDialect
 import org.mulesoft.amfintegration.dialect.dialects.graphql.GraphQLDialect
 import org.mulesoft.amfintegration.dialect.dialects.jsonschema.draft2019.JsonSchemaDraft2019Dialect
 import org.mulesoft.amfintegration.dialect.dialects.jsonschema.draft4.JsonSchemaDraft4Dialect
@@ -54,6 +55,7 @@ object ProfileMatcher {
     DialectWithVendor(JsonSchemaDraft4Dialect(), Spec.JSONSCHEMA, JSONSchemaDraft4SchemaVersion.name),
     DialectWithVendor(JsonSchemaDraft7Dialect(), Spec.JSONSCHEMA, JSONSchemaDraft7SchemaVersion.name),
     DialectWithVendor(JsonSchemaDraft2019Dialect(), Spec.JSONSCHEMA, JSONSchemaDraft201909SchemaVersion.name),
+    DialectWithVendor(AvroDialect(), Spec.AVRO_SCHEMA),
     DialectWithVendor(MetaDialect(), Spec.AML)
   )
 
