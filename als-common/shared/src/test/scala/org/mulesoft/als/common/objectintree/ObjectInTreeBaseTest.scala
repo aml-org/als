@@ -2,7 +2,6 @@ package org.mulesoft.als.common.objectintree
 
 import amf.aml.client.scala.model.document.Dialect
 import amf.aml.internal.metamodel.domain.DialectDomainElementModel
-import amf.core.internal.unsafe.PlatformSecrets
 import org.mulesoft.als.common.dtoTypes.Position
 import org.mulesoft.als.common.{NodeBranchBuilder, ObjectInTree, ObjectInTreeBuilder}
 import org.mulesoft.amfintegration.AmfImplicits.BaseUnitImp
@@ -12,13 +11,14 @@ import org.mulesoft.amfintegration.amfconfiguration.{
   EditorConfiguration,
   EmptyProjectConfigurationState
 }
+import org.mulesoft.amfintegration.platform.AlsPlatformSecrets
 import org.mulesoft.common.client.lexical.{Position => AmfPosition}
 import org.scalatest.compatible.Assertion
 import org.scalatest.matchers.should.Matchers
 
 import scala.concurrent.{ExecutionContext, Future}
 
-case class ObjectInTreeBaseTest(instanceFile: String, dialectFile: String) extends PlatformSecrets with Matchers {
+case class ObjectInTreeBaseTest(instanceFile: String, dialectFile: String) extends AlsPlatformSecrets with Matchers {
   protected def uriTemplate(part: String) = s"file://als-common/shared/src/test/resources/aml/$part"
 
   implicit val ec: ExecutionContext = ExecutionContext.global

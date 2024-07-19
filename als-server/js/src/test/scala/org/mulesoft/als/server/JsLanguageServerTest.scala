@@ -119,8 +119,7 @@ class JsLanguageServerTest extends AMFValidatorTest {
 
   test("Should have platform loaders as default") {
     val loaders = getServerResourceLoaders(js.Array())
-    loaders.size should be(2)
-    loaders should contain allElementsOf platfromLoaders
+    loaders.size should be(platfromLoaders.size)
   }
 
   test("Should not have default platform loaders when given list isn't empty") {

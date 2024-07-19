@@ -2,7 +2,6 @@ package org.mulesoft.als.server.workspace
 
 import amf.core.client.scala.AMFResult
 import amf.core.client.scala.model.document.BaseUnit
-import amf.core.internal.unsafe.PlatformSecrets
 import org.mulesoft.als.server.modules.workspace.{ParsedUnit, WorkspaceParserRepository}
 import org.mulesoft.amfintegration.AmfImplicits.BaseUnitImp
 import org.mulesoft.amfintegration.amfconfiguration.{
@@ -12,13 +11,18 @@ import org.mulesoft.amfintegration.amfconfiguration.{
   EmptyProjectConfigurationState
 }
 import org.mulesoft.amfintegration.dialect.dialects.ExternalFragmentDialect
+import org.mulesoft.amfintegration.platform.AlsPlatformSecrets
 import org.scalatest.funsuite.AsyncFunSuite
 import org.scalatest.matchers.should.Matchers
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.{ExecutionContext, Future}
 
-class WorkspaceParserRepositoryTest extends AsyncFunSuite with Matchers with PlatformSecrets with MockResourceLoader {
+class WorkspaceParserRepositoryTest
+    extends AsyncFunSuite
+    with Matchers
+    with AlsPlatformSecrets
+    with MockResourceLoader {
   override val executionContext: ExecutionContext = scala.concurrent.ExecutionContext.Implicits.global
 
   test("Basic repository test") {

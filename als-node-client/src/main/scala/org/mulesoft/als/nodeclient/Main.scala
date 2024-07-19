@@ -1,6 +1,5 @@
 package org.mulesoft.als.nodeclient
 
-import amf.core.internal.unsafe.PlatformSecrets
 import amf.custom.validation.client.platform.CustomValidator
 import amf.custom.validation.client.platform.validator.JsCustomValidator
 import amf.custom.validation.internal.convert.AmfCustomValidatorClientConverters.ClientFuture
@@ -9,10 +8,11 @@ import io.scalajs.nodejs.process
 import org.mulesoft.als.server.client.platform.AlsLanguageServerFactory
 import org.mulesoft.als.server.{ClientNotifierFactory, JsSerializationProps, ProtocolConnectionBinder}
 import org.mulesoft.als.vscode.{ProtocolConnection, ServerSocketTransport}
+import org.mulesoft.amfintegration.platform.AlsPlatformSecrets
 
 // $COVERAGE-OFF$ Incompatibility between scoverage and scalaJS
 
-object Main extends PlatformSecrets {
+object Main extends AlsPlatformSecrets {
   case class Options(port: Int)
   val DefaultOptions: Options = Options(4000)
 

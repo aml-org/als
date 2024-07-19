@@ -8,12 +8,12 @@ import amf.core.client.scala.parse.AMFSyntaxParsePlugin
 import amf.core.client.scala.resource.ResourceLoader
 import amf.core.client.scala.validation.payload.AMFShapePayloadValidationPlugin
 import amf.core.internal.remote.Spec
-import amf.core.internal.unsafe.PlatformSecrets
 import amf.graphql.client.scala.GraphQLConfiguration
 import amf.shapes.client.scala.config.JsonSchemaConfiguration
 import org.mulesoft.als.logger.Logger
 import org.mulesoft.amfintegration.AmfImplicits.DialectInstanceImp
 import org.mulesoft.amfintegration.dialect.integration.BaseAlsDialectProvider
+import org.mulesoft.amfintegration.platform.AlsPlatformSecrets
 import org.mulesoft.amfintegration.vocabularies.integration.{
   AlsVocabularyParsingPlugin,
   AlsVocabularyRegistry,
@@ -144,7 +144,7 @@ object EditorConfigurationState {
     EditorConfigurationState(Nil, Nil, Nil, syntaxPlugin = Nil, validationPlugin = Nil)
 }
 
-object EditorConfiguration extends PlatformSecrets {
+object EditorConfiguration extends AlsPlatformSecrets {
   def apply(): EditorConfiguration = withPlatformLoaders(Seq.empty)
 
   def withPlatformLoaders(rls: Seq[ResourceLoader]): EditorConfiguration =

@@ -10,7 +10,6 @@ import amf.core.client.scala.resource.ResourceLoader
 import amf.core.client.scala.{AMFParseResult => AMFParsingResult}
 import amf.core.internal.remote.Spec.{AMF, GRAPHQL}
 import amf.core.internal.remote.{AmlDialectSpec, Spec}
-import amf.core.internal.unsafe.PlatformSecrets
 import amf.graphql.client.scala.GraphQLConfiguration
 import amf.shapes.client.scala.config.JsonSchemaConfiguration
 import amf.shapes.client.scala.model.document.JsonSchemaDocument
@@ -22,6 +21,7 @@ import org.mulesoft.amfintegration.ValidationProfile
 import org.mulesoft.amfintegration.dialect.dialects.ExternalFragmentDialect
 import org.mulesoft.amfintegration.dialect.dialects.metadialect.{MetaDialect, VocabularyDialect}
 import org.mulesoft.amfintegration.dialect.integration.BaseAlsDialectProvider
+import org.mulesoft.amfintegration.platform.AlsPlatformSecrets
 import org.yaml.builder.DocBuilder
 
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -35,7 +35,7 @@ case class ALSConfigurationState(
     editorState: EditorConfigurationState,
     projectState: ProjectConfigurationState,
     editorResourceLoader: Option[ResourceLoader]
-) extends PlatformSecrets {
+) extends AlsPlatformSecrets {
 
   lazy val amfParseContext: AmfParseContext = AmfParseContext(getAmfConfig(false), this)
 

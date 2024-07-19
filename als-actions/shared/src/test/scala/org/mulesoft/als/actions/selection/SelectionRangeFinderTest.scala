@@ -2,7 +2,6 @@ package org.mulesoft.als.actions.selection
 
 import amf.core.client.common.remote.Content
 import amf.core.client.scala.resource.ResourceLoader
-import amf.core.internal.unsafe.PlatformSecrets
 import org.mulesoft.als.common.dtoTypes.Position
 import org.mulesoft.amfintegration.AmfImplicits.{AmfAnnotationsImp, BaseUnitImp}
 import org.mulesoft.amfintegration.amfconfiguration.{
@@ -10,6 +9,7 @@ import org.mulesoft.amfintegration.amfconfiguration.{
   EditorConfiguration,
   EmptyProjectConfigurationState
 }
+import org.mulesoft.amfintegration.platform.AlsPlatformSecrets
 import org.mulesoft.lsp.feature.common.{Range, Position => LspPosition}
 import org.mulesoft.lsp.feature.selectionRange.SelectionRange
 import org.scalatest.flatspec.AsyncFlatSpec
@@ -17,7 +17,7 @@ import org.scalatest.matchers.should.Matchers
 
 import scala.concurrent.{ExecutionContext, Future}
 
-class SelectionRangeFinderTest extends AsyncFlatSpec with Matchers with PlatformSecrets {
+class SelectionRangeFinderTest extends AsyncFlatSpec with Matchers with AlsPlatformSecrets {
   override implicit val executionContext: ExecutionContext = ExecutionContext.Implicits.global
 
   it should "select the range on YAML map" in {

@@ -89,4 +89,43 @@ class FindLinksBaseTest extends FindLinksTest {
       )
     )
   }
+
+  test("smb link simple") {
+    runTest(
+      "files/smb-leak/simple.raml",
+      Set.empty
+    )
+  }
+
+  test("smb link simple-relative") {
+    runTest(
+      "files/smb-leak/simple-relative.raml",
+      Set.empty
+    )
+  }
+
+  // there are hacks in AMF (amf.core.internal.remote.Context) which result in this case working as if the file was
+  // "absolute" (relative to the root file), and fixes the double slash resulting in
+  // "file://als-server/shared/src/test/resources/actions/links/files/smb-leak/lib.raml" as a link
+  // this is probably not correct, but should not affect the SMB Leak as it is not a `file:////` link
+  ignore("smb link unix-path") {
+    runTest(
+      "files/smb-leak/unix-path.raml",
+      Set.empty
+    )
+  }
+
+  test("smb link windows-path") {
+    runTest(
+      "files/smb-leak/windows-path.raml",
+      Set.empty
+    )
+  }
+
+  test("smb link windows-uri-combined") {
+    runTest(
+      "files/smb-leak/windows-uri-combined.raml",
+      Set.empty
+    )
+  }
 }

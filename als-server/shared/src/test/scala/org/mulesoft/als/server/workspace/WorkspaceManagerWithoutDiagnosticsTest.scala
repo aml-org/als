@@ -1,12 +1,12 @@
 package org.mulesoft.als.server.workspace
 
 import amf.aml.client.scala.AMLConfiguration
-import amf.core.internal.unsafe.PlatformSecrets
 import org.mulesoft.als.server.client.scala.LanguageServerBuilder
 import org.mulesoft.als.server.modules.{WorkspaceManagerFactory, WorkspaceManagerFactoryBuilder}
 import org.mulesoft.als.server.protocol.LanguageServer
 import org.mulesoft.als.server.protocol.configuration.AlsInitializeParams
 import org.mulesoft.als.server.{LanguageServerBaseTest, MockDiagnosticClientNotifier}
+import org.mulesoft.amfintegration.platform.AlsPlatformSecrets
 import org.mulesoft.lsp.configuration.TraceKind
 import org.mulesoft.lsp.feature.common.TextDocumentIdentifier
 import org.mulesoft.lsp.feature.documentsymbol.{DocumentSymbolParams, DocumentSymbolRequestType}
@@ -14,7 +14,7 @@ import org.scalatest.compatible.Assertion
 
 import scala.concurrent.{ExecutionContext, Future}
 
-class WorkspaceManagerWithoutDiagnosticsTest extends LanguageServerBaseTest with PlatformSecrets {
+class WorkspaceManagerWithoutDiagnosticsTest extends LanguageServerBaseTest with AlsPlatformSecrets {
 
   override implicit val executionContext: ExecutionContext = ExecutionContext.Implicits.global
 

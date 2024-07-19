@@ -1,13 +1,13 @@
 package org.mulesoft.als.server.acv
 
-import amf.core.internal.unsafe.PlatformSecrets
 import org.eclipse.lsp4j.{Position, Range}
+import org.mulesoft.amfintegration.platform.AlsPlatformSecrets
 import org.scalatest.funsuite.AsyncFunSuite
 
 import scala.compat.java8.FutureConverters.CompletionStageOps
 import scala.jdk.CollectionConverters.collectionAsScalaIterableConverter
 
-class AmfCustomValidationToolsTest extends AsyncFunSuite with PlatformSecrets {
+class AmfCustomValidationToolsTest extends AsyncFunSuite with AlsPlatformSecrets {
   private def buildResourcePath(file: String) = s"als-server/jvm/src/test/resources/acv/$file"
 
   test("parse report into java class") {

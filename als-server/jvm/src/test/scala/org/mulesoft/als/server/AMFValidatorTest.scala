@@ -8,9 +8,9 @@ import amf.core.client.scala.validation.payload.{
   ShapeValidationConfiguration,
   ValidatePayloadRequest
 }
-import amf.core.internal.unsafe.PlatformSecrets
+import org.mulesoft.amfintegration.platform.AlsPlatformSecrets
 
-trait AMFValidatorTest extends LanguageServerBaseTest with PlatformSecrets {
+trait AMFValidatorTest extends LanguageServerBaseTest with AlsPlatformSecrets {
   case class TestValidator(fn: () => Unit) extends AMFShapePayloadValidationPlugin {
     override def applies(element: ValidatePayloadRequest): Boolean = {
       fn()

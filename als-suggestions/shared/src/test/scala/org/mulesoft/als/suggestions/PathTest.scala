@@ -3,7 +3,6 @@ package org.mulesoft.als.suggestions
 import amf.core.client.common.remote.Content
 import amf.core.client.scala.resource.ResourceLoader
 import amf.core.internal.remote.FileNotFound
-import amf.core.internal.unsafe.PlatformSecrets
 import org.mulesoft.als.common.DirectoryResolver
 import org.mulesoft.als.suggestions.plugins.aml.AMLPathCompletionPlugin
 import org.mulesoft.amfintegration.amfconfiguration.{
@@ -11,13 +10,14 @@ import org.mulesoft.amfintegration.amfconfiguration.{
   EditorConfiguration,
   EmptyProjectConfigurationState
 }
+import org.mulesoft.amfintegration.platform.AlsPlatformSecrets
 import org.scalatest.Assertion
 import org.scalatest.funsuite.AsyncFunSuite
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.{ExecutionContext, Future}
 
-class PathTest extends AsyncFunSuite with PlatformSecrets {
+class PathTest extends AsyncFunSuite with AlsPlatformSecrets {
 
   override val executionContext: ExecutionContext =
     scala.concurrent.ExecutionContext.Implicits.global

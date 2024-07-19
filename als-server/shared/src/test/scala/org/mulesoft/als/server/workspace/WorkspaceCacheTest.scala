@@ -3,7 +3,6 @@ package org.mulesoft.als.server.workspace
 import amf.core.client.common.remote.Content
 import amf.core.client.platform.resource.ResourceNotFound
 import amf.core.client.scala.resource.ResourceLoader
-import amf.core.internal.unsafe.PlatformSecrets
 import org.mulesoft.als.configuration.ProjectConfiguration
 import org.mulesoft.als.logger.Logger
 import org.mulesoft.als.server.client.platform.ClientNotifier
@@ -16,6 +15,7 @@ import org.mulesoft.als.server.modules.workspace.{
 }
 import org.mulesoft.als.server.textsync.{EnvironmentProvider, TextDocumentContainer}
 import org.mulesoft.amfintegration.amfconfiguration.EditorConfiguration
+import org.mulesoft.amfintegration.platform.AlsPlatformSecrets
 import org.mulesoft.lsp.feature.diagnostic.PublishDiagnosticsParams
 import org.mulesoft.lsp.feature.telemetry.TelemetryMessage
 import org.scalatest.funsuite.AsyncFunSuite
@@ -23,7 +23,7 @@ import org.scalatest.matchers.should.Matchers
 
 import scala.concurrent.{ExecutionContext, Future}
 
-class WorkspaceCacheTest extends AsyncFunSuite with Matchers with PlatformSecrets {
+class WorkspaceCacheTest extends AsyncFunSuite with Matchers with AlsPlatformSecrets {
 
   override implicit val executionContext: ExecutionContext = ExecutionContext.Implicits.global
 
