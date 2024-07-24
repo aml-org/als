@@ -2,10 +2,10 @@ package org.mulesoft.als.server.workspace.command
 
 import amf.apicontract.client.scala.APIConfiguration
 import amf.core.internal.parser.YMapOps
-import amf.core.internal.unsafe.PlatformSecrets
 import org.mulesoft.als.server.protocol.textsync.IndexDialectParams
 import org.mulesoft.als.server.workspace.WorkspaceManager
 import org.mulesoft.amfintegration.dialect.integration.BaseAlsDialectProvider
+import org.mulesoft.amfintegration.platform.AlsPlatformSecrets
 import org.yaml.model.YMap
 
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -17,7 +17,7 @@ import scala.concurrent.Future
   */
 class IndexDialectCommandExecutor(workspaceManager: WorkspaceManager)
     extends CommandExecutor[IndexDialectParams, Unit]
-    with PlatformSecrets {
+    with AlsPlatformSecrets {
   override protected def buildParamFromMap(ast: YMap): Option[IndexDialectParams] = {
     val content: Option[String] = ast.key("content").map(e => e.value.asScalar.map(_.text).getOrElse(e.value.toString))
     ast.key("uri").map(e => e.value.asScalar.map(_.text).getOrElse(e.value.toString)) match {

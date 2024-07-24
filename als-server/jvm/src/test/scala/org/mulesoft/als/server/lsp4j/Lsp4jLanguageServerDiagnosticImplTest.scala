@@ -1,17 +1,17 @@
 package org.mulesoft.als.server.lsp4j
 
 import amf.core.client.common.validation.ProfileNames
-import amf.core.internal.unsafe.PlatformSecrets
 import org.eclipse.lsp4j.ExecuteCommandParams
 import org.mulesoft.als.server.client.scala.LanguageServerBuilder
 import org.mulesoft.als.server.modules.WorkspaceManagerFactoryBuilder
 import org.mulesoft.als.server.protocol.LanguageServer
 import org.mulesoft.als.server.{Flaky, LanguageServerBaseTest, MockDiagnosticClientNotifier}
+import org.mulesoft.amfintegration.platform.AlsPlatformSecrets
 
 import java.util
 import scala.concurrent.Future
 
-class Lsp4jLanguageServerDiagnosticImplTest extends LanguageServerBaseTest with PlatformSecrets {
+class Lsp4jLanguageServerDiagnosticImplTest extends LanguageServerBaseTest with AlsPlatformSecrets {
 
   // TODO: check if the caché on WorkspaceContentManager is used (if it can be used)
   // TODO: check if a new validation should be sent from WorkspaceContentCollection when "onFocus" (when the BU is already parsed)

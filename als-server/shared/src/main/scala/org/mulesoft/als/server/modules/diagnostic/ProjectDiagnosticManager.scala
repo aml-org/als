@@ -1,11 +1,11 @@
 package org.mulesoft.als.server.modules.diagnostic
 
 import amf.core.client.common.validation.ProfileNames
-import amf.core.internal.unsafe.PlatformSecrets
 import org.mulesoft.als.common.URIImplicits.StringUriImplicits
 import org.mulesoft.als.server.client.platform.ClientNotifier
 import org.mulesoft.als.server.modules.project.NewConfigurationListener
 import org.mulesoft.amfintegration.amfconfiguration.ProjectConfigurationState
+import org.mulesoft.amfintegration.platform.AlsPlatformSecrets
 
 import scala.collection.mutable
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -17,7 +17,7 @@ class ProjectDiagnosticManager(
     override protected val optimizationKind: DiagnosticNotificationsKind
 ) extends NewConfigurationListener
     with DiagnosticManager
-    with PlatformSecrets {
+    with AlsPlatformSecrets {
   override protected val managerName: DiagnosticManagerKind = ProjectDiagnosticKind
 
   private val filesByWorkspace: mutable.Map[String, Set[String]] = mutable.Map.empty

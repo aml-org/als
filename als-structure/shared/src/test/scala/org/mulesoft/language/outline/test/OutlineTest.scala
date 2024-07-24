@@ -5,7 +5,6 @@ import amf.core.client.common.remote.Content
 import amf.core.client.scala.model.document.BaseUnit
 import amf.core.client.scala.resource.ResourceLoader
 import amf.core.internal.remote.Platform
-import amf.core.internal.unsafe.PlatformSecrets
 import org.mulesoft.als.common.MarkerFinderTest
 import org.mulesoft.als.common.diff.FileAssertionTest
 import org.mulesoft.amfintegration.amfconfiguration.{
@@ -13,12 +12,13 @@ import org.mulesoft.amfintegration.amfconfiguration.{
   EditorConfiguration,
   EmptyProjectConfigurationState
 }
+import org.mulesoft.amfintegration.platform.AlsPlatformSecrets
 import org.scalatest.compatible.Assertion
 import org.scalatest.funsuite.AsyncFunSuite
 
 import scala.concurrent.{ExecutionContext, Future}
 
-trait OutlineTest[T] extends AsyncFunSuite with FileAssertionTest with PlatformSecrets with MarkerFinderTest {
+trait OutlineTest[T] extends AsyncFunSuite with FileAssertionTest with AlsPlatformSecrets with MarkerFinderTest {
 
   implicit override def executionContext: ExecutionContext =
     scala.concurrent.ExecutionContext.Implicits.global

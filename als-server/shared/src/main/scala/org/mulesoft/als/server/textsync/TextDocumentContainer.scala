@@ -2,7 +2,7 @@ package org.mulesoft.als.server.textsync
 
 import amf.core.client.common.remote.Content
 import amf.core.client.scala.resource.ResourceLoader
-import amf.core.internal.unsafe.PlatformSecrets
+import org.mulesoft.amfintegration.platform.AlsPlatformSecrets
 import org.mulesoft.lsp.Initializable
 
 import scala.collection.mutable
@@ -58,7 +58,7 @@ case class TextDocumentContainer(private val uriToEditor: mutable.Map[String, Te
   override def initialize(): Future[Unit] = Future.successful()
 }
 
-trait EnvironmentProvider extends Initializable with PlatformSecrets {
+trait EnvironmentProvider extends Initializable with AlsPlatformSecrets {
   def getResourceLoader: ResourceLoader
   def openedFiles: Seq[String]
   def filesInMemory: Map[String, TextDocument]

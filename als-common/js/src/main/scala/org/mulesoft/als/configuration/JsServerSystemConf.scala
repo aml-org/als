@@ -2,8 +2,8 @@ package org.mulesoft.als.configuration
 
 import amf.core.client.platform.resource.ClientResourceLoader
 import amf.core.client.scala.resource.ResourceLoader
-import amf.core.internal.unsafe.PlatformSecrets
 import org.mulesoft.als.common.DirectoryResolver
+import org.mulesoft.amfintegration.platform.AlsPlatformSecrets
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.scalajs.js

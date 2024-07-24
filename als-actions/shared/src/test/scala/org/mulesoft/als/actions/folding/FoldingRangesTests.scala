@@ -2,13 +2,13 @@ package org.mulesoft.als.actions.folding
 
 import amf.core.client.common.remote.Content
 import amf.core.client.scala.resource.ResourceLoader
-import amf.core.internal.unsafe.PlatformSecrets
 import org.mulesoft.amfintegration.AmfImplicits.{AmfAnnotationsImp, BaseUnitImp}
 import org.mulesoft.amfintegration.amfconfiguration.{
   ALSConfigurationState,
   EditorConfiguration,
   EmptyProjectConfigurationState
 }
+import org.mulesoft.amfintegration.platform.AlsPlatformSecrets
 import org.mulesoft.lsp.feature.folding.FoldingRange
 import org.scalatest.flatspec.AsyncFlatSpec
 import org.scalatest.matchers.should.Matchers
@@ -16,7 +16,7 @@ import org.scalatest.matchers.should.Matchers
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.{ExecutionContext, Future}
 
-class FoldingRangesTests extends AsyncFlatSpec with Matchers with PlatformSecrets {
+class FoldingRangesTests extends AsyncFlatSpec with Matchers with AlsPlatformSecrets {
   override val executionContext: ExecutionContext =
     scala.concurrent.ExecutionContext.Implicits.global
 

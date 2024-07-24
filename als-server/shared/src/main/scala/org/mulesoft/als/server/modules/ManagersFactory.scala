@@ -1,6 +1,5 @@
 package org.mulesoft.als.server.modules
 
-import amf.core.internal.unsafe.PlatformSecrets
 import amf.custom.validation.client.scala.BaseProfileValidatorBuilder
 import org.mulesoft.als.actions.codeactions.plugins.AllCodeActions
 import org.mulesoft.als.common.{DirectoryResolver, PlatformDirectoryResolver}
@@ -30,6 +29,7 @@ import org.mulesoft.als.server.textsync.{DefaultTextDocumentSyncBuilder, TextDoc
 import org.mulesoft.als.server.workspace.{ProjectConfigurationProvider, WorkspaceManager}
 import org.mulesoft.amfintegration.AmfResolvedUnit
 import org.mulesoft.amfintegration.amfconfiguration.EditorConfiguration
+import org.mulesoft.amfintegration.platform.AlsPlatformSecrets
 
 import scala.collection.mutable.ListBuffer
 
@@ -38,7 +38,7 @@ class WorkspaceManagerFactoryBuilder(
     val editorConfiguration: EditorConfiguration = EditorConfiguration(),
     projectConfigurationProvider: Option[ProjectConfigurationProvider] = None,
     textDocumentSyncBuilder: Option[TextDocumentSyncBuilder] = None
-) extends PlatformSecrets {
+) extends AlsPlatformSecrets {
 
   Logger.withTelemetry(new TelemetryManager(clientNotifier))
 

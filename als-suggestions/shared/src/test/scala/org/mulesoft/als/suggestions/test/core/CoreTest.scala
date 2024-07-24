@@ -2,7 +2,6 @@ package org.mulesoft.als.suggestions.test.core
 
 import amf.core.client.common.remote.Content
 import amf.core.client.scala.resource.ResourceLoader
-import amf.core.internal.unsafe.PlatformSecrets
 import org.mulesoft.als.common.{MarkerFinderTest, PlatformDirectoryResolver}
 import org.mulesoft.als.configuration.AlsConfiguration
 import org.mulesoft.als.suggestions.client.Suggestions
@@ -11,13 +10,14 @@ import org.mulesoft.amfintegration.amfconfiguration.{
   EditorConfiguration,
   EmptyProjectConfigurationState
 }
+import org.mulesoft.amfintegration.platform.AlsPlatformSecrets
 import org.mulesoft.lsp.feature.completion.CompletionItem
 import org.scalatest.Assertion
 import org.scalatest.funsuite.AsyncFunSuite
 
 import scala.concurrent.{ExecutionContext, Future}
 
-trait CoreTest extends AsyncFunSuite with PlatformSecrets with MarkerFinderTest with AccessBundle {
+trait CoreTest extends AsyncFunSuite with AlsPlatformSecrets with MarkerFinderTest with AccessBundle {
 
   implicit override def executionContext: ExecutionContext =
     scala.concurrent.ExecutionContext.Implicits.global

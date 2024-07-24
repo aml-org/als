@@ -1,12 +1,12 @@
 package org.mulesoft.als.common.dtoTypes
 
 import amf.core.internal.remote.Platform
-import amf.core.internal.unsafe.PlatformSecrets
 import org.mulesoft.als.common.FileUtils
 import org.mulesoft.als.common.URIImplicits._
+import org.mulesoft.amfintegration.platform.AlsPlatformSecrets
 import org.scalatest.funsuite.AnyFunSuite
 
-class FileUtilsTest extends AnyFunSuite with PlatformSecrets {
+class FileUtilsTest extends AnyFunSuite with AlsPlatformSecrets {
 
   private val path = "root/drive/space in folder/file%3A"
   private val uri  = platform.encodeURI(path) // "root/drive/space%20in%20folder/file%253A"

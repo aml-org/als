@@ -3,7 +3,6 @@ package org.mulesoft.als.suggestions.client.jvm
 import amf.core.client.common.remote.Content
 import amf.core.client.scala.resource.ResourceLoader
 import amf.core.internal.remote.FileNotFound
-import amf.core.internal.unsafe.PlatformSecrets
 import org.mulesoft.als.common.DirectoryResolver
 import org.mulesoft.als.configuration.AlsConfiguration
 import org.mulesoft.als.suggestions.client.Suggestions
@@ -13,12 +12,13 @@ import org.mulesoft.amfintegration.amfconfiguration.{
   EditorConfiguration,
   EmptyProjectConfigurationState
 }
+import org.mulesoft.amfintegration.platform.AlsPlatformSecrets
 import org.scalatest.funsuite.AsyncFunSuite
 import org.scalatest.matchers.should.Matchers
 
 import scala.concurrent.{ExecutionContext, Future}
 
-class JvmSuggestionsTest extends AsyncFunSuite with Matchers with PlatformSecrets with AccessBundle {
+class JvmSuggestionsTest extends AsyncFunSuite with Matchers with AlsPlatformSecrets with AccessBundle {
   override implicit val executionContext: ExecutionContext =
     scala.concurrent.ExecutionContext.Implicits.global
   // TODO: AMF is having trouble with "file:/" prefix (it transforms it in "file:///")
