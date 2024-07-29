@@ -76,6 +76,8 @@ object AmfImplicits {
   }
 
   implicit class AmfAnnotationsImp(ann: Annotations) {
+
+    def avroSchemaType(): Option[AVROSchemaType]         = ann.find(classOf[AVROSchemaType])
     def lexicalInformation(): Option[LexicalInformation] = ann.find(classOf[LexicalInformation])
 
     def trueLocation(): Option[String] =

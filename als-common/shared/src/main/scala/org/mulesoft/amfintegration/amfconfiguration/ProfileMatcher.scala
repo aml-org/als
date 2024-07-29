@@ -27,21 +27,22 @@ object ProfileMatcher {
 
   def profile(spec: Spec): ProfileName =
     spec match {
-      case Spec.RAML10     => ProfileNames.RAML10
-      case Spec.RAML08     => ProfileNames.RAML08
-      case Spec.OAS20      => ProfileNames.OAS20
-      case Spec.OAS30      => ProfileNames.OAS30
-      case Spec.ASYNC20    => ProfileNames.ASYNC20
-      case Spec.ASYNC21    => ProfileNames.ASYNC20
-      case Spec.ASYNC22    => ProfileNames.ASYNC20
-      case Spec.ASYNC23    => ProfileNames.ASYNC20
-      case Spec.ASYNC24    => ProfileNames.ASYNC20
-      case Spec.ASYNC25    => ProfileNames.ASYNC20
-      case Spec.ASYNC26    => ProfileNames.ASYNC26
-      case Spec.AML        => ProfileNames.AML
-      case Spec.GRAPHQL    => ProfileNames.GRPC
-      case Spec.JSONSCHEMA => ProfileNames.JSONSCHEMA
-      case _               => ProfileNames.AMF
+      case Spec.RAML10      => ProfileNames.RAML10
+      case Spec.RAML08      => ProfileNames.RAML08
+      case Spec.OAS20       => ProfileNames.OAS20
+      case Spec.OAS30       => ProfileNames.OAS30
+      case Spec.ASYNC20     => ProfileNames.ASYNC20
+      case Spec.ASYNC21     => ProfileNames.ASYNC20
+      case Spec.ASYNC22     => ProfileNames.ASYNC20
+      case Spec.ASYNC23     => ProfileNames.ASYNC20
+      case Spec.ASYNC24     => ProfileNames.ASYNC20
+      case Spec.ASYNC25     => ProfileNames.ASYNC20
+      case Spec.ASYNC26     => ProfileNames.ASYNC26
+      case Spec.AML         => ProfileNames.AML
+      case Spec.GRAPHQL     => ProfileNames.GRPC
+      case Spec.JSONSCHEMA  => ProfileNames.JSONSCHEMA
+      case Spec.AVRO_SCHEMA => ProfileNames.AVROSCHEMA
+      case _                => ProfileNames.AMF
     }
 
   private lazy val webApiDialects: Set[DialectWithVendor] = Set(

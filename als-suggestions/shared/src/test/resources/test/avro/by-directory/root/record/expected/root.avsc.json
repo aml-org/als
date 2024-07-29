@@ -1,0 +1,182 @@
+[
+  {
+    "label": "aliases",
+    "kind": [
+      
+    ],
+    "detail": "unknown",
+    "documentation": "aliases",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "11aliases",
+    "filterText": "aliases: [\n  $1\n]",
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 2,
+          "character": 4
+        },
+        "end": {
+          "line": 2,
+          "character": 4
+        }
+      },
+      "newText": "aliases: [\n  $1\n]"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "default",
+    "kind": [
+      
+    ],
+    "detail": "parameters",
+    "documentation": "default",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "11default",
+    "filterText": "default:",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 2,
+          "character": 4
+        },
+        "end": {
+          "line": 2,
+          "character": 4
+        }
+      },
+      "newText": "default:"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "doc",
+    "kind": [
+      
+    ],
+    "detail": "unknown",
+    "documentation": "doc",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "11doc",
+    "filterText": "doc:",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 2,
+          "character": 4
+        },
+        "end": {
+          "line": 2,
+          "character": 4
+        }
+      },
+      "newText": "doc:"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "fields",
+    "kind": [
+      
+    ],
+    "detail": "unknown",
+    "documentation": "fields",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "11fields",
+    "filterText": "fields: {\n  $1\n}",
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 2,
+          "character": 4
+        },
+        "end": {
+          "line": 2,
+          "character": 4
+        }
+      },
+      "newText": "fields: {\n  $1\n}"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "namespace",
+    "kind": [
+      
+    ],
+    "detail": "unknown",
+    "documentation": "namespace",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "11namespace",
+    "filterText": "namespace:",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 2,
+          "character": 4
+        },
+        "end": {
+          "line": 2,
+          "character": 4
+        }
+      },
+      "newText": "namespace:"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  }
+]

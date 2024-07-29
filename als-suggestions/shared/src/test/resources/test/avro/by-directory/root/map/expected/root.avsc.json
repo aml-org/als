@@ -1,0 +1,74 @@
+[
+  {
+    "label": "default",
+    "kind": [
+      
+    ],
+    "detail": "schemas",
+    "documentation": "default",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "11default",
+    "filterText": "default:",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 2,
+          "character": 4
+        },
+        "end": {
+          "line": 2,
+          "character": 4
+        }
+      },
+      "newText": "default:"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "values",
+    "kind": [
+      
+    ],
+    "detail": "schemas",
+    "documentation": "values",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "11values",
+    "filterText": "values:",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 2,
+          "character": 4
+        },
+        "end": {
+          "line": 2,
+          "character": 4
+        }
+      },
+      "newText": "values:"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  }
+]

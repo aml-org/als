@@ -1,16 +1,33 @@
 package org.mulesoft.amfintegration.dialect.dialects.avro
 
 import amf.aml.client.scala.model.domain.{DocumentsModel, PropertyMapping}
-import amf.core.client.scala.vocabulary.Namespace.XsdTypes.xsdString
+import amf.core.client.scala.vocabulary.Namespace.XsdTypes.{xsdInteger, xsdString}
 import amf.core.internal.metamodel.domain.ShapeModel
 import amf.plugins.document.vocabularies.plugin.ReferenceStyles
 import amf.shapes.internal.document.metamodel.AvroSchemaDocumentModel
-import amf.shapes.internal.domain.metamodel.AnyShapeModel
+import amf.shapes.internal.domain.metamodel.{AnyShapeModel, ArrayShapeModel, NodeShapeModel, ScalarShapeModel}
 import org.mulesoft.amfintegration.dialect.BaseDialect
 import org.mulesoft.amfintegration.dialect.dialects.oas.nodes.DialectNode
 
 object AvroDialect extends BaseDialect {
+  val avroTypes = Seq(
+    "null",
+    "boolean",
+    "int",
+    "long",
+    "float",
+    "double",
+    "bytes",
+    "string",
+    "record",
+    "enum",
+    "array",
+    "map",
+    "fixed"
+  )
   override def DialectLocation: String = "file://vocabularies/dialects/avro.yaml"
+
+  final val inheritsId: String = AvroDialect.DialectLocation + "#/declarations/ShapeNode/inherits"
 
   override protected val name: String    = "avro"
   override protected val version: String = ""
@@ -23,37 +40,159 @@ object AvroDialect extends BaseDialect {
   override protected def encodes: DialectNode = AvroRootNode
 
   override val declares: Seq[DialectNode] = Seq(
-    AvroRootNode
+    AvroRootNode,
+    AvroRecordNode,
+    AvroArrayNode,
+    AvroAnyNode,
+    AvroEnumNode
   )
   override protected def declaredNodes: Map[String, DialectNode] = Map.empty
 }
 
-object AvroRootNode extends DialectNode {
-  override def nodeTypeMapping: String = AvroSchemaDocumentModel.`type`.head.iri()
-  override def name                    = "AnyShape"
-  override def properties: Seq[PropertyMapping] = Seq(
-    PropertyMapping()
-      .withId(AvroDialect.DialectLocation + "#/declarations/ShapeNode/inherits")
-      .withNodePropertyMapping(ShapeModel.Inherits.value.iri())
-      .withName("type")
-      .withMinCount(1)
-      .withEnum(
-        Seq(
-          "null",
-          "boolean",
-          "int",
-          "long",
-          "float",
-          "double",
-          "bytes",
-          "string",
-          "record",
-          "enum",
-          "array",
-          "map",
-          "fixed"
+trait AvroTypedNode extends DialectNode {
+  override def name = "AnyShape"
+  protected def defaultMapping: PropertyMapping = PropertyMapping()
+    .withId(AvroDialect.DialectLocation + "#/declarations/ShapeNode/defaultValue")
+    .withNodePropertyMapping(ShapeModel.Default.value.iri())
+    .withName("default")
+    .withObjectRange(Seq())
+
+  protected val docMapping: PropertyMapping = PropertyMapping()
+    .withId(AvroDialect.DialectLocation + "#/declarations/doc")
+    .withName("doc")
+    .withLiteralRange(xsdString.iri())
+
+  protected val namespaceMapping: PropertyMapping = PropertyMapping()
+    .withId(AvroDialect.DialectLocation + "#/declarations/namespace")
+    .withName("namespace")
+    .withLiteralRange(xsdString.iri())
+
+  protected val aliasesMapping: PropertyMapping = PropertyMapping()
+    .withId(AvroDialect.DialectLocation + "#/declarations/aliases")
+    .withName("aliases")
+    .withAllowMultiple(true)
+    .withLiteralRange(xsdString.iri())
+  override def properties: Seq[PropertyMapping] = {
+    Seq(
+      PropertyMapping()
+        .withId(AvroDialect.inheritsId)
+        .withNodePropertyMapping(ShapeModel.Inherits.value.iri())
+        .withName("type")
+        .withMinCount(1)
+        .withEnum(
+          AvroDialect.avroTypes
         )
+        .withLiteralRange(xsdString.iri()),
+      defaultMapping
+    )
+  }
+}
+
+object AvroRootNode extends AvroTypedNode {
+  override def nodeTypeMapping: String = AvroSchemaDocumentModel.`type`.head.iri()
+}
+
+object AvroRecordNode extends AvroTypedNode {
+  override def nodeTypeMapping: String = NodeShapeModel.`type`.head.iri()
+  override def name                    = "NodeShape"
+
+  override def properties: Seq[PropertyMapping] = {
+    super.properties :+
+      PropertyMapping()
+        .withId(AvroDialect.inheritsId)
+        .withNodePropertyMapping(ShapeModel.Inherits.value.iri())
+        .withName("fields")
+        .withObjectRange(Seq(AvroFieldNode.id)) :+
+      aliasesMapping :+
+      docMapping :+
+      namespaceMapping
+  }
+}
+
+object AvroEnumNode extends AvroTypedNode {
+  override def nodeTypeMapping: String = ScalarShapeModel.`type`.head.iri()
+  override def name                    = "ScalarShape"
+
+  override def properties: Seq[PropertyMapping] = {
+    super.properties :+
+      PropertyMapping()
+        .withId(AvroDialect.DialectLocation + "#/declarations/ShapeNode/symbols")
+        .withNodePropertyMapping(ShapeModel.Values.value.iri())
+        .withName("symbols")
+        .withAllowMultiple(true)
+        .withLiteralRange(xsdString.iri()) :+
+      namespaceMapping :+
+      docMapping
+  }
+}
+
+object AvroFixedNode extends AvroTypedNode {
+  override def nodeTypeMapping: String = ScalarShapeModel.`type`.head.iri()
+  override def name                    = "ScalarShape"
+
+  override def properties: Seq[PropertyMapping] = {
+    super.properties :+
+      PropertyMapping()
+        .withId(AvroDialect.DialectLocation + "#/declarations/ShapeNode/size")
+        .withNodePropertyMapping(ShapeModel.Values.value.iri())
+        .withName("size")
+        .withLiteralRange(xsdInteger.iri()) :+
+      namespaceMapping :+
+      aliasesMapping
+  }
+}
+
+object AvroMapNode extends AvroTypedNode {
+  override def nodeTypeMapping: String = NodeShapeModel.`type`.head.iri()
+  override def name                    = "NodeShape"
+  override def properties: Seq[PropertyMapping] = super.properties :+
+    PropertyMapping()
+      .withId(AvroDialect.inheritsId)
+      .withNodePropertyMapping(ShapeModel.Inherits.value.iri())
+      .withName("values")
+      .withEnum(
+        AvroDialect.avroTypes
       )
       .withLiteralRange(xsdString.iri())
-  )
+}
+object AvroArrayNode extends AvroTypedNode {
+  override def nodeTypeMapping: String = ArrayShapeModel.`type`.head.iri()
+  override def name                    = "ArrayShape"
+  override def properties: Seq[PropertyMapping] = super.properties :+
+    PropertyMapping()
+      .withId(AvroDialect.inheritsId)
+      .withNodePropertyMapping(ShapeModel.Inherits.value.iri())
+      .withName("items")
+      .withEnum(
+        AvroDialect.avroTypes
+      )
+      .withLiteralRange(xsdString.iri())
+
+  override protected def defaultMapping: PropertyMapping = super.defaultMapping.withAllowMultiple(true)
+}
+object AvroAnyNode extends AvroTypedNode {
+  override def nodeTypeMapping: String = AnyShapeModel.`type`.head.iri()
+  override def name                    = "AnyShape"
+}
+
+object AvroFieldNode extends AvroTypedNode {
+  override def nodeTypeMapping: String = AvroDialect.DialectLocation + "#/declarations/field"
+  override def name                    = "AvroField"
+  override def properties: Seq[PropertyMapping] = {
+    super.properties :+
+      PropertyMapping()
+        .withId(AvroDialect.DialectLocation + "#/declarations/field")
+        .withName("type")
+        .withEnum(
+          AvroDialect.avroTypes
+        )
+        .withLiteralRange(xsdString.iri())
+        .withMinCount(1) :+
+      PropertyMapping()
+        .withId(AvroDialect.DialectLocation + "#/declarations/name")
+        .withName("name")
+        .withLiteralRange(xsdString.iri())
+        .withMinCount(1) :+
+      docMapping
+  }
 }

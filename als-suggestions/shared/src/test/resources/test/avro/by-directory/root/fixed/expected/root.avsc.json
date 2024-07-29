@@ -1,0 +1,146 @@
+[
+  {
+    "label": "aliases",
+    "kind": [
+      
+    ],
+    "detail": "schemas",
+    "documentation": "aliases",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "11aliases",
+    "filterText": "aliases: [\n  $1\n]",
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 2,
+          "character": 2
+        },
+        "end": {
+          "line": 2,
+          "character": 2
+        }
+      },
+      "newText": "aliases: [\n  $1\n]"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "default",
+    "kind": [
+      
+    ],
+    "detail": "schemas",
+    "documentation": "default",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "11default",
+    "filterText": "default:",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 2,
+          "character": 2
+        },
+        "end": {
+          "line": 2,
+          "character": 2
+        }
+      },
+      "newText": "default:"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "namespace",
+    "kind": [
+      
+    ],
+    "detail": "schemas",
+    "documentation": "namespace",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "11namespace",
+    "filterText": "namespace:",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 2,
+          "character": 2
+        },
+        "end": {
+          "line": 2,
+          "character": 2
+        }
+      },
+      "newText": "namespace:"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "size",
+    "kind": [
+      
+    ],
+    "detail": "schemas",
+    "documentation": "size",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "11size",
+    "filterText": "size:",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 2,
+          "character": 2
+        },
+        "end": {
+          "line": 2,
+          "character": 2
+        }
+      },
+      "newText": "size:"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  }
+]
