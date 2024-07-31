@@ -22,6 +22,7 @@ object ProfileNames {
   val GRAPHQL: ProfileName            = GraphQLProfile
   val GRAPHQL_FEDERATION: ProfileName = GraphQLFederationProfile
   val JSONSCHEMA: ProfileName         = JsonSchemaProfile
+  val AVROSCHEMA: ProfileName         = AvroSchemaProfile
 
   lazy val specProfiles: Seq[ProfileName] =
     Seq(
