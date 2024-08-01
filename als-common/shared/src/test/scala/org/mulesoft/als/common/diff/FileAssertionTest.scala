@@ -1,12 +1,12 @@
 package org.mulesoft.als.common.diff
 
-import amf.core.internal.unsafe.PlatformSecrets
+import org.mulesoft.amfintegration.platform.AlsPlatformSecrets
 import org.mulesoft.common.io.{AsyncFile, FileSystem}
 import org.scalatest.compatible.Assertion
 
 import scala.concurrent.{ExecutionContext, Future}
 
-trait FileAssertionTest extends PlatformSecrets {
+trait FileAssertionTest extends AlsPlatformSecrets {
 
   private implicit val executionContext: ExecutionContext = ExecutionContext.Implicits.global
 

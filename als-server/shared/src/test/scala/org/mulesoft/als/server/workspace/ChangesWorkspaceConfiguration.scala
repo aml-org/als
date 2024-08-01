@@ -1,15 +1,15 @@
 package org.mulesoft.als.server.workspace
 
 import amf.core.internal.remote.Platform
-import amf.core.internal.unsafe.PlatformSecrets
 import org.mulesoft.als.server.protocol.LanguageServer
 import org.mulesoft.als.server.workspace.command.Commands
+import org.mulesoft.amfintegration.platform.AlsPlatformSecrets
 import org.mulesoft.lsp.textsync.KnownDependencyScopes.{CUSTOM_VALIDATION, DIALECT, SEMANTIC_EXTENSION}
 import org.mulesoft.lsp.workspace.ExecuteCommandParams
 
 import scala.concurrent.Future
 
-trait ChangesWorkspaceConfiguration extends PlatformSecrets {
+trait ChangesWorkspaceConfiguration extends AlsPlatformSecrets {
   implicit private val Platform: Platform = platform
 
   def changeConfigArgs(

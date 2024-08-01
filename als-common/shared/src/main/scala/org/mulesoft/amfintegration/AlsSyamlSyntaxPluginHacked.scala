@@ -5,12 +5,12 @@ import amf.core.client.scala.parse.AMFSyntaxParsePlugin
 import amf.core.client.scala.parse.document.{ParsedDocument, ParserContext, SyamlParsedDocument}
 import amf.core.internal.parser.domain.JsonParserFactory
 import amf.core.internal.plugins.syntax.SyamlSyntaxParsePlugin
-import amf.core.internal.unsafe.PlatformSecrets
 import org.yaml.model.{YComment, YDocument, YMap, YNode}
 import org.yaml.parser.YamlParser
 import amf.core.internal.plugins.syntax.SyamlAMFErrorHandler
+import org.mulesoft.amfintegration.platform.AlsPlatformSecrets
 
-object AlsSyamlSyntaxPluginHacked extends AMFSyntaxParsePlugin with PlatformSecrets {
+object AlsSyamlSyntaxPluginHacked extends AMFSyntaxParsePlugin with AlsPlatformSecrets {
 
   override def priority: PluginPriority = HighPriority
 

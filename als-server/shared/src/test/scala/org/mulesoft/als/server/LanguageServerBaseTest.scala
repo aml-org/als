@@ -1,7 +1,6 @@
 package org.mulesoft.als.server
 
 import amf.aml.client.scala.model.document.DialectInstance
-import amf.core.internal.unsafe.PlatformSecrets
 import amf.custom.validation.client.scala.{BaseProfileValidatorBuilder, ProfileValidatorExecutor}
 import amf.custom.validation.internal.DummyValidatorExecutor
 import org.mulesoft.als.logger.Logger
@@ -15,6 +14,7 @@ import org.mulesoft.als.server.protocol.configuration.AlsInitializeParams
 import org.mulesoft.als.server.protocol.textsync.DidFocusParams
 import org.mulesoft.als.server.workspace.ChangesWorkspaceConfiguration
 import org.mulesoft.als.server.workspace.command.Commands
+import org.mulesoft.amfintegration.platform.AlsPlatformSecrets
 import org.mulesoft.lsp.configuration.WorkspaceFolder
 import org.mulesoft.lsp.feature.common.{TextDocumentIdentifier, TextDocumentItem, VersionedTextDocumentIdentifier}
 import org.mulesoft.lsp.feature.documentsymbol.{
@@ -37,7 +37,7 @@ import scala.util.Failure
 
 abstract class LanguageServerBaseTest
     extends AsyncFunSuite
-    with PlatformSecrets
+    with AlsPlatformSecrets
     with Matchers
     with OptionValues
     with ChangesWorkspaceConfiguration {

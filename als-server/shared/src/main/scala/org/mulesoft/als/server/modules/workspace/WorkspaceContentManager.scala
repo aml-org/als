@@ -3,7 +3,6 @@ package org.mulesoft.als.server.modules.workspace
 import amf.aml.client.scala.model.document.{Dialect, DialectInstance}
 import amf.core.client.scala.model.document.{BaseUnit, ExternalFragment}
 import amf.core.internal.remote.Platform
-import amf.core.internal.unsafe.PlatformSecrets
 import amf.shapes.client.scala.model.document.DataTypeFragment
 import org.mulesoft.als.common.URIImplicits._
 import org.mulesoft.als.configuration.ProjectConfiguration
@@ -14,6 +13,7 @@ import org.mulesoft.als.server.textsync.EnvironmentProvider
 import org.mulesoft.als.server.workspace.UnitTaskManager
 import org.mulesoft.amfintegration.AmfImplicits.BaseUnitImp
 import org.mulesoft.amfintegration.amfconfiguration.{ALSConfigurationState, AmfParseResult, ProjectConfigurationState}
+import org.mulesoft.amfintegration.platform.AlsPlatformSecrets
 import org.mulesoft.exceptions.AlsException
 import org.mulesoft.lsp.feature.telemetry.MessageTypes
 
@@ -33,7 +33,7 @@ class WorkspaceContentManager private (
     shouldRetryExternalFragments: Boolean
 ) extends UnitTaskManager[ParsedUnit, CompilableUnit, NotificationKind]
     with WorkspaceFolderManager
-    with PlatformSecrets {
+    with AlsPlatformSecrets {
 
   def getConfigurationState: Future[ALSConfigurationState] =
     sync(() =>

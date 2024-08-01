@@ -1,11 +1,11 @@
 package org.mulesoft.als.common
 
-import amf.core.internal.unsafe.PlatformSecrets
 import org.mulesoft.als.common.URIImplicits._
+import org.mulesoft.amfintegration.platform.AlsPlatformSecrets
 
 import scala.concurrent.Future
 
-trait DirectoryResolver extends PlatformSecrets {
+trait DirectoryResolver extends AlsPlatformSecrets {
   def exists(path: String): Future[Boolean]
 
   def readDir(path: String): Future[Seq[String]]

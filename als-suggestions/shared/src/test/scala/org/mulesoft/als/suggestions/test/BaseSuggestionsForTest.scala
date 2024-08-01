@@ -1,19 +1,19 @@
 package org.mulesoft.als.suggestions.test
 
 import amf.core.client.scala.resource.ResourceLoader
-import amf.core.internal.unsafe.PlatformSecrets
 import org.mulesoft.als.common.{AmfConfigurationPatcher, MarkerFinderTest, PlatformDirectoryResolver}
 import org.mulesoft.als.configuration.AlsConfiguration
 import org.mulesoft.als.suggestions.client.Suggestions
 import org.mulesoft.als.suggestions.test.core.AccessBundle
 import org.mulesoft.amfintegration.amfconfiguration.ALSConfigurationState
+import org.mulesoft.amfintegration.platform.AlsPlatformSecrets
 import org.mulesoft.lsp.feature.completion.CompletionItem
 import upickle.default.write
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
-trait BaseSuggestionsForTest extends PlatformSecrets with MarkerFinderTest with AccessBundle {
+trait BaseSuggestionsForTest extends AlsPlatformSecrets with MarkerFinderTest with AccessBundle {
 
   protected val dr = new PlatformDirectoryResolver(platform)
 

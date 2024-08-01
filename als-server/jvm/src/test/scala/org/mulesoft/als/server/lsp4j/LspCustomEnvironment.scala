@@ -3,7 +3,6 @@ package org.mulesoft.als.server.lsp4j
 import amf.core.client.common.remote.Content
 import amf.core.client.platform.resource.ClientResourceLoader
 import amf.core.internal.convert.CoreClientConverters._
-import amf.core.internal.unsafe.PlatformSecrets
 import org.eclipse.lsp4j.{DidOpenTextDocumentParams, TextDocumentItem, TraceValue}
 import org.mulesoft.als.configuration.ResourceLoaderConverter
 import org.mulesoft.als.logger.EmptyLogger
@@ -11,6 +10,7 @@ import org.mulesoft.als.server.client.platform.AlsLanguageServerFactory
 import org.mulesoft.als.server.lsp4j.extension.AlsInitializeParams
 import org.mulesoft.als.server.modules.diagnostic.ALL_TOGETHER
 import org.mulesoft.als.server.{Flaky, MockDiagnosticClientNotifier}
+import org.mulesoft.amfintegration.platform.AlsPlatformSecrets
 import org.scalatest.funsuite.AsyncFunSuite
 import org.scalatest.matchers.should.Matchers
 
@@ -18,7 +18,7 @@ import java.util.concurrent.CompletableFuture
 import scala.collection.JavaConverters._
 import scala.compat.java8.FutureConverters._
 import scala.concurrent.Future
-class LspCustomEnvironment extends AsyncFunSuite with Matchers with PlatformSecrets {
+class LspCustomEnvironment extends AsyncFunSuite with Matchers with AlsPlatformSecrets {
 
   test("test custom environment", Flaky) {
 

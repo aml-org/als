@@ -7,11 +7,11 @@ import amf.core.client.platform.validation.payload.{
   JsPayloadValidator,
   ShapeValidationConfiguration
 }
-import amf.core.internal.unsafe.PlatformSecrets
+import org.mulesoft.amfintegration.platform.AlsPlatformSecrets
 
 import scala.scalajs.js
 
-trait AMFValidatorTest extends LanguageServerBaseTest with PlatformSecrets {
+trait AMFValidatorTest extends LanguageServerBaseTest with AlsPlatformSecrets {
 
   def getAppliesFunction(fn: () => Unit): Boolean = {
     fn()
