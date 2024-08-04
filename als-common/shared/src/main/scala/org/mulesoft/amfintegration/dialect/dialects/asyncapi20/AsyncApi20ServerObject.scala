@@ -36,6 +36,29 @@ trait AsyncApiServerObject extends DialectNode {
         .withName("protocol")
         .withNodePropertyMapping(ServerModel.Protocol.value.iri())
         .withMinCount(1)
+        .withEnum(
+          Seq(
+            "amqp",
+            "amqps",
+            "http",
+            "https",
+            "ibmmq",
+            "jms",
+            "kafka",
+            "kafka -secure",
+            "anypointmq",
+            "mqtt",
+            "secure -mqtt",
+            "solace",
+            "stomp",
+            "stomps",
+            "ws",
+            "wss",
+            "mercure",
+            "googlepubsub",
+            "pulsar"
+          )
+        )
         .withLiteralRange(xsdString.iri()),
       PropertyMapping()
         .withId(location + "#/declarations/ServerObject/protocolVersion")
