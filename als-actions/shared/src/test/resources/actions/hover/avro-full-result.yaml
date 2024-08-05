@@ -1,0 +1,171 @@
+hovers:
+  (2,5):
+    - Human readable name for the object
+  (2,14):
+    - Human readable name for the object
+  (3,7):
+    - (AVRO) a JSON string that qualifies the name
+  (3,21):
+    - (AVRO) a JSON string that qualifies the name
+  (4,5):
+    - Defines a data type
+  (4,14):
+    - Defines a data type
+  (5,6):
+    - Properties associated to this node
+  (7,9):
+    - Human readable name for the object
+  (7,17):
+    - Human readable name for the object
+  (8,9):
+    - Defines a data type
+  (8,18):
+    - Defines a data type
+  (11,9):
+    - Human readable name for the object
+  (11,19):
+    - Human readable name for the object
+  (12,9):
+    - Defines a data type
+  (12,18):
+    - Defines a data type
+  (15,9):
+    - Human readable name for the object
+  (15,17):
+    - Human readable name for the object
+  (16,9):
+    - Data shapes in the union
+  (16,18):
+    - Data shapes in the union
+  (16,27):
+    - Data shapes in the union
+  (17,10):
+    - Default value for this element
+  (17,19):
+    - Defines a data type
+  (20,9):
+    - Human readable name for the object
+  (20,16):
+    - Human readable name for the object
+  (21,9):
+    - Data shapes in the union
+  (21,18):
+    - Data shapes in the union
+  (21,25):
+    - Data shapes in the union
+  (22,10):
+    - Default value for this element
+  (22,19):
+    - Defines a data type
+  (25,9):
+    - Human readable name for the object
+  (25,28):
+    - Human readable name for the object
+  (26,9):
+    - Defines a data type
+  (27,11):
+    - Human readable name for the object
+  (27,26):
+    - Human readable name for the object
+  (28,11):
+    - Defines a data type
+  (28,19):
+    - Defines a data type
+  (29,12):
+    - Defines a data type
+  (29,22):
+    - Defines a data type
+  (29,29):
+    - Defines a data type
+  (29,36):
+    - Defines a data type
+  (29,43):
+    - Defines a data type
+  (29,49):
+    - Defines a data type
+  (30,12):
+    - Default value for this element
+  (30,21):
+    - Defines a data type
+  (34,9):
+    - Human readable name for the object
+  (34,22):
+    - Human readable name for the object
+  (35,9):
+    - Defines a data type
+  (36,11):
+    - Defines a data type
+  (36,19):
+    - Defines a data type
+  (37,11):
+    - Defines a data type
+  (37,21):
+    - Defines a data type
+  (41,9):
+    - Human readable name for the object
+  (41,18):
+    - Human readable name for the object
+  (42,9):
+    - Defines a data type
+  (43,11):
+    - Human readable name for the object
+  (43,20):
+    - Human readable name for the object
+  (44,11):
+    - Defines a data type
+  (44,20):
+    - Defines a data type
+  (45,12):
+    - Properties associated to this node
+  (47,15):
+    - Human readable name for the object
+  (47,24):
+    - Human readable name for the object
+  (48,15):
+    - Defines a data type
+  (48,22):
+    - Defines a data type
+  (51,15):
+    - Human readable name for the object
+  (51,24):
+    - Human readable name for the object
+  (52,15):
+    - Data shapes in the union
+  (52,24):
+    - Data shapes in the union
+  (52,33):
+    - Data shapes in the union
+  (53,16):
+    - Default value for this element
+  (53,25):
+    - Defines a data type
+  (59,9):
+    - Human readable name for the object
+  (59,18):
+    - Human readable name for the object
+  (60,9):
+    - Defines a data type
+  (60,17):
+    - Defines a data type
+  (63,9):
+    - Human readable name for the object
+  (63,18):
+    - Human readable name for the object
+  (64,9):
+    - Defines a data type
+  (64,18):
+    - Defines a data type
+  (67,9):
+    - Human readable name for the object
+  (67,18):
+    - Human readable name for the object
+  (68,9):
+    - Defines a data type
+  (69,11):
+    - Scalar range constraining this scalar shape
+  (69,20):
+    - Scalar range constraining this scalar shape
+  (70,14):
+    - Defines a data type
+  (70,26):
+    - Defines a data type
