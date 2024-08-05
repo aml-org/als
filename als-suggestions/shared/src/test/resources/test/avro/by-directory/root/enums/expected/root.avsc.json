@@ -72,6 +72,42 @@
     "command": null
   },
   {
+    "label": "logicalType",
+    "kind": [
+      
+    ],
+    "detail": "unknown",
+    "documentation": "logicalType",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "11logicalType",
+    "filterText": "logicalType:",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 2,
+          "character": 2
+        },
+        "end": {
+          "line": 2,
+          "character": 2
+        }
+      },
+      "newText": "logicalType:"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
     "label": "namespace",
     "kind": [
       

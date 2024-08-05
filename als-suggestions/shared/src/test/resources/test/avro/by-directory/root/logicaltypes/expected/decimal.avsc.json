@@ -1,46 +1,10 @@
 [
   {
-    "label": "aliases",
-    "kind": [
-      
-    ],
-    "detail": "schemas",
-    "documentation": "aliases",
-    "deprecated": [
-      
-    ],
-    "preselect": [
-      
-    ],
-    "sortText": "11aliases",
-    "filterText": "aliases: [\n  $1\n]",
-    "insertText": null,
-    "insertTextFormat": [
-      2
-    ],
-    "textEdit": {
-      "range": {
-        "start": {
-          "line": 2,
-          "character": 2
-        },
-        "end": {
-          "line": 2,
-          "character": 2
-        }
-      },
-      "newText": "aliases: [\n  $1\n]"
-    },
-    "additionalTextEdits": null,
-    "commitCharacters": null,
-    "command": null
-  },
-  {
     "label": "default",
     "kind": [
       
     ],
-    "detail": "schemas",
+    "detail": "parameters",
     "documentation": "default",
     "deprecated": [
       
@@ -57,11 +21,11 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 2,
+          "line": 3,
           "character": 2
         },
         "end": {
-          "line": 2,
+          "line": 3,
           "character": 2
         }
       },
@@ -72,20 +36,20 @@
     "command": null
   },
   {
-    "label": "logicalType",
+    "label": "doc",
     "kind": [
       
     ],
-    "detail": "schemas",
-    "documentation": "logicalType",
+    "detail": "unknown",
+    "documentation": "doc",
     "deprecated": [
       
     ],
     "preselect": [
       
     ],
-    "sortText": "11logicalType",
-    "filterText": "logicalType:",
+    "sortText": "11doc",
+    "filterText": "doc:",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -93,15 +57,15 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 2,
+          "line": 3,
           "character": 2
         },
         "end": {
-          "line": 2,
+          "line": 3,
           "character": 2
         }
       },
-      "newText": "logicalType:"
+      "newText": "doc:"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -112,7 +76,7 @@
     "kind": [
       
     ],
-    "detail": "schemas",
+    "detail": "unknown",
     "documentation": "namespace",
     "deprecated": [
       
@@ -129,11 +93,11 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 2,
+          "line": 3,
           "character": 2
         },
         "end": {
-          "line": 2,
+          "line": 3,
           "character": 2
         }
       },
@@ -144,20 +108,20 @@
     "command": null
   },
   {
-    "label": "size",
+    "label": "precision",
     "kind": [
       
     ],
-    "detail": "schemas",
-    "documentation": "size",
+    "detail": "logical type",
+    "documentation": "precision",
     "deprecated": [
       
     ],
     "preselect": [
       
     ],
-    "sortText": "11size",
-    "filterText": "size:",
+    "sortText": "11precision",
+    "filterText": "precision:",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -165,15 +129,87 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 2,
+          "line": 3,
           "character": 2
         },
         "end": {
-          "line": 2,
+          "line": 3,
           "character": 2
         }
       },
-      "newText": "size:"
+      "newText": "precision:"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "scale",
+    "kind": [
+      
+    ],
+    "detail": "logical type",
+    "documentation": "scale",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "11scale",
+    "filterText": "scale:",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 3,
+          "character": 2
+        },
+        "end": {
+          "line": 3,
+          "character": 2
+        }
+      },
+      "newText": "scale:"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "symbols",
+    "kind": [
+      
+    ],
+    "detail": "unknown",
+    "documentation": "symbols",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "11symbols",
+    "filterText": "symbols: [\n  $1\n]",
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 3,
+          "character": 2
+        },
+        "end": {
+          "line": 3,
+          "character": 2
+        }
+      },
+      "newText": "symbols: [\n  $1\n]"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,

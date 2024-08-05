@@ -25,6 +25,19 @@ object AvroDialect extends BaseDialect {
     "map",
     "fixed"
   )
+
+  val avroLogicalTypes = Seq(
+    "decimal",
+    "uuid",
+    "date",
+    "time-millis",
+    "time-micros",
+    "timestamp-millis",
+    "timestamp-micros",
+    "local-timestamp-millis",
+    "local-timestamp-micros",
+    "duration"
+  )
   override def DialectLocation: String = "file://vocabularies/dialects/avro.yaml"
 
   final val inheritsId: String = AvroDialect.DialectLocation + "#/declarations/ShapeNode/inherits"
@@ -81,6 +94,14 @@ trait AvroTypedNode extends DialectNode {
         .withMinCount(1)
         .withEnum(
           AvroDialect.avroTypes
+        )
+        .withLiteralRange(xsdString.iri()),
+      PropertyMapping()
+        .withId(AvroDialect.DialectLocation + "#/declarations/logicalType")
+        .withNodePropertyMapping(ShapeModel.Inherits.value.iri())
+        .withName("logicalType")
+        .withEnum(
+          AvroDialect.avroLogicalTypes
         )
         .withLiteralRange(xsdString.iri()),
       defaultMapping

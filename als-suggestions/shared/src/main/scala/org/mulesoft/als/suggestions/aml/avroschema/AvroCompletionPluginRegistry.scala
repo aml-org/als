@@ -5,6 +5,7 @@ import org.mulesoft.als.suggestions.AMLBaseCompletionPlugins
 import org.mulesoft.als.suggestions.aml.webapi.WebApiCompletionPluginRegistry
 import org.mulesoft.als.suggestions.interfaces.AMLCompletionPlugin
 import org.mulesoft.als.suggestions.plugins.aml.webapi.avroschema.AvroTypesCompletionPlugin
+import org.mulesoft.als.suggestions.plugins.aml.webapi.avroschema.logicaltypes.AvroLogicalTypesCompletionPlugin
 import org.mulesoft.als.suggestions.plugins.aml.webapi.avroschema.structure.{
   ResolveField,
   ResolveFixed,
@@ -27,7 +28,8 @@ object AvroCompletionPluginRegistry extends WebApiCompletionPluginRegistry {
           ResolveDefault
         )
       ) :+
-      AvroTypesCompletionPlugin
+      AvroTypesCompletionPlugin :+
+      AvroLogicalTypesCompletionPlugin
 
   override def plugins: Seq[AMLCompletionPlugin] = all
 
