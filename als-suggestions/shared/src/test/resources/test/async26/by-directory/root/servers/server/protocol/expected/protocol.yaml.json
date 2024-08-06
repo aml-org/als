@@ -36,6 +36,42 @@
     "command": null
   },
   {
+    "label": "amqp1",
+    "kind": [
+      
+    ],
+    "detail": "unknown",
+    "documentation": "amqp1",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "10amqp1",
+    "filterText": "amqp1",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 3,
+          "character": 14
+        },
+        "end": {
+          "line": 3,
+          "character": 14
+        }
+      },
+      "newText": "amqp1"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
     "label": "amqps",
     "kind": [
       
@@ -288,6 +324,42 @@
     "command": null
   },
   {
+    "label": "jms",
+    "kind": [
+      
+    ],
+    "detail": "unknown",
+    "documentation": "jms",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "10jms",
+    "filterText": "jms",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 3,
+          "character": 14
+        },
+        "end": {
+          "line": 3,
+          "character": 14
+        }
+      },
+      "newText": "jms"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
     "label": "kafka",
     "kind": [
       
@@ -432,6 +504,78 @@
     "command": null
   },
   {
+    "label": "mqtt5",
+    "kind": [
+      
+    ],
+    "detail": "unknown",
+    "documentation": "mqtt5",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "10mqtt5",
+    "filterText": "mqtt5",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 3,
+          "character": 14
+        },
+        "end": {
+          "line": 3,
+          "character": 14
+        }
+      },
+      "newText": "mqtt5"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "nats",
+    "kind": [
+      
+    ],
+    "detail": "unknown",
+    "documentation": "nats",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "10nats",
+    "filterText": "nats",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 3,
+          "character": 14
+        },
+        "end": {
+          "line": 3,
+          "character": 14
+        }
+      },
+      "newText": "nats"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
     "label": "pulsar",
     "kind": [
       
@@ -462,6 +606,42 @@
         }
       },
       "newText": "pulsar"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "redis",
+    "kind": [
+      
+    ],
+    "detail": "unknown",
+    "documentation": "redis",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "10redis",
+    "filterText": "redis",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 3,
+          "character": 14
+        },
+        "end": {
+          "line": 3,
+          "character": 14
+        }
+      },
+      "newText": "redis"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -504,6 +684,42 @@
     "command": null
   },
   {
+    "label": "sns",
+    "kind": [
+      
+    ],
+    "detail": "unknown",
+    "documentation": "sns",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "10sns",
+    "filterText": "sns",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 3,
+          "character": 14
+        },
+        "end": {
+          "line": 3,
+          "character": 14
+        }
+      },
+      "newText": "sns"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
     "label": "solace",
     "kind": [
       
@@ -534,6 +750,42 @@
         }
       },
       "newText": "solace"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "sqs",
+    "kind": [
+      
+    ],
+    "detail": "unknown",
+    "documentation": "sqs",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "10sqs",
+    "filterText": "sqs",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 3,
+          "character": 14
+        },
+        "end": {
+          "line": 3,
+          "character": 14
+        }
+      },
+      "newText": "sqs"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
