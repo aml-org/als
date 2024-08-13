@@ -13,7 +13,7 @@
       
     ],
     "sortText": "11date",
-    "filterText": "date",
+    "filterText": "\"date\"",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -29,7 +29,7 @@
           "character": 0
         }
       },
-      "newText": "date"
+      "newText": "\"date\""
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -49,7 +49,7 @@
       
     ],
     "sortText": "11decimal",
-    "filterText": "decimal",
+    "filterText": "\"decimal\"",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -65,7 +65,7 @@
           "character": 0
         }
       },
-      "newText": "decimal"
+      "newText": "\"decimal\""
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -85,7 +85,7 @@
       
     ],
     "sortText": "11duration",
-    "filterText": "duration",
+    "filterText": "\"duration\"",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -101,7 +101,7 @@
           "character": 0
         }
       },
-      "newText": "duration"
+      "newText": "\"duration\""
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -121,7 +121,7 @@
       
     ],
     "sortText": "11local-timestamp-micros",
-    "filterText": "local-timestamp-micros",
+    "filterText": "\"local-timestamp-micros\"",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -137,7 +137,7 @@
           "character": 0
         }
       },
-      "newText": "local-timestamp-micros"
+      "newText": "\"local-timestamp-micros\""
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -157,7 +157,7 @@
       
     ],
     "sortText": "11local-timestamp-millis",
-    "filterText": "local-timestamp-millis",
+    "filterText": "\"local-timestamp-millis\"",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -173,7 +173,7 @@
           "character": 0
         }
       },
-      "newText": "local-timestamp-millis"
+      "newText": "\"local-timestamp-millis\""
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -193,7 +193,7 @@
       
     ],
     "sortText": "11time-micros",
-    "filterText": "time-micros",
+    "filterText": "\"time-micros\"",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -209,7 +209,7 @@
           "character": 0
         }
       },
-      "newText": "time-micros"
+      "newText": "\"time-micros\""
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -229,7 +229,7 @@
       
     ],
     "sortText": "11time-millis",
-    "filterText": "time-millis",
+    "filterText": "\"time-millis\"",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -245,7 +245,7 @@
           "character": 0
         }
       },
-      "newText": "time-millis"
+      "newText": "\"time-millis\""
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -265,7 +265,7 @@
       
     ],
     "sortText": "11timestamp-micros",
-    "filterText": "timestamp-micros",
+    "filterText": "\"timestamp-micros\"",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -281,7 +281,7 @@
           "character": 0
         }
       },
-      "newText": "timestamp-micros"
+      "newText": "\"timestamp-micros\""
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -301,7 +301,7 @@
       
     ],
     "sortText": "11timestamp-millis",
-    "filterText": "timestamp-millis",
+    "filterText": "\"timestamp-millis\"",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -317,7 +317,7 @@
           "character": 0
         }
       },
-      "newText": "timestamp-millis"
+      "newText": "\"timestamp-millis\""
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -337,7 +337,7 @@
       
     ],
     "sortText": "11uuid",
-    "filterText": "uuid",
+    "filterText": "\"uuid\"",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -353,7 +353,7 @@
           "character": 0
         }
       },
-      "newText": "uuid"
+      "newText": "\"uuid\""
     },
     "additionalTextEdits": null,
     "commitCharacters": null,

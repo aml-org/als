@@ -13,10 +13,10 @@
       
     ],
     "sortText": "11default",
-    "filterText": "default:",
+    "filterText": "\"default\": \"$1\"",
     "insertText": null,
     "insertTextFormat": [
-      1
+      2
     ],
     "textEdit": {
       "range": {
@@ -29,7 +29,7 @@
           "character": 4
         }
       },
-      "newText": "default:"
+      "newText": "\"default\": \"$1\""
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -49,10 +49,10 @@
       
     ],
     "sortText": "11doc",
-    "filterText": "doc:",
+    "filterText": "\"doc\": \"$1\"",
     "insertText": null,
     "insertTextFormat": [
-      1
+      2
     ],
     "textEdit": {
       "range": {
@@ -65,7 +65,7 @@
           "character": 4
         }
       },
-      "newText": "doc:"
+      "newText": "\"doc\": \"$1\""
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -85,10 +85,10 @@
       
     ],
     "sortText": "11logicalType",
-    "filterText": "logicalType:",
+    "filterText": "\"logicalType\": \"$1\"",
     "insertText": null,
     "insertTextFormat": [
-      1
+      2
     ],
     "textEdit": {
       "range": {
@@ -101,7 +101,7 @@
           "character": 4
         }
       },
-      "newText": "logicalType:"
+      "newText": "\"logicalType\": \"$1\""
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -121,10 +121,10 @@
       
     ],
     "sortText": "10name",
-    "filterText": "name:",
+    "filterText": "\"name\": \"$1\"",
     "insertText": null,
     "insertTextFormat": [
-      1
+      2
     ],
     "textEdit": {
       "range": {
@@ -137,7 +137,7 @@
           "character": 4
         }
       },
-      "newText": "name:"
+      "newText": "\"name\": \"$1\""
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -157,10 +157,10 @@
       
     ],
     "sortText": "10type",
-    "filterText": "type:",
+    "filterText": "\"type\": \"$1\"",
     "insertText": null,
     "insertTextFormat": [
-      1
+      2
     ],
     "textEdit": {
       "range": {
@@ -173,7 +173,7 @@
           "character": 4
         }
       },
-      "newText": "type:"
+      "newText": "\"type\": \"$1\""
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -193,10 +193,10 @@
       
     ],
     "sortText": "10type",
-    "filterText": "type:",
+    "filterText": "\"type\": \"$1\"",
     "insertText": null,
     "insertTextFormat": [
-      1
+      2
     ],
     "textEdit": {
       "range": {
@@ -209,7 +209,7 @@
           "character": 4
         }
       },
-      "newText": "type:"
+      "newText": "\"type\": \"$1\""
     },
     "additionalTextEdits": null,
     "commitCharacters": null,

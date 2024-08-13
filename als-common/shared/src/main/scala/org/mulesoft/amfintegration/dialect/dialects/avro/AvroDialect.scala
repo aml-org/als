@@ -57,7 +57,7 @@ object AvroDialect extends BaseDialect {
     AvroRecordNode,
     AvroArrayNode,
     AvroAnyNode,
-    AvroEnumNode
+    AvroPrimitiveNode
   )
   override protected def declaredNodes: Map[String, DialectNode] = Map.empty
 }
@@ -142,6 +142,15 @@ object AvroEnumNode extends AvroTypedNode {
         .withName("symbols")
         .withAllowMultiple(true)
         .withLiteralRange(xsdString.iri()) :+
+      namespaceMapping :+
+      docMapping
+  }
+}
+object AvroPrimitiveNode extends AvroTypedNode {
+  override def nodeTypeMapping: String = ScalarShapeModel.`type`.head.iri()
+  override def name                    = "ScalarShape"
+  override def properties: Seq[PropertyMapping] = {
+    super.properties :+
       namespaceMapping :+
       docMapping
   }

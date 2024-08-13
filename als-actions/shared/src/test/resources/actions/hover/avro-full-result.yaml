@@ -72,7 +72,7 @@ hovers:
   (28,19):
     - Defines a data type
   (29,12):
-    - Defines a data type
+    - Each element should be part of the provided list to be valid
   (29,22):
     - Defines a data type
   (29,29):

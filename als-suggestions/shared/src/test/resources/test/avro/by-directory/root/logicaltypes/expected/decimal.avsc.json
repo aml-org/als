@@ -13,10 +13,10 @@
       
     ],
     "sortText": "11default",
-    "filterText": "default:",
+    "filterText": "\"default\": \"$1\"",
     "insertText": null,
     "insertTextFormat": [
-      1
+      2
     ],
     "textEdit": {
       "range": {
@@ -29,7 +29,7 @@
           "character": 2
         }
       },
-      "newText": "default:"
+      "newText": "\"default\": \"$1\""
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -49,10 +49,10 @@
       
     ],
     "sortText": "11doc",
-    "filterText": "doc:",
+    "filterText": "\"doc\": \"$1\"",
     "insertText": null,
     "insertTextFormat": [
-      1
+      2
     ],
     "textEdit": {
       "range": {
@@ -65,7 +65,7 @@
           "character": 2
         }
       },
-      "newText": "doc:"
+      "newText": "\"doc\": \"$1\""
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -85,10 +85,10 @@
       
     ],
     "sortText": "11namespace",
-    "filterText": "namespace:",
+    "filterText": "\"namespace\": \"$1\"",
     "insertText": null,
     "insertTextFormat": [
-      1
+      2
     ],
     "textEdit": {
       "range": {
@@ -101,7 +101,7 @@
           "character": 2
         }
       },
-      "newText": "namespace:"
+      "newText": "\"namespace\": \"$1\""
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -121,10 +121,10 @@
       
     ],
     "sortText": "11precision",
-    "filterText": "precision:",
+    "filterText": "\"precision\": \"$1\"",
     "insertText": null,
     "insertTextFormat": [
-      1
+      2
     ],
     "textEdit": {
       "range": {
@@ -137,7 +137,7 @@
           "character": 2
         }
       },
-      "newText": "precision:"
+      "newText": "\"precision\": \"$1\""
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -157,43 +157,7 @@
       
     ],
     "sortText": "11scale",
-    "filterText": "scale:",
-    "insertText": null,
-    "insertTextFormat": [
-      1
-    ],
-    "textEdit": {
-      "range": {
-        "start": {
-          "line": 3,
-          "character": 2
-        },
-        "end": {
-          "line": 3,
-          "character": 2
-        }
-      },
-      "newText": "scale:"
-    },
-    "additionalTextEdits": null,
-    "commitCharacters": null,
-    "command": null
-  },
-  {
-    "label": "symbols",
-    "kind": [
-      
-    ],
-    "detail": "unknown",
-    "documentation": "symbols",
-    "deprecated": [
-      
-    ],
-    "preselect": [
-      
-    ],
-    "sortText": "11symbols",
-    "filterText": "symbols: [\n  $1\n]",
+    "filterText": "\"scale\": \"$1\"",
     "insertText": null,
     "insertTextFormat": [
       2
@@ -209,7 +173,7 @@
           "character": 2
         }
       },
-      "newText": "symbols: [\n  $1\n]"
+      "newText": "\"scale\": \"$1\""
     },
     "additionalTextEdits": null,
     "commitCharacters": null,

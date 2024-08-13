@@ -7,6 +7,7 @@ import org.mulesoft.als.suggestions.interfaces.AMLCompletionPlugin
 import org.mulesoft.als.suggestions.plugins.aml.webapi.avroschema.AvroTypesCompletionPlugin
 import org.mulesoft.als.suggestions.plugins.aml.webapi.avroschema.logicaltypes.AvroLogicalTypesCompletionPlugin
 import org.mulesoft.als.suggestions.plugins.aml.webapi.avroschema.structure.{
+  ResolveEnum,
   ResolveField,
   ResolveFixed,
   ResolveMap,
@@ -25,6 +26,7 @@ object AvroCompletionPluginRegistry extends WebApiCompletionPluginRegistry {
           ResolveFixed,
           ResolveField,
           ResolveUnion,
+          ResolveEnum,
           ResolveDefault
         )
       ) :+

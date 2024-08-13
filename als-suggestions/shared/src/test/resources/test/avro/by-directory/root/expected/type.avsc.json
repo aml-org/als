@@ -13,7 +13,7 @@
       
     ],
     "sortText": "10array",
-    "filterText": "array",
+    "filterText": "\"array\"",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -29,7 +29,7 @@
           "character": 0
         }
       },
-      "newText": "array"
+      "newText": "\"array\""
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -49,7 +49,7 @@
       
     ],
     "sortText": "10boolean",
-    "filterText": "boolean",
+    "filterText": "\"boolean\"",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -65,7 +65,7 @@
           "character": 0
         }
       },
-      "newText": "boolean"
+      "newText": "\"boolean\""
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -85,7 +85,7 @@
       
     ],
     "sortText": "10bytes",
-    "filterText": "bytes",
+    "filterText": "\"bytes\"",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -101,7 +101,7 @@
           "character": 0
         }
       },
-      "newText": "bytes"
+      "newText": "\"bytes\""
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -121,7 +121,7 @@
       
     ],
     "sortText": "10double",
-    "filterText": "double",
+    "filterText": "\"double\"",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -137,7 +137,7 @@
           "character": 0
         }
       },
-      "newText": "double"
+      "newText": "\"double\""
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -157,7 +157,7 @@
       
     ],
     "sortText": "10enum",
-    "filterText": "enum",
+    "filterText": "\"enum\"",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -173,7 +173,7 @@
           "character": 0
         }
       },
-      "newText": "enum"
+      "newText": "\"enum\""
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -193,7 +193,7 @@
       
     ],
     "sortText": "10fixed",
-    "filterText": "fixed",
+    "filterText": "\"fixed\"",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -209,7 +209,7 @@
           "character": 0
         }
       },
-      "newText": "fixed"
+      "newText": "\"fixed\""
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -229,7 +229,7 @@
       
     ],
     "sortText": "10float",
-    "filterText": "float",
+    "filterText": "\"float\"",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -245,7 +245,7 @@
           "character": 0
         }
       },
-      "newText": "float"
+      "newText": "\"float\""
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -265,7 +265,7 @@
       
     ],
     "sortText": "10int",
-    "filterText": "int",
+    "filterText": "\"int\"",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -281,7 +281,7 @@
           "character": 0
         }
       },
-      "newText": "int"
+      "newText": "\"int\""
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -301,7 +301,7 @@
       
     ],
     "sortText": "10long",
-    "filterText": "long",
+    "filterText": "\"long\"",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -317,7 +317,7 @@
           "character": 0
         }
       },
-      "newText": "long"
+      "newText": "\"long\""
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -337,7 +337,7 @@
       
     ],
     "sortText": "10map",
-    "filterText": "map",
+    "filterText": "\"map\"",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -353,7 +353,7 @@
           "character": 0
         }
       },
-      "newText": "map"
+      "newText": "\"map\""
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -409,7 +409,7 @@
       
     ],
     "sortText": "10record",
-    "filterText": "record",
+    "filterText": "\"record\"",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -425,7 +425,7 @@
           "character": 0
         }
       },
-      "newText": "record"
+      "newText": "\"record\""
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -445,7 +445,7 @@
       
     ],
     "sortText": "10string",
-    "filterText": "string",
+    "filterText": "\"string\"",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -461,7 +461,7 @@
           "character": 0
         }
       },
-      "newText": "string"
+      "newText": "\"string\""
     },
     "additionalTextEdits": null,
     "commitCharacters": null,

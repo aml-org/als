@@ -13,7 +13,7 @@
       
     ],
     "sortText": "11default",
-    "filterText": "default: [\n  $1\n]",
+    "filterText": "\"default\": [\n  \"$1\"\n]",
     "insertText": null,
     "insertTextFormat": [
       2
@@ -29,7 +29,7 @@
           "character": 4
         }
       },
-      "newText": "default: [\n  $1\n]"
+      "newText": "\"default\": [\n  \"$1\"\n]"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -49,10 +49,10 @@
       
     ],
     "sortText": "11items",
-    "filterText": "items:",
+    "filterText": "\"items\": \"$1\"",
     "insertText": null,
     "insertTextFormat": [
-      1
+      2
     ],
     "textEdit": {
       "range": {
@@ -65,7 +65,7 @@
           "character": 4
         }
       },
-      "newText": "items:"
+      "newText": "\"items\": \"$1\""
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -85,10 +85,10 @@
       
     ],
     "sortText": "11logicalType",
-    "filterText": "logicalType:",
+    "filterText": "\"logicalType\": \"$1\"",
     "insertText": null,
     "insertTextFormat": [
-      1
+      2
     ],
     "textEdit": {
       "range": {
@@ -101,7 +101,7 @@
           "character": 4
         }
       },
-      "newText": "logicalType:"
+      "newText": "\"logicalType\": \"$1\""
     },
     "additionalTextEdits": null,
     "commitCharacters": null,

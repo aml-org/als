@@ -9,7 +9,7 @@ import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
 import org.mulesoft.als.suggestions.interfaces.ResolveIfApplies
 import org.mulesoft.als.suggestions.plugins.aml._
 import org.mulesoft.amfintegration.AmfImplicits.AmfAnnotationsImp
-import org.mulesoft.amfintegration.dialect.dialects.avro.{AvroFixedNode, AvroMapNode}
+import org.mulesoft.amfintegration.dialect.dialects.avro.{AvroEnumNode, AvroFixedNode, AvroMapNode}
 import org.mulesoft.amfintegration.dialect.dialects.oas.nodes.DialectNode
 
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -33,7 +33,7 @@ trait ResolveBySchemaType[T <: AmfObject] extends ResolveIfApplies {
     case Some(value) =>
       value match {
         case AVROSchemaType(t) => t == schemaType
-        case _                     => false
+        case _                 => false
       }
     case _ => false
   }
@@ -44,10 +44,14 @@ trait ResolveBySchemaType[T <: AmfObject] extends ResolveIfApplies {
 
 object ResolveFixed extends ResolveBySchemaType[ScalarShape] {
   override protected val schemaType: String = "fixed"
-  override protected val node: DialectNode = AvroFixedNode
+  override protected val node: DialectNode  = AvroFixedNode
 }
 
 object ResolveMap extends ResolveBySchemaType[ScalarShape] {
   override protected val schemaType: String = "map"
-  override protected val node: DialectNode = AvroMapNode
+  override protected val node: DialectNode  = AvroMapNode
+}
+object ResolveEnum extends ResolveBySchemaType[ScalarShape] {
+  override protected val schemaType: String = "enum"
+  override protected val node: DialectNode  = AvroEnumNode
 }

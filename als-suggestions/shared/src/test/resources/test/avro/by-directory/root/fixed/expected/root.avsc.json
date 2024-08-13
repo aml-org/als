@@ -13,7 +13,7 @@
       
     ],
     "sortText": "11aliases",
-    "filterText": "aliases: [\n  $1\n]",
+    "filterText": "\"aliases\": [\n  \"$1\"\n]",
     "insertText": null,
     "insertTextFormat": [
       2
@@ -29,7 +29,7 @@
           "character": 2
         }
       },
-      "newText": "aliases: [\n  $1\n]"
+      "newText": "\"aliases\": [\n  \"$1\"\n]"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -49,10 +49,10 @@
       
     ],
     "sortText": "11default",
-    "filterText": "default:",
+    "filterText": "\"default\": \"$1\"",
     "insertText": null,
     "insertTextFormat": [
-      1
+      2
     ],
     "textEdit": {
       "range": {
@@ -65,7 +65,7 @@
           "character": 2
         }
       },
-      "newText": "default:"
+      "newText": "\"default\": \"$1\""
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -85,10 +85,10 @@
       
     ],
     "sortText": "11logicalType",
-    "filterText": "logicalType:",
+    "filterText": "\"logicalType\": \"$1\"",
     "insertText": null,
     "insertTextFormat": [
-      1
+      2
     ],
     "textEdit": {
       "range": {
@@ -101,7 +101,7 @@
           "character": 2
         }
       },
-      "newText": "logicalType:"
+      "newText": "\"logicalType\": \"$1\""
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -121,10 +121,10 @@
       
     ],
     "sortText": "11namespace",
-    "filterText": "namespace:",
+    "filterText": "\"namespace\": \"$1\"",
     "insertText": null,
     "insertTextFormat": [
-      1
+      2
     ],
     "textEdit": {
       "range": {
@@ -137,7 +137,7 @@
           "character": 2
         }
       },
-      "newText": "namespace:"
+      "newText": "\"namespace\": \"$1\""
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -157,10 +157,10 @@
       
     ],
     "sortText": "11size",
-    "filterText": "size:",
+    "filterText": "\"size\": $1",
     "insertText": null,
     "insertTextFormat": [
-      1
+      2
     ],
     "textEdit": {
       "range": {
@@ -173,7 +173,7 @@
           "character": 2
         }
       },
-      "newText": "size:"
+      "newText": "\"size\": $1"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
