@@ -72,10 +72,13 @@ object YamlUtils {
         parent
     }
 
-  def isJson(baseUnit: BaseUnit): Boolean =
+  def isJson(
+      baseUnit: BaseUnit
+  ): Boolean = // when amf adds avsc associated to json mime, use method `FileMediaType.mimeFromExtension`
     FileMediaType
       .extension(baseUnit.location().getOrElse(baseUnit.id)) match {
       case Some("json") => true
+      case Some("avsc") => true
       case _            => false
     }
 }

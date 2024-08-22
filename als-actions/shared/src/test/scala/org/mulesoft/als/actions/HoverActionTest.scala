@@ -50,6 +50,10 @@ class HoverActionTest extends AsyncFunSuite with BaseHoverTest {
     runTest("library.raml", "library-result.yaml")
   }
 
+  test("complete avro test") {
+    runTest("avro-full.avsc", "avro-full-result.yaml")
+  }
+
   private def runTest(file: String, golden: String): Future[Assertion] = {
     val filePath   = s"file://$path$file"
     val goldenPath = s"file://$path$golden"

@@ -4,7 +4,7 @@ import amf.core.internal.plugins.syntax.SyamlSyntaxParsePlugin
 import org.mulesoft.amfintegration.amfconfiguration.ALSConfigurationState
 
 trait PathCompletion {
-  val exceptions = Seq("xml", "xsd", "md")
+  val exceptions = Seq("xml", "xsd", "md", "avsc")
   val alsConfiguration: ALSConfigurationState
 
   def supportedExtension(file: String): Boolean = {

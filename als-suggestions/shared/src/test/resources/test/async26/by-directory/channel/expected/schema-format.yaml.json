@@ -216,6 +216,42 @@
     "command": null
   },
   {
+    "label": "application/vnd.apache.avro;version=1.9.0",
+    "kind": [
+      
+    ],
+    "detail": "unknown",
+    "documentation": "application/vnd.apache.avro;version=1.9.0",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "11application/vnd.apache.avro;version=1.9.0",
+    "filterText": "application/vnd.apache.avro;version=1.9.0",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 18,
+          "character": 22
+        },
+        "end": {
+          "line": 18,
+          "character": 22
+        }
+      },
+      "newText": "application/vnd.apache.avro;version=1.9.0"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
     "label": "application/vnd.oai.openapi+json;version=3.0.0",
     "kind": [
       

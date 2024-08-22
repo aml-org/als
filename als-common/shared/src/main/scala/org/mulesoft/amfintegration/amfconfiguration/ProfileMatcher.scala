@@ -12,6 +12,7 @@ import amf.shapes.internal.spec.common.{
 import org.mulesoft.amfintegration.DialectWithVendor
 import org.mulesoft.amfintegration.dialect.dialects.asyncapi20.AsyncApi20Dialect
 import org.mulesoft.amfintegration.dialect.dialects.asyncapi26.AsyncApi26Dialect
+import org.mulesoft.amfintegration.dialect.dialects.avro.AvroDialect
 import org.mulesoft.amfintegration.dialect.dialects.graphql.GraphQLDialect
 import org.mulesoft.amfintegration.dialect.dialects.jsonschema.draft2019.JsonSchemaDraft2019Dialect
 import org.mulesoft.amfintegration.dialect.dialects.jsonschema.draft4.JsonSchemaDraft4Dialect
@@ -26,21 +27,22 @@ object ProfileMatcher {
 
   def profile(spec: Spec): ProfileName =
     spec match {
-      case Spec.RAML10     => ProfileNames.RAML10
-      case Spec.RAML08     => ProfileNames.RAML08
-      case Spec.OAS20      => ProfileNames.OAS20
-      case Spec.OAS30      => ProfileNames.OAS30
-      case Spec.ASYNC20    => ProfileNames.ASYNC20
-      case Spec.ASYNC21    => ProfileNames.ASYNC20
-      case Spec.ASYNC22    => ProfileNames.ASYNC20
-      case Spec.ASYNC23    => ProfileNames.ASYNC20
-      case Spec.ASYNC24    => ProfileNames.ASYNC20
-      case Spec.ASYNC25    => ProfileNames.ASYNC20
-      case Spec.ASYNC26    => ProfileNames.ASYNC26
-      case Spec.AML        => ProfileNames.AML
-      case Spec.GRAPHQL    => ProfileNames.GRPC
-      case Spec.JSONSCHEMA => ProfileNames.JSONSCHEMA
-      case _               => ProfileNames.AMF
+      case Spec.RAML10      => ProfileNames.RAML10
+      case Spec.RAML08      => ProfileNames.RAML08
+      case Spec.OAS20       => ProfileNames.OAS20
+      case Spec.OAS30       => ProfileNames.OAS30
+      case Spec.ASYNC20     => ProfileNames.ASYNC20
+      case Spec.ASYNC21     => ProfileNames.ASYNC20
+      case Spec.ASYNC22     => ProfileNames.ASYNC20
+      case Spec.ASYNC23     => ProfileNames.ASYNC20
+      case Spec.ASYNC24     => ProfileNames.ASYNC20
+      case Spec.ASYNC25     => ProfileNames.ASYNC20
+      case Spec.ASYNC26     => ProfileNames.ASYNC26
+      case Spec.AML         => ProfileNames.AML
+      case Spec.GRAPHQL     => ProfileNames.GRPC
+      case Spec.JSONSCHEMA  => ProfileNames.JSONSCHEMA
+      case Spec.AVRO_SCHEMA => ProfileNames.AVROSCHEMA
+      case _                => ProfileNames.AMF
     }
 
   private lazy val webApiDialects: Set[DialectWithVendor] = Set(
@@ -54,6 +56,7 @@ object ProfileMatcher {
     DialectWithVendor(JsonSchemaDraft4Dialect(), Spec.JSONSCHEMA, JSONSchemaDraft4SchemaVersion.name),
     DialectWithVendor(JsonSchemaDraft7Dialect(), Spec.JSONSCHEMA, JSONSchemaDraft7SchemaVersion.name),
     DialectWithVendor(JsonSchemaDraft2019Dialect(), Spec.JSONSCHEMA, JSONSchemaDraft201909SchemaVersion.name),
+    DialectWithVendor(AvroDialect(), Spec.AVRO_SCHEMA),
     DialectWithVendor(MetaDialect(), Spec.AML)
   )
 

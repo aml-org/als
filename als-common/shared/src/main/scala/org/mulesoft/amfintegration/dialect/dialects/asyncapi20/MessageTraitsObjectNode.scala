@@ -16,23 +16,24 @@ trait MessageAbstractObjectNode extends DialectNode {
   val exampleProperty: PropertyMapping
   val specVersion: String
 
+  protected def mediaTypes: Seq[String] = Seq(
+    s"application/vnd.aai.asyncapi;version=$specVersion",
+    s"application/vnd.aai.asyncapi+json;version=$specVersion",
+    s"application/vnd.aai.asyncapi+yaml;version=$specVersion",
+    "application/vnd.oai.openapi;version=3.0.0",
+    "application/vnd.oai.openapi+json;version=3.0.0",
+    "application/vnd.oai.openapi+yaml;version=3.0.0",
+    "application/schema+json;version=draft-07",
+    "application/schema+yaml;version=draft-07",
+    "application/raml+yaml;version=1.0"
+  )
   lazy val schemaFormatProp: PropertyMapping = PropertyMapping()
     .withId(location + "#/declarations/Message/schemaFormat")
     .withName("schemaFormat")
     .withNodePropertyMapping(PayloadModel.SchemaMediaType.value.iri())
     .withLiteralRange(xsdString.iri())
     .withEnum(
-      Seq(
-        s"application/vnd.aai.asyncapi;version=$specVersion",
-        s"application/vnd.aai.asyncapi+json;version=$specVersion",
-        s"application/vnd.aai.asyncapi+yaml;version=$specVersion",
-        "application/vnd.oai.openapi;version=3.0.0",
-        "application/vnd.oai.openapi+json;version=3.0.0",
-        "application/vnd.oai.openapi+yaml;version=3.0.0",
-        "application/schema+json;version=draft-07",
-        "application/schema+yaml;version=draft-07",
-        "application/raml+yaml;version=1.0"
-      )
+      mediaTypes
     )
   override def properties: Seq[PropertyMapping] = Seq(
     PropertyMapping()
