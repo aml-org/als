@@ -183,8 +183,10 @@ object AvroMapNode extends AvroTypedNode {
       .withEnum(
         AvroDialect.avroTypes
       )
-      .withLiteralRange(xsdString.iri())
+      .withObjectRange(Seq(AvroRootNode.id))
 }
+
+
 object AvroArrayNode extends AvroTypedNode {
   override def nodeTypeMapping: String = ArrayShapeModel.`type`.head.iri()
   override def name                    = "ArrayShape"

@@ -1,0 +1,7 @@
+{
+    "type": "map",
+    "values": {
+        "type": "array",
+        "*"
+    }
+}
