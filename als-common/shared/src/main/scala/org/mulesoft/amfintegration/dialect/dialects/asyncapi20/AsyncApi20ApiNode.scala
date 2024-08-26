@@ -4,14 +4,11 @@ import amf.aml.client.scala.model.domain.PropertyMapping
 import amf.apicontract.internal.metamodel.domain.{EndPointModel, ServerModel}
 import amf.apicontract.internal.metamodel.domain.api.AsyncApiModel
 import amf.core.client.scala.vocabulary.Namespace.XsdTypes.xsdString
+import org.mulesoft.amfintegration.dialect.{OasLikeContentTypes, dialects}
 import org.mulesoft.amfintegration.dialect.dialects.oas.OAS20Dialect.OwlSameAs
-import org.mulesoft.amfintegration.dialect.dialects.oas.nodes.{
-  AMLExternalDocumentationObject,
-  AMLTagObject,
-  DialectNode
-}
+import org.mulesoft.amfintegration.dialect.dialects.oas.nodes.{AMLExternalDocumentationObject, AMLTagObject, DialectNode}
 
-object AsyncApi20ApiNode extends DialectNode {
+object AsyncApi20ApiNode extends DialectNode with OasLikeContentTypes {
   override val location: String = AsyncApi20Dialect.DialectLocation
   override def properties: Seq[PropertyMapping] = Seq(
     PropertyMapping()
@@ -56,7 +53,13 @@ object AsyncApi20ApiNode extends DialectNode {
       .withName("channels")
       .withNodePropertyMapping(AsyncApiModel.EndPoints.value.iri())
       .withMapTermKeyProperty(EndPointModel.Path.value.iri())
-      .withObjectRange(Seq(Channel20Object.id))
+      .withObjectRange(Seq(Channel20Object.id)),
+    PropertyMapping()
+      .withId(location + "#/declarations/AsyncAPIObject/defaultContentType")
+      .withName("defaultContentType")
+      .withNodePropertyMapping(AsyncApiModel.ContentType.value.iri())
+      .withEnum(mediaTypes)
+      .withLiteralRange(xsdString.iri())
   )
 
   override def name: String = "AsyncApi2Node"
