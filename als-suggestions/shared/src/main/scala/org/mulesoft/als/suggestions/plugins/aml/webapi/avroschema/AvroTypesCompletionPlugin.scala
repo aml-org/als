@@ -59,7 +59,11 @@ object AvroTypesCompletionPlugin extends AMLCompletionPlugin {
 
   private def isInType(request: AmlCompletionRequest): Boolean =
     (request.astPartBranch.isValue || request.astPartBranch.isInArray && request.fieldEntry.isDefined) &&
-      request.propertyMapping
-        .find(_.id == AvroDialect.inheritsId)
-        .exists(pm => request.astPartBranch.parentKey.exists(parent => pm.name().option().contains(parent)))
+      isPropertyMappingFacet(request)
+
+  private def isPropertyMappingFacet(request: AmlCompletionRequest) = {
+    request.propertyMapping
+      .find(_.id == AvroDialect.inheritsId)
+      .exists(pm => request.astPartBranch.parentKey.exists(parent => pm.name().option().contains(parent)))
+  }
 }
