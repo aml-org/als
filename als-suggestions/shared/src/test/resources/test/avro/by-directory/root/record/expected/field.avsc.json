@@ -178,41 +178,5 @@
     "additionalTextEdits": null,
     "commitCharacters": null,
     "command": null
-  },
-  {
-    "label": "type",
-    "kind": [
-      
-    ],
-    "detail": "parameters",
-    "documentation": "type",
-    "deprecated": [
-      
-    ],
-    "preselect": [
-      
-    ],
-    "sortText": "10type",
-    "filterText": "\"type\": \"$1\"",
-    "insertText": null,
-    "insertTextFormat": [
-      2
-    ],
-    "textEdit": {
-      "range": {
-        "start": {
-          "line": 3,
-          "character": 4
-        },
-        "end": {
-          "line": 3,
-          "character": 4
-        }
-      },
-      "newText": "\"type\": \"$1\""
-    },
-    "additionalTextEdits": null,
-    "commitCharacters": null,
-    "command": null
   }
 ]

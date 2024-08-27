@@ -3,10 +3,12 @@ package org.mulesoft.amfintegration.dialect.dialects.avro
 import amf.aml.client.scala.model.domain.{DocumentsModel, PropertyMapping}
 import amf.core.client.scala.vocabulary.Namespace.XsdTypes.{xsdInteger, xsdString}
 import amf.core.internal.metamodel.domain.ShapeModel
+import amf.core.internal.metamodel.domain.extensions.PropertyShapeModel
 import amf.plugins.document.vocabularies.plugin.ReferenceStyles
 import amf.shapes.internal.document.metamodel.AvroSchemaDocumentModel
 import amf.shapes.internal.domain.metamodel.{AnyShapeModel, ArrayShapeModel, NodeShapeModel, ScalarShapeModel}
 import org.mulesoft.amfintegration.dialect.BaseDialect
+import org.mulesoft.amfintegration.dialect.dialects.avro.AvroFieldNode.PropertyShapeAvroNode
 import org.mulesoft.amfintegration.dialect.dialects.oas.nodes.DialectNode
 
 object AvroDialect extends BaseDialect {
@@ -57,7 +59,8 @@ object AvroDialect extends BaseDialect {
     AvroRecordNode,
     AvroArrayNode,
     AvroAnyNode,
-    AvroPrimitiveNode
+    AvroPrimitiveNode,
+    PropertyShapeAvroNode
   )
   override protected def declaredNodes: Map[String, DialectNode] = Map.empty
 }
@@ -213,18 +216,27 @@ object AvroFieldNode extends AvroTypedNode {
   override def properties: Seq[PropertyMapping] = {
     super.properties :+
       PropertyMapping()
-        .withId(AvroDialect.DialectLocation + "#/declarations/field")
-        .withName("type")
-        .withEnum(
-          AvroDialect.avroTypes
-        )
-        .withLiteralRange(xsdString.iri())
-        .withMinCount(1) :+
-      PropertyMapping()
         .withId(AvroDialect.DialectLocation + "#/declarations/name")
         .withName("name")
         .withLiteralRange(xsdString.iri())
         .withMinCount(1) :+
       docMapping
+  }
+
+  object PropertyShapeAvroNode extends AvroTypedNode {
+    override def nodeTypeMapping: String = PropertyShapeModel.`type`.head.iri()
+    override def name                    = "PropertyShape"
+    override def properties: Seq[PropertyMapping] = {
+      super.properties :+
+        PropertyMapping()
+          .withId(PropertyShapeModel.Range.value.iri())
+          .withName("type")
+          .withEnum(
+            AvroDialect.avroTypes
+          )
+          .withLiteralRange(xsdString.iri())
+          .withMinCount(1) :+
+        docMapping
+    }
   }
 }
