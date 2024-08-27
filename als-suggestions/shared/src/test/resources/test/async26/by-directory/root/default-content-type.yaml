@@ -1,0 +1,13 @@
+asyncapi: '2.6.0'
+info:
+  title: vehicleerrors-anypointmq-salesforcepubsub-demo
+  version: '1.0.0'
+  description: This example demonstrates how to define a Vehicle Errors AsyncAPI for Anypoint MQ and Salesforce Platform Events
+  license:
+    name: anypointmq
+    url: https://license.com
+  contact:
+    name: Max Muley
+    email: max@salesforce.com
+    url: http://salesforce.com
+defaultContentType: *
