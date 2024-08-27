@@ -108,6 +108,42 @@
     "command": null
   },
   {
+    "label": "application/vnd.github.v3.diff",
+    "kind": [
+      
+    ],
+    "detail": "unknown",
+    "documentation": "application/vnd.github.v3.diff",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "11application/vnd.github.v3.diff",
+    "filterText": "\"application/vnd.github.v3.diff\": \"$1\"",
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 15,
+          "character": 14
+        },
+        "end": {
+          "line": 15,
+          "character": 16
+        }
+      },
+      "newText": "\"application/vnd.github.v3.diff\": \"$1\""
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
     "label": "application/vnd.github.v3.full+json",
     "kind": [
       
@@ -318,42 +354,6 @@
         }
       },
       "newText": "\"application/xml\": \"$1\""
-    },
-    "additionalTextEdits": null,
-    "commitCharacters": null,
-    "command": null
-  },
-  {
-    "label": "appxlication/vnd.github.v3.diff",
-    "kind": [
-      
-    ],
-    "detail": "unknown",
-    "documentation": "appxlication/vnd.github.v3.diff",
-    "deprecated": [
-      
-    ],
-    "preselect": [
-      
-    ],
-    "sortText": "11appxlication/vnd.github.v3.diff",
-    "filterText": "\"appxlication/vnd.github.v3.diff\": \"$1\"",
-    "insertText": null,
-    "insertTextFormat": [
-      2
-    ],
-    "textEdit": {
-      "range": {
-        "start": {
-          "line": 15,
-          "character": 14
-        },
-        "end": {
-          "line": 15,
-          "character": 16
-        }
-      },
-      "newText": "\"appxlication/vnd.github.v3.diff\": \"$1\""
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
