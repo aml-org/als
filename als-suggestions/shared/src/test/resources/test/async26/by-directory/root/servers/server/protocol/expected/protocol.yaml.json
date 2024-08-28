@@ -180,6 +180,42 @@
     "command": null
   },
   {
+    "label": "googlepubsub",
+    "kind": [
+      
+    ],
+    "detail": "unknown",
+    "documentation": "googlepubsub",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "10googlepubsub",
+    "filterText": "googlepubsub",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 3,
+          "character": 14
+        },
+        "end": {
+          "line": 3,
+          "character": 14
+        }
+      },
+      "newText": "googlepubsub"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
     "label": "http",
     "kind": [
       
