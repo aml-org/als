@@ -1,0 +1,38 @@
+[
+  {
+    "label": "new Avro Schema",
+    "kind": [
+      15
+    ],
+    "detail": "root",
+    "documentation": null,
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": null,
+    "filterText": null,
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 0,
+          "character": 0
+        },
+        "end": {
+          "line": 0,
+          "character": 0
+        }
+      },
+      "newText": "{\n    \"name\": \"${1:empty}\",\n    \"type\": \"${2:record}\",\n    $0\n}"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  }
+]
