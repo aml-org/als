@@ -1,7 +1,7 @@
 package org.mulesoft.amfintegration.dialect.dialects.avro
 
 import amf.aml.client.scala.model.domain.{DocumentsModel, PropertyMapping}
-import amf.core.client.scala.vocabulary.Namespace.XsdTypes.{xsdInteger, xsdString}
+import amf.core.client.scala.vocabulary.Namespace.XsdTypes.{xsdBoolean, xsdInteger, xsdString}
 import amf.core.internal.metamodel.domain.ShapeModel
 import amf.core.internal.metamodel.domain.extensions.PropertyShapeModel
 import amf.plugins.document.vocabularies.plugin.ReferenceStyles
@@ -126,6 +126,8 @@ object AvroRecordNode extends AvroTypedNode {
         .withId(AvroDialect.inheritsId)
         .withNodePropertyMapping(ShapeModel.Inherits.value.iri())
         .withName("fields")
+        .withAllowMultiple(true)
+        .withMinCount(1)
         .withObjectRange(Seq(AvroFieldNode.id)) :+
       aliasesMapping :+
       docMapping :+
@@ -226,17 +228,6 @@ object AvroFieldNode extends AvroTypedNode {
   object PropertyShapeAvroNode extends AvroTypedNode {
     override def nodeTypeMapping: String = PropertyShapeModel.`type`.head.iri()
     override def name                    = "PropertyShape"
-    override def properties: Seq[PropertyMapping] = {
-      super.properties :+
-        PropertyMapping()
-          .withId(PropertyShapeModel.Range.value.iri())
-          .withName("type")
-          .withEnum(
-            AvroDialect.avroTypes
-          )
-          .withLiteralRange(xsdString.iri())
-          .withMinCount(1) :+
-        docMapping
-    }
+    override def properties: Seq[PropertyMapping] = Seq.empty
   }
 }
