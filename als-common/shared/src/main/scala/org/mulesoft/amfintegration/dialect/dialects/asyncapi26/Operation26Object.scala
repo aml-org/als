@@ -13,6 +13,11 @@ object Operation26Object extends OperationObject {
       .withName("security")
       .withNodePropertyMapping(OperationModel.Security.value.iri())
       .withLiteralRange(xsdString.iri())
-      .withAllowMultiple(true)
+      .withAllowMultiple(true),
+    PropertyMapping()
+      .withId(location + "#/declarations/OperationObject/operationId")
+      .withName("operationId")
+      .withNodePropertyMapping(OperationModel.OperationId.value.iri())
+      .withLiteralRange(xsdString.iri())
   )
 }

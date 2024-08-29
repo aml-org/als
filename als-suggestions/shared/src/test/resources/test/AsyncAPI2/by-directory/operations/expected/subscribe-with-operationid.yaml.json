@@ -21,11 +21,11 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 17,
+          "line": 5,
           "character": 6
         },
         "end": {
-          "line": 17,
+          "line": 5,
           "character": 6
         }
       },
@@ -57,11 +57,11 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 17,
+          "line": 5,
           "character": 6
         },
         "end": {
-          "line": 17,
+          "line": 5,
           "character": 6
         }
       },
@@ -93,11 +93,11 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 17,
+          "line": 5,
           "character": 6
         },
         "end": {
-          "line": 17,
+          "line": 5,
           "character": 6
         }
       },
@@ -129,123 +129,15 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 17,
+          "line": 5,
           "character": 6
         },
         "end": {
-          "line": 17,
+          "line": 5,
           "character": 6
         }
       },
       "newText": "message:\n  "
-    },
-    "additionalTextEdits": null,
-    "commitCharacters": null,
-    "command": null
-  },
-  {
-    "label": "operationId",
-    "kind": [
-      
-    ],
-    "detail": "unknown",
-    "documentation": "operationId",
-    "deprecated": [
-      
-    ],
-    "preselect": [
-      
-    ],
-    "sortText": "11operationId",
-    "filterText": "operationId: ",
-    "insertText": null,
-    "insertTextFormat": [
-      1
-    ],
-    "textEdit": {
-      "range": {
-        "start": {
-          "line": 17,
-          "character": 6
-        },
-        "end": {
-          "line": 17,
-          "character": 6
-        }
-      },
-      "newText": "operationId: "
-    },
-    "additionalTextEdits": null,
-    "commitCharacters": null,
-    "command": null
-  },
-  {
-    "label": "operationId",
-    "kind": [
-      
-    ],
-    "detail": "unknown",
-    "documentation": "operationId",
-    "deprecated": [
-      
-    ],
-    "preselect": [
-      
-    ],
-    "sortText": "11operationId",
-    "filterText": "operationId: ",
-    "insertText": null,
-    "insertTextFormat": [
-      1
-    ],
-    "textEdit": {
-      "range": {
-        "start": {
-          "line": 17,
-          "character": 6
-        },
-        "end": {
-          "line": 17,
-          "character": 6
-        }
-      },
-      "newText": "operationId: "
-    },
-    "additionalTextEdits": null,
-    "commitCharacters": null,
-    "command": null
-  },
-  {
-    "label": "security",
-    "kind": [
-      
-    ],
-    "detail": "unknown",
-    "documentation": "security",
-    "deprecated": [
-      
-    ],
-    "preselect": [
-      
-    ],
-    "sortText": "11security",
-    "filterText": "security:\n  - ",
-    "insertText": null,
-    "insertTextFormat": [
-      1
-    ],
-    "textEdit": {
-      "range": {
-        "start": {
-          "line": 17,
-          "character": 6
-        },
-        "end": {
-          "line": 17,
-          "character": 6
-        }
-      },
-      "newText": "security:\n  - "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -273,11 +165,11 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 17,
+          "line": 5,
           "character": 6
         },
         "end": {
-          "line": 17,
+          "line": 5,
           "character": 6
         }
       },
@@ -309,11 +201,11 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 17,
+          "line": 5,
           "character": 6
         },
         "end": {
-          "line": 17,
+          "line": 5,
           "character": 6
         }
       },
@@ -345,11 +237,11 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 17,
+          "line": 5,
           "character": 6
         },
         "end": {
-          "line": 17,
+          "line": 5,
           "character": 6
         }
       },
