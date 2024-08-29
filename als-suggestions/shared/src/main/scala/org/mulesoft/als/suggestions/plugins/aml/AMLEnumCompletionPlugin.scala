@@ -18,7 +18,7 @@ object AMLEnumCompletionPlugin extends AMLCompletionPlugin with EnumSuggestions 
       else Nil
     }
 
-  def getSuggestions(propertyMapping: List[PropertyMapping], astPartBranch: ASTPartBranch): Seq[RawSuggestion] = {
+  def getSuggestions(propertyMapping: List[PropertyMapping], astPartBranch: ASTPartBranch): Seq[RawSuggestion] =
     propertyMapping match {
       case head :: Nil => suggestMappingWithEnum(head)
       case Nil         => Nil
@@ -28,5 +28,4 @@ object AMLEnumCompletionPlugin extends AMLCompletionPlugin with EnumSuggestions 
           .map(suggestMappingWithEnum)
           .getOrElse(Nil)
     }
-  }
 }

@@ -121,7 +121,7 @@
       
     ],
     "sortText": "11fields",
-    "filterText": "\"fields\": {\n  \"$1\"\n}",
+    "filterText": "\"fields\": [\n  \"$1\"\n]",
     "insertText": null,
     "insertTextFormat": [
       2
@@ -137,7 +137,7 @@
           "character": 10
         }
       },
-      "newText": "\"fields\": {\n  \"$1\"\n}"
+      "newText": "\"fields\": [\n  \"$1\"\n]"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,

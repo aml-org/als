@@ -56,7 +56,7 @@ object ResolveDefault extends ResolveIfApplies with AmfObjectKnowledge {
     (params.prefix.isEmpty && params.fieldEntry.isEmpty) ||
       params.prefix.nonEmpty
 
-  protected def objInArray(params: AmlCompletionRequest): Option[DomainElementModel] = {
+  protected def objInArray(params: AmlCompletionRequest): Option[DomainElementModel] =
     params.fieldEntry match {
       case Some(FieldEntry(Field(t: ArrayLike, _, _, _, false, _), _))
           if t.element
@@ -64,7 +64,6 @@ object ResolveDefault extends ResolveIfApplies with AmfObjectKnowledge {
         Some(t.element.asInstanceOf[DomainElementModel])
       case _ => None
     }
-  }
 
   protected def resolveObjInArray(params: AmlCompletionRequest): Seq[RawSuggestion] = {
     objInArray(params) match {
