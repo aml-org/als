@@ -63,7 +63,8 @@ trait AsyncApiServerObject extends DialectNode {
             "jms",
             "sns",
             "sqs",
-            "redis"
+            "redis",
+            "googlepubsub"
           )
         )
         .withLiteralRange(xsdString.iri()),
