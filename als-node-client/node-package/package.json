@@ -20,6 +20,7 @@
     "@aml-org/amf-custom-validator-web": "1.7.2",
     "ajv": "6.12.6",
     "vscode-jsonrpc": "6.0.0",
-    "vscode-languageserver-protocol": "3.16.0"
+    "vscode-languageserver-protocol": "3.16.0",
+    "avro-js": "1.12.0"
   }
 }

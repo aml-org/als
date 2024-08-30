@@ -108,6 +108,42 @@
     "command": null
   },
   {
+    "label": "name",
+    "kind": [
+      
+    ],
+    "detail": "schemas",
+    "documentation": "name",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "10name",
+    "filterText": "\"name\": \"$1\"",
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 2,
+          "character": 2
+        },
+        "end": {
+          "line": 2,
+          "character": 2
+        }
+      },
+      "newText": "\"name\": \"$1\""
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
     "label": "namespace",
     "kind": [
       

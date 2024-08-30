@@ -7,7 +7,7 @@ class StructureTests extends AVROSuggestionTestServer {
   override implicit val executionContext = ExecutionContext.Implicits.global
 
   test("test avro empty") {
-    runTest("base/dir1/avro-schema-01.avsc", Set("\"type\": \"$1\"", "\"default\": \"$1\"", "\"logicalType\": \"$1\""))
+    runTest("base/dir1/avro-schema-01.avsc", Set("\"name\": \"$1\"", "\"type\": \"$1\"", "\"default\": \"$1\"", "\"logicalType\": \"$1\""))
   }
 
   test("test avro types") {
@@ -32,7 +32,7 @@ class StructureTests extends AVROSuggestionTestServer {
   }
 
   test("test avro nested schema") {
-    runTest("base/dir1/avro-schema-03.avsc", Set("\"type\": \"$1\"", "\"default\": \"$1\"", "\"logicalType\": \"$1\""))
+    runTest("base/dir1/avro-schema-03.avsc", Set("\"name\": \"$1\"", "\"type\": \"$1\"", "\"default\": \"$1\"", "\"logicalType\": \"$1\""))
   }
 
   test("test avro nested types") {

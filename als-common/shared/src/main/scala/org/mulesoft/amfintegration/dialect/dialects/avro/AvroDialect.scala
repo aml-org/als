@@ -78,6 +78,12 @@ trait AvroTypedNode extends DialectNode {
     .withName("doc")
     .withLiteralRange(xsdString.iri())
 
+  val nameMapping = PropertyMapping()
+    .withId(AvroDialect.DialectLocation + "#/declarations/name")
+    .withName("name")
+    .withLiteralRange(xsdString.iri())
+    .withMinCount(1)
+
   protected val namespaceMapping: PropertyMapping = PropertyMapping()
     .withId(AvroDialect.DialectLocation + "#/declarations/namespace")
     .withName("namespace")
@@ -107,7 +113,8 @@ trait AvroTypedNode extends DialectNode {
           AvroDialect.avroLogicalTypes
         )
         .withLiteralRange(xsdString.iri()),
-      defaultMapping
+      defaultMapping,
+      nameMapping
     )
   }
 }
@@ -215,15 +222,9 @@ object AvroAnyNode extends AvroTypedNode {
 object AvroFieldNode extends AvroTypedNode {
   override def nodeTypeMapping: String = AvroDialect.DialectLocation + "#/declarations/field"
   override def name                    = "AvroField"
-  override def properties: Seq[PropertyMapping] = {
+  override def properties: Seq[PropertyMapping] =
     super.properties :+
-      PropertyMapping()
-        .withId(AvroDialect.DialectLocation + "#/declarations/name")
-        .withName("name")
-        .withLiteralRange(xsdString.iri())
-        .withMinCount(1) :+
       docMapping
-  }
 
   object PropertyShapeAvroNode extends AvroTypedNode {
     override def nodeTypeMapping: String = PropertyShapeModel.`type`.head.iri()
