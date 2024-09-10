@@ -19,6 +19,7 @@
     "@aml-org/amf-custom-validator": "1.7.2",
     "@aml-org/amf-custom-validator-web": "1.7.2",
     "ajv": "6.12.6",
+    "avro-js": "1.12.0",
     "buffer": "^6.0.3",
     "fs": "latest",
     "https-browserify": "^1.0.0",
@@ -28,8 +29,7 @@
     "url": "^0.11.0",
     "util": "^0.12.4",
     "vscode-jsonrpc": "6.0.0",
-    "vscode-languageserver-protocol": "3.16.0",
-    "avro-js": "1.12.0"
+    "vscode-languageserver-protocol": "3.16.0"
   },
   "devDependencies": {
     "@babel/core": "^7.9.0",

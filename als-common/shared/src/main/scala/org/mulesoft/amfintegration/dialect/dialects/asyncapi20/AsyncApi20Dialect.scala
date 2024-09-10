@@ -21,6 +21,7 @@ object AsyncApi20Dialect extends BaseDialect {
     AsyncAPI20HttpSecurityObject,
     AsyncAPI20Auth20SecurityObject,
     AsyncAPI20penIdConnectUrl,
+    PayloadMessageObjectNode,
     Oauth2FlowObject,
     AsyncAPI20FlowObject,
     Channel20Object,

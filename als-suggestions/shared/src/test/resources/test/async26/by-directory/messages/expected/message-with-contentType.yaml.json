@@ -144,42 +144,6 @@
     "command": null
   },
   {
-    "label": "contentType",
-    "kind": [
-      
-    ],
-    "detail": "unknown",
-    "documentation": "contentType",
-    "deprecated": [
-      
-    ],
-    "preselect": [
-      
-    ],
-    "sortText": "11contentType",
-    "filterText": "contentType: ",
-    "insertText": null,
-    "insertTextFormat": [
-      1
-    ],
-    "textEdit": {
-      "range": {
-        "start": {
-          "line": 6,
-          "character": 8
-        },
-        "end": {
-          "line": 6,
-          "character": 8
-        }
-      },
-      "newText": "contentType: "
-    },
-    "additionalTextEdits": null,
-    "commitCharacters": null,
-    "command": null
-  },
-  {
     "label": "correlationId",
     "kind": [
       
@@ -462,6 +426,42 @@
         }
       },
       "newText": "payload:\n  "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "schemaFormat",
+    "kind": [
+      
+    ],
+    "detail": "unknown",
+    "documentation": "schemaFormat",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "11schemaFormat",
+    "filterText": "schemaFormat: ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 6,
+          "character": 8
+        },
+        "end": {
+          "line": 6,
+          "character": 8
+        }
+      },
+      "newText": "schemaFormat: "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
