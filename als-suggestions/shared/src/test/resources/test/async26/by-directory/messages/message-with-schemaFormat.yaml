@@ -1,0 +1,7 @@
+asyncapi: 2.0.0
+channels:
+  first-channel:
+    subscribe:
+      message:
+        schemaFormat: "application/vnd.aai.asyncapi;version=2.0.0"
+        *
