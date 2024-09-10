@@ -1,0 +1,23 @@
+{
+  "asyncapi": "2.0.0",
+  "info": {
+    "title": "asyncjsonmac",
+    "version": "1.0.0"
+  },
+  "components": {
+    "schemas": {
+      "Person": {
+        "type": "object" ,
+        "description": "Person",
+        "properties": {
+          "name": {
+            "type": "string"
+          }
+        }
+      },
+      "User": {
+        *
+      }
+    }
+  }
+}
