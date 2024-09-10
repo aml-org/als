@@ -30,4 +30,4 @@ channels:
               type: string
         examples:
           -
-            * # TODO: We should fix the scenario and change the golden
+            *
