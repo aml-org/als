@@ -1,0 +1,10 @@
+asyncapi: '2.6.0'
+info:
+  title: emi-test-payload-26
+  version: '1.0.0'
+channels: { }
+
+components:
+  schemas:
+    User:
+      *
