@@ -16,7 +16,7 @@ object Async20PayloadCompletionPlugin extends AMLCompletionPlugin with AsyncMedi
   override def resolve(request: AmlCompletionRequest): Future[Seq[RawSuggestion]] = {
     Future {
       val branchStack = request.branchStack
-      branchStack.headOption match {
+      branchStack.headOption match { // check replacing this with findFirst
         case Some(p: Payload)
             if request.astPartBranch.isKeyDescendantOf("payload") &&
               !branchStack.exists(_.isInstanceOf[Server]) =>
