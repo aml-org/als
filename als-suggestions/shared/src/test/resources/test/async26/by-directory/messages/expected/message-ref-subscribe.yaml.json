@@ -108,6 +108,150 @@
     "command": null
   },
   {
+    "label": "message-ref-operation-outside-ref-without-end-node.yaml",
+    "kind": [
+      
+    ],
+    "detail": "unknown",
+    "documentation": "Path suggestion",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "11message-ref-operation-outside-ref-without-end-node.yaml",
+    "filterText": "message-ref-operation-outside-ref-without-end-node.yaml",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 5,
+          "character": 14
+        },
+        "end": {
+          "line": 5,
+          "character": 14
+        }
+      },
+      "newText": "message-ref-operation-outside-ref-without-end-node.yaml"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "message-ref-operation-outside-ref.yaml",
+    "kind": [
+      
+    ],
+    "detail": "unknown",
+    "documentation": "Path suggestion",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "11message-ref-operation-outside-ref.yaml",
+    "filterText": "message-ref-operation-outside-ref.yaml",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 5,
+          "character": 14
+        },
+        "end": {
+          "line": 5,
+          "character": 14
+        }
+      },
+      "newText": "message-ref-operation-outside-ref.yaml"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "message-ref-operation-partial-ref-without-end-node.yaml",
+    "kind": [
+      
+    ],
+    "detail": "unknown",
+    "documentation": "Path suggestion",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "11message-ref-operation-partial-ref-without-end-node.yaml",
+    "filterText": "message-ref-operation-partial-ref-without-end-node.yaml",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 5,
+          "character": 14
+        },
+        "end": {
+          "line": 5,
+          "character": 14
+        }
+      },
+      "newText": "message-ref-operation-partial-ref-without-end-node.yaml"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "message-ref-operation-partial-ref.yaml",
+    "kind": [
+      
+    ],
+    "detail": "unknown",
+    "documentation": "Path suggestion",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "11message-ref-operation-partial-ref.yaml",
+    "filterText": "message-ref-operation-partial-ref.yaml",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 5,
+          "character": 14
+        },
+        "end": {
+          "line": 5,
+          "character": 14
+        }
+      },
+      "newText": "message-ref-operation-partial-ref.yaml"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
     "label": "message-ref-publish.yaml",
     "kind": [
       
