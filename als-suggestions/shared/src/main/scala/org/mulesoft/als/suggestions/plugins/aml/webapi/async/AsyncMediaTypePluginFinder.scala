@@ -1,7 +1,7 @@
 package org.mulesoft.als.suggestions.plugins.aml.webapi.async
 
 import amf.apicontract.client.scala.model.domain.Payload
-import org.mulesoft.als.suggestions.plugins.aml.webapi.WebApiTypeFacetsCompletionPlugin
+import org.mulesoft.als.suggestions.interfaces.AMLCompletionPlugin\ons.plugins.aml.webapi.WebApiTypeFacetsCompletionPlugin
 import org.mulesoft.als.suggestions.plugins.aml.webapi.avroschema.AvroTypeFacetsCompletionPlugin
 import org.mulesoft.als.suggestions.plugins.aml.webapi.jsonSchema.JsonSchemeDraft7TypeFacetsCompletionPlugin
 import org.mulesoft.als.suggestions.plugins.aml.webapi.oas.oas30.Oas30TypeFacetsCompletionPlugin
@@ -21,7 +21,7 @@ trait AsyncMediaTypePluginFinder {
   val avroRegex: Regex =
     "(application\\/vnd\\.apache\\.avro;?(version=1\\.[0-9]\\.[0-9])?)".r
 
-  def findPluginForMediaType(payload: Payload): Option[WebApiTypeFacetsCompletionPlugin] = {
+  def findPluginForMediaType(payload: Payload): Option[AMLCompletionPlugin] = {
     payload.schemaMediaType.value() match {
       case asyncApiRegex(_*) => Some(Async20TypeFacetsCompletionPlugin)
       case jsonRegex(_*)     => Some(JsonSchemeDraft7TypeFacetsCompletionPlugin)
