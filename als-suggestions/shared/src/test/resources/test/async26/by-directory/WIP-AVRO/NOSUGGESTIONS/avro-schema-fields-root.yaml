@@ -1,0 +1,10 @@
+asyncapi: '2.6.0'
+channels:
+  myChannel:
+    publish:
+      message:
+        schemaFormat: application/vnd.apache.avro;version=1.9.0
+        payload:
+          type: record
+          fields:
+            * # TODO AVRO - this is not returning anything, check test src/test/resources/test/avro/by-directory/root/record/field.avsc & src/test/resources/test/avro/by-directory/root/record/field-no-map.avsc
