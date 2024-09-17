@@ -15,6 +15,9 @@ import org.mulesoft.amfintegration.dialect.dialects.avro.AvroDialect
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
+/**
+  * This plugin is responsible for suggesting only root suggestion from payload type facets for Async
+  */
 object Async20PayloadCompletionPlugin
     extends AMLCompletionPlugin
     with AsyncMediaTypePluginFinder
@@ -30,7 +33,7 @@ object Async20PayloadCompletionPlugin
         request.amfObject match {
           case s: Shape => resolveFindingPluginByMediaType(p, request)
         }
-      case Some(p: Payload) if isInsidePayload(request.astPartBranch) => resolveFindingPluginByMediaType(p, request)
+      case Some(p: Payload) if isSonOfPayload(request.astPartBranch) => resolveFindingPluginByMediaType(p, request)
       case _ => Future(Seq.empty)
     }
   }
@@ -52,7 +55,6 @@ object Async20PayloadCompletionPlugin
       )
   }
 
-  private def isInsidePayload(astPartBranch: ASTPartBranch): Boolean =
-    astPartBranch.isInBranchOf("payload")
-
+  private def isSonOfPayload(astPartBranch: ASTPartBranch): Boolean =
+    astPartBranch.parentKey.contains("payload")
 }

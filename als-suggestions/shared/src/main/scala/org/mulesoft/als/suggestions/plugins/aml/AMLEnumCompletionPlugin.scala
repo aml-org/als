@@ -13,7 +13,7 @@ object AMLEnumCompletionPlugin extends AMLCompletionPlugin with EnumSuggestions 
 
   override def resolve(params: AmlCompletionRequest): Future[Seq[RawSuggestion]] =
     Future {
-      if (params.astPartBranch.isValue || params.astPartBranch.isInArray && params.fieldEntry.isDefined)
+      if (params.astPartBranch.isValue || (params.astPartBranch.isInArray && params.fieldEntry.isDefined))
         getSuggestions(params.propertyMapping, params.astPartBranch)
       else Nil
     }

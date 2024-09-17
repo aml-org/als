@@ -15,17 +15,8 @@ object AvroTypeFacetsCompletionPlugin extends AMLCompletionPlugin {
 
   override def resolve(request: AmlCompletionRequest): Future[Seq[RawSuggestion]] = {
     // dejar mas lindo esto, capaz poniendo un override del build que reciba una request vieja y el dialecto nuevo solamente
-    val newRequest: AmlCompletionRequest = AmlCompletionRequestBuilder.build(
-      request.baseUnit,
-      request.position.toAmfPosition,
-      AvroDialect.dialect,
-      request.directoryResolver,
-      false,
-      request.rootUri,
-      request.configurationReader,
-      request.completionsPluginHandler,
-      request.alsConfigurationState
-    )
+    val newRequest: AmlCompletionRequest = request.cloneWithDialect(AvroDialect.dialect)
+
     Future.sequence {
       AvroCompletionPluginRegistry.plugins.map{ p =>
         val eventualSuggestions = p.resolve(newRequest)
