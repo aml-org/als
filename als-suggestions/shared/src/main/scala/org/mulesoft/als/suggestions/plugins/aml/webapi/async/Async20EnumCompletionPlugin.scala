@@ -3,6 +3,7 @@ package org.mulesoft.als.suggestions.plugins.aml.webapi.async
 import amf.aml.client.scala.model.domain.PropertyMapping
 import amf.apicontract.client.scala.model.domain.Payload
 import amf.apicontract.internal.metamodel.domain.PayloadModel
+import amf.core.client.scala.model.domain.AmfObject
 import amf.core.internal.parser.domain.FieldEntry
 import amf.shapes.internal.domain.metamodel.ScalarShapeModel
 import org.mulesoft.als.suggestions.RawSuggestion
@@ -32,15 +33,19 @@ trait AsyncEnumCompletionPlugin extends AMLCompletionPlugin with EnumSuggestions
     } else emptySuggestion
 
   private def isAsync(params: AmlCompletionRequest) = {
-    params.branchStack.exists {
-      // Si Payload tiene schemaMediaType y no contiene asyncapi: no es async
-      // Si Payload tiene schemaMediaType y contiene asyncapi: es async
-      // Si Payload no tiene schemaMediaType: es async
-      // Si no Payload: es async
-      case p: Payload if p.schemaMediaType.option().isDefined => p.schemaMediaType.value().contains("asyncapi")
-      case _          => true
-    }
+    params.branchStack
+      .filter(isPayload)
+      .collectFirst {
+        // Si Payload tiene schemaMediaType y no contiene asyncapi: no es async
+        // Si Payload tiene schemaMediaType y contiene asyncapi: es async
+        // Si Payload no tiene schemaMediaType: es async
+        // Si no Payload: es async
+        case p: Payload if p.schemaMediaType.option().isDefined => p.schemaMediaType.value().contains("asyncapi")
+        case _ => true
+    }.getOrElse(true)
   }
+
+  private def isPayload(amfObject: AmfObject): Boolean = amfObject.isInstanceOf[Payload]
 }
 case object Async20EnumCompletionPlugin extends AsyncEnumCompletionPlugin {
   override val schemaFormatProp: PropertyMapping = MessageObjectNode.schemaFormatProp
