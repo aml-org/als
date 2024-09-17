@@ -28,48 +28,28 @@ object Async20PayloadCompletionPlugin
           if request.astPartBranch.isKeyDescendantOf("payload") &&
             !branchStack.exists(_.isInstanceOf[Server]) =>
         request.amfObject match {
-          case s: Shape =>
-            if (p.schemaMediaType.isNullOrEmpty)
-              Future(Async20TypeFacetsCompletionPlugin.resolveShape(s, branchStack, AsyncApi20Dialect()))
-            else
-              findPluginForMediaType(p)
-                .map {
-                  case wf: WebApiTypeFacetsCompletionPlugin =>
-                    Future(wf.resolveShape(s, branchStack, AsyncApi20Dialect()))
-                  case generic => generic.resolve(request)
-                }
-                .getOrElse(Future(Async20TypeFacetsCompletionPlugin.resolveShape(s, branchStack, AsyncApi20Dialect())))
+          case s: Shape => resolveFindingPluginByMediaType(p, request)
         }
-      case Some(p: Payload) if isInsidePayload(request.astPartBranch) => // && isAvroFormatFromPayload(p)
-        findPluginForMediaType(p)
-          .map {
-            case wf: WebApiTypeFacetsCompletionPlugin =>
-              Future(wf.resolveShape(request.amfObject.asInstanceOf[AnyShape], branchStack, AsyncApi20Dialect()))
-            case generic =>
-              generic.resolve(request)
-          }
-          .getOrElse(
-            Future(
-              Async20TypeFacetsCompletionPlugin
-                .resolveShape(request.amfObject.asInstanceOf[AnyShape], branchStack, AsyncApi20Dialect())
-            )
-          )
-//      case Some(p: Payload) if isInsidePayload(request.astPartBranch) && isAvroFormatFromPayload(p) =>
-//        // improve this new creation
-//        val newRequest: AmlCompletionRequest = AmlCompletionRequestBuilder.build(
-//          request.baseUnit,
-//          request.position.toAmfPosition,
-//          AvroDialect.dialect,
-//          request.directoryResolver,
-//          false,
-//          request.rootUri,
-//          request.configurationReader,
-//          request.completionsPluginHandler,
-//          request.alsConfigurationState
-//        )
-//        AvroTypesCompletionPlugin.resolve(newRequest)
+      case Some(p: Payload) if isInsidePayload(request.astPartBranch) => resolveFindingPluginByMediaType(p, request)
       case _ => Future(Seq.empty)
     }
+  }
+
+  private def resolveFindingPluginByMediaType(payload: Payload, request: AmlCompletionRequest): Future[Seq[RawSuggestion]] = {
+    val branchStack = request.branchStack
+    findPluginForMediaType(payload)
+      .map {
+        case wf: WebApiTypeFacetsCompletionPlugin =>
+          Future(wf.resolveShape(request.amfObject.asInstanceOf[AnyShape], branchStack, AsyncApi20Dialect()))
+        case generic =>
+          generic.resolve(request)
+      }
+      .getOrElse(
+        Future(
+          Async20TypeFacetsCompletionPlugin
+            .resolveShape(request.amfObject.asInstanceOf[AnyShape], branchStack, AsyncApi20Dialect())
+        )
+      )
   }
 
   private def isInsidePayload(astPartBranch: ASTPartBranch): Boolean =
