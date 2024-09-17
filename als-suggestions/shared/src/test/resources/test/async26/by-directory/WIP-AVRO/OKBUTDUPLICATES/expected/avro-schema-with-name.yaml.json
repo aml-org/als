@@ -1,19 +1,19 @@
 [
   {
-    "label": "$ref",
+    "label": "default",
     "kind": [
       
     ],
-    "detail": "unknown",
-    "documentation": "reference tag",
+    "detail": "parameters",
+    "documentation": "default",
     "deprecated": [
       
     ],
     "preselect": [
       
     ],
-    "sortText": "0$ref",
-    "filterText": "$ref: ",
+    "sortText": "11default",
+    "filterText": "default: ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -21,15 +21,15 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 7,
+          "line": 8,
           "character": 10
         },
         "end": {
-          "line": 7,
+          "line": 8,
           "character": 10
         }
       },
-      "newText": "$ref: "
+      "newText": "default: "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -57,51 +57,15 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 7,
+          "line": 8,
           "character": 10
         },
         "end": {
-          "line": 7,
+          "line": 8,
           "character": 10
         }
       },
       "newText": "default: "
-    },
-    "additionalTextEdits": null,
-    "commitCharacters": null,
-    "command": null
-  },
-  {
-    "label": "items",
-    "kind": [
-      
-    ],
-    "detail": "schemas",
-    "documentation": "items",
-    "deprecated": [
-      
-    ],
-    "preselect": [
-      
-    ],
-    "sortText": "11items",
-    "filterText": "items:\n  ",
-    "insertText": null,
-    "insertTextFormat": [
-      1
-    ],
-    "textEdit": {
-      "range": {
-        "start": {
-          "line": 7,
-          "character": 10
-        },
-        "end": {
-          "line": 7,
-          "character": 10
-        }
-      },
-      "newText": "items:\n  "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -129,11 +93,11 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 7,
+          "line": 8,
           "character": 10
         },
         "end": {
-          "line": 7,
+          "line": 8,
           "character": 10
         }
       },
@@ -144,20 +108,20 @@
     "command": null
   },
   {
-    "label": "name",
+    "label": "logicalType",
     "kind": [
       
     ],
-    "detail": "docs",
-    "documentation": "name",
+    "detail": "unknown",
+    "documentation": "logicalType",
     "deprecated": [
       
     ],
     "preselect": [
       
     ],
-    "sortText": "10name",
-    "filterText": "name: ",
+    "sortText": "11logicalType",
+    "filterText": "logicalType: ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -165,51 +129,15 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 7,
+          "line": 8,
           "character": 10
         },
         "end": {
-          "line": 7,
+          "line": 8,
           "character": 10
         }
       },
-      "newText": "name: "
-    },
-    "additionalTextEdits": null,
-    "commitCharacters": null,
-    "command": null
-  },
-  {
-    "label": "properties",
-    "kind": [
-      
-    ],
-    "detail": "schemas",
-    "documentation": "properties",
-    "deprecated": [
-      
-    ],
-    "preselect": [
-      
-    ],
-    "sortText": "11properties",
-    "filterText": "properties:\n  ",
-    "insertText": null,
-    "insertTextFormat": [
-      1
-    ],
-    "textEdit": {
-      "range": {
-        "start": {
-          "line": 7,
-          "character": 10
-        },
-        "end": {
-          "line": 7,
-          "character": 10
-        }
-      },
-      "newText": "properties:\n  "
+      "newText": "logicalType: "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -237,11 +165,47 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 7,
+          "line": 8,
           "character": 10
         },
         "end": {
-          "line": 7,
+          "line": 8,
+          "character": 10
+        }
+      },
+      "newText": "type: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "type",
+    "kind": [
+      
+    ],
+    "detail": "schemas",
+    "documentation": "type",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "10type",
+    "filterText": "type: ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 8,
+          "character": 10
+        },
+        "end": {
+          "line": 8,
           "character": 10
         }
       },
