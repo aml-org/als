@@ -32,9 +32,13 @@ trait AsyncEnumCompletionPlugin extends AMLCompletionPlugin with EnumSuggestions
     } else emptySuggestion
 
   private def isAsync(params: AmlCompletionRequest) = {
-    !params.branchStack.exists {
-      case p: Payload => !p.schemaMediaType.option().exists(_.contains("asyncapi"))
-      case _          => false
+    params.branchStack.exists {
+      // Si Payload tiene schemaMediaType y no contiene asyncapi: no es async
+      // Si Payload tiene schemaMediaType y contiene asyncapi: es async
+      // Si Payload no tiene schemaMediaType: es async
+      // Si no Payload: es async
+      case p: Payload if p.schemaMediaType.option().isDefined => p.schemaMediaType.value().contains("asyncapi")
+      case _          => true
     }
   }
 }
