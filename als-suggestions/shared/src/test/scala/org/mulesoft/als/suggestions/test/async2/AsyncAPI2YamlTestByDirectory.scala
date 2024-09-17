@@ -5,7 +5,6 @@ import org.mulesoft.als.suggestions.test.SuggestionByDirectoryTest
 
 class AsyncAPI2YamlTestByDirectory extends SuggestionByDirectoryTest {
   override def basePath: String = "als-suggestions/shared/src/test/resources/test/AsyncAPI2/by-directory"
-//  override def basePath: String = "als-suggestions/shared/src/test/resources/test/AsyncAPI2/by-directory/other/type-stack-overflow"
 
   override def origin: Hint = Async20YamlHint
 

@@ -24,6 +24,6 @@ trait FieldTypeKnowledge {
 //      case _          => false
 //    }
 
-//  protected def isAvroFormatFromPayload(payloadObject: Payload) =
-//    AvroDialect.avro190MediaType.equalsIgnoreCase(payloadObject.schemaMediaType.value())
+  protected def isAvroFormatFromPayload(payloadObject: Payload) =
+    AvroDialect.avro190MediaType.equalsIgnoreCase(payloadObject.schemaMediaType.value())
 }
