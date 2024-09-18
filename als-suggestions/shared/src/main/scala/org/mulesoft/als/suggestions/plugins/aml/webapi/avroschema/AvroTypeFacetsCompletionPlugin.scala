@@ -17,16 +17,18 @@ object AvroTypeFacetsCompletionPlugin extends AMLCompletionPlugin {
     // dejar mas lindo esto, capaz poniendo un override del build que reciba una request vieja y el dialecto nuevo solamente
     val newRequest: AmlCompletionRequest = request.cloneWithDialect(AvroDialect.dialect)
 
-    Future.sequence {
-      AvroCompletionPluginRegistry.plugins.map{ p =>
-        val eventualSuggestions = p.resolve(newRequest)
-        // este foreach es solo para debuggear, se puede borrar si no hace falta o dejar comentado
-        eventualSuggestions.foreach{ s =>
-          println(s)
-          println(p.id)
+    Future
+      .sequence {
+        AvroCompletionPluginRegistry.plugins.map { p =>
+          val eventualSuggestions = p.resolve(newRequest)
+          // este foreach es solo para debuggear, se puede borrar si no hace falta o dejar comentado
+//        eventualSuggestions.foreach{ s =>
+//          println(s)
+//          println(p.id)
+//        }
+          eventualSuggestions
         }
-        eventualSuggestions
       }
-    }.map(_.flatten)
+      .map(_.flatten)
   }
 }
