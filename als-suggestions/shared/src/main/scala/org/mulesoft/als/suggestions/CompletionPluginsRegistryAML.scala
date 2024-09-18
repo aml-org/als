@@ -37,7 +37,7 @@ class CompletionPluginsRegistryAML {
   ): Future[Seq[RawSuggestion]] = {
     val seq: Seq[Future[Seq[RawSuggestion]]] = pluginsSet
       .map(p => p.resolve(params)
-//      used for debug <- to check origin plugin for suggestion
+//      used for debug <- to check origin plugin for suggestion. TAGS: uncomment, debug
 //          .map(r => {
 //            if (r.nonEmpty) {
 //              println(s"${p.id} => ${r.length}")

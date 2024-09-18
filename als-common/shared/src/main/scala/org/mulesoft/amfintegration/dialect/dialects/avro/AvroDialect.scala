@@ -42,7 +42,8 @@ object AvroDialect extends BaseDialect {
   )
   override def DialectLocation: String = "file://vocabularies/dialects/avro.yaml"
 
-  final val inheritsId: String = AvroDialect.DialectLocation + "#/declarations/ShapeNode/inherits"
+  final val inheritsId: String       = AvroDialect.DialectLocation + "#/declarations/ShapeNode/inherits"
+  final val avro190MediaType: String = "application/vnd.apache.avro;version=1.9.0"
 
   override protected val name: String    = "avro"
   override protected val version: String = ""
@@ -198,7 +199,6 @@ object AvroMapNode extends AvroTypedNode {
       .withObjectRange(Seq(AvroRootNode.id))
 }
 
-
 object AvroArrayNode extends AvroTypedNode {
   override def nodeTypeMapping: String = ArrayShapeModel.`type`.head.iri()
   override def name                    = "ArrayShape"
@@ -227,8 +227,8 @@ object AvroFieldNode extends AvroTypedNode {
       docMapping
 
   object PropertyShapeAvroNode extends AvroTypedNode {
-    override def nodeTypeMapping: String = PropertyShapeModel.`type`.head.iri()
-    override def name                    = "PropertyShape"
+    override def nodeTypeMapping: String          = PropertyShapeModel.`type`.head.iri()
+    override def name                             = "PropertyShape"
     override def properties: Seq[PropertyMapping] = Seq.empty
   }
 }

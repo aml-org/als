@@ -1,19 +1,19 @@
 [
   {
-    "label": "#/components/messages/test",
+    "label": "$ref",
     "kind": [
       
     ],
     "detail": "unknown",
-    "documentation": "Reference to #/components/messages/test",
+    "documentation": "reference tag",
     "deprecated": [
       
     ],
     "preselect": [
       
     ],
-    "sortText": "11#/components/messages/test",
-    "filterText": "\"#/components/messages/test\"",
+    "sortText": "0$ref",
+    "filterText": "$ref: ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -21,35 +21,35 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 5,
-          "character": 14
+          "line": 7,
+          "character": 10
         },
         "end": {
-          "line": 5,
-          "character": 14
+          "line": 7,
+          "character": 10
         }
       },
-      "newText": "\"#/components/messages/test\""
+      "newText": "$ref: "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
     "command": null
   },
   {
-    "label": "expected/",
+    "label": "default",
     "kind": [
       
     ],
-    "detail": "unknown",
-    "documentation": "Path suggestion",
+    "detail": "parameters",
+    "documentation": "default",
     "deprecated": [
       
     ],
     "preselect": [
       
     ],
-    "sortText": "11expected/",
-    "filterText": "expected/",
+    "sortText": "11default",
+    "filterText": "default: ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -57,35 +57,35 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 5,
-          "character": 14
+          "line": 7,
+          "character": 10
         },
         "end": {
-          "line": 5,
-          "character": 14
+          "line": 7,
+          "character": 10
         }
       },
-      "newText": "expected/"
+      "newText": "default: "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
     "command": null
   },
   {
-    "label": "message-id.yaml",
+    "label": "default",
     "kind": [
       
     ],
-    "detail": "unknown",
-    "documentation": "Path suggestion",
+    "detail": "parameters",
+    "documentation": "default",
     "deprecated": [
       
     ],
     "preselect": [
       
     ],
-    "sortText": "11message-id.yaml",
-    "filterText": "message-id.yaml",
+    "sortText": "11default",
+    "filterText": "default: ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -93,35 +93,35 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 5,
-          "character": 14
+          "line": 7,
+          "character": 10
         },
         "end": {
-          "line": 5,
-          "character": 14
+          "line": 7,
+          "character": 10
         }
       },
-      "newText": "message-id.yaml"
+      "newText": "default: "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
     "command": null
   },
   {
-    "label": "message-ref-publish.yaml",
+    "label": "logicalType",
     "kind": [
       
     ],
     "detail": "unknown",
-    "documentation": "Path suggestion",
+    "documentation": "logicalType",
     "deprecated": [
       
     ],
     "preselect": [
       
     ],
-    "sortText": "11message-ref-publish.yaml",
-    "filterText": "message-ref-publish.yaml",
+    "sortText": "11logicalType",
+    "filterText": "logicalType: ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -129,35 +129,35 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 5,
-          "character": 14
+          "line": 7,
+          "character": 10
         },
         "end": {
-          "line": 5,
-          "character": 14
+          "line": 7,
+          "character": 10
         }
       },
-      "newText": "message-ref-publish.yaml"
+      "newText": "logicalType: "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
     "command": null
   },
   {
-    "label": "message-root.yaml",
+    "label": "logicalType",
     "kind": [
       
     ],
     "detail": "unknown",
-    "documentation": "Path suggestion",
+    "documentation": "logicalType",
     "deprecated": [
       
     ],
     "preselect": [
       
     ],
-    "sortText": "11message-root.yaml",
-    "filterText": "message-root.yaml",
+    "sortText": "11logicalType",
+    "filterText": "logicalType: ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -165,35 +165,35 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 5,
-          "character": 14
+          "line": 7,
+          "character": 10
         },
         "end": {
-          "line": 5,
-          "character": 14
+          "line": 7,
+          "character": 10
         }
       },
-      "newText": "message-root.yaml"
+      "newText": "logicalType: "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
     "command": null
   },
   {
-    "label": "message-with-contentType.yaml",
+    "label": "name",
     "kind": [
       
     ],
-    "detail": "unknown",
-    "documentation": "Path suggestion",
+    "detail": "docs",
+    "documentation": "name",
     "deprecated": [
       
     ],
     "preselect": [
       
     ],
-    "sortText": "11message-with-contentType.yaml",
-    "filterText": "message-with-contentType.yaml",
+    "sortText": "10name",
+    "filterText": "name: ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -201,35 +201,35 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 5,
-          "character": 14
+          "line": 7,
+          "character": 10
         },
         "end": {
-          "line": 5,
-          "character": 14
+          "line": 7,
+          "character": 10
         }
       },
-      "newText": "message-with-contentType.yaml"
+      "newText": "name: "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
     "command": null
   },
   {
-    "label": "message-with-schemaFormat-and-contentType.yaml",
+    "label": "name",
     "kind": [
       
     ],
-    "detail": "unknown",
-    "documentation": "Path suggestion",
+    "detail": "docs",
+    "documentation": "name",
     "deprecated": [
       
     ],
     "preselect": [
       
     ],
-    "sortText": "11message-with-schemaFormat-and-contentType.yaml",
-    "filterText": "message-with-schemaFormat-and-contentType.yaml",
+    "sortText": "10name",
+    "filterText": "name: ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -237,35 +237,35 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 5,
-          "character": 14
+          "line": 7,
+          "character": 10
         },
         "end": {
-          "line": 5,
-          "character": 14
+          "line": 7,
+          "character": 10
         }
       },
-      "newText": "message-with-schemaFormat-and-contentType.yaml"
+      "newText": "name: "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
     "command": null
   },
   {
-    "label": "message-with-schemaFormat.yaml",
+    "label": "type",
     "kind": [
       
     ],
-    "detail": "unknown",
-    "documentation": "Path suggestion",
+    "detail": "schemas",
+    "documentation": "type",
     "deprecated": [
       
     ],
     "preselect": [
       
     ],
-    "sortText": "11message-with-schemaFormat.yaml",
-    "filterText": "message-with-schemaFormat.yaml",
+    "sortText": "10type",
+    "filterText": "type: ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -273,35 +273,35 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 5,
-          "character": 14
+          "line": 7,
+          "character": 10
         },
         "end": {
-          "line": 5,
-          "character": 14
+          "line": 7,
+          "character": 10
         }
       },
-      "newText": "message-with-schemaFormat.yaml"
+      "newText": "type: "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
     "command": null
   },
   {
-    "label": "payload/",
+    "label": "type",
     "kind": [
       
     ],
-    "detail": "unknown",
-    "documentation": "Path suggestion",
+    "detail": "schemas",
+    "documentation": "type",
     "deprecated": [
       
     ],
     "preselect": [
       
     ],
-    "sortText": "11payload/",
-    "filterText": "payload/",
+    "sortText": "10type",
+    "filterText": "type: ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -309,15 +309,15 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 5,
-          "character": 14
+          "line": 7,
+          "character": 10
         },
         "end": {
-          "line": 5,
-          "character": 14
+          "line": 7,
+          "character": 10
         }
       },
-      "newText": "payload/"
+      "newText": "type: "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,

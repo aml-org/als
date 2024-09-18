@@ -1,0 +1,17 @@
+asyncapi: '2.6.0'
+channels:
+  myChannel:
+    publish:
+      message:
+        schemaFormat: application/vnd.apache.avro;version=1.9.0
+        payload:
+          type: record
+          fields:
+            - name: test
+              *
+
+#"newText": "default: " # ok
+#"newText": "items:\n  " # bad
+#"newText": "logicalType: " # ok
+#"newText": "properties:\n  " # bad
+#"newText": "type: " # ok

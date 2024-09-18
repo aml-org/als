@@ -9,6 +9,7 @@ import amf.core.internal.annotations.{DeclaredElement, DefinedBySpec, SourceYPar
 import amf.core.internal.metamodel.domain.LinkableElementModel
 import amf.core.internal.parser.domain.{Annotations, FieldEntry}
 import amf.core.internal.remote.{AmlDialectSpec, Spec}
+import amf.shapes.internal.annotations.AVROSchemaType
 import org.mulesoft.als.common.YPartASTWrapper.AlsYPart
 import org.mulesoft.als.common.AmfSonElementFinder.AlsAmfObject
 import org.mulesoft.als.common.dtoTypes.{Position, PositionRange}
@@ -27,7 +28,11 @@ case class ObjectInTree(
       objects.flatMap {
         case de: DomainExtension if de.name.nonEmpty =>
           findDialectForSemantic(de.name.value()).map(t => AmlDialectSpec(t._2.id))
-        case o => o.annotations.find(classOf[DefinedBySpec]).map(_.spec)
+        case o if o.annotations.contains(classOf[AVROSchemaType]) =>
+          // esto se deberia borrar cuando se corrija el `DefinedBySpec` en AMF, que ahora esta viniendo en RAML aunque sea un AVRO
+          Some(Spec.AVRO_SCHEMA)
+        case o =>
+          o.annotations.find(classOf[DefinedBySpec]).map(_.spec)
       }.headOption
 
     findSpecificDefinition(obj +: stack)
