@@ -4,7 +4,7 @@
     "kind": [
       
     ],
-    "detail": "unknown",
+    "detail": "schemas",
     "documentation": "aliases",
     "deprecated": [
       
@@ -21,11 +21,11 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 9,
+          "line": 8,
           "character": 10
         },
         "end": {
-          "line": 9,
+          "line": 8,
           "character": 10
         }
       },
@@ -40,7 +40,7 @@
     "kind": [
       
     ],
-    "detail": "parameters",
+    "detail": "schemas",
     "documentation": "default",
     "deprecated": [
       
@@ -57,11 +57,11 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 9,
+          "line": 8,
           "character": 10
         },
         "end": {
-          "line": 9,
+          "line": 8,
           "character": 10
         }
       },
@@ -72,83 +72,11 @@
     "command": null
   },
   {
-    "label": "doc",
-    "kind": [
-      
-    ],
-    "detail": "unknown",
-    "documentation": "doc",
-    "deprecated": [
-      
-    ],
-    "preselect": [
-      
-    ],
-    "sortText": "11doc",
-    "filterText": "doc: ",
-    "insertText": null,
-    "insertTextFormat": [
-      1
-    ],
-    "textEdit": {
-      "range": {
-        "start": {
-          "line": 9,
-          "character": 10
-        },
-        "end": {
-          "line": 9,
-          "character": 10
-        }
-      },
-      "newText": "doc: "
-    },
-    "additionalTextEdits": null,
-    "commitCharacters": null,
-    "command": null
-  },
-  {
-    "label": "fields",
-    "kind": [
-      
-    ],
-    "detail": "unknown",
-    "documentation": "fields",
-    "deprecated": [
-      
-    ],
-    "preselect": [
-      
-    ],
-    "sortText": "11fields",
-    "filterText": "fields:\n  - ",
-    "insertText": null,
-    "insertTextFormat": [
-      1
-    ],
-    "textEdit": {
-      "range": {
-        "start": {
-          "line": 9,
-          "character": 10
-        },
-        "end": {
-          "line": 9,
-          "character": 10
-        }
-      },
-      "newText": "fields:\n  - "
-    },
-    "additionalTextEdits": null,
-    "commitCharacters": null,
-    "command": null
-  },
-  {
     "label": "logicalType",
     "kind": [
       
     ],
-    "detail": "unknown",
+    "detail": "schemas",
     "documentation": "logicalType",
     "deprecated": [
       
@@ -165,11 +93,11 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 9,
+          "line": 8,
           "character": 10
         },
         "end": {
-          "line": 9,
+          "line": 8,
           "character": 10
         }
       },
@@ -180,11 +108,47 @@
     "command": null
   },
   {
+    "label": "name",
+    "kind": [
+      
+    ],
+    "detail": "schemas",
+    "documentation": "name",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "10name",
+    "filterText": "name: ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 8,
+          "character": 10
+        },
+        "end": {
+          "line": 8,
+          "character": 10
+        }
+      },
+      "newText": "name: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
     "label": "namespace",
     "kind": [
       
     ],
-    "detail": "unknown",
+    "detail": "schemas",
     "documentation": "namespace",
     "deprecated": [
       
@@ -201,15 +165,51 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 9,
+          "line": 8,
           "character": 10
         },
         "end": {
-          "line": 9,
+          "line": 8,
           "character": 10
         }
       },
       "newText": "namespace: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "size",
+    "kind": [
+      
+    ],
+    "detail": "schemas",
+    "documentation": "size",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "11size",
+    "filterText": "size: ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 8,
+          "character": 10
+        },
+        "end": {
+          "line": 8,
+          "character": 10
+        }
+      },
+      "newText": "size: "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,

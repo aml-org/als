@@ -13,23 +13,59 @@
       
     ],
     "sortText": "11default",
-    "filterText": "\"default\": \"$1\"",
+    "filterText": "default:\n  - ",
     "insertText": null,
     "insertTextFormat": [
-      2
+      1
     ],
     "textEdit": {
       "range": {
         "start": {
-          "line": 3,
-          "character": 8
+          "line": 8,
+          "character": 20
         },
         "end": {
-          "line": 3,
-          "character": 10
+          "line": 8,
+          "character": 20
         }
       },
-      "newText": "\"default\": \"$1\""
+      "newText": "default:\n  - "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "items",
+    "kind": [
+      
+    ],
+    "detail": "schemas",
+    "documentation": "items",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "11items",
+    "filterText": "items: ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 8,
+          "character": 20
+        },
+        "end": {
+          "line": 8,
+          "character": 20
+        }
+      },
+      "newText": "items: "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -49,23 +85,23 @@
       
     ],
     "sortText": "11logicalType",
-    "filterText": "\"logicalType\": \"$1\"",
+    "filterText": "logicalType: ",
     "insertText": null,
     "insertTextFormat": [
-      2
+      1
     ],
     "textEdit": {
       "range": {
         "start": {
-          "line": 3,
-          "character": 8
+          "line": 8,
+          "character": 20
         },
         "end": {
-          "line": 3,
-          "character": 10
+          "line": 8,
+          "character": 20
         }
       },
-      "newText": "\"logicalType\": \"$1\""
+      "newText": "logicalType: "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -85,59 +121,23 @@
       
     ],
     "sortText": "10name",
-    "filterText": "\"name\": \"$1\"",
+    "filterText": "name: ",
     "insertText": null,
     "insertTextFormat": [
-      2
+      1
     ],
     "textEdit": {
       "range": {
         "start": {
-          "line": 3,
-          "character": 8
+          "line": 8,
+          "character": 20
         },
         "end": {
-          "line": 3,
-          "character": 10
+          "line": 8,
+          "character": 20
         }
       },
-      "newText": "\"name\": \"$1\""
-    },
-    "additionalTextEdits": null,
-    "commitCharacters": null,
-    "command": null
-  },
-  {
-    "label": "type",
-    "kind": [
-      
-    ],
-    "detail": "schemas",
-    "documentation": "type",
-    "deprecated": [
-      
-    ],
-    "preselect": [
-      
-    ],
-    "sortText": "10type",
-    "filterText": "\"type\": \"$1\"",
-    "insertText": null,
-    "insertTextFormat": [
-      2
-    ],
-    "textEdit": {
-      "range": {
-        "start": {
-          "line": 3,
-          "character": 8
-        },
-        "end": {
-          "line": 3,
-          "character": 10
-        }
-      },
-      "newText": "\"type\": \"$1\""
+      "newText": "name: "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,

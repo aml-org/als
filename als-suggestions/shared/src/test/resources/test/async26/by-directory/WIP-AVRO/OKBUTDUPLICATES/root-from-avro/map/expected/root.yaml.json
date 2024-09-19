@@ -4,7 +4,7 @@
     "kind": [
       
     ],
-    "detail": "parameters",
+    "detail": "schemas",
     "documentation": "default",
     "deprecated": [
       
@@ -13,23 +13,23 @@
       
     ],
     "sortText": "11default",
-    "filterText": "\"default\": \"$1\"",
+    "filterText": "default: ",
     "insertText": null,
     "insertTextFormat": [
-      2
+      1
     ],
     "textEdit": {
       "range": {
         "start": {
-          "line": 3,
-          "character": 8
+          "line": 8,
+          "character": 10
         },
         "end": {
-          "line": 3,
+          "line": 8,
           "character": 10
         }
       },
-      "newText": "\"default\": \"$1\""
+      "newText": "default: "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -40,7 +40,7 @@
     "kind": [
       
     ],
-    "detail": "unknown",
+    "detail": "schemas",
     "documentation": "logicalType",
     "deprecated": [
       
@@ -49,23 +49,23 @@
       
     ],
     "sortText": "11logicalType",
-    "filterText": "\"logicalType\": \"$1\"",
+    "filterText": "logicalType: ",
     "insertText": null,
     "insertTextFormat": [
-      2
+      1
     ],
     "textEdit": {
       "range": {
         "start": {
-          "line": 3,
-          "character": 8
+          "line": 8,
+          "character": 10
         },
         "end": {
-          "line": 3,
+          "line": 8,
           "character": 10
         }
       },
-      "newText": "\"logicalType\": \"$1\""
+      "newText": "logicalType: "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -76,7 +76,7 @@
     "kind": [
       
     ],
-    "detail": "docs",
+    "detail": "schemas",
     "documentation": "name",
     "deprecated": [
       
@@ -85,59 +85,59 @@
       
     ],
     "sortText": "10name",
-    "filterText": "\"name\": \"$1\"",
+    "filterText": "name: ",
     "insertText": null,
     "insertTextFormat": [
-      2
+      1
     ],
     "textEdit": {
       "range": {
         "start": {
-          "line": 3,
-          "character": 8
+          "line": 8,
+          "character": 10
         },
         "end": {
-          "line": 3,
+          "line": 8,
           "character": 10
         }
       },
-      "newText": "\"name\": \"$1\""
+      "newText": "name: "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
     "command": null
   },
   {
-    "label": "type",
+    "label": "values",
     "kind": [
       
     ],
     "detail": "schemas",
-    "documentation": "type",
+    "documentation": "values",
     "deprecated": [
       
     ],
     "preselect": [
       
     ],
-    "sortText": "10type",
-    "filterText": "\"type\": \"$1\"",
+    "sortText": "11values",
+    "filterText": "values:\n  ",
     "insertText": null,
     "insertTextFormat": [
-      2
+      1
     ],
     "textEdit": {
       "range": {
         "start": {
-          "line": 3,
-          "character": 8
+          "line": 8,
+          "character": 10
         },
         "end": {
-          "line": 3,
+          "line": 8,
           "character": 10
         }
       },
-      "newText": "\"type\": \"$1\""
+      "newText": "values:\n  "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,

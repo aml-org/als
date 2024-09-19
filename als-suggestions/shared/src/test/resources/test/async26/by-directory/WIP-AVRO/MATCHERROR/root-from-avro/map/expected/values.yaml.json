@@ -1,0 +1,38 @@
+[
+  {
+    "label": "$ref",
+    "kind": [
+      
+    ],
+    "detail": "unknown",
+    "documentation": "reference tag",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "0$ref",
+    "filterText": "$ref: ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 9,
+          "character": 14
+        },
+        "end": {
+          "line": 9,
+          "character": 14
+        }
+      },
+      "newText": "$ref: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  }
+]

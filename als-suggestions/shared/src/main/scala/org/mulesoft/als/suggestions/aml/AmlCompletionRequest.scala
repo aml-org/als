@@ -12,7 +12,6 @@ import org.mulesoft.als.common._
 import org.mulesoft.als.common.dtoTypes.{PositionRange, TextHelper, Position => DtoPosition}
 import org.mulesoft.als.configuration.AlsConfigurationReader
 import org.mulesoft.als.suggestions.CompletionsPluginHandler
-import org.mulesoft.als.suggestions.aml.AmlCompletionRequestBuilder.build
 import org.mulesoft.als.suggestions.aml.declarations.DeclarationProvider
 import org.mulesoft.als.suggestions.interfaces.AMLCompletionPlugin
 import org.mulesoft.als.suggestions.styler.{SuggestionRender, SuggestionStylerBuilder}
@@ -90,7 +89,7 @@ class AmlCompletionRequest(
   lazy val declarationProvider: DeclarationProvider =
     inheritedProvider.getOrElse(DeclarationProvider(baseUnit, Some(actualDialect)))
 
-  def cloneWithDialect(dialect: Dialect): AmlCompletionRequest =
+  def withDialect(dialect: Dialect): AmlCompletionRequest =
     new AmlCompletionRequest(
       this.baseUnit,
       this.position,

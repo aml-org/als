@@ -1,41 +1,5 @@
 [
   {
-    "label": "aliases",
-    "kind": [
-      
-    ],
-    "detail": "unknown",
-    "documentation": "aliases",
-    "deprecated": [
-      
-    ],
-    "preselect": [
-      
-    ],
-    "sortText": "11aliases",
-    "filterText": "aliases:\n  - ",
-    "insertText": null,
-    "insertTextFormat": [
-      1
-    ],
-    "textEdit": {
-      "range": {
-        "start": {
-          "line": 9,
-          "character": 10
-        },
-        "end": {
-          "line": 9,
-          "character": 10
-        }
-      },
-      "newText": "aliases:\n  - "
-    },
-    "additionalTextEdits": null,
-    "commitCharacters": null,
-    "command": null
-  },
-  {
     "label": "default",
     "kind": [
       
@@ -108,20 +72,20 @@
     "command": null
   },
   {
-    "label": "fields",
+    "label": "name",
     "kind": [
       
     ],
-    "detail": "unknown",
-    "documentation": "fields",
+    "detail": "docs",
+    "documentation": "name",
     "deprecated": [
       
     ],
     "preselect": [
       
     ],
-    "sortText": "11fields",
-    "filterText": "fields:\n  - ",
+    "sortText": "10name",
+    "filterText": "name: ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -137,43 +101,7 @@
           "character": 10
         }
       },
-      "newText": "fields:\n  - "
-    },
-    "additionalTextEdits": null,
-    "commitCharacters": null,
-    "command": null
-  },
-  {
-    "label": "logicalType",
-    "kind": [
-      
-    ],
-    "detail": "unknown",
-    "documentation": "logicalType",
-    "deprecated": [
-      
-    ],
-    "preselect": [
-      
-    ],
-    "sortText": "11logicalType",
-    "filterText": "logicalType: ",
-    "insertText": null,
-    "insertTextFormat": [
-      1
-    ],
-    "textEdit": {
-      "range": {
-        "start": {
-          "line": 9,
-          "character": 10
-        },
-        "end": {
-          "line": 9,
-          "character": 10
-        }
-      },
-      "newText": "logicalType: "
+      "newText": "name: "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -210,6 +138,78 @@
         }
       },
       "newText": "namespace: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "precision",
+    "kind": [
+      
+    ],
+    "detail": "logical type",
+    "documentation": "precision",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "11precision",
+    "filterText": "precision: ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 9,
+          "character": 10
+        },
+        "end": {
+          "line": 9,
+          "character": 10
+        }
+      },
+      "newText": "precision: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "scale",
+    "kind": [
+      
+    ],
+    "detail": "logical type",
+    "documentation": "scale",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "11scale",
+    "filterText": "scale: ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 9,
+          "character": 10
+        },
+        "end": {
+          "line": 9,
+          "character": 10
+        }
+      },
+      "newText": "scale: "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,

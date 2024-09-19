@@ -13,7 +13,7 @@
       
     ],
     "sortText": "11default",
-    "filterText": "\"default\": \"$1\"",
+    "filterText": "\"default\": [\n  \"$1\"\n]",
     "insertText": null,
     "insertTextFormat": [
       2
@@ -21,15 +21,51 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 3,
+          "line": 4,
           "character": 8
         },
         "end": {
-          "line": 3,
+          "line": 4,
           "character": 10
         }
       },
-      "newText": "\"default\": \"$1\""
+      "newText": "\"default\": [\n  \"$1\"\n]"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "items",
+    "kind": [
+      
+    ],
+    "detail": "schemas",
+    "documentation": "items",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "11items",
+    "filterText": "\"items\": \"$1\"",
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 4,
+          "character": 8
+        },
+        "end": {
+          "line": 4,
+          "character": 10
+        }
+      },
+      "newText": "\"items\": \"$1\""
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -57,11 +93,11 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 3,
+          "line": 4,
           "character": 8
         },
         "end": {
-          "line": 3,
+          "line": 4,
           "character": 10
         }
       },
@@ -93,51 +129,15 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 3,
+          "line": 4,
           "character": 8
         },
         "end": {
-          "line": 3,
+          "line": 4,
           "character": 10
         }
       },
       "newText": "\"name\": \"$1\""
-    },
-    "additionalTextEdits": null,
-    "commitCharacters": null,
-    "command": null
-  },
-  {
-    "label": "type",
-    "kind": [
-      
-    ],
-    "detail": "schemas",
-    "documentation": "type",
-    "deprecated": [
-      
-    ],
-    "preselect": [
-      
-    ],
-    "sortText": "10type",
-    "filterText": "\"type\": \"$1\"",
-    "insertText": null,
-    "insertTextFormat": [
-      2
-    ],
-    "textEdit": {
-      "range": {
-        "start": {
-          "line": 3,
-          "character": 8
-        },
-        "end": {
-          "line": 3,
-          "character": 10
-        }
-      },
-      "newText": "\"type\": \"$1\""
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
