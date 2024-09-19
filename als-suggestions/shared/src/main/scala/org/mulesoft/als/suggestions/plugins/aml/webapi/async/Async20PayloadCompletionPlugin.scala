@@ -31,7 +31,8 @@ object Async20PayloadCompletionPlugin
           if request.astPartBranch.isKeyDescendantOf("payload") &&
             !branchStack.exists(_.isInstanceOf[Server]) =>
         request.amfObject match {
-          case s: Shape => resolveFindingPluginByMediaType(p, request)
+          case _: Shape => resolveFindingPluginByMediaType(p, request)
+          case _ => ???
         }
       case Some(p: Payload) if isSonOfPayload(request.astPartBranch) => resolveFindingPluginByMediaType(p, request)
       case _ => Future(Seq.empty)

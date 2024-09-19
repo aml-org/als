@@ -36,7 +36,7 @@ trait AsyncEnumCompletionPlugin extends AMLCompletionPlugin with EnumSuggestions
   private def cloneParamsForSchemaMediaType(params: AmlCompletionRequest) =
     params.branchStack
       .collectFirst {
-        case p: Payload => params.cloneWithDialect(getDialectBySchemaMediaType(p))
+        case p: Payload => params.withDialect(getDialectBySchemaMediaType(p))
       }.getOrElse(params)
 
   private def getDialectBySchemaMediaType(payload: Payload): Dialect =
