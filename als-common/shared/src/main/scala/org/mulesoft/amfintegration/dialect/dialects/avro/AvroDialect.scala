@@ -136,7 +136,7 @@ object AvroRecordNode extends AvroTypedNode {
         .withName("fields")
         .withAllowMultiple(true)
         .withMinCount(1)
-        .withObjectRange(Seq(AvroFieldNode.id)) :+
+        .withObjectRange(Seq(AvroRootNode.id)) :+
       aliasesMapping :+
       docMapping :+
       namespaceMapping
