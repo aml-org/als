@@ -1,0 +1,74 @@
+[
+  {
+    "label": "New fields",
+    "kind": [
+      
+    ],
+    "detail": "template",
+    "documentation": "fields",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "21New fields",
+    "filterText": "fields:\n  -\n    name: $1\n    type: $2",
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 8,
+          "character": 10
+        },
+        "end": {
+          "line": 8,
+          "character": 12
+        }
+      },
+      "newText": "fields:\n  -\n    name: $1\n    type: $2"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "fields",
+    "kind": [
+      
+    ],
+    "detail": "unknown",
+    "documentation": "fields",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "11fields",
+    "filterText": "fields:\n  - ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 8,
+          "character": 10
+        },
+        "end": {
+          "line": 8,
+          "character": 12
+        }
+      },
+      "newText": "fields:\n  - "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  }
+]
