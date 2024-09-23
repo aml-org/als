@@ -148,7 +148,6 @@ pipeline {
                     branch 'master'
                     branch 'develop'
                     branch 'rc/*'
-                    branch 'acb-avro-version'
                 }
             }
             steps {
