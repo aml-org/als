@@ -12,7 +12,7 @@
     "preselect": [
       
     ],
-    "sortText": "11array",
+    "sortText": "10array",
     "filterText": "\"array\"",
     "insertText": null,
     "insertTextFormat": [
@@ -48,7 +48,7 @@
     "preselect": [
       
     ],
-    "sortText": "11boolean",
+    "sortText": "10boolean",
     "filterText": "\"boolean\"",
     "insertText": null,
     "insertTextFormat": [
@@ -84,7 +84,7 @@
     "preselect": [
       
     ],
-    "sortText": "11bytes",
+    "sortText": "10bytes",
     "filterText": "\"bytes\"",
     "insertText": null,
     "insertTextFormat": [
@@ -120,7 +120,7 @@
     "preselect": [
       
     ],
-    "sortText": "11double",
+    "sortText": "10double",
     "filterText": "\"double\"",
     "insertText": null,
     "insertTextFormat": [
@@ -156,7 +156,7 @@
     "preselect": [
       
     ],
-    "sortText": "11enum",
+    "sortText": "10enum",
     "filterText": "\"enum\"",
     "insertText": null,
     "insertTextFormat": [
@@ -192,7 +192,7 @@
     "preselect": [
       
     ],
-    "sortText": "11fixed",
+    "sortText": "10fixed",
     "filterText": "\"fixed\"",
     "insertText": null,
     "insertTextFormat": [
@@ -228,7 +228,7 @@
     "preselect": [
       
     ],
-    "sortText": "11float",
+    "sortText": "10float",
     "filterText": "\"float\"",
     "insertText": null,
     "insertTextFormat": [
@@ -264,7 +264,7 @@
     "preselect": [
       
     ],
-    "sortText": "11int",
+    "sortText": "10int",
     "filterText": "\"int\"",
     "insertText": null,
     "insertTextFormat": [
@@ -300,7 +300,7 @@
     "preselect": [
       
     ],
-    "sortText": "11long",
+    "sortText": "10long",
     "filterText": "\"long\"",
     "insertText": null,
     "insertTextFormat": [
@@ -336,7 +336,7 @@
     "preselect": [
       
     ],
-    "sortText": "11map",
+    "sortText": "10map",
     "filterText": "\"map\"",
     "insertText": null,
     "insertTextFormat": [
@@ -372,7 +372,7 @@
     "preselect": [
       
     ],
-    "sortText": "11null",
+    "sortText": "10null",
     "filterText": "\"null\"",
     "insertText": null,
     "insertTextFormat": [
@@ -408,7 +408,7 @@
     "preselect": [
       
     ],
-    "sortText": "11record",
+    "sortText": "10record",
     "filterText": "\"record\"",
     "insertText": null,
     "insertTextFormat": [
@@ -444,7 +444,7 @@
     "preselect": [
       
     ],
-    "sortText": "11string",
+    "sortText": "10string",
     "filterText": "\"string\"",
     "insertText": null,
     "insertTextFormat": [
