@@ -28,9 +28,6 @@ case class ObjectInTree(
       objects.flatMap {
         case de: DomainExtension if de.name.nonEmpty =>
           findDialectForSemantic(de.name.value()).map(t => AmlDialectSpec(t._2.id))
-        case o if o.annotations.contains(classOf[AVROSchemaType]) =>
-          // esto se deberia borrar cuando se corrija el `DefinedBySpec` en AMF, que ahora esta viniendo en RAML aunque sea un AVRO
-          Some(Spec.AVRO_SCHEMA)
         case o =>
           o.annotations.find(classOf[DefinedBySpec]).map(_.spec)
       }.headOption

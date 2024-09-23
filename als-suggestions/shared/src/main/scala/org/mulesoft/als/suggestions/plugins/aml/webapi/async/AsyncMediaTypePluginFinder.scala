@@ -9,6 +9,7 @@ import org.mulesoft.als.suggestions.plugins.aml.webapi.raml.raml10.Raml10TypeFac
 
 import scala.util.matching.Regex
 
+// todo: we are duplicating a lot of code/logic with DialectFinderByMediaType, unify behavior
 trait AsyncMediaTypePluginFinder {
   val asyncApiRegex: Regex =
     "(application\\/vnd\\.aai\\.asyncapi(\\+yaml|\\+json)?;?(version=2\\.[0-9]\\.[0-9])?)".r
