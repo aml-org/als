@@ -1,221 +1,5 @@
 [
   {
-    "label": "$comment",
-    "kind": [
-      
-    ],
-    "detail": "unknown",
-    "documentation": "$comment",
-    "deprecated": [
-      
-    ],
-    "preselect": [
-      
-    ],
-    "sortText": "11$comment",
-    "filterText": "$comment: ",
-    "insertText": null,
-    "insertTextFormat": [
-      1
-    ],
-    "textEdit": {
-      "range": {
-        "start": {
-          "line": 10,
-          "character": 14
-        },
-        "end": {
-          "line": 10,
-          "character": 14
-        }
-      },
-      "newText": "$comment: "
-    },
-    "additionalTextEdits": null,
-    "commitCharacters": null,
-    "command": null
-  },
-  {
-    "label": "$id",
-    "kind": [
-      
-    ],
-    "detail": "unknown",
-    "documentation": "$id",
-    "deprecated": [
-      
-    ],
-    "preselect": [
-      
-    ],
-    "sortText": "11$id",
-    "filterText": "$id: ",
-    "insertText": null,
-    "insertTextFormat": [
-      1
-    ],
-    "textEdit": {
-      "range": {
-        "start": {
-          "line": 10,
-          "character": 14
-        },
-        "end": {
-          "line": 10,
-          "character": 14
-        }
-      },
-      "newText": "$id: "
-    },
-    "additionalTextEdits": null,
-    "commitCharacters": null,
-    "command": null
-  },
-  {
-    "label": "additionalItems",
-    "kind": [
-      
-    ],
-    "detail": "unknown",
-    "documentation": "additionalItems",
-    "deprecated": [
-      
-    ],
-    "preselect": [
-      
-    ],
-    "sortText": "11additionalItems",
-    "filterText": "additionalItems:\n  ",
-    "insertText": null,
-    "insertTextFormat": [
-      1
-    ],
-    "textEdit": {
-      "range": {
-        "start": {
-          "line": 10,
-          "character": 14
-        },
-        "end": {
-          "line": 10,
-          "character": 14
-        }
-      },
-      "newText": "additionalItems:\n  "
-    },
-    "additionalTextEdits": null,
-    "commitCharacters": null,
-    "command": null
-  },
-  {
-    "label": "allOf",
-    "kind": [
-      
-    ],
-    "detail": "schemas",
-    "documentation": "allOf",
-    "deprecated": [
-      
-    ],
-    "preselect": [
-      
-    ],
-    "sortText": "11allOf",
-    "filterText": "allOf:\n  - ",
-    "insertText": null,
-    "insertTextFormat": [
-      1
-    ],
-    "textEdit": {
-      "range": {
-        "start": {
-          "line": 10,
-          "character": 14
-        },
-        "end": {
-          "line": 10,
-          "character": 14
-        }
-      },
-      "newText": "allOf:\n  - "
-    },
-    "additionalTextEdits": null,
-    "commitCharacters": null,
-    "command": null
-  },
-  {
-    "label": "anyOf",
-    "kind": [
-      
-    ],
-    "detail": "unknown",
-    "documentation": "anyOf",
-    "deprecated": [
-      
-    ],
-    "preselect": [
-      
-    ],
-    "sortText": "11anyOf",
-    "filterText": "anyOf:\n  - ",
-    "insertText": null,
-    "insertTextFormat": [
-      1
-    ],
-    "textEdit": {
-      "range": {
-        "start": {
-          "line": 10,
-          "character": 14
-        },
-        "end": {
-          "line": 10,
-          "character": 14
-        }
-      },
-      "newText": "anyOf:\n  - "
-    },
-    "additionalTextEdits": null,
-    "commitCharacters": null,
-    "command": null
-  },
-  {
-    "label": "contains",
-    "kind": [
-      
-    ],
-    "detail": "unknown",
-    "documentation": "contains",
-    "deprecated": [
-      
-    ],
-    "preselect": [
-      
-    ],
-    "sortText": "11contains",
-    "filterText": "contains:\n  ",
-    "insertText": null,
-    "insertTextFormat": [
-      1
-    ],
-    "textEdit": {
-      "range": {
-        "start": {
-          "line": 10,
-          "character": 14
-        },
-        "end": {
-          "line": 10,
-          "character": 14
-        }
-      },
-      "newText": "contains:\n  "
-    },
-    "additionalTextEdits": null,
-    "commitCharacters": null,
-    "command": null
-  },
-  {
     "label": "default",
     "kind": [
       
@@ -229,7 +13,7 @@
       
     ],
     "sortText": "11default",
-    "filterText": "default: ",
+    "filterText": "default:\n  - ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -245,259 +29,7 @@
           "character": 14
         }
       },
-      "newText": "default: "
-    },
-    "additionalTextEdits": null,
-    "commitCharacters": null,
-    "command": null
-  },
-  {
-    "label": "deprecated",
-    "kind": [
-      
-    ],
-    "detail": "unknown",
-    "documentation": "deprecated",
-    "deprecated": [
-      
-    ],
-    "preselect": [
-      
-    ],
-    "sortText": "11deprecated",
-    "filterText": "deprecated: ",
-    "insertText": null,
-    "insertTextFormat": [
-      1
-    ],
-    "textEdit": {
-      "range": {
-        "start": {
-          "line": 10,
-          "character": 14
-        },
-        "end": {
-          "line": 10,
-          "character": 14
-        }
-      },
-      "newText": "deprecated: "
-    },
-    "additionalTextEdits": null,
-    "commitCharacters": null,
-    "command": null
-  },
-  {
-    "label": "description",
-    "kind": [
-      
-    ],
-    "detail": "docs",
-    "documentation": "description",
-    "deprecated": [
-      
-    ],
-    "preselect": [
-      
-    ],
-    "sortText": "10description",
-    "filterText": "description: ",
-    "insertText": null,
-    "insertTextFormat": [
-      1
-    ],
-    "textEdit": {
-      "range": {
-        "start": {
-          "line": 10,
-          "character": 14
-        },
-        "end": {
-          "line": 10,
-          "character": 14
-        }
-      },
-      "newText": "description: "
-    },
-    "additionalTextEdits": null,
-    "commitCharacters": null,
-    "command": null
-  },
-  {
-    "label": "else",
-    "kind": [
-      
-    ],
-    "detail": "unknown",
-    "documentation": "else",
-    "deprecated": [
-      
-    ],
-    "preselect": [
-      
-    ],
-    "sortText": "11else",
-    "filterText": "else:\n  ",
-    "insertText": null,
-    "insertTextFormat": [
-      1
-    ],
-    "textEdit": {
-      "range": {
-        "start": {
-          "line": 10,
-          "character": 14
-        },
-        "end": {
-          "line": 10,
-          "character": 14
-        }
-      },
-      "newText": "else:\n  "
-    },
-    "additionalTextEdits": null,
-    "commitCharacters": null,
-    "command": null
-  },
-  {
-    "label": "enum",
-    "kind": [
-      
-    ],
-    "detail": "parameters",
-    "documentation": "enum",
-    "deprecated": [
-      
-    ],
-    "preselect": [
-      
-    ],
-    "sortText": "11enum",
-    "filterText": "enum:\n  ",
-    "insertText": null,
-    "insertTextFormat": [
-      1
-    ],
-    "textEdit": {
-      "range": {
-        "start": {
-          "line": 10,
-          "character": 14
-        },
-        "end": {
-          "line": 10,
-          "character": 14
-        }
-      },
-      "newText": "enum:\n  "
-    },
-    "additionalTextEdits": null,
-    "commitCharacters": null,
-    "command": null
-  },
-  {
-    "label": "examples",
-    "kind": [
-      
-    ],
-    "detail": "docs",
-    "documentation": "examples",
-    "deprecated": [
-      
-    ],
-    "preselect": [
-      
-    ],
-    "sortText": "11examples",
-    "filterText": "examples:\n  ",
-    "insertText": null,
-    "insertTextFormat": [
-      1
-    ],
-    "textEdit": {
-      "range": {
-        "start": {
-          "line": 10,
-          "character": 14
-        },
-        "end": {
-          "line": 10,
-          "character": 14
-        }
-      },
-      "newText": "examples:\n  "
-    },
-    "additionalTextEdits": null,
-    "commitCharacters": null,
-    "command": null
-  },
-  {
-    "label": "externalDocs",
-    "kind": [
-      
-    ],
-    "detail": "docs",
-    "documentation": "externalDocs",
-    "deprecated": [
-      
-    ],
-    "preselect": [
-      
-    ],
-    "sortText": "11externalDocs",
-    "filterText": "externalDocs:\n  ",
-    "insertText": null,
-    "insertTextFormat": [
-      1
-    ],
-    "textEdit": {
-      "range": {
-        "start": {
-          "line": 10,
-          "character": 14
-        },
-        "end": {
-          "line": 10,
-          "character": 14
-        }
-      },
-      "newText": "externalDocs:\n  "
-    },
-    "additionalTextEdits": null,
-    "commitCharacters": null,
-    "command": null
-  },
-  {
-    "label": "if",
-    "kind": [
-      
-    ],
-    "detail": "unknown",
-    "documentation": "if",
-    "deprecated": [
-      
-    ],
-    "preselect": [
-      
-    ],
-    "sortText": "11if",
-    "filterText": "if:\n  ",
-    "insertText": null,
-    "insertTextFormat": [
-      1
-    ],
-    "textEdit": {
-      "range": {
-        "start": {
-          "line": 10,
-          "character": 14
-        },
-        "end": {
-          "line": 10,
-          "character": 14
-        }
-      },
-      "newText": "if:\n  "
+      "newText": "default:\n  - "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -517,7 +49,7 @@
       
     ],
     "sortText": "11items",
-    "filterText": "items:\n  ",
+    "filterText": "items: ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -533,27 +65,27 @@
           "character": 14
         }
       },
-      "newText": "items:\n  "
+      "newText": "items: "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
     "command": null
   },
   {
-    "label": "maxItems",
+    "label": "logicalType",
     "kind": [
       
     ],
     "detail": "unknown",
-    "documentation": "maxItems",
+    "documentation": "logicalType",
     "deprecated": [
       
     ],
     "preselect": [
       
     ],
-    "sortText": "11maxItems",
-    "filterText": "maxItems: ",
+    "sortText": "11logicalType",
+    "filterText": "logicalType: ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -569,27 +101,27 @@
           "character": 14
         }
       },
-      "newText": "maxItems: "
+      "newText": "logicalType: "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
     "command": null
   },
   {
-    "label": "minItems",
+    "label": "name",
     "kind": [
       
     ],
-    "detail": "unknown",
-    "documentation": "minItems",
+    "detail": "docs",
+    "documentation": "name",
     "deprecated": [
       
     ],
     "preselect": [
       
     ],
-    "sortText": "11minItems",
-    "filterText": "minItems: ",
+    "sortText": "10name",
+    "filterText": "name: ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -605,259 +137,7 @@
           "character": 14
         }
       },
-      "newText": "minItems: "
-    },
-    "additionalTextEdits": null,
-    "commitCharacters": null,
-    "command": null
-  },
-  {
-    "label": "not",
-    "kind": [
-      
-    ],
-    "detail": "unknown",
-    "documentation": "not",
-    "deprecated": [
-      
-    ],
-    "preselect": [
-      
-    ],
-    "sortText": "11not",
-    "filterText": "not:\n  ",
-    "insertText": null,
-    "insertTextFormat": [
-      1
-    ],
-    "textEdit": {
-      "range": {
-        "start": {
-          "line": 10,
-          "character": 14
-        },
-        "end": {
-          "line": 10,
-          "character": 14
-        }
-      },
-      "newText": "not:\n  "
-    },
-    "additionalTextEdits": null,
-    "commitCharacters": null,
-    "command": null
-  },
-  {
-    "label": "oneOf",
-    "kind": [
-      
-    ],
-    "detail": "unknown",
-    "documentation": "oneOf",
-    "deprecated": [
-      
-    ],
-    "preselect": [
-      
-    ],
-    "sortText": "11oneOf",
-    "filterText": "oneOf:\n  - ",
-    "insertText": null,
-    "insertTextFormat": [
-      1
-    ],
-    "textEdit": {
-      "range": {
-        "start": {
-          "line": 10,
-          "character": 14
-        },
-        "end": {
-          "line": 10,
-          "character": 14
-        }
-      },
-      "newText": "oneOf:\n  - "
-    },
-    "additionalTextEdits": null,
-    "commitCharacters": null,
-    "command": null
-  },
-  {
-    "label": "readOnly",
-    "kind": [
-      
-    ],
-    "detail": "schemas",
-    "documentation": "readOnly",
-    "deprecated": [
-      
-    ],
-    "preselect": [
-      
-    ],
-    "sortText": "11readOnly",
-    "filterText": "readOnly: ",
-    "insertText": null,
-    "insertTextFormat": [
-      1
-    ],
-    "textEdit": {
-      "range": {
-        "start": {
-          "line": 10,
-          "character": 14
-        },
-        "end": {
-          "line": 10,
-          "character": 14
-        }
-      },
-      "newText": "readOnly: "
-    },
-    "additionalTextEdits": null,
-    "commitCharacters": null,
-    "command": null
-  },
-  {
-    "label": "required",
-    "kind": [
-      
-    ],
-    "detail": "parameters",
-    "documentation": "required",
-    "deprecated": [
-      
-    ],
-    "preselect": [
-      
-    ],
-    "sortText": "11required",
-    "filterText": "required:\n  - ",
-    "insertText": null,
-    "insertTextFormat": [
-      1
-    ],
-    "textEdit": {
-      "range": {
-        "start": {
-          "line": 10,
-          "character": 14
-        },
-        "end": {
-          "line": 10,
-          "character": 14
-        }
-      },
-      "newText": "required:\n  - "
-    },
-    "additionalTextEdits": null,
-    "commitCharacters": null,
-    "command": null
-  },
-  {
-    "label": "then",
-    "kind": [
-      
-    ],
-    "detail": "unknown",
-    "documentation": "then",
-    "deprecated": [
-      
-    ],
-    "preselect": [
-      
-    ],
-    "sortText": "11then",
-    "filterText": "then:\n  ",
-    "insertText": null,
-    "insertTextFormat": [
-      1
-    ],
-    "textEdit": {
-      "range": {
-        "start": {
-          "line": 10,
-          "character": 14
-        },
-        "end": {
-          "line": 10,
-          "character": 14
-        }
-      },
-      "newText": "then:\n  "
-    },
-    "additionalTextEdits": null,
-    "commitCharacters": null,
-    "command": null
-  },
-  {
-    "label": "uniqueItems",
-    "kind": [
-      
-    ],
-    "detail": "unknown",
-    "documentation": "uniqueItems",
-    "deprecated": [
-      
-    ],
-    "preselect": [
-      
-    ],
-    "sortText": "11uniqueItems",
-    "filterText": "uniqueItems: ",
-    "insertText": null,
-    "insertTextFormat": [
-      1
-    ],
-    "textEdit": {
-      "range": {
-        "start": {
-          "line": 10,
-          "character": 14
-        },
-        "end": {
-          "line": 10,
-          "character": 14
-        }
-      },
-      "newText": "uniqueItems: "
-    },
-    "additionalTextEdits": null,
-    "commitCharacters": null,
-    "command": null
-  },
-  {
-    "label": "writeOnly",
-    "kind": [
-      
-    ],
-    "detail": "unknown",
-    "documentation": "writeOnly",
-    "deprecated": [
-      
-    ],
-    "preselect": [
-      
-    ],
-    "sortText": "11writeOnly",
-    "filterText": "writeOnly: ",
-    "insertText": null,
-    "insertTextFormat": [
-      1
-    ],
-    "textEdit": {
-      "range": {
-        "start": {
-          "line": 10,
-          "character": 14
-        },
-        "end": {
-          "line": 10,
-          "character": 14
-        }
-      },
-      "newText": "writeOnly: "
+      "newText": "name: "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,

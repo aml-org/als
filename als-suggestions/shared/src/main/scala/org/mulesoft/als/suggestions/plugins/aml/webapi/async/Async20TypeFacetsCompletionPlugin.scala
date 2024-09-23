@@ -5,9 +5,11 @@ import amf.aml.client.scala.model.domain.NodeMapping
 import amf.apicontract.client.scala.model.domain.{Payload, Server}
 import amf.core.client.scala.model.domain.Shape
 import amf.core.client.scala.model.domain.extensions.PropertyShape
+import amf.shapes.client.scala.model.domain.UnionShape
 import org.mulesoft.als.suggestions.RawSuggestion
 import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
 import org.mulesoft.als.suggestions.plugins.aml.webapi.WebApiTypeFacetsCompletionPlugin
+import org.mulesoft.als.suggestions.plugins.aml.webapi.avroschema.AvroTypeFacetsCompletionPlugin
 import org.mulesoft.amfintegration.dialect.dialects.asyncapi20.AsyncApi20Dialect
 import org.mulesoft.amfintegration.dialect.dialects.asyncapi20.schema.{AnyShapeAsync2Node, NumberShapeAsync2Node, StringShapeAsync2Node}
 
@@ -39,6 +41,14 @@ object Async20TypeFacetsCompletionPlugin extends WebApiTypeFacetsCompletionPlugi
       case Some(_: PropertyShape) if params.branchStack.exists(_.isInstanceOf[Payload]) =>
         findPluginForMediaType(params.branchStack.collectFirst { case p: Payload => p }.get)
           .map(_.resolve(params))
+          .getOrElse(super.resolve(params))
+      case Some(_: Shape) if params.branchStack.exists(_.isInstanceOf[Payload]) => // hack for avro maps and other non conventional payloads
+        findPluginForMediaType(params.branchStack.collectFirst { case p: Payload => p }.get)
+          .map {
+            case AvroTypeFacetsCompletionPlugin =>
+              AvroTypeFacetsCompletionPlugin.resolve(params)
+            case _ => emptySuggestion
+          }
           .getOrElse(super.resolve(params))
       case _ => super.resolve(params)
     }
