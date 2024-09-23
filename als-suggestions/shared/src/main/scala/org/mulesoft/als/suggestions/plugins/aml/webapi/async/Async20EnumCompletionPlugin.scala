@@ -30,7 +30,10 @@ trait AsyncEnumCompletionPlugin extends AMLCompletionPlugin with EnumSuggestions
       case Some(FieldEntry(ScalarShapeModel.Format, _)) if params.astPartBranch.isValue => emptySuggestion
       case Some(FieldEntry(PayloadModel.SchemaMediaType, _)) =>
         Future(suggestMappingWithEnum(schemaFormatProp))
-      case _ => AMLEnumCompletionPlugin.resolve(cloneParamsForSchemaMediaType(params))
+      case _ if params.astPartBranch.parentEntryIs("type") && params.astPartBranch.isInBranchOf("fields") =>
+        emptySuggestion
+      case _ =>
+        AMLEnumCompletionPlugin.resolve(cloneParamsForSchemaMediaType(params))
     }
 
   private def cloneParamsForSchemaMediaType(params: AmlCompletionRequest) =

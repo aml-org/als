@@ -5,12 +5,11 @@ import amf.core.client.scala.model.domain.Shape
 import amf.shapes.client.scala.model.domain.AnyShape
 import org.mulesoft.als.common.ASTPartBranch
 import org.mulesoft.als.suggestions.RawSuggestion
-import org.mulesoft.als.suggestions.aml.{AmlCompletionRequest, AmlCompletionRequestBuilder}
+import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
 import org.mulesoft.als.suggestions.interfaces.AMLCompletionPlugin
 import org.mulesoft.als.suggestions.plugins.aml.webapi.WebApiTypeFacetsCompletionPlugin
-import org.mulesoft.als.suggestions.plugins.aml.webapi.avroschema.{AvroTypesCompletionPlugin, FieldTypeKnowledge}
+import org.mulesoft.als.suggestions.plugins.aml.webapi.avroschema.FieldTypeKnowledge
 import org.mulesoft.amfintegration.dialect.dialects.asyncapi20.AsyncApi20Dialect
-import org.mulesoft.amfintegration.dialect.dialects.avro.AvroDialect
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
