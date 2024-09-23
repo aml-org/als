@@ -3,7 +3,6 @@ package org.mulesoft.als.suggestions.plugins.aml.webapi.async
 import amf.apicontract.client.scala.model.domain.{Payload, Server}
 import amf.core.client.scala.model.domain.Shape
 import amf.shapes.client.scala.model.domain.AnyShape
-import org.mulesoft.als.common.ASTPartBranch
 import org.mulesoft.als.suggestions.RawSuggestion
 import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
 import org.mulesoft.als.suggestions.interfaces.AMLCompletionPlugin
@@ -23,38 +22,28 @@ object Async20PayloadCompletionPlugin
     with FieldTypeKnowledge {
   override def id: String = "Async20PayloadCompletionPlugin"
 
-  override def resolve(request: AmlCompletionRequest): Future[Seq[RawSuggestion]] = {
-    val branchStack = request.branchStack
-    branchStack.headOption match { // check replacing this with findFirst
-      case Some(p: Payload)
-          if request.astPartBranch.isKeyDescendantOf("payload") &&
-            !branchStack.exists(_.isInstanceOf[Server]) =>
-        request.amfObject match {
-          case _: Shape => resolveFindingPluginByMediaType(p, request)
-          case _ => ???
-        }
-      case Some(p: Payload) if isSonOfPayload(request.astPartBranch) => resolveFindingPluginByMediaType(p, request)
-      case _ => Future(Seq.empty)
-    }
-  }
 
-  private def resolveFindingPluginByMediaType(payload: Payload, request: AmlCompletionRequest): Future[Seq[RawSuggestion]] = {
-    val branchStack = request.branchStack
-    findPluginForMediaType(payload)
-      .map {
-        case wf: WebApiTypeFacetsCompletionPlugin =>
-          Future(wf.resolveShape(request.amfObject.asInstanceOf[AnyShape], branchStack, AsyncApi20Dialect()))
-        case generic =>
-          generic.resolve(request)
+    override def resolve(request: AmlCompletionRequest): Future[Seq[RawSuggestion]] = {
+      val branchStack = request.branchStack
+      branchStack.headOption match {
+        case Some(p: Payload)
+            if request.astPartBranch.isKeyDescendantOf("payload") &&
+              !branchStack.exists(_.isInstanceOf[Server]) =>
+          request.amfObject match {
+            case s: Shape =>
+              if (p.schemaMediaType.isNullOrEmpty)
+                Future(Async20TypeFacetsCompletionPlugin.resolveShape(s, branchStack, AsyncApi20Dialect()))
+              else
+                findPluginForMediaType(p)
+                  .map {
+                    case wf: WebApiTypeFacetsCompletionPlugin =>
+                      Future(wf.resolveShape(s, branchStack, AsyncApi20Dialect()))
+                    case generic =>
+                      generic.resolve(request)
+                  }
+                  .getOrElse(Future(Async20TypeFacetsCompletionPlugin.resolveShape(s, branchStack, AsyncApi20Dialect())))
+          }
+        case _ => emptySuggestion
       }
-      .getOrElse(
-        Future(
-          Async20TypeFacetsCompletionPlugin
-            .resolveShape(request.amfObject.asInstanceOf[AnyShape], branchStack, AsyncApi20Dialect())
-        )
-      )
-  }
-
-  private def isSonOfPayload(astPartBranch: ASTPartBranch): Boolean =
-    astPartBranch.parentKey.contains("payload")
+    }
 }

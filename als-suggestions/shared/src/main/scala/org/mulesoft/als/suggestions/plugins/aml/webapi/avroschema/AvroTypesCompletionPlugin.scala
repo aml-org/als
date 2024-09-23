@@ -3,6 +3,7 @@ package org.mulesoft.als.suggestions.plugins.aml.webapi.avroschema
 import amf.core.client.scala.model.document.BaseUnit
 import amf.core.client.scala.model.domain.AmfScalar
 import amf.core.client.scala.traversal.iterator.AmfElementIterator
+import amf.core.internal.annotations.SourceAST
 import amf.shapes.client.scala.model.domain.AnyShape
 import amf.shapes.internal.domain.metamodel.AnyShapeModel
 import org.mulesoft.als.suggestions.RawSuggestion
@@ -36,7 +37,8 @@ object AvroTypesCompletionPlugin extends AMLCompletionPlugin with FieldTypeKnowl
             .fields()
             .find(t => t.field == AnyShapeModel.Name)
             .foreach { fe =>
-              collectedNames.add(fe.value.value.toString)
+              if(fe.value.annotations.contains(classOf[SourceAST]))
+                collectedNames.add(fe.value.value.toString)
             }
           shape.fields
             .fields()

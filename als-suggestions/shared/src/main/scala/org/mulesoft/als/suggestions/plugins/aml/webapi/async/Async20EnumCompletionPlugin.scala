@@ -27,6 +27,9 @@ trait AsyncEnumCompletionPlugin extends AMLCompletionPlugin with EnumSuggestions
 
   override def resolve(params: AmlCompletionRequest): Future[Seq[RawSuggestion]] =
     params.fieldEntry match {
+      case _ if isInsideAvro(params) =>
+        // avro is using the internal plugin (all these hacks for other specs would probably be better handled the same as avro)
+        emptySuggestion
       case Some(FieldEntry(ScalarShapeModel.Format, _)) if params.astPartBranch.isValue => emptySuggestion
       case Some(FieldEntry(PayloadModel.SchemaMediaType, _)) =>
         Future(suggestMappingWithEnum(schemaFormatProp))
@@ -35,6 +38,13 @@ trait AsyncEnumCompletionPlugin extends AMLCompletionPlugin with EnumSuggestions
       case _ =>
         AMLEnumCompletionPlugin.resolve(cloneParamsForSchemaMediaType(params))
     }
+
+  private def isInsideAvro(params: AmlCompletionRequest) = {
+    // skip cases in the root because they are not handled in the other specific plugins (we should delegate it in the future)
+    params.branchStack.tail.collectFirst { case p: Payload => p }.exists { p =>
+      findDialectFromPayload(p).name().option().contains("avro")
+    }
+  }
 
   private def cloneParamsForSchemaMediaType(params: AmlCompletionRequest) =
     params.branchStack
