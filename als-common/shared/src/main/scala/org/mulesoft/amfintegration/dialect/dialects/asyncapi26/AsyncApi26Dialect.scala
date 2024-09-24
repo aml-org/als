@@ -5,56 +5,8 @@ import amf.plugins.document.vocabularies.plugin.ReferenceStyles
 import org.mulesoft.amfintegration.dialect.BaseDialect
 import org.mulesoft.amfintegration.dialect.dialects.asyncapi20.bindings._
 import org.mulesoft.amfintegration.dialect.dialects.asyncapi20.schema._
-import org.mulesoft.amfintegration.dialect.dialects.asyncapi20.{
-  AMLInfoObject,
-  AsyncAPI20ApiKeySecurityObject,
-  AsyncAPI20Auth20SecurityObject,
-  AsyncAPI20FlowObject,
-  AsyncAPI20HttpApiKeySecurityObject,
-  AsyncAPI20HttpSecurityObject,
-  AsyncAPI20penIdConnectUrl,
-  AsyncApiVariableObject,
-  CorrelationIdObjectNode,
-  Oauth2FlowObject,
-  OperationTraitsObjectNode,
-  ParameterObjectNode
-}
-import org.mulesoft.amfintegration.dialect.dialects.asyncapi26.bindings.{
-  AnypointMQChannelBindingObject,
-  AnypointMQMessageBindingObject,
-  ChannelBinding26ObjectNode,
-  GooglePubSubChannelBinding10Object,
-  GooglePubSubChannelBinding20Object,
-  GooglePubSubMessageBinding10Object,
-  GooglePubSubMessageBinding20Object,
-  GooglePubSubMessageStoragePolicyObject,
-  GooglePubSubSchemaDefinition10Object,
-  GooglePubSubSchemaDefinition20Object,
-  GooglePubSubSchemaSettingsObject,
-  IBMMQChannelBindingObject,
-  IBMMQChannelQueueObject,
-  IBMMQChannelTopicObject,
-  IBMMQMessageBindingObject,
-  IBMMQServerBindingObject,
-  MessageBinding26ObjectNode,
-  OperationBinding26ObjectNode,
-  PulsarChannelBindingObject,
-  PulsarChannelRetentionObject,
-  PulsarServerBindingObject,
-  ServerBinding26ObjectNode,
-  SolaceOperationBinding10Object,
-  SolaceOperationBinding20Object,
-  SolaceOperationBinding30Object,
-  SolaceOperationBinding40Object,
-  SolaceOperationDestination10Object,
-  SolaceOperationDestination20Object,
-  SolaceOperationDestination30Object,
-  SolaceOperationDestination40Object,
-  SolaceOperationQueue10Object,
-  SolaceOperationQueue30Object,
-  SolaceOperationTopicObject,
-  SolaceServerBindingObject
-}
+import org.mulesoft.amfintegration.dialect.dialects.asyncapi20.{AMLInfoObject, AsyncAPI20ApiKeySecurityObject, AsyncAPI20Auth20SecurityObject, AsyncAPI20FlowObject, AsyncAPI20HttpApiKeySecurityObject, AsyncAPI20HttpSecurityObject, AsyncAPI20penIdConnectUrl, AsyncApiVariableObject, CorrelationIdObjectNode, Oauth2FlowObject, OperationTraitsObjectNode, ParameterObjectNode, PayloadMessageObjectNode}
+import org.mulesoft.amfintegration.dialect.dialects.asyncapi26.bindings.{AnypointMQChannelBindingObject, AnypointMQMessageBindingObject, ChannelBinding26ObjectNode, GooglePubSubChannelBinding10Object, GooglePubSubChannelBinding20Object, GooglePubSubMessageBinding10Object, GooglePubSubMessageBinding20Object, GooglePubSubMessageStoragePolicyObject, GooglePubSubSchemaDefinition10Object, GooglePubSubSchemaDefinition20Object, GooglePubSubSchemaSettingsObject, IBMMQChannelBindingObject, IBMMQChannelQueueObject, IBMMQChannelTopicObject, IBMMQMessageBindingObject, IBMMQServerBindingObject, MessageBinding26ObjectNode, OperationBinding26ObjectNode, PulsarChannelBindingObject, PulsarChannelRetentionObject, PulsarServerBindingObject, ServerBinding26ObjectNode, SolaceOperationBinding10Object, SolaceOperationBinding20Object, SolaceOperationBinding30Object, SolaceOperationBinding40Object, SolaceOperationDestination10Object, SolaceOperationDestination20Object, SolaceOperationDestination30Object, SolaceOperationDestination40Object, SolaceOperationQueue10Object, SolaceOperationQueue30Object, SolaceOperationTopicObject, SolaceServerBindingObject}
 import org.mulesoft.amfintegration.dialect.dialects.oas.nodes._
 import org.mulesoft.amfintegration.dialect.dialects.raml.raml10.Raml10TypesDialect
 
@@ -78,6 +30,7 @@ object AsyncApi26Dialect extends BaseDialect {
     Message26ObjectNode,
     ResponseMessage26ObjectNode,
     RequestMessage26ObjectNode,
+    PayloadMessageObjectNode,
     MessageTraits26ObjectNode,
     Operation26Object,
     OperationTraitsObjectNode,

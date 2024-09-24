@@ -1,19 +1,14 @@
 package org.mulesoft.als.suggestions.plugins.aml.webapi.avroschema
 
 import amf.core.client.scala.model.document.BaseUnit
-import amf.core.client.scala.model.domain.extensions.PropertyShape
-import amf.core.client.scala.model.domain.{AmfArray, AmfObject, AmfScalar}
+import amf.core.client.scala.model.domain.AmfScalar
 import amf.core.client.scala.traversal.iterator.AmfElementIterator
-import amf.core.internal.metamodel.document.ModuleModel
-import amf.core.internal.metamodel.domain.ShapeModel
-import amf.shapes.client.scala.model.domain.{AnyShape, NodeShape}
-import amf.shapes.client.scala.model.domain.jsonldinstance.JsonLDElement
+import amf.core.internal.annotations.SourceAST
+import amf.shapes.client.scala.model.domain.AnyShape
 import amf.shapes.internal.domain.metamodel.AnyShapeModel
 import org.mulesoft.als.suggestions.RawSuggestion
 import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
 import org.mulesoft.als.suggestions.interfaces.AMLCompletionPlugin
-import org.mulesoft.als.suggestions.plugins.aml.AMLEnumCompletionPlugin.getSuggestions
-import org.mulesoft.amfintegration.AmfImplicits.AmfAnnotationsImp
 import org.mulesoft.amfintegration.dialect.dialects.avro.AvroDialect
 
 import scala.collection.mutable
@@ -42,7 +37,8 @@ object AvroTypesCompletionPlugin extends AMLCompletionPlugin with FieldTypeKnowl
             .fields()
             .find(t => t.field == AnyShapeModel.Name)
             .foreach { fe =>
-              collectedNames.add(fe.value.value.toString)
+              if(fe.value.annotations.contains(classOf[SourceAST]))
+                collectedNames.add(fe.value.value.toString)
             }
           shape.fields
             .fields()

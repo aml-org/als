@@ -5,11 +5,8 @@ import amf.apicontract.internal.metamodel.domain.{MessageModel, PayloadModel}
 import amf.core.client.scala.vocabulary.Namespace.XsdTypes.xsdString
 import org.mulesoft.amfintegration.dialect.dialects.asyncapi20.bindings.MessageBindingsObjectNode
 import org.mulesoft.amfintegration.dialect.dialects.asyncapi20.schema.NodeShapeAsync2Node
-import org.mulesoft.amfintegration.dialect.dialects.oas.nodes.{
-  AMLExternalDocumentationObject,
-  AMLTagObject,
-  DialectNode
-}
+import org.mulesoft.amfintegration.dialect.dialects.asyncapi26.{Async21MessageExampleNode, Async21MessageMappings}
+import org.mulesoft.amfintegration.dialect.dialects.oas.nodes.{AMLExternalDocumentationObject, AMLTagObject, DialectNode}
 
 trait MessageAbstractObjectNode extends DialectNode {
 
@@ -105,4 +102,20 @@ object MessageTraitsObjectNode extends MessageAbstractObjectNode {
     .withName("examples")
     .withNodePropertyMapping(MessageModel.Examples.value.iri())
     .withObjectRange(Seq(Async20MessageExampleNode.id))
+}
+
+object PayloadMessageObjectNode extends ConcreteMessageObjectNode with Async21MessageMappings {
+    override def name: String = "PayloadMessageObjectNode"
+
+    override def nodeTypeMapping: String = PayloadModel.`type`.head.iri()
+
+    override val exampleProperty: PropertyMapping = PropertyMapping()
+      .withId(location + "#/declarations/Message/examples")
+      .withName("examples")
+      .withNodePropertyMapping(PayloadModel.Examples.value.iri())
+      .withObjectRange(Seq(Async21MessageExampleNode.id))
+
+    override def properties: Seq[PropertyMapping] = super.properties ++ mappingsMessages21
+
+    override val specVersion: String = "2.0.0"
 }
