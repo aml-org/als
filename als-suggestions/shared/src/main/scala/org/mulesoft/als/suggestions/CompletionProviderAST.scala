@@ -21,7 +21,7 @@ class CompletionProviderAST(request: AmlCompletionRequest) extends CompletionPro
   }
 
   override def suggest(): Future[Seq[CompletionItem]] =
-    if (request.astPartBranch.isMultiline) Future.successful(Nil)
+    if (request.astPartBranch.isMultiline || request.astPartBranch.isPositionOutsideLastEndNode) Future.successful(Nil)
     else
       request.completionsPluginHandler
         .pluginSuggestions(request)

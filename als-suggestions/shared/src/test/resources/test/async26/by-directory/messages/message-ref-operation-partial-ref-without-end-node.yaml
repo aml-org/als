@@ -1,0 +1,11 @@
+asyncapi: 2.6.0
+components:
+  messages:
+    messageDef:
+      contentType: application/json
+
+channels:
+  user/signedup:
+    subscribe:
+      message:
+        $ref: "#/components/messages/*

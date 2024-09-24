@@ -5,34 +5,32 @@ import amf.apicontract.internal.metamodel.domain.{MessageModel, PayloadModel}
 import amf.core.client.scala.vocabulary.Namespace.XsdTypes.xsdString
 import org.mulesoft.amfintegration.dialect.dialects.asyncapi20.bindings.MessageBindingsObjectNode
 import org.mulesoft.amfintegration.dialect.dialects.asyncapi20.schema.NodeShapeAsync2Node
-import org.mulesoft.amfintegration.dialect.dialects.oas.nodes.{
-  AMLExternalDocumentationObject,
-  AMLTagObject,
-  DialectNode
-}
+import org.mulesoft.amfintegration.dialect.dialects.asyncapi26.{Async21MessageExampleNode, Async21MessageMappings}
+import org.mulesoft.amfintegration.dialect.dialects.oas.nodes.{AMLExternalDocumentationObject, AMLTagObject, DialectNode}
 
 trait MessageAbstractObjectNode extends DialectNode {
 
   val exampleProperty: PropertyMapping
   val specVersion: String
 
+  protected def mediaTypes: Seq[String] = Seq(
+    s"application/vnd.aai.asyncapi;version=$specVersion",
+    s"application/vnd.aai.asyncapi+json;version=$specVersion",
+    s"application/vnd.aai.asyncapi+yaml;version=$specVersion",
+    "application/vnd.oai.openapi;version=3.0.0",
+    "application/vnd.oai.openapi+json;version=3.0.0",
+    "application/vnd.oai.openapi+yaml;version=3.0.0",
+    "application/schema+json;version=draft-07",
+    "application/schema+yaml;version=draft-07",
+    "application/raml+yaml;version=1.0"
+  )
   lazy val schemaFormatProp: PropertyMapping = PropertyMapping()
     .withId(location + "#/declarations/Message/schemaFormat")
     .withName("schemaFormat")
     .withNodePropertyMapping(PayloadModel.SchemaMediaType.value.iri())
     .withLiteralRange(xsdString.iri())
     .withEnum(
-      Seq(
-        s"application/vnd.aai.asyncapi;version=$specVersion",
-        s"application/vnd.aai.asyncapi+json;version=$specVersion",
-        s"application/vnd.aai.asyncapi+yaml;version=$specVersion",
-        "application/vnd.oai.openapi;version=3.0.0",
-        "application/vnd.oai.openapi+json;version=3.0.0",
-        "application/vnd.oai.openapi+yaml;version=3.0.0",
-        "application/schema+json;version=draft-07",
-        "application/schema+yaml;version=draft-07",
-        "application/raml+yaml;version=1.0"
-      )
+      mediaTypes
     )
   override def properties: Seq[PropertyMapping] = Seq(
     PropertyMapping()
@@ -104,4 +102,20 @@ object MessageTraitsObjectNode extends MessageAbstractObjectNode {
     .withName("examples")
     .withNodePropertyMapping(MessageModel.Examples.value.iri())
     .withObjectRange(Seq(Async20MessageExampleNode.id))
+}
+
+object PayloadMessageObjectNode extends ConcreteMessageObjectNode with Async21MessageMappings {
+    override def name: String = "PayloadMessageObjectNode"
+
+    override def nodeTypeMapping: String = PayloadModel.`type`.head.iri()
+
+    override val exampleProperty: PropertyMapping = PropertyMapping()
+      .withId(location + "#/declarations/Message/examples")
+      .withName("examples")
+      .withNodePropertyMapping(PayloadModel.Examples.value.iri())
+      .withObjectRange(Seq(Async21MessageExampleNode.id))
+
+    override def properties: Seq[PropertyMapping] = super.properties ++ mappingsMessages21
+
+    override val specVersion: String = "2.0.0"
 }

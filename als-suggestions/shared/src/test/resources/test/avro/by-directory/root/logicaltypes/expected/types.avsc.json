@@ -1,0 +1,362 @@
+[
+  {
+    "label": "date",
+    "kind": [
+      
+    ],
+    "detail": "unknown",
+    "documentation": "date",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "11date",
+    "filterText": "\"date\"",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 2,
+          "character": 17
+        },
+        "end": {
+          "line": 3,
+          "character": 0
+        }
+      },
+      "newText": "\"date\""
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "decimal",
+    "kind": [
+      
+    ],
+    "detail": "unknown",
+    "documentation": "decimal",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "11decimal",
+    "filterText": "\"decimal\"",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 2,
+          "character": 17
+        },
+        "end": {
+          "line": 3,
+          "character": 0
+        }
+      },
+      "newText": "\"decimal\""
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "duration",
+    "kind": [
+      
+    ],
+    "detail": "unknown",
+    "documentation": "duration",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "11duration",
+    "filterText": "\"duration\"",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 2,
+          "character": 17
+        },
+        "end": {
+          "line": 3,
+          "character": 0
+        }
+      },
+      "newText": "\"duration\""
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "local-timestamp-micros",
+    "kind": [
+      
+    ],
+    "detail": "unknown",
+    "documentation": "local-timestamp-micros",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "11local-timestamp-micros",
+    "filterText": "\"local-timestamp-micros\"",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 2,
+          "character": 17
+        },
+        "end": {
+          "line": 3,
+          "character": 0
+        }
+      },
+      "newText": "\"local-timestamp-micros\""
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "local-timestamp-millis",
+    "kind": [
+      
+    ],
+    "detail": "unknown",
+    "documentation": "local-timestamp-millis",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "11local-timestamp-millis",
+    "filterText": "\"local-timestamp-millis\"",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 2,
+          "character": 17
+        },
+        "end": {
+          "line": 3,
+          "character": 0
+        }
+      },
+      "newText": "\"local-timestamp-millis\""
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "time-micros",
+    "kind": [
+      
+    ],
+    "detail": "unknown",
+    "documentation": "time-micros",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "11time-micros",
+    "filterText": "\"time-micros\"",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 2,
+          "character": 17
+        },
+        "end": {
+          "line": 3,
+          "character": 0
+        }
+      },
+      "newText": "\"time-micros\""
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "time-millis",
+    "kind": [
+      
+    ],
+    "detail": "unknown",
+    "documentation": "time-millis",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "11time-millis",
+    "filterText": "\"time-millis\"",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 2,
+          "character": 17
+        },
+        "end": {
+          "line": 3,
+          "character": 0
+        }
+      },
+      "newText": "\"time-millis\""
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "timestamp-micros",
+    "kind": [
+      
+    ],
+    "detail": "unknown",
+    "documentation": "timestamp-micros",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "11timestamp-micros",
+    "filterText": "\"timestamp-micros\"",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 2,
+          "character": 17
+        },
+        "end": {
+          "line": 3,
+          "character": 0
+        }
+      },
+      "newText": "\"timestamp-micros\""
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "timestamp-millis",
+    "kind": [
+      
+    ],
+    "detail": "unknown",
+    "documentation": "timestamp-millis",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "11timestamp-millis",
+    "filterText": "\"timestamp-millis\"",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 2,
+          "character": 17
+        },
+        "end": {
+          "line": 3,
+          "character": 0
+        }
+      },
+      "newText": "\"timestamp-millis\""
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "uuid",
+    "kind": [
+      
+    ],
+    "detail": "unknown",
+    "documentation": "uuid",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "11uuid",
+    "filterText": "\"uuid\"",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 2,
+          "character": 17
+        },
+        "end": {
+          "line": 3,
+          "character": 0
+        }
+      },
+      "newText": "\"uuid\""
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  }
+]

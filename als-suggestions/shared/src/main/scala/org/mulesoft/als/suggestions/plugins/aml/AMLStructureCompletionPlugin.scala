@@ -2,6 +2,7 @@ package org.mulesoft.als.suggestions.plugins.aml
 
 import amf.aml.client.scala.model.document.Dialect
 import amf.aml.client.scala.model.domain.{NodeMapping, PropertyMapping}
+import amf.apicontract.client.scala.model.domain.{Payload, Response}
 import amf.core.client.scala.model.document.Module
 import amf.core.internal.metamodel.Field
 import amf.core.internal.metamodel.Type.ArrayLike
@@ -12,6 +13,7 @@ import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
 import org.mulesoft.als.suggestions.interfaces.{AmfObjectKnowledge, DisjointCompletionPlugins, ResolveIfApplies}
 import org.mulesoft.als.suggestions.plugins.aml.categories.CategoryRegistry
 import org.mulesoft.als.suggestions.plugins.aml.templates.{AMLDeclaredStructureTemplate, AMLEncodedStructureTemplate}
+import org.mulesoft.als.suggestions.plugins.aml.webapi.async.Async2PayloadExampleMatcher
 import org.mulesoft.amfintegration.AmfImplicits._
 
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -26,12 +28,12 @@ case class StructureCompletionPlugin(resolvers: List[ResolveIfApplies]) extends 
   override final def id = "AMLStructureCompletionPlugin"
 }
 
-object ResolveDefault extends ResolveIfApplies with AmfObjectKnowledge {
+object ResolveDefault extends ResolveIfApplies with AmfObjectKnowledge with Async2PayloadExampleMatcher {
   override def resolve(params: AmlCompletionRequest): Option[Future[Seq[RawSuggestion]]] =
     applies(defaultStructure(params))
 
   protected final def defaultStructure(params: AmlCompletionRequest): Future[Seq[RawSuggestion]] = Future {
-    if (params.astPartBranch.isKeyLike)
+    if (params.astPartBranch.isKeyLike && !isExampleAtPayload(params))
       if (!isInFieldValue(params)) {
         val isEncoded =
           isEncodes(params.amfObject, params.actualDialect, params.branchStack) && isEmptyFieldOrPrefix(
@@ -40,7 +42,7 @@ object ResolveDefault extends ResolveIfApplies with AmfObjectKnowledge {
         val isEncodedOrModule = isEncoded || params.amfObject.isInstanceOf[Module]
         if (
           ((isEncodedOrModule && params.astPartBranch.isAtRoot) || !isEncodedOrModule)
-            && isEmptyFieldOrPrefix(params)
+          && isEmptyFieldOrPrefix(params)
         )
           new AMLStructureCompletionsPlugin(params.propertyMapping, params.actualDialect)
             .resolve(params.amfObject.metaURIs.head) ++
@@ -56,7 +58,7 @@ object ResolveDefault extends ResolveIfApplies with AmfObjectKnowledge {
     (params.prefix.isEmpty && params.fieldEntry.isEmpty) ||
       params.prefix.nonEmpty
 
-  protected def objInArray(params: AmlCompletionRequest): Option[DomainElementModel] = {
+  protected def objInArray(params: AmlCompletionRequest): Option[DomainElementModel] =
     params.fieldEntry match {
       case Some(FieldEntry(Field(t: ArrayLike, _, _, _, false, _), _))
           if t.element
@@ -64,7 +66,6 @@ object ResolveDefault extends ResolveIfApplies with AmfObjectKnowledge {
         Some(t.element.asInstanceOf[DomainElementModel])
       case _ => None
     }
-  }
 
   protected def resolveObjInArray(params: AmlCompletionRequest): Seq[RawSuggestion] = {
     objInArray(params) match {

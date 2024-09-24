@@ -12,7 +12,7 @@ import amf.core.internal.remote.Spec.{AMF, GRAPHQL}
 import amf.core.internal.remote.{AmlDialectSpec, Spec}
 import amf.graphql.client.scala.GraphQLConfiguration
 import amf.shapes.client.scala.config.JsonSchemaConfiguration
-import amf.shapes.client.scala.model.document.JsonSchemaDocument
+import amf.shapes.client.scala.model.document.{AvroSchemaDocument, JsonSchemaDocument}
 import amf.shapes.client.scala.model.domain.AnyShape
 import amf.shapes.client.scala.render.JsonSchemaShapeRenderer
 import org.mulesoft.als.configuration.{MaxSizeCounter, MaxSizeException, MaxSizeResourceLoader}
@@ -81,7 +81,9 @@ case class ALSConfigurationState(
   def getAmfConfig(url: String, asMain: Boolean): AMFConfiguration = {
     val base =
       if (url.endsWith("graphql"))
-        projectState.getProjectConfig(asMain)
+        projectState.getGraphQLProjectConfig(asMain)
+      else if (url.endsWith("avsc"))
+        projectState.getAvroProjectConfig(asMain).withPlugins(editorState.alsParsingPlugins)
       else getAmfConfig(asMain).withPlugins(editorState.alsParsingPlugins)
     getAmfConfig(base, asMain)
   }

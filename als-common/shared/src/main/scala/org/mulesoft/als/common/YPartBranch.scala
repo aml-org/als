@@ -8,7 +8,7 @@ import org.mulesoft.als.common.dtoTypes.Position
 import org.mulesoft.amfintegration.AmfImplicits.{AmfAnnotationsImp, BaseUnitImp}
 import org.mulesoft.antlrast.ast.{ASTNode, Node, Terminal}
 import org.mulesoft.common.client.lexical.{ASTElement, Position => AmfPosition}
-import org.yaml.lexer.YamlCharRules
+import org.yaml.lexer.{YamlCharRules, YamlToken}
 import org.yaml.lexer.YamlToken.Indicator
 import org.yaml.model
 import org.yaml.model._
@@ -100,6 +100,25 @@ case class YPartBranch(
   override val isArray: Boolean = node.isArray
   override lazy val isInArray: Boolean =
     getSequence.isDefined
+
+  override val isPositionOutsideLastEndNode: Boolean = {
+    isPlainText match {
+      case Some(true) => false
+      case _ =>
+        val lastAstTokenOpt = node.children.collectFirst {
+          case yNodeContent: YNonContent
+              if yNodeContent.tokens.nonEmpty && yNodeContent.tokens.exists(_.tokenType == YamlToken.EndNode) =>
+            yNodeContent.tokens.collect {
+              case astToken if astToken.tokenType == YamlToken.EndNode => astToken
+            }.lastOption
+        }.flatten
+
+        lastAstTokenOpt match {
+          case Some(lastToken) if lastToken.location.columnTo <= position.column => true
+          case _                                                                 => false
+        }
+    }
+  }
 
   lazy val parentMap: Option[YMap] = stack.headOption match {
     case Some(_: YMapEntry) =>

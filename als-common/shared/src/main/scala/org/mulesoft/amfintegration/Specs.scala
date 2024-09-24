@@ -12,6 +12,7 @@ case object Specs {
     Spec.AML,
     Spec.AMF,
     Spec.PAYLOAD,
-    Spec.JSONSCHEMA
+    Spec.JSONSCHEMA,
+    Spec.AVRO_SCHEMA
   )
 }

@@ -55,6 +55,9 @@ object Message26ObjectNode extends ConcreteMessageObjectNode with Async21Message
 
   override def name: String = "MessageObjectNode"
 
+  override protected def mediaTypes: Seq[String] = super.mediaTypes :+
+      "application/vnd.apache.avro;version=1.9.0"
+
   override val exampleProperty: PropertyMapping = PropertyMapping()
     .withId(location + "#/declarations/Message/examples")
     .withName("examples")

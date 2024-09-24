@@ -2,14 +2,12 @@ package org.mulesoft.als.suggestions.aml
 
 import amf.aml.client.scala.model.document.Dialect
 import amf.aml.client.scala.model.domain.{NodeMapping, PropertyMapping}
-import org.mulesoft.common.client.lexical.{Position => AmfPosition}
 import amf.core.client.scala.model.document.{BaseUnit, EncodesModel}
 import amf.core.client.scala.model.domain.{AmfObject, DomainElement}
 import amf.core.internal.metamodel.document.DocumentModel
 import amf.core.internal.parser.domain.FieldEntry
-import amf.shapes.internal.domain.metamodel.NodeShapeModel
-import org.mulesoft.als.common.YPartASTWrapper.AlsYPart
 import org.mulesoft.als.common.ASTElementWrapper._
+import org.mulesoft.als.common.YPartASTWrapper.AlsYPart
 import org.mulesoft.als.common._
 import org.mulesoft.als.common.dtoTypes.{PositionRange, TextHelper, Position => DtoPosition}
 import org.mulesoft.als.configuration.AlsConfigurationReader
@@ -19,6 +17,7 @@ import org.mulesoft.als.suggestions.interfaces.AMLCompletionPlugin
 import org.mulesoft.als.suggestions.styler.{SuggestionRender, SuggestionStylerBuilder}
 import org.mulesoft.amfintegration.AmfImplicits.BaseUnitImp
 import org.mulesoft.amfintegration.amfconfiguration.ALSConfigurationState
+import org.mulesoft.common.client.lexical.{Position => AmfPosition}
 import org.yaml.lexer.YamlToken
 import org.yaml.model.YNode.MutRef
 import org.yaml.model._
@@ -89,6 +88,22 @@ class AmlCompletionRequest(
 
   lazy val declarationProvider: DeclarationProvider =
     inheritedProvider.getOrElse(DeclarationProvider(baseUnit, Some(actualDialect)))
+
+  def withDialect(dialect: Dialect): AmlCompletionRequest =
+    new AmlCompletionRequest(
+      this.baseUnit,
+      this.position,
+      dialect,
+      this.directoryResolver,
+      this.styler,
+      this.astPartBranch,
+      this.configurationReader,
+      this.objectInTree,
+      this.inheritedProvider,
+      this.rootUri,
+      this.completionsPluginHandler,
+      this.alsConfigurationState
+    )
 }
 
 // todo: make instance
