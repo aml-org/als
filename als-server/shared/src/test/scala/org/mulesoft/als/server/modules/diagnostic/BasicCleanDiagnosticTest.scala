@@ -26,6 +26,23 @@ class BasicCleanDiagnosticTest extends LanguageServerBaseTest {
       }
     }
   }
+
+  test("Avro with only one error") {
+    withServer(buildServer()) { server =>
+      for {
+        d <- requestCleanDiagnostic(server)(filePath("avro/union-type-payload-error.avsc"))
+      } yield {
+        server.shutdown()
+        assert(d.size == 1)
+        assert(d.head.diagnostics.size == 1)
+        assert(d.head.profile == ProfileNames.AVROSCHEMA)
+        // todo: AMF will handle this error, so the message will change
+        assert(d.head.diagnostics.head.message == "Error in AVRO Schema: org.apache.avro.SchemaParseException: No type: {\"name\":\"age\",\"type\":[\"null\",\"int\"],\"default\":null}")
+      }
+    }
+  }
+
+
   def buildServer(): LanguageServer = {
     val diagnosticNotifier = new MockDiagnosticClientNotifier()
     val builder            = new WorkspaceManagerFactoryBuilder(diagnosticNotifier)
