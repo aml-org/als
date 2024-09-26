@@ -26,6 +26,21 @@ class BasicCleanDiagnosticTest extends LanguageServerBaseTest {
       }
     }
   }
+
+  test("Avro with only one error") {
+    withServer(buildServer()) { server =>
+      for {
+        d <- requestCleanDiagnostic(server)(filePath("avro/union-type-payload-error.avsc"))
+      } yield {
+        server.shutdown()
+        assert(d.size == 1)
+        assert(d.head.diagnostics.isEmpty)
+        assert(d.head.profile == ProfileNames.AVROSCHEMA)
+      }
+    }
+  }
+
+
   def buildServer(): LanguageServer = {
     val diagnosticNotifier = new MockDiagnosticClientNotifier()
     val builder            = new WorkspaceManagerFactoryBuilder(diagnosticNotifier)
