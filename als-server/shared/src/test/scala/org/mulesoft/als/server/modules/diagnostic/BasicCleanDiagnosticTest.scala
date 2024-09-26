@@ -34,11 +34,8 @@ class BasicCleanDiagnosticTest extends LanguageServerBaseTest {
       } yield {
         server.shutdown()
         assert(d.size == 1)
-        assert(d.head.diagnostics.size == 1)
+        assert(d.head.diagnostics.isEmpty)
         assert(d.head.profile == ProfileNames.AVROSCHEMA)
-        // todo: AMF will handle this error, so the message will change
-        // JS and JVM have different messages at the moment
-//        assert(d.head.diagnostics.head.message == "Error in AVRO Schema: org.apache.avro.SchemaParseException: No type: {\"name\":\"age\",\"type\":[\"null\",\"int\"],\"default\":null}")
       }
     }
   }
