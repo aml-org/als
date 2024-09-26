@@ -12,10 +12,10 @@ import amf.core.internal.remote.Spec.{AMF, GRAPHQL}
 import amf.core.internal.remote.{AmlDialectSpec, Spec}
 import amf.graphql.client.scala.GraphQLConfiguration
 import amf.shapes.client.scala.config.JsonSchemaConfiguration
-import amf.shapes.client.scala.model.document.{AvroSchemaDocument, JsonSchemaDocument}
+import amf.shapes.client.scala.model.document.JsonSchemaDocument
 import amf.shapes.client.scala.model.domain.AnyShape
 import amf.shapes.client.scala.render.JsonSchemaShapeRenderer
-import org.mulesoft.als.configuration.{MaxSizeCounter, MaxSizeException, MaxSizeResourceLoader}
+import org.mulesoft.als.configuration.{MaxSizeCounter, MaxSizeResourceLoader}
 import org.mulesoft.amfintegration.AmfImplicits._
 import org.mulesoft.amfintegration.ValidationProfile
 import org.mulesoft.amfintegration.dialect.dialects.ExternalFragmentDialect
@@ -74,6 +74,7 @@ case class ALSConfigurationState(
       case Spec.ASYNC26      => Some(AsyncAPIConfiguration.Async20())
       case Spec.GRAPHQL      => Some(ConfigurationAdapter.adapt(GraphQLConfiguration.GraphQL()))
       case Spec.JSONSCHEMA   => Some(ConfigurationAdapter.adapt(JsonSchemaConfiguration.JsonSchema()))
+      case Spec.AVRO_SCHEMA  => Some(AvroConfiguration.Avro())
       case _ if spec.isAsync => Some(AsyncAPIConfiguration.Async20())
       case _                 => None
     }

@@ -1,0 +1,20 @@
+{
+  "type": "record",
+  "name": "Person",
+  "fields": [
+    {"name": "name", "type": "string", "example": "Donkey"},
+    {"name": "age", "type": ["null", "int"], "default": null},
+    {
+      "name": "favoriteProgrammingLanguage",
+      "type": {"name": "ProgrammingLanguage", "type": "enum", "symbols": ["JS", "Java", "Go", "Rust", "C"]}
+    },
+    {
+      "name": "address",
+      "type": {
+        "name": "Address",
+        "type": "record",
+        "fields": [{"name": "zipcode", "type": "int"}]
+      }
+    }
+  ]
+}
