@@ -1,0 +1,49 @@
+#%Dialect 1.0
+dialect: GENAI ROOT
+version: 1.0
+
+external:
+  aml: http://a.ml/vocab#
+  apicontract: http://a.ml/vocabularies/apiContract#
+  genai: http://genai/root#
+
+documents:
+  root:
+    encodes: string # just necessary to avoid errors, won't really do anything
+
+annotationMappings:
+  RootMapping:
+    domain: apicontract.API
+    propertyTerm: aml.rootgenai
+    range:  RootGenaiNodeMapping
+
+nodeMappings:
+  RootGenaiNodeMapping:
+    mapping:
+      genai:
+        range: GenaiNodeMapping
+        mandatory: true
+  GenaiNodeMapping:
+    mapping:
+      topic:
+        range: TopicNodeMapping
+        mandatory: true
+  TopicNodeMapping:
+    mapping:
+        description:
+            range: string
+            mandatory: true
+        instructions:
+            range: InstructionsNodeMapping
+            allowMultiple: true
+  InstructionsNodeMapping:
+    mapping:
+        name:
+            range: string
+            mandatory: true
+        description:
+            range: string
+            mandatory: true
+
+extensions:
+  sfdc: RootMapping
