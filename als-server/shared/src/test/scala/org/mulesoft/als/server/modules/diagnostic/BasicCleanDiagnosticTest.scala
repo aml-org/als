@@ -40,6 +40,20 @@ class BasicCleanDiagnosticTest extends LanguageServerBaseTest {
     }
   }
 
+  test("async with valid avro - should only report `missing channels` error") {
+    withServer(buildServer()) { server =>
+      for {
+        d <- requestCleanDiagnostic(server)(filePath("async26/with-avro.yaml"))
+      } yield {
+        server.shutdown()
+        assert(d.size == 2)
+        val diagnostics = d.flatMap(_.diagnostics)
+        assert(diagnostics.size == 1)
+        assert(diagnostics.head.message.contains("'channels' is mandatory in async spec"))
+      }
+    }
+  }
+
 
   def buildServer(): LanguageServer = {
     val diagnosticNotifier = new MockDiagnosticClientNotifier()
