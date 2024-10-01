@@ -1,0 +1,15 @@
+asyncapi: 2.6.0
+info:
+  title: Market Data API
+  version: 1.0.0
+  description: This API provides real-time market data updates.
+channels:
+  m1:
+    description: Pancho
+  
+components:
+  messages:
+    m1:
+      schemaFormat: application/vnd.apache.avro;version=1.9.0
+      payload:
+        $ref: schemas/union-type-payload.avsc
