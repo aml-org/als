@@ -196,7 +196,7 @@ object AvroMapNode extends AvroTypedNode {
       .withEnum(
         AvroDialect.avroTypes
       )
-      .withObjectRange(Seq(AvroRootNode.id))
+      .withLiteralRange(xsdString.iri())
 }
 
 object AvroArrayNode extends AvroTypedNode {

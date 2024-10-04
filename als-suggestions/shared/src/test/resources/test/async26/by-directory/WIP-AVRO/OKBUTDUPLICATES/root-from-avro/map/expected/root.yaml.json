@@ -121,7 +121,7 @@
       
     ],
     "sortText": "11values",
-    "filterText": "values:\n  ",
+    "filterText": "values: ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -137,7 +137,7 @@
           "character": 10
         }
       },
-      "newText": "values:\n  "
+      "newText": "values: "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
