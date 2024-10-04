@@ -2,7 +2,6 @@ package org.mulesoft.als.suggestions.plugins.aml
 
 import amf.aml.client.scala.model.document.Dialect
 import amf.aml.client.scala.model.domain.{NodeMapping, PropertyMapping}
-import amf.apicontract.client.scala.model.domain.{Payload, Response}
 import amf.core.client.scala.model.document.Module
 import amf.core.internal.metamodel.Field
 import amf.core.internal.metamodel.Type.ArrayLike

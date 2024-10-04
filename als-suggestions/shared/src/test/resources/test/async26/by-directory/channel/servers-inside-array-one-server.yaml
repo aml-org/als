@@ -1,0 +1,21 @@
+asyncapi: 2.6.0
+info:
+  title: Async 2.2 new fields
+  version: 1.0.0
+  description: Async 2.2 new fields
+servers:
+  myServer:
+    url: some.com
+    protocol: ibmmq
+    bindings:
+      ibmmq:
+        groupId: test
+        ccdtQueueManagerName: test
+        cipherSpec: test
+        multiEndpointServer: true
+        heartBeatInterval: 123
+channels:
+  myChannel:
+    servers:
+      - myServer
+        *

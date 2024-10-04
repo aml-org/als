@@ -38,6 +38,7 @@ trait AsyncApiCompletionPluginRegistry extends WebApiCompletionPluginRegistry {
           ResolveInfo,
           AsyncApiVariableValueException,
           Async2HeadersSchema,
+          ServerResolver,
           ResolveDefault
         )
       ) :+
