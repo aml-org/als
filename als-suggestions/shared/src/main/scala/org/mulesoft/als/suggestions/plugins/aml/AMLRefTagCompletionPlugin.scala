@@ -8,6 +8,7 @@ import org.mulesoft.als.suggestions.interfaces.AMLCompletionPlugin
 import org.mulesoft.als.suggestions.{PlainText, RawSuggestion, SuggestionStructure}
 import org.mulesoft.amfintegration.AmfImplicits._
 import org.mulesoft.amfintegration.dialect.dialects.asyncapi20.AsyncApi20Dialect
+import org.mulesoft.amfintegration.dialect.dialects.asyncapi26.AsyncApi26Dialect
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
@@ -68,7 +69,8 @@ trait AMLRefTagCompletionPlugin extends AMLCompletionPlugin {
       params.astPartBranch.stringValue.startsWith("$")
 
   private def isEmptyJsonValue(params: AmlCompletionRequest) =
-    params.actualDialect.id.equals(AsyncApi20Dialect.DialectLocation) &&
+    (params.actualDialect.id.equals(AsyncApi20Dialect.DialectLocation) ||
+      params.actualDialect.id.equals(AsyncApi26Dialect.DialectLocation)) &&
       params.baseUnit.id.endsWith(".json") &&
       params.astPartBranch.stringValue.equals("{}")
 
