@@ -72,6 +72,42 @@
     "command": null
   },
   {
+    "label": "$ref",
+    "kind": [
+      
+    ],
+    "detail": "unknown",
+    "documentation": "reference tag",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "0$ref",
+    "filterText": "\"\\$ref\": \"$1\"",
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 5,
+          "character": 6
+        },
+        "end": {
+          "line": 5,
+          "character": 6
+        }
+      },
+      "newText": "\"\\$ref\": \"$1\""
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
     "label": "allOf",
     "kind": [
       
