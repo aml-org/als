@@ -29,7 +29,7 @@ class AvroSupportTest extends BasicCleanDiagnosticTest {
         assert(d.size == 2)
         assert(d.head.diagnostics.length == 1)
         val errorMessage = d.head.diagnostics.head.message.toLowerCase()
-        assert(errorMessage.contains("duplicate") && errorMessage.contains("Address"))
+        assert(errorMessage.contains("duplicate") && errorMessage.contains("address"))
         assert(d.head.diagnostics.head.severity.get == DiagnosticSeverity.Error)
         assert(d.head.profile == ProfileNames.ASYNC26)
       }
