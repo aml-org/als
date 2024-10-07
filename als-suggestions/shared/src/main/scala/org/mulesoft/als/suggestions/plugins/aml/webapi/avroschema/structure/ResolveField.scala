@@ -15,12 +15,14 @@ import scala.concurrent.Future
 object ResolveField extends ResolveIfApplies {
   override def resolve(request: AmlCompletionRequest): Option[Future[Seq[RawSuggestion]]] = {
     request.amfObject match {
-      case _: AnyShape if isField(request) =>
+      case _: AnyShape if isField(request) && !newerTypeDefined(request) =>
         applies(fieldNodeSuggestions(request.actualDialect))
       case _ =>
         notApply
     }
   }
+
+  private def newerTypeDefined(request: AmlCompletionRequest) = request.amfObject.annotations.avroSchemaType().isDefined
 
   private def isField(request: AmlCompletionRequest) =
     request.astPartBranch.parentEntryIs("fields") &&

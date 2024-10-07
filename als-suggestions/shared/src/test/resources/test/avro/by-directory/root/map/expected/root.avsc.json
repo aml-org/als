@@ -121,7 +121,7 @@
       
     ],
     "sortText": "11values",
-    "filterText": "\"values\": {\n  \"$1\"\n}",
+    "filterText": "\"values\": \"$1\"",
     "insertText": null,
     "insertTextFormat": [
       2
@@ -137,7 +137,7 @@
           "character": 4
         }
       },
-      "newText": "\"values\": {\n  \"$1\"\n}"
+      "newText": "\"values\": \"$1\""
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
