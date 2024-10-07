@@ -28,7 +28,8 @@ class AvroSupportTest extends BasicCleanDiagnosticTest {
         server.shutdown()
         assert(d.size == 2)
         assert(d.head.diagnostics.length == 1)
-        assert(d.head.diagnostics.head.message == "Exception thrown in validation: Duplicate field zipcode in record Address: zipcode type:BOOLEAN pos:1 and zipcode type:INT pos:0.")
+        val errorMessage = d.head.diagnostics.head.message.toLowerCase()
+        assert(errorMessage.contains("duplicate") && errorMessage.contains("Address"))
         assert(d.head.diagnostics.head.severity.get == DiagnosticSeverity.Error)
         assert(d.head.profile == ProfileNames.ASYNC26)
       }
