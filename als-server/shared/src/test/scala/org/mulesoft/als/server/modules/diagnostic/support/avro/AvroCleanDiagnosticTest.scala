@@ -5,7 +5,7 @@ import org.mulesoft.als.server.modules.diagnostic.BasicCleanDiagnosticTest
 import org.mulesoft.lsp.feature.diagnostic.DiagnosticSeverity
 
 
-class AvroSupportTest extends BasicCleanDiagnosticTest {
+class AvroCleanDiagnosticTest extends BasicCleanDiagnosticTest {
 
   test("Async importing valid Avro") {
     withServer(buildServer()) { server =>
@@ -27,17 +27,19 @@ class AvroSupportTest extends BasicCleanDiagnosticTest {
       } yield {
         server.shutdown()
         assert(d.size == 2)
-        assert(d.head.diagnostics.length == 1)
-        val errorMessage = d.head.diagnostics.head.message.toLowerCase()
+        val avroFileDiagnostics = d.find(d => d.uri.contains("avro/async26-imports-invalid-avro.yaml"))
+        assert(avroFileDiagnostics.isDefined)
+        assert(avroFileDiagnostics.get.diagnostics.length == 1)
+        val errorMessage = avroFileDiagnostics.get.diagnostics.head.message.toLowerCase()
         assert(errorMessage.contains("duplicate") && errorMessage.contains("address"))
-        assert(d.head.diagnostics.head.severity.get == DiagnosticSeverity.Error)
-        assert(d.head.profile == ProfileNames.ASYNC26)
+        assert(avroFileDiagnostics.get.diagnostics.head.severity.get == DiagnosticSeverity.Error)
+        assert(avroFileDiagnostics.get.profile == ProfileNames.ASYNC26)
       }
     }
   }
 
 
-  test("avro containing inline avro") {
+  test("valid complex avro") {
     withServer(buildServer()) { server =>
       for {
         d <- requestCleanDiagnostic(server)(filePath("avro/schemas/avro-user/avrotoavro.avsc"))
@@ -50,7 +52,7 @@ class AvroSupportTest extends BasicCleanDiagnosticTest {
     }
   }
 
-  test("Avro with no errors") {
+  test("valid avro with unions") {
     withServer(buildServer()) { server =>
       for {
         d <- requestCleanDiagnostic(server)(filePath("avro/schemas/union-type-payload-error.avsc"))

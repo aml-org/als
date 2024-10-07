@@ -9,7 +9,7 @@ import org.mulesoft.als.server.{LanguageServerBaseTest, MockDiagnosticClientNoti
 
 import scala.concurrent.ExecutionContext
 
-class Async26Test extends BasicCleanDiagnosticTest {
+class Async26CleanDiagnosticTest extends BasicCleanDiagnosticTest {
 
   test("async 2.6 with only one error") {
     withServer(buildServer()) { server =>
