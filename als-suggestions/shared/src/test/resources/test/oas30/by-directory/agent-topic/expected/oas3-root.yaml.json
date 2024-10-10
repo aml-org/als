@@ -1,0 +1,38 @@
+[
+  {
+    "label": "x-sfdc",
+    "kind": [
+      
+    ],
+    "detail": "extensions",
+    "documentation": "x-sfdc",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "11x-sfdc",
+    "filterText": "x-sfdc:\n  ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 4,
+          "character": 0
+        },
+        "end": {
+          "line": 4,
+          "character": 2
+        }
+      },
+      "newText": "x-sfdc:\n  "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  }
+]

@@ -1,0 +1,38 @@
+[
+  {
+    "label": "genai",
+    "kind": [
+      
+    ],
+    "detail": "unknown",
+    "documentation": "genai",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "11genai",
+    "filterText": "genai:\n  ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 8,
+          "character": 8
+        },
+        "end": {
+          "line": 8,
+          "character": 8
+        }
+      },
+      "newText": "genai:\n  "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  }
+]
