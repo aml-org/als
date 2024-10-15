@@ -8,6 +8,7 @@ import org.mulesoft.als.suggestions.interfaces.AMLCompletionPlugin
 import org.mulesoft.als.suggestions.{PlainText, RawSuggestion, SuggestionStructure}
 import org.mulesoft.amfintegration.AmfImplicits._
 import org.mulesoft.amfintegration.dialect.dialects.asyncapi20.AsyncApi20Dialect
+import org.mulesoft.amfintegration.dialect.dialects.asyncapi26.AsyncApi26Dialect
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
@@ -56,21 +57,9 @@ trait AMLRefTagCompletionPlugin extends AMLCompletionPlugin {
       (!yPartBranch.hasIncludeTag) && yPartBranch.brothers.isEmpty &&
       isDeclarable(params) &&
       isInFacet(params) &&
-      matchPrefixPatched(params) &&
       !isExceptionCase(yPartBranch)
     case _ => false
   }
-
-  private def matchPrefixPatched(params: AmlCompletionRequest) =
-    params.astPartBranch.stringValue.isEmpty ||
-      isEmptyJsonValue(params) ||
-      params.astPartBranch.isArray ||
-      params.astPartBranch.stringValue.startsWith("$")
-
-  private def isEmptyJsonValue(params: AmlCompletionRequest) =
-    params.actualDialect.id.equals(AsyncApi20Dialect.DialectLocation) &&
-      params.baseUnit.id.endsWith(".json") &&
-      params.astPartBranch.stringValue.equals("{}")
 
   private def isInFacet(params: AmlCompletionRequest): Boolean = isKeyAlone(params)
 

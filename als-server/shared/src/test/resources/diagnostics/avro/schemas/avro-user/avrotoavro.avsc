@@ -1,0 +1,20 @@
+{
+	"type" : "record",
+	"name" : "avrotoavro",
+	"fields" : [
+		{"name": "user_user", "type":  {
+			"name": "user",
+			"type": "record",
+			"fields": [
+				{
+					"name": "username",
+					"type": "string"
+				},
+				{
+					"name": "age",
+					"type": "int"
+				}
+			]
+		}}
+	]
+}

@@ -12,5 +12,10 @@ object Async2ExceptionPlugins {
   def applyAny(request: AmlCompletionRequest): Boolean = exceptions.exists(_.applies(request))
 
   private val exceptions: Seq[ExceptionPlugin] =
-    Seq(AsyncApi20BindingsCompletionPlugin, AsyncApi26BindingsCompletionPlugin, Async2VariableValueParam)
+    Seq(
+      AsyncApi20BindingsCompletionPlugin,
+      AsyncApi26BindingsCompletionPlugin,
+      Async2VariableValueParam,
+      Async2ServerExceptionPlugin
+    )
 }
