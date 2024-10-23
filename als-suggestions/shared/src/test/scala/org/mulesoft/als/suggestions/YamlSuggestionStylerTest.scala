@@ -231,4 +231,41 @@ class YamlSuggestionStylerTest extends AsyncFunSuite with FileAssertionTest {
     assert(completionItem.additionalTextEdits.exists(_.contains(edit)))
   }
 
+  test("render RawSuggestion with children and set values") {
+    val styler = YamlSuggestionStyler(
+      SyamlStylerParams(
+        "",
+        Position(0, 0),
+        dummyYPart,
+        FormattingOptions(2, insertSpaces = true)
+      )
+    )
+
+    val golden = """root:
+                   |  k1: $1
+                   |  k2: v1
+                   |  k3:
+                   |    - v1
+                   |    - v2
+                   |    - v3""".stripMargin
+    val rawSuggestion = RawSuggestion("root", SuggestionStructure(ObjectRange, isKey = true))
+      .withChildren(Seq(
+        RawSuggestion(
+          "k1", SuggestionStructure(BoolScalarRange, isKey = true)
+        ),
+        RawSuggestion("k2", SuggestionStructure(StringScalarRange, isKey = true))
+          .withChildren(Seq(RawSuggestion("v1", isAKey = false))),
+        RawSuggestion("k3", SuggestionStructure(ArrayRange, isKey = true))
+          .withChildren(Seq(
+            RawSuggestion("v1", isAKey = false),
+            RawSuggestion("v2", isAKey = false),
+            RawSuggestion("v3", isAKey = false),
+          ))
+    ))
+
+    val result = styler.style(rawSuggestion).text
+
+    assert(result == golden)
+  }
+
 }
