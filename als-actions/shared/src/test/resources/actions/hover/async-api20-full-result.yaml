@@ -100,9 +100,9 @@ hovers:
   (26,17):
     - Piece of data required or returned by an Operation
   (27,13):
-    - Piece of data required or returned by an Operation
+    - Human readable description of an element
   (27,27):
-    - Piece of data required or returned by an Operation
+    - Human readable description of an element
   (28,12):
     - Examples for a particular element declaration
   (28,17):
