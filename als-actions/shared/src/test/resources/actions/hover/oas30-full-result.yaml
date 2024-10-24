@@ -84,9 +84,9 @@ hovers:
   (23,20):
     - Piece of data required or returned by an Operation
   (24,13):
-    - Piece of data required or returned by an Operation
+    - Human readable description of an element
   (24,63):
-    - Piece of data required or returned by an Operation
+    - Human readable description of an element
   (26,2):
     - Path to each declared endpoint. Relative to basePath
   (26,6):
