@@ -24,6 +24,7 @@ abstract class AstRawBuilder(val raw: RawSuggestion, isSnippet: Boolean, yPartBr
 
   def emptyNode(): YNode
 
+  def keyTag(rawSuggestion: RawSuggestion): YType = if (rawSuggestion.options.keyRange == NumberScalarRange) YType.Int else YType.Str
   lazy val keyTag: YType = if (raw.options.keyRange == NumberScalarRange) YType.Int else YType.Str
 
   lazy val valueTag: YType = raw.options.rangeKind match {
@@ -43,7 +44,15 @@ abstract class AstRawBuilder(val raw: RawSuggestion, isSnippet: Boolean, yPartBr
     if (raw.children.nonEmpty && raw.newText.isEmpty) { // if entry has value but key is empty, user will need to fill out
       snippet = true
       YMapEntry("$" + index.toString, valueNode(index + 1))
-    } else YMapEntry(scalar(raw.newText, keyTag), valueNode(index))
+    } else {
+      if (raw.children.nonEmpty && !raw.children.exists(_.options.isKey)) {
+        val seq = raw.children.map(child => scalar(child.newText, keyTag(child))).toIndexedSeq
+        if(raw.options.isArray)
+          YMapEntry(scalar(raw.newText, keyTag), YSequence(seq))
+        else YMapEntry(scalar(raw.newText, keyTag), seq.head)
+      }
+      else YMapEntry(scalar(raw.newText, keyTag), valueNode(index))
+    }
 
   private def valueObject(index: Integer): YNode = {
     val list = if (raw.children.nonEmpty) {
@@ -51,8 +60,10 @@ abstract class AstRawBuilder(val raw: RawSuggestion, isSnippet: Boolean, yPartBr
       raw.children.zipWithIndex
         .map(t => newInstance(t._1, true).emitKey(t._2 + index))
         .toIndexedSeq
-    } else if (isSnippet) IndexedSeq(YMapEntry("$" + index.toString, emptyNode()))
-    else IndexedSeq.empty
+    } else if (isSnippet)
+      IndexedSeq(YMapEntry("$" + index.toString, emptyNode()))
+    else
+      IndexedSeq.empty
 
     val n = YNode(YMap(emptyLocation, list))
 

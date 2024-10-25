@@ -11,7 +11,6 @@ import scala.concurrent.Future
 
 object AsyncApi20RefTag extends AMLRefTagCompletionPlugin with IsInsideRequired with Async2PayloadExampleMatcher {
 
-  // hack for bindings, has the K: will be a dynamic name. Also, when the refactor of syaml is done, is method should still works (as we will at an empty map?)
   override protected def isObjectDeclarable(params: AmlCompletionRequest): Boolean =
     super.isObjectDeclarable(params)
 
