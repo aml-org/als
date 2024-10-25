@@ -84,9 +84,9 @@ hovers:
   (24,18):
     - Piece of data required or returned by an Operation
   (25,13):
-    - Piece of data required or returned by an Operation
+    - Human readable description of an element
   (25,28):
-    - Piece of data required or returned by an Operation
+    - Human readable description of an element
   (26,9):
     - Human readable name for the object
   (26,14):
@@ -96,9 +96,9 @@ hovers:
   (27,18):
     - Piece of data required or returned by an Operation
   (28,13):
-    - Piece of data required or returned by an Operation
+    - Human readable description of an element
   (28,26):
-    - Piece of data required or returned by an Operation
+    - Human readable description of an element
   (29,7):
     - Information about the network accessible locations where the API is available
   (29,14):
@@ -739,9 +739,9 @@ hovers:
   (209,18):
     - Piece of data required or returned by an Operation
   (210,11):
-    - Piece of data required or returned by an Operation
+    - Human readable description of an element
   (210,32):
-    - Piece of data required or returned by an Operation
+    - Human readable description of an element
   (211,7):
     - Piece of data required or returned by an Operation
   (211,12):
@@ -751,9 +751,9 @@ hovers:
   (212,16):
     - Piece of data required or returned by an Operation
   (213,11):
-    - Piece of data required or returned by an Operation
+    - Human readable description of an element
   (213,30):
-    - Piece of data required or returned by an Operation
+    - Human readable description of an element
   (214,9):
     - Top level element describing a asynchronous API
   (214,18):
