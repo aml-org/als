@@ -418,7 +418,7 @@ lazy val branch = sys.env.getOrElse("BRANCH_NAME", "devel")
 
 sonarProperties ++= Map(
   "sonar.login"             -> token,
-  "sonar.projectKey"        -> "mulesoft.als",
+  "sonar.projectKey"        -> "mulesoft.als.gec",
   "sonar.projectName"       -> "ALS",
   "sonar.projectVersion"    -> "1.0.0",
   "sonar.sourceEncoding"    -> "UTF-8",
