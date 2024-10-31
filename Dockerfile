@@ -57,6 +57,12 @@ ENV LANGUAGE en_US:en
 ENV LC_ALL en_US.UTF-8
 ENV JAVA_TOOL_OPTIONS -Dfile.encoding=UTF8
 
+COPY certs/ /usr/local/share/ca-certificates/
+#Import certs to java keystore for sonar cli
+RUN keytool -import -trustcacerts -alias salesforce_internal_root_ca_1  -file /usr/local/share/ca-certificates/Salesforce_Internal_GIA_Root_CA_1.pem  -keystore $JAVA_HOME/lib/security/cacerts -storepass changeit -noprompt
+RUN keytool -import -trustcacerts -alias salesforce_internal_root_ca_4  -file /usr/local/share/ca-certificates/Salesforce_Internal_Root_CA_4.pem  -keystore $JAVA_HOME/lib/security/cacerts -storepass changeit -noprompt
+RUN keytool -import -trustcacerts -alias salesforce_internal_root_ca_3  -file /usr/local/share/ca-certificates/Salesforce_Internal_Root_CA_3.pem  -keystore $JAVA_HOME/lib/security/cacerts -storepass changeit -noprompt
+
 # Final user and home config
 RUN useradd --create-home --shell /bin/bash jenkins
 USER jenkins
