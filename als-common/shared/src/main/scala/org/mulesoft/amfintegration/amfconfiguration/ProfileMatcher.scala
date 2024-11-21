@@ -27,10 +27,12 @@ object ProfileMatcher {
 
   def profile(spec: Spec): ProfileName =
     spec match {
-      case Spec.RAML10      => ProfileNames.RAML10
-      case Spec.RAML08      => ProfileNames.RAML08
-      case Spec.OAS20       => ProfileNames.OAS20
-      case Spec.OAS30       => ProfileNames.OAS30
+      case Spec.RAML10 => ProfileNames.RAML10
+      case Spec.RAML08 => ProfileNames.RAML08
+      case Spec.OAS20  => ProfileNames.OAS20
+      case Spec.OAS30  => ProfileNames.OAS30
+      // TODO Implement OAS31 dialect
+      case Spec.OAS31       => ProfileNames.OAS31
       case Spec.ASYNC20     => ProfileNames.ASYNC20
       case Spec.ASYNC21     => ProfileNames.ASYNC20
       case Spec.ASYNC22     => ProfileNames.ASYNC20
