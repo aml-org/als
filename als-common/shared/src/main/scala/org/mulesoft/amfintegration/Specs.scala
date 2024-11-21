@@ -7,6 +7,7 @@ case object Specs {
     Spec.RAML08,
     Spec.RAML10,
     Spec.OAS30,
+    Spec.OAS31,
     Spec.OAS20,
     Spec.ASYNC20,
     Spec.AML,
