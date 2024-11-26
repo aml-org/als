@@ -148,7 +148,6 @@ pipeline {
                     branch 'master'
                     branch 'develop'
                     branch 'rc/*'
-                    branch 'bump/amf-5.7.0-java21'
                 }
             }
             steps {
