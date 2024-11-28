@@ -19,7 +19,11 @@ trait FlowSuggestionRender extends SuggestionRender {
 
     private val indent: String = if (useSpaces) " " * tabSize else "\t"
 
-    private val cursorPosition: String = escapeChar + "$1" + escapeChar
+    private val cursorPosition: String = {
+      if(params.supportSnippets)
+        escapeChar + "$1" + escapeChar
+      else escapeChar*2
+    }
 
     def fix(): String = collectionSeparator(fixFlow())
 
