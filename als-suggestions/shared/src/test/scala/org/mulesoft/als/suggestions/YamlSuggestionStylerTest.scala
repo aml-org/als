@@ -292,6 +292,7 @@ class YamlSuggestionStylerTest extends AsyncFunSuite with FileAssertionTest {
 
     assert(result == golden)
   }
+
   test("render RawSuggestion with children and set values - empty value") {
     val styler = YamlSuggestionStyler(
       SyamlStylerParams(

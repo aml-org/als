@@ -22,8 +22,11 @@ class JsonAstRawBuilder(override val raw: RawSuggestion, val isSnippet: Boolean,
   }
 
   override def emitEntryValue(options: SuggestionStructure): YNode = {
-    snippet = true
-    value("$1", options)
+    if(supportsSnippets) {
+      snippet = true
+      value("$1", options)
+    }
+    else value("", options)
   }
 
   override def onlyKey(key: String): YPart = YNode(key)
