@@ -113,7 +113,11 @@ val orgSettings = Seq(
   )
 )
 
-val settings = Common.settings ++ Common.publish ++ orgSettings
+val publishTestSources = Seq(
+  Test / publishArtifact := true
+)
+
+val settings = Common.settings ++ Common.publish ++ orgSettings ++ publishTestSources
 concurrentRestrictions in Global := Seq(Tags.limitAll(2))
 
 ////region ALS-COMMON
