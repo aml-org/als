@@ -5,15 +5,14 @@ import org.mulesoft.als.suggestions.{RawSuggestion, SuggestionStructure}
 import org.mulesoft.common.client.lexical.{Position => AmfPosition}
 import org.yaml.model.{YMap, YNode, YPart}
 
-class JsonAstRawBuilder(override val raw: RawSuggestion, val isSnippet: Boolean, val yPartBranch: YPartBranch, supportsSnippets: Boolean)
-    extends AstRawBuilder(raw, isSnippet, yPartBranch, supportsSnippets) {
+class JsonAstRawBuilder(override val raw: RawSuggestion, val isSnippet: Boolean, val yPartBranch: YPartBranch)
+    extends AstRawBuilder(raw, isSnippet, yPartBranch) {
   override protected def newInstance: (RawSuggestion, Boolean) => AstRawBuilder =
     (raw: RawSuggestion, isSnippet: Boolean) =>
       new JsonAstRawBuilder(
         raw,
         isSnippet,
-        YPartBranch(YMap.empty, AmfPosition.ZERO, Nil, strict = true),
-        supportsSnippets
+        YPartBranch(YMap.empty, AmfPosition.ZERO, Nil, strict = true)
       )
 
   override def ast: YPart = {
@@ -22,11 +21,8 @@ class JsonAstRawBuilder(override val raw: RawSuggestion, val isSnippet: Boolean,
   }
 
   override def emitEntryValue(options: SuggestionStructure): YNode = {
-    if(supportsSnippets) {
-      snippet = true
-      value("$1", options)
-    }
-    else value("", options)
+    snippet = true
+    value("$1", options)
   }
 
   override def onlyKey(key: String): YPart = YNode(key)

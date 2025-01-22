@@ -5,16 +5,15 @@ import org.mulesoft.als.suggestions.{RawSuggestion, SuggestionStructure}
 import org.mulesoft.common.client.lexical.{Position => AmfPosition}
 import org.yaml.model._
 
-class DummyAstRawBuilder(override val raw: RawSuggestion, supportsSnippets: Boolean)
+class DummyAstRawBuilder(override val raw: RawSuggestion)
     extends AstRawBuilder(
       raw,
       isSnippet = false,
-      yPartBranch = YPartBranch(YMap.empty, AmfPosition.ZERO, Nil, strict = false),
-      supportsSnippets
+      yPartBranch = YPartBranch(YMap.empty, AmfPosition.ZERO, Nil, strict = false)
     ) {
 
   override protected def newInstance: (RawSuggestion, Boolean) => AstRawBuilder =
-    (raw: RawSuggestion, _: Boolean) => new DummyAstRawBuilder(raw, supportsSnippets)
+    (raw: RawSuggestion, _: Boolean) => new DummyAstRawBuilder(raw)
 
   override def ast: YPart = emitEntryValue(SuggestionStructure())
 
