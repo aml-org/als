@@ -100,7 +100,7 @@ object RawSuggestion {
       value,
       Seq.empty,
       category = category,
-      options = SuggestionStructure(rangeKind = BoolScalarRange, keyRange = BoolScalarRange)
+      options = SuggestionStructure(rangeKind = BoolScalarRange)
     )
 
   def forBoolKey(value: String, category: String = "unknown"): RawSuggestion =

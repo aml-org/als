@@ -1,7 +1,6 @@
 package org.mulesoft.als.common
 
 import org.mulesoft.als.common.diff.FileAssertionTest
-import org.mulesoft.amfintegration.amfconfiguration.executioncontext.Implicits
 import org.mulesoft.common.io.{Fs, SyncFile}
 import org.scalatest.freespec.AsyncFreeSpec
 
@@ -10,7 +9,7 @@ import scala.concurrent.{ExecutionContext, Future}
 trait ByDirectoryTest extends AsyncFreeSpec with FileAssertionTest {
 
   override implicit val executionContext: ExecutionContext =
-    Implicits.global
+    ExecutionContext.Implicits.global
 
   def fileExtensions: Seq[String]
   def ignoredFiles: Seq[String] = Seq(".ignore")

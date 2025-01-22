@@ -23,6 +23,6 @@ case class JsonSuggestionStyler(override val params: SyamlStylerParams) extends 
 
 
   override def astBuilder: RawSuggestion => AstRawBuilder =
-    (raw: RawSuggestion) => new JsonAstRawBuilder(raw, false, params.yPartBranch, params.supportSnippets)
+    (raw: RawSuggestion) => new JsonAstRawBuilder(raw, false, params.yPartBranch)
 
 }

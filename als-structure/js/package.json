@@ -6,7 +6,7 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
-    "@aml-org/amf-antlr-parsers": "0.8.28",
+    "@aml-org/amf-antlr-parsers": "0.7.27",
     "ajv": "6.12.6",
     "avro-js": "1.12.0"
   },

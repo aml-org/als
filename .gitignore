@@ -7,7 +7,6 @@ target/
 *.cache
 build/
 .gradle
-.codegenie
 
 .DS_Store
 node_modules

@@ -1,7 +1,7 @@
 import Dependencies.deps
 import NpmOpsPlugin.autoImport.npmDependencies
 import sbt.File
-import sbt.Keys.{libraryDependencies, mainClass, packageOptions, parallelExecution}
+import sbt.Keys.{libraryDependencies, mainClass, packageOptions}
 import sbtcrossproject.CrossPlugin.autoImport.crossProject
 import org.scalajs.linker.interface.ESVersion
 
@@ -10,7 +10,7 @@ import scala.sys.process.Process
 
 name := "api-language-server"
 
-ThisBuild / scalaVersion := "2.12.20"
+ThisBuild / scalaVersion := "2.12.15"
 
 version := deps("version")
 
@@ -108,16 +108,12 @@ val orgSettings = Seq(
   libraryDependencies ++= Seq(
     "com.chuusai"    %% "shapeless"     % "2.3.3",
     "org.scala-js"   %% "scalajs-stubs" % scalaJSVersion % "provided",
-    "org.scalatest" %%% "scalatest"     % "3.2.10"        % Test,
+    "org.scalatest" %%% "scalatest"     % "3.2.0"        % Test,
     upickle_Dependency
   )
 )
 
-val publishTestSources = Seq(
-  Test / publishArtifact := true
-)
-
-val settings = Common.settings ++ Common.publish ++ orgSettings ++ publishTestSources
+val settings = Common.settings ++ Common.publish ++ orgSettings
 concurrentRestrictions in Global := Seq(Tags.limitAll(2))
 
 ////region ALS-COMMON
@@ -143,7 +139,7 @@ lazy val common = crossProject(JSPlatform, JVMPlatform)
     },
     scalaJSLinkerConfig  ~= { _
       .withModuleKind(ModuleKind.CommonJSModule)
-      .withESFeatures(_.withESVersion(ESVersion.ES2018))
+      .withESFeatures(_.withESVersion(ESVersion.ES2016))
     },
     npmDependencies      ++= commonNpmDependencies
 //    ,scalaJSLinkerOutputDirectory in (Compile, fastOptJS) := baseDirectory.value / "target" / "artifact" /"high-level.js"
@@ -177,12 +173,12 @@ lazy val lsp = crossProject(JSPlatform, JVMPlatform)
     libraryDependencies += eclipseLsp4jDependency,
     libraryDependencies += eclipseXbaseRuntimeLibrary,
     libraryDependencies += eclipseGeneratorRuntimeLibrary,
-    libraryDependencies += "org.scala-lang.modules" % "scala-java8-compat_2.12" % "1.0.2"
+    libraryDependencies += "org.scala-lang.modules" % "scala-java8-compat_2.12" % "0.8.0"
   )
   .jsSettings(
     scalaJSLinkerConfig ~= { _
       .withModuleKind(ModuleKind.CommonJSModule)
-      .withESFeatures(_.withESVersion(ESVersion.ES2018))
+      .withESFeatures(_.withESVersion(ESVersion.ES2016))
     }
     //        scalaJSLinkerOutputDirectory in (Compile, fastOptJS) := baseDirectory.value / "target" / "artifact" /"high-level.js"
   )
@@ -209,7 +205,7 @@ lazy val suggestions = crossProject(JSPlatform, JVMPlatform)
 //    packageJSDependencies / skip := false,
     scalaJSLinkerConfig          ~= { _
       .withModuleKind(ModuleKind.CommonJSModule)
-      .withESFeatures(_.withESVersion(ESVersion.ES2018))
+      .withESFeatures(_.withESVersion(ESVersion.ES2016))
     },
     npmDependencies ++= commonNpmDependencies
   )
@@ -239,7 +235,7 @@ lazy val structure = crossProject(JSPlatform, JVMPlatform)
     ),
     scalaJSLinkerConfig ~= { _
       .withModuleKind(ModuleKind.CommonJSModule)
-      .withESFeatures(_.withESVersion(ESVersion.ES2018))
+      .withESFeatures(_.withESVersion(ESVersion.ES2016))
     },
     npmDependencies ++= commonNpmDependencies
   )
@@ -261,7 +257,7 @@ lazy val actions = crossProject(JSPlatform, JVMPlatform)
   .jsSettings(
     scalaJSLinkerConfig ~= { _
       .withModuleKind(ModuleKind.CommonJSModule)
-      .withESFeatures(_.withESVersion(ESVersion.ES2018))
+      .withESFeatures(_.withESVersion(ESVersion.ES2016))
     },
     npmDependencies ++= commonNpmDependencies
   )
@@ -320,7 +316,7 @@ lazy val server = crossProject(JSPlatform, JVMPlatform)
     Test / fastLinkJS / scalaJSLinkerOutputDirectory  := baseDirectory.value / "node-package" / "tmp" / "als-server.js",
     scalaJSLinkerConfig                    ~= { _
       .withModuleKind(ModuleKind.CommonJSModule)
-      .withESFeatures(_.withESVersion(ESVersion.ES2018))
+      .withESFeatures(_.withESVersion(ESVersion.ES2016))
     },
     libraryDependencies ++= Seq(
       scalaJS_NodeDependency,
@@ -352,7 +348,7 @@ lazy val nodeClient = project
       scalaJSUseMainModuleInitializer      := true,
       scalaJSLinkerConfig                  ~= { _
         .withModuleKind(ModuleKind.CommonJSModule)
-        .withESFeatures(_.withESVersion(ESVersion.ES2018))
+        .withESFeatures(_.withESVersion(ESVersion.ES2016))
       },
       libraryDependencies += scalaJS_NodeDependency,
       Compile / mainClass                  := Some("org.mulesoft.als.nodeclient.Main"),

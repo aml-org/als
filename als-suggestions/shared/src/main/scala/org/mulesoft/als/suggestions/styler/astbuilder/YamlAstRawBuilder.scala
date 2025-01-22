@@ -4,8 +4,8 @@ import org.mulesoft.als.common.YPartBranch
 import org.mulesoft.als.suggestions.{RawSuggestion, SuggestionStructure}
 import org.mulesoft.common.client.lexical.{Position => AmfPosition}
 import org.yaml.model.{YMap, YMapEntry, YNode, YPart}
-class YamlAstRawBuilder(override val raw: RawSuggestion, val isSnippet: Boolean, val yPartBranch: YPartBranch, supportsSnippets: Boolean)
-    extends AstRawBuilder(raw, isSnippet, yPartBranch, supportsSnippets) {
+class YamlAstRawBuilder(override val raw: RawSuggestion, val isSnippet: Boolean, val yPartBranch: YPartBranch)
+    extends AstRawBuilder(raw, isSnippet, yPartBranch) {
 
   def ast: YPart =
     if (raw.options.isKey)
@@ -18,8 +18,7 @@ class YamlAstRawBuilder(override val raw: RawSuggestion, val isSnippet: Boolean,
       new YamlAstRawBuilder(
         raw,
         isSnippet,
-        YPartBranch(YMap.empty, AmfPosition.ZERO, Nil, strict = false),
-        supportsSnippets
+        YPartBranch(YMap.empty, AmfPosition.ZERO, Nil, strict = false)
       )
 
   override def emitEntryValue(options: SuggestionStructure): YNode = value("", options)
