@@ -59,5 +59,5 @@ case class YamlSuggestionStyler(override val params: SyamlStylerParams) extends 
     } else suggestionRange(raw)
 
   override protected def astBuilder: RawSuggestion => AstRawBuilder =
-    (raw: RawSuggestion) => new YamlAstRawBuilder(raw, false, params.yPartBranch)
+    (raw: RawSuggestion) => new YamlAstRawBuilder(raw, false, params.yPartBranch, params.supportSnippets)
 }

@@ -12,6 +12,8 @@ trait AlsPlatformSecrets {
   private val internalPlatform: Platform = PlatformBuilder()
 
   val platform: Platform = new Platform {
+    override val globalExecutionContext: ExecutionContext = internalPlatform.globalExecutionContext
+
     private def overrideLoaders(implicit executionContext: ExecutionContext): Seq[ResourceLoader] =
       internalPlatform.loaders().map(SecuredLoader)
 
