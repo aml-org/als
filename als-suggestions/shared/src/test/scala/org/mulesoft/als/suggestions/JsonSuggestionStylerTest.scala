@@ -3,7 +3,7 @@ package org.mulesoft.als.suggestions
 import org.mulesoft.als.common.YPartBranch
 import org.mulesoft.als.common.diff.FileAssertionTest
 import org.mulesoft.als.common.dtoTypes.Position
-import org.mulesoft.als.suggestions.styler.{JsonSuggestionStyler, SyamlStylerParams}
+import org.mulesoft.als.suggestions.styler.{JsonSuggestionStyler, SyamlStylerParams, YamlSuggestionStyler}
 import org.mulesoft.common.client.lexical.{PositionRange, SourceLocation, Position => AmfPosition}
 import org.mulesoft.lsp.configuration.{DefaultFormattingOptions, FormattingOptions}
 import org.scalatest.funsuite.AsyncFunSuite
@@ -18,11 +18,6 @@ class JsonSuggestionStylerTest extends AsyncFunSuite with FileAssertionTest {
   val dummyYPart: YPartBranch = YPartBranch(YNode.Null, AmfPosition(0, 0), Nil, strict = true)
 
   test("should not have quotes if key and inside quotes") {
-    val content =
-      """{
-        |  "sw"
-        |}
-        |""".stripMargin
 
     val styler = JsonSuggestionStyler(SyamlStylerParams("sw", Position(1, 5), dummyYPart, DefaultFormattingOptions))
 
@@ -143,5 +138,35 @@ class JsonSuggestionStylerTest extends AsyncFunSuite with FileAssertionTest {
 
     assert(!styled.plain)
     assert(styled.text == "\"info\": {\n\t\"$1\"\n}")
+  }
+
+
+  test("render RawSuggestion with children and set values - empty value") {
+    val styler = JsonSuggestionStyler(
+      SyamlStylerParams(
+        "",
+        Position(0, 0),
+        dummyYPart,
+        FormattingOptions(2, insertSpaces = true),
+        supportSnippets = false
+      )
+    )
+
+    val golden = """"root": {
+                   |  "k1": ,
+                   |  "k2": "v1"
+                   |}""".stripMargin
+    val rawSuggestion = RawSuggestion("root", SuggestionStructure(ObjectRange, isKey = true))
+      .withChildren(Seq(
+        RawSuggestion(
+          "k1", SuggestionStructure(BoolScalarRange, isKey = true)
+        ),
+        RawSuggestion("k2", SuggestionStructure(StringScalarRange, isKey = true))
+          .withChildren(Seq(RawSuggestion("v1", isAKey = false)))
+      ))
+
+    val result = styler.style(rawSuggestion).text
+
+    assert(result == golden)
   }
 }
