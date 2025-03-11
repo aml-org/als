@@ -99,11 +99,11 @@ val orgSettings = Seq(
   resolvers ++= List(
     Common.releases,
     Common.snapshots,
+    Common.mulesoftPublic,
     Resolver.mavenLocal /*,
         Resolver.sonatypeRepo("releases"),
         Resolver.sonatypeRepo("snapshots")*/
   ),
-  resolvers += "jitpack" at "https://jitpack.io",
   credentials ++= Common.credentials(),
   libraryDependencies ++= Seq(
     "com.chuusai"    %% "shapeless"     % "2.3.3",
