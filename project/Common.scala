@@ -13,6 +13,7 @@ object Common {
 
   val snapshots: MavenRepository = "MuleSoft snapshots" at s"$nexus/snapshots"
   val releases: MavenRepository  = "MuleSoft releases" at s"$nexus/releases"
+  val mulesoftPublic: MavenRepository  = "MuleSoft public" at s"$nexus/public"
 
   val settings: Seq[Def.Setting[_]] = Seq(
     parallelExecution in Test := false,
