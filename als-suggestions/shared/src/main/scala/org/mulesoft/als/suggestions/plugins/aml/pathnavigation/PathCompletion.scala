@@ -1,17 +1,17 @@
 package org.mulesoft.als.suggestions.plugins.aml.pathnavigation
 
 import amf.core.internal.plugins.syntax.SyamlSyntaxParsePlugin
+import amf.core.internal.remote.Platform
 import org.mulesoft.amfintegration.amfconfiguration.ALSConfigurationState
 
 trait PathCompletion {
   val exceptions = Seq("xml", "xsd", "md", "avsc")
-  val alsConfiguration: ALSConfigurationState
 
-  def supportedExtension(file: String): Boolean = {
-    val maybeExtension = alsConfiguration.platform
+  def supportedExtension(file: String, platform: Platform): Boolean = {
+    val maybeExtension = platform
       .extension(file)
     maybeExtension
-      .flatMap(ext => alsConfiguration.platform.mimeFromExtension(ext))
+      .flatMap(ext => platform.mimeFromExtension(ext))
       .exists(pluginForMime(_).isDefined) ||
     maybeExtension.exists(exceptions.contains)
   }
