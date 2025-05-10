@@ -108,11 +108,14 @@ class WorkspaceManager protected (
 
   override def initialize(workspaceFolders: List[WorkspaceFolder]): Future[Unit] = {
     val newWorkspaces = extractCleanURIs(workspaceFolders)
-    workspaces
-      .initialize(newWorkspaces)
-      .map { _ => // Drop all old workspaces
-        dependencies.foreach(d => d.withUnitAccessor(this))
-      }
+    val newProjects = Future.sequence(newWorkspaces.map(projectConfigurationProvider.getProjectsFromFolder)).map(_.flatten)
+    newProjects.flatMap(projects =>
+      workspaces
+        .initialize(projects)
+        .map { _ => // Drop all old workspaces
+          dependencies.foreach(d => d.withUnitAccessor(this))
+        }
+    )
   }
 
   private def extractCleanURIs(workspaceFolders: List[WorkspaceFolder]) =

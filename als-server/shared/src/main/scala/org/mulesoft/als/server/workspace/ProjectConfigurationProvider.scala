@@ -17,6 +17,13 @@ trait ProjectConfigurationProvider {
   def getMainFile(folder: String): Option[Future[String]]
   def getProjectRoot(folder: String): Option[Future[String]] =
     getMainFile(folder).map(_.map(m => m.substring(0, m.lastIndexOf(Fs.separatorChar))))
+
+  /**
+   * Iterates through the folder to extract each project inside.
+   * @param folder
+   * @return by default each root folder is the root of the project
+   */
+  def getProjectsFromFolder(folder: String): Future[Seq[String]] = Future.successful(Seq(folder))
 }
 
 object IgnoreProjectConfigurationAdapter extends ProjectConfigurationProvider {
