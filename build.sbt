@@ -40,6 +40,11 @@ lazy val amfJSRef  = ProjectRef(workspaceDirectory / "amf", "graphqlJS")
 lazy val amfLibJVM = "com.github.amlorg" %% "amf-graphql"        % amfVersion
 lazy val amfLibJS  = "com.github.amlorg" %% "amf-graphql_sjs1" % amfVersion
 
+lazy val amfGRPCJVMRef = ProjectRef(workspaceDirectory / "amf", "grpcJVM")
+lazy val amfGRPCJSRef  = ProjectRef(workspaceDirectory / "amf", "grpcJS")
+lazy val amfGRPCLibJVM = "com.github.amlorg" %% "amf-grpc"        % amfVersion
+lazy val amfGRPCLibJS  = "com.github.amlorg" %% "amf-grpc_sjs1" % amfVersion
+
 lazy val customValidatorWebJVMRef =
   ProjectRef(workspaceDirectory / "amf-custom-validator-scalajs", "amfCustomValidatorWebJVM")
 lazy val customValidatorWebJSRef =
@@ -153,10 +158,12 @@ lazy val common = crossProject(JSPlatform, JVMPlatform)
 lazy val commonJVM = common.jvm
   .in(file(s"$pathAlsCommon/jvm"))
   .sourceDependency(amfJVMRef, amfLibJVM)
+  .sourceDependency(amfGRPCJVMRef, amfGRPCLibJVM)
   .sourceDependency(customValidatorWebJVMRef, customValidatorWebLibJVM)
 lazy val commonJS = common.js
   .in(file(s"$pathAlsCommon/js"))
   .sourceDependency(amfJSRef, amfLibJS)
+  .sourceDependency(amfGRPCJSRef, amfGRPCLibJS)
   .sourceDependency(customValidatorWebJSRef, customValidatorWebLibJS)
   .disablePlugins(SonarPlugin, ScoverageSbtPlugin)
 ////endregion

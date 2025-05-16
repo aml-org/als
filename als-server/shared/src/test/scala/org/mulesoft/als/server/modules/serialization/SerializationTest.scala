@@ -174,6 +174,41 @@ class SerializationTest extends LanguageServerBaseTest with ChangesWorkspaceConf
     }
   }
 
+  test("Request serialized model - simple gRPC") {
+    val alsClient: MockAlsClientNotifier = new MockAlsClientNotifier
+    val serializationProps: SerializationProps[StringWriter] =
+      new SerializationProps[StringWriter](alsClient) {
+        override def newDocBuilder(prettyPrint: Boolean): DocBuilder[StringWriter] =
+          JsonOutputBuilder(prettyPrint)
+      }
+    withServer(buildServer(serializationProps)) { server =>
+      val content ="""
+                     |syntax = "proto3";
+                     |
+                     |package google.protobuf;
+                     |
+                     |option csharp_namespace = "Google.Protobuf.WellKnownTypes";
+                     |option go_package = "google.golang.org/protobuf/types/known/emptypb";
+                     |option java_package = "com.google.protobuf";
+                     |option java_outer_classname = "EmptyProto";
+                     |option java_multiple_files = true;
+                     |option objc_class_prefix = "GPB";
+                     |option cc_enable_arenas = true;
+                     |
+                     |message Empty {}""".stripMargin
+
+      val api = "file://api.proto"
+      openFile(server)(api, content)
+
+      for {
+        _ <- alsClient.nextCall.map(_.model.toString)
+        s <- serialize(server, api, serializationProps, clean = true, sourcemaps = true)
+      } yield {
+        assert(s.contains("\"doc:sourceSpec\": \"Grpc\""))
+      }
+    }
+  }
+
   test("Request serialized model twice and change") {
     val alsClient: MockAlsClientNotifier = new MockAlsClientNotifier
     val serializationProps: SerializationProps[StringWriter] =

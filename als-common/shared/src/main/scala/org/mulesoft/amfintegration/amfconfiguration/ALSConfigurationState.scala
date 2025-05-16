@@ -11,6 +11,7 @@ import amf.core.client.scala.{AMFParseResult => AMFParsingResult}
 import amf.core.internal.remote.Spec.{AMF, GRAPHQL}
 import amf.core.internal.remote.{AmlDialectSpec, Spec}
 import amf.graphql.client.scala.GraphQLConfiguration
+import amf.grpc.client.scala.GRPCConfiguration
 import amf.shapes.client.scala.config.JsonSchemaConfiguration
 import amf.shapes.client.scala.model.document.JsonSchemaDocument
 import amf.shapes.client.scala.model.domain.AnyShape
@@ -73,6 +74,7 @@ case class ALSConfigurationState(
       case Spec.ASYNC20      => Some(AsyncAPIConfiguration.Async20())
       case Spec.ASYNC26      => Some(AsyncAPIConfiguration.Async20())
       case Spec.GRAPHQL      => Some(ConfigurationAdapter.adapt(GraphQLConfiguration.GraphQL()))
+      case Spec.GRPC      => Some(ConfigurationAdapter.adapt(GRPCConfiguration.GRPC()))
       case Spec.JSONSCHEMA   => Some(ConfigurationAdapter.adapt(JsonSchemaConfiguration.JsonSchema()))
       case Spec.AVRO_SCHEMA  => Some(AvroConfiguration.Avro())
       case _ if spec.isAsync => Some(AsyncAPIConfiguration.Async20())
@@ -81,9 +83,11 @@ case class ALSConfigurationState(
 
   def getAmfConfig(url: String, asMain: Boolean): AMFConfiguration = {
     val base =
-      if (url.endsWith("graphql"))
+      if (url.endsWith(".graphql"))
         projectState.getGraphQLProjectConfig(asMain)
-      else if (url.endsWith("avsc"))
+      else if (url.endsWith(".proto"))
+        projectState.getGRPCProjectConfig(asMain)
+      else if (url.endsWith(".avsc"))
         projectState.getAvroProjectConfig(asMain).withPlugins(editorState.alsParsingPlugins)
       else getAmfConfig(asMain).withPlugins(editorState.alsParsingPlugins)
     getAmfConfig(base, asMain)

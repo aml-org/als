@@ -2,7 +2,7 @@ package org.mulesoft.amfintegration.amfconfiguration
 
 import amf.aml.client.scala.model.document.Dialect
 import amf.apicontract.client.scala.{AMFConfiguration, APIConfiguration, AvroConfiguration}
-import amf.core.client.scala.{AMFGraphConfiguration, AMFParseResult}
+import amf.core.client.scala.AMFParseResult
 import amf.core.client.scala.config.{CachedReference, UnitCache}
 import amf.core.client.scala.model.document.Module
 import amf.core.client.scala.resource.ResourceLoader
@@ -10,6 +10,7 @@ import amf.core.client.scala.validation.AMFValidationResult
 import amf.graphql.client.scala.GraphQLConfiguration
 import org.mulesoft.als.configuration.ProjectConfiguration
 import org.mulesoft.amfintegration.ValidationProfile
+import amf.grpc.client.scala.GRPCConfiguration
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
@@ -32,6 +33,10 @@ trait ProjectConfigurationState {
 
   def getGraphQLProjectConfig(asMain: Boolean): AMFConfiguration =
     GraphQLConfiguration.GraphQL()
+
+  def getGRPCProjectConfig(asMain: Boolean): AMFConfiguration =
+    GRPCConfiguration.GRPC()
+
   def getAvroProjectConfig(asMain: Boolean): AMFConfiguration =
     AvroConfiguration.Avro()
 

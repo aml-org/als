@@ -4,16 +4,13 @@ import amf.aml.client.scala.model.document.Dialect
 import amf.core.client.common.validation.{ProfileName, ProfileNames}
 import amf.core.client.scala.model.document.BaseUnit
 import amf.core.internal.remote.Spec
-import amf.shapes.internal.spec.common.{
-  JSONSchemaDraft201909SchemaVersion,
-  JSONSchemaDraft4SchemaVersion,
-  JSONSchemaDraft7SchemaVersion
-}
+import amf.shapes.internal.spec.common.{JSONSchemaDraft201909SchemaVersion, JSONSchemaDraft4SchemaVersion, JSONSchemaDraft7SchemaVersion}
 import org.mulesoft.amfintegration.DialectWithVendor
 import org.mulesoft.amfintegration.dialect.dialects.asyncapi20.AsyncApi20Dialect
 import org.mulesoft.amfintegration.dialect.dialects.asyncapi26.AsyncApi26Dialect
 import org.mulesoft.amfintegration.dialect.dialects.avro.AvroDialect
 import org.mulesoft.amfintegration.dialect.dialects.graphql.GraphQLDialect
+import org.mulesoft.amfintegration.dialect.dialects.grpc.GRPCDialect
 import org.mulesoft.amfintegration.dialect.dialects.jsonschema.draft2019.JsonSchemaDraft2019Dialect
 import org.mulesoft.amfintegration.dialect.dialects.jsonschema.draft4.JsonSchemaDraft4Dialect
 import org.mulesoft.amfintegration.dialect.dialects.jsonschema.draft7.JsonSchemaDraft7Dialect
@@ -41,7 +38,8 @@ object ProfileMatcher {
       case Spec.ASYNC25     => ProfileNames.ASYNC20
       case Spec.ASYNC26     => ProfileNames.ASYNC26
       case Spec.AML         => ProfileNames.AML
-      case Spec.GRAPHQL     => ProfileNames.GRPC
+      case Spec.GRAPHQL     => ProfileNames.GRAPHQL
+      case Spec.GRPC     => ProfileNames.GRPC
       case Spec.JSONSCHEMA  => ProfileNames.JSONSCHEMA
       case Spec.AVRO_SCHEMA => ProfileNames.AVROSCHEMA
       case _                => ProfileNames.AMF
@@ -55,6 +53,7 @@ object ProfileMatcher {
     DialectWithVendor(AsyncApi20Dialect(), Spec.ASYNC20),
     DialectWithVendor(AsyncApi26Dialect(), Spec.ASYNC26),
     DialectWithVendor(GraphQLDialect(), Spec.GRAPHQL),
+    DialectWithVendor(GRPCDialect(), Spec.GRPC),
     DialectWithVendor(JsonSchemaDraft4Dialect(), Spec.JSONSCHEMA, JSONSchemaDraft4SchemaVersion.name),
     DialectWithVendor(JsonSchemaDraft7Dialect(), Spec.JSONSCHEMA, JSONSchemaDraft7SchemaVersion.name),
     DialectWithVendor(JsonSchemaDraft2019Dialect(), Spec.JSONSCHEMA, JSONSchemaDraft201909SchemaVersion.name),

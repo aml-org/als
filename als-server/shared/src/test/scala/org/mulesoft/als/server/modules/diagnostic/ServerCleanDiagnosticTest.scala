@@ -207,6 +207,49 @@ class ServerCleanDiagnosticTest extends DiagnosticServerImpl with ChangesWorkspa
     }
   }
 
+  // TODO: the correct configuration is used, but the report is always empty, lexical errors are print but lost,
+  //   while resolution errors don't seem to be supported
+  //   the Editing pipeline for resolution is also not implemented, so Default is used (probably shouldn't matter)
+  test("Clean diagnostic test for grpc - no validations") {
+    val diagnosticNotifier: MockDiagnosticClientNotifier = new MockDiagnosticClientNotifier(5000)
+    withServer(buildServer(diagnosticNotifier)) { s =>
+      val mainFilePath = s"file://api.proto"
+
+      val mainContent = """syntax = "proto3";
+                          |
+                          |package greeter;
+                          |
+                          |// The greeting service definition
+                          |service Greeter {
+                          |  // Sends a greeting
+                          |  rpc SayHello (HelloRequest) returns (HelloReply) {}
+                          |}
+                          |
+                          |// The request message containing the user's name
+                          |message HelloRequest {
+                          |  string name = 1;
+                          |}
+                          |
+                          |// The response message containing the greeting
+                          |message HelloReply {
+                          |  string message = 1;
+                          |}""".stripMargin
+      for {
+        _  <- openFileNotification(s)(mainFilePath, mainContent)
+        d  <- diagnosticNotifier.nextCall
+        v1 <- requestCleanDiagnostic(s)(mainFilePath)
+
+      } yield {
+        s.shutdown()
+
+        d.diagnostics.size should be(0)
+        v1.length should be(1)
+        val fileDiagnostic = v1.head
+        fileDiagnostic.diagnostics.size should be(0)
+      }
+    }
+  }
+
   test("Clean diagnostic test for graphql with invalid token") {
     val diagnosticNotifier: MockDiagnosticClientNotifier = new MockDiagnosticClientNotifier(5000)
     withServer(buildServer(diagnosticNotifier)) { s =>

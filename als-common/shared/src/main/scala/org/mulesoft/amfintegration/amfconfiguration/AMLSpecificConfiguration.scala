@@ -8,6 +8,7 @@ import amf.core.client.scala.model.document.BaseUnit
 import amf.core.client.scala.model.domain.DomainElement
 import amf.core.client.scala.validation.AMFValidationReport
 import amf.core.client.scala.{AMFParseResult, AMFResult}
+import amf.core.internal.remote.Spec
 import org.yaml.builder.DocBuilder
 import org.yaml.model.YNode
 
@@ -32,7 +33,7 @@ case class AMLSpecificConfiguration(config: AMLConfiguration) {
 
   def fullResolution(unit: BaseUnit): AMFResult = {
     config.baseUnitClient() match {
-      case amf: AMFBaseUnitClient =>
+      case amf: AMFBaseUnitClient if !unit.sourceSpec.contains(Spec.GRPC)=>
         amf.transform(unit.cloneUnit(), PipelineId.Editing)
       case aml =>
         aml.transform(unit.cloneUnit(), PipelineId.Default)
