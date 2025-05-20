@@ -17,6 +17,7 @@ import amf.shapes.client.scala.model.document.JsonSchemaDocument
 import amf.shapes.client.scala.model.domain.AnyShape
 import amf.shapes.client.scala.render.JsonSchemaShapeRenderer
 import org.mulesoft.als.configuration.{MaxSizeCounter, MaxSizeResourceLoader}
+import org.mulesoft.als.logger.Logger
 import org.mulesoft.amfintegration.AmfImplicits._
 import org.mulesoft.amfintegration.ValidationProfile
 import org.mulesoft.amfintegration.dialect.dialects.ExternalFragmentDialect
@@ -139,9 +140,14 @@ case class ALSConfigurationState(
   private def parse(amfConfiguration: AMFConfiguration, uri: String, maxFileSize: Option[Int]): Future[AmfParseResult] =
     wrapLoadersIfNeeded(amfConfiguration, maxFileSize)
       .baseUnitClient()
-      .parse(uri)
+      .parse(uri) // todo: when .proto file is empty it throws Unsupported exception
       .map { r =>
         toResult(uri, r)
+      }
+      .recoverWith{ // comment me when done debugging
+        case e: Exception =>
+          Logger.debug(e.getMessage, "ALSConfigurationState", "parse")
+          Future.failed(e)
       }
 
   private def wrapLoadersIfNeeded(amfConfiguration: AMFConfiguration, maxFileSize: Option[Int]) =

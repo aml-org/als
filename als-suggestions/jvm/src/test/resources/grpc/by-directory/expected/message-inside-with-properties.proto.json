@@ -1,0 +1,866 @@
+[
+  {
+    "label": ".",
+    "kind": [
+
+    ],
+    "detail": null,
+    "documentation": null,
+    "deprecated": [
+
+    ],
+    "preselect": [
+
+    ],
+    "sortText": null,
+    "filterText": null,
+    "insertText": ".",
+    "insertTextFormat": [
+
+    ],
+    "textEdit": null,
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": ";",
+    "kind": [
+
+    ],
+    "detail": null,
+    "documentation": null,
+    "deprecated": [
+
+    ],
+    "preselect": [
+
+    ],
+    "sortText": null,
+    "filterText": null,
+    "insertText": ";",
+    "insertTextFormat": [
+
+    ],
+    "textEdit": null,
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "bool",
+    "kind": [
+
+    ],
+    "detail": null,
+    "documentation": null,
+    "deprecated": [
+
+    ],
+    "preselect": [
+
+    ],
+    "sortText": null,
+    "filterText": null,
+    "insertText": "bool",
+    "insertTextFormat": [
+
+    ],
+    "textEdit": null,
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "bytes",
+    "kind": [
+
+    ],
+    "detail": null,
+    "documentation": null,
+    "deprecated": [
+
+    ],
+    "preselect": [
+
+    ],
+    "sortText": null,
+    "filterText": null,
+    "insertText": "bytes",
+    "insertTextFormat": [
+
+    ],
+    "textEdit": null,
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "double",
+    "kind": [
+
+    ],
+    "detail": null,
+    "documentation": null,
+    "deprecated": [
+
+    ],
+    "preselect": [
+
+    ],
+    "sortText": null,
+    "filterText": null,
+    "insertText": "double",
+    "insertTextFormat": [
+
+    ],
+    "textEdit": null,
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "enum",
+    "kind": [
+
+    ],
+    "detail": null,
+    "documentation": null,
+    "deprecated": [
+
+    ],
+    "preselect": [
+
+    ],
+    "sortText": null,
+    "filterText": null,
+    "insertText": "enum",
+    "insertTextFormat": [
+
+    ],
+    "textEdit": null,
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "fixed32",
+    "kind": [
+
+    ],
+    "detail": null,
+    "documentation": null,
+    "deprecated": [
+
+    ],
+    "preselect": [
+
+    ],
+    "sortText": null,
+    "filterText": null,
+    "insertText": "fixed32",
+    "insertTextFormat": [
+
+    ],
+    "textEdit": null,
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "fixed64",
+    "kind": [
+
+    ],
+    "detail": null,
+    "documentation": null,
+    "deprecated": [
+
+    ],
+    "preselect": [
+
+    ],
+    "sortText": null,
+    "filterText": null,
+    "insertText": "fixed64",
+    "insertTextFormat": [
+
+    ],
+    "textEdit": null,
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "float",
+    "kind": [
+
+    ],
+    "detail": null,
+    "documentation": null,
+    "deprecated": [
+
+    ],
+    "preselect": [
+
+    ],
+    "sortText": null,
+    "filterText": null,
+    "insertText": "float",
+    "insertTextFormat": [
+
+    ],
+    "textEdit": null,
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "import",
+    "kind": [
+
+    ],
+    "detail": null,
+    "documentation": null,
+    "deprecated": [
+
+    ],
+    "preselect": [
+
+    ],
+    "sortText": null,
+    "filterText": null,
+    "insertText": "import",
+    "insertTextFormat": [
+
+    ],
+    "textEdit": null,
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "int32",
+    "kind": [
+
+    ],
+    "detail": null,
+    "documentation": null,
+    "deprecated": [
+
+    ],
+    "preselect": [
+
+    ],
+    "sortText": null,
+    "filterText": null,
+    "insertText": "int32",
+    "insertTextFormat": [
+
+    ],
+    "textEdit": null,
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "int64",
+    "kind": [
+
+    ],
+    "detail": null,
+    "documentation": null,
+    "deprecated": [
+
+    ],
+    "preselect": [
+
+    ],
+    "sortText": null,
+    "filterText": null,
+    "insertText": "int64",
+    "insertTextFormat": [
+
+    ],
+    "textEdit": null,
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "map",
+    "kind": [
+
+    ],
+    "detail": null,
+    "documentation": null,
+    "deprecated": [
+
+    ],
+    "preselect": [
+
+    ],
+    "sortText": null,
+    "filterText": null,
+    "insertText": "map",
+    "insertTextFormat": [
+
+    ],
+    "textEdit": null,
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "max",
+    "kind": [
+
+    ],
+    "detail": null,
+    "documentation": null,
+    "deprecated": [
+
+    ],
+    "preselect": [
+
+    ],
+    "sortText": null,
+    "filterText": null,
+    "insertText": "max",
+    "insertTextFormat": [
+
+    ],
+    "textEdit": null,
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "message",
+    "kind": [
+
+    ],
+    "detail": null,
+    "documentation": null,
+    "deprecated": [
+
+    ],
+    "preselect": [
+
+    ],
+    "sortText": null,
+    "filterText": null,
+    "insertText": "message",
+    "insertTextFormat": [
+
+    ],
+    "textEdit": null,
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "oneof",
+    "kind": [
+
+    ],
+    "detail": null,
+    "documentation": null,
+    "deprecated": [
+
+    ],
+    "preselect": [
+
+    ],
+    "sortText": null,
+    "filterText": null,
+    "insertText": "oneof",
+    "insertTextFormat": [
+
+    ],
+    "textEdit": null,
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "option",
+    "kind": [
+
+    ],
+    "detail": null,
+    "documentation": null,
+    "deprecated": [
+
+    ],
+    "preselect": [
+
+    ],
+    "sortText": null,
+    "filterText": null,
+    "insertText": "option",
+    "insertTextFormat": [
+
+    ],
+    "textEdit": null,
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "package",
+    "kind": [
+
+    ],
+    "detail": null,
+    "documentation": null,
+    "deprecated": [
+
+    ],
+    "preselect": [
+
+    ],
+    "sortText": null,
+    "filterText": null,
+    "insertText": "package",
+    "insertTextFormat": [
+
+    ],
+    "textEdit": null,
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "public",
+    "kind": [
+
+    ],
+    "detail": null,
+    "documentation": null,
+    "deprecated": [
+
+    ],
+    "preselect": [
+
+    ],
+    "sortText": null,
+    "filterText": null,
+    "insertText": "public",
+    "insertTextFormat": [
+
+    ],
+    "textEdit": null,
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "repeated",
+    "kind": [
+
+    ],
+    "detail": null,
+    "documentation": null,
+    "deprecated": [
+
+    ],
+    "preselect": [
+
+    ],
+    "sortText": null,
+    "filterText": null,
+    "insertText": "repeated",
+    "insertTextFormat": [
+
+    ],
+    "textEdit": null,
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "reserved",
+    "kind": [
+
+    ],
+    "detail": null,
+    "documentation": null,
+    "deprecated": [
+
+    ],
+    "preselect": [
+
+    ],
+    "sortText": null,
+    "filterText": null,
+    "insertText": "reserved",
+    "insertTextFormat": [
+
+    ],
+    "textEdit": null,
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "returns",
+    "kind": [
+
+    ],
+    "detail": null,
+    "documentation": null,
+    "deprecated": [
+
+    ],
+    "preselect": [
+
+    ],
+    "sortText": null,
+    "filterText": null,
+    "insertText": "returns",
+    "insertTextFormat": [
+
+    ],
+    "textEdit": null,
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "rpc",
+    "kind": [
+
+    ],
+    "detail": null,
+    "documentation": null,
+    "deprecated": [
+
+    ],
+    "preselect": [
+
+    ],
+    "sortText": null,
+    "filterText": null,
+    "insertText": "rpc",
+    "insertTextFormat": [
+
+    ],
+    "textEdit": null,
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "service",
+    "kind": [
+
+    ],
+    "detail": null,
+    "documentation": null,
+    "deprecated": [
+
+    ],
+    "preselect": [
+
+    ],
+    "sortText": null,
+    "filterText": null,
+    "insertText": "service",
+    "insertTextFormat": [
+
+    ],
+    "textEdit": null,
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "sfixed32",
+    "kind": [
+
+    ],
+    "detail": null,
+    "documentation": null,
+    "deprecated": [
+
+    ],
+    "preselect": [
+
+    ],
+    "sortText": null,
+    "filterText": null,
+    "insertText": "sfixed32",
+    "insertTextFormat": [
+
+    ],
+    "textEdit": null,
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "sfixed64",
+    "kind": [
+
+    ],
+    "detail": null,
+    "documentation": null,
+    "deprecated": [
+
+    ],
+    "preselect": [
+
+    ],
+    "sortText": null,
+    "filterText": null,
+    "insertText": "sfixed64",
+    "insertTextFormat": [
+
+    ],
+    "textEdit": null,
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "sint32",
+    "kind": [
+
+    ],
+    "detail": null,
+    "documentation": null,
+    "deprecated": [
+
+    ],
+    "preselect": [
+
+    ],
+    "sortText": null,
+    "filterText": null,
+    "insertText": "sint32",
+    "insertTextFormat": [
+
+    ],
+    "textEdit": null,
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "sint64",
+    "kind": [
+
+    ],
+    "detail": null,
+    "documentation": null,
+    "deprecated": [
+
+    ],
+    "preselect": [
+
+    ],
+    "sortText": null,
+    "filterText": null,
+    "insertText": "sint64",
+    "insertTextFormat": [
+
+    ],
+    "textEdit": null,
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "stream",
+    "kind": [
+
+    ],
+    "detail": null,
+    "documentation": null,
+    "deprecated": [
+
+    ],
+    "preselect": [
+
+    ],
+    "sortText": null,
+    "filterText": null,
+    "insertText": "stream",
+    "insertTextFormat": [
+
+    ],
+    "textEdit": null,
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "string",
+    "kind": [
+
+    ],
+    "detail": null,
+    "documentation": null,
+    "deprecated": [
+
+    ],
+    "preselect": [
+
+    ],
+    "sortText": null,
+    "filterText": null,
+    "insertText": "string",
+    "insertTextFormat": [
+
+    ],
+    "textEdit": null,
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "syntax",
+    "kind": [
+
+    ],
+    "detail": null,
+    "documentation": null,
+    "deprecated": [
+
+    ],
+    "preselect": [
+
+    ],
+    "sortText": null,
+    "filterText": null,
+    "insertText": "syntax",
+    "insertTextFormat": [
+
+    ],
+    "textEdit": null,
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "to",
+    "kind": [
+
+    ],
+    "detail": null,
+    "documentation": null,
+    "deprecated": [
+
+    ],
+    "preselect": [
+
+    ],
+    "sortText": null,
+    "filterText": null,
+    "insertText": "to",
+    "insertTextFormat": [
+
+    ],
+    "textEdit": null,
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "uint32",
+    "kind": [
+
+    ],
+    "detail": null,
+    "documentation": null,
+    "deprecated": [
+
+    ],
+    "preselect": [
+
+    ],
+    "sortText": null,
+    "filterText": null,
+    "insertText": "uint32",
+    "insertTextFormat": [
+
+    ],
+    "textEdit": null,
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "uint64",
+    "kind": [
+
+    ],
+    "detail": null,
+    "documentation": null,
+    "deprecated": [
+
+    ],
+    "preselect": [
+
+    ],
+    "sortText": null,
+    "filterText": null,
+    "insertText": "uint64",
+    "insertTextFormat": [
+
+    ],
+    "textEdit": null,
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "weak",
+    "kind": [
+
+    ],
+    "detail": null,
+    "documentation": null,
+    "deprecated": [
+
+    ],
+    "preselect": [
+
+    ],
+    "sortText": null,
+    "filterText": null,
+    "insertText": "weak",
+    "insertTextFormat": [
+
+    ],
+    "textEdit": null,
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "}",
+    "kind": [
+
+    ],
+    "detail": null,
+    "documentation": null,
+    "deprecated": [
+
+    ],
+    "preselect": [
+
+    ],
+    "sortText": null,
+    "filterText": null,
+    "insertText": "}",
+    "insertTextFormat": [
+
+    ],
+    "textEdit": null,
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  }
+]

@@ -207,10 +207,7 @@ class ServerCleanDiagnosticTest extends DiagnosticServerImpl with ChangesWorkspa
     }
   }
 
-  // TODO: the correct configuration is used, but the report is always empty, lexical errors are print but lost,
-  //   while resolution errors don't seem to be supported
-  //   the Editing pipeline for resolution is also not implemented, so Default is used (probably shouldn't matter)
-  test("Clean diagnostic test for grpc - no validations") {
+  test("Clean diagnostic test for grpc - one error") {
     val diagnosticNotifier: MockDiagnosticClientNotifier = new MockDiagnosticClientNotifier(5000)
     withServer(buildServer(diagnosticNotifier)) { s =>
       val mainFilePath = s"file://api.proto"
@@ -232,7 +229,7 @@ class ServerCleanDiagnosticTest extends DiagnosticServerImpl with ChangesWorkspa
                           |
                           |// The response message containing the greeting
                           |message HelloReply {
-                          |  string message = 1;
+                          |  string message =
                           |}""".stripMargin
       for {
         _  <- openFileNotification(s)(mainFilePath, mainContent)
@@ -242,10 +239,11 @@ class ServerCleanDiagnosticTest extends DiagnosticServerImpl with ChangesWorkspa
       } yield {
         s.shutdown()
 
-        d.diagnostics.size should be(0)
+        d.diagnostics.size should be(1)
         v1.length should be(1)
         val fileDiagnostic = v1.head
-        fileDiagnostic.diagnostics.size should be(0)
+        fileDiagnostic.diagnostics.size should be(1)
+        d.diagnostics.head.message should be("missing Protobuf3 field number")
       }
     }
   }

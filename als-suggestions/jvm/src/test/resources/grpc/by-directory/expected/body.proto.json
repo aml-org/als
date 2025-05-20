@@ -1,0 +1,194 @@
+[
+  {
+    "label": ";",
+    "kind": [
+      
+    ],
+    "detail": null,
+    "documentation": null,
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": null,
+    "filterText": null,
+    "insertText": ";",
+    "insertTextFormat": [
+      
+    ],
+    "textEdit": null,
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "enum",
+    "kind": [
+      
+    ],
+    "detail": null,
+    "documentation": null,
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": null,
+    "filterText": null,
+    "insertText": "enum",
+    "insertTextFormat": [
+      
+    ],
+    "textEdit": null,
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "extend",
+    "kind": [
+      
+    ],
+    "detail": null,
+    "documentation": null,
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": null,
+    "filterText": null,
+    "insertText": "extend",
+    "insertTextFormat": [
+      
+    ],
+    "textEdit": null,
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "import",
+    "kind": [
+      
+    ],
+    "detail": null,
+    "documentation": null,
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": null,
+    "filterText": null,
+    "insertText": "import",
+    "insertTextFormat": [
+      
+    ],
+    "textEdit": null,
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "message",
+    "kind": [
+      
+    ],
+    "detail": null,
+    "documentation": null,
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": null,
+    "filterText": null,
+    "insertText": "message",
+    "insertTextFormat": [
+      
+    ],
+    "textEdit": null,
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "option",
+    "kind": [
+      
+    ],
+    "detail": null,
+    "documentation": null,
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": null,
+    "filterText": null,
+    "insertText": "option",
+    "insertTextFormat": [
+      
+    ],
+    "textEdit": null,
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "package",
+    "kind": [
+      
+    ],
+    "detail": null,
+    "documentation": null,
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": null,
+    "filterText": null,
+    "insertText": "package",
+    "insertTextFormat": [
+      
+    ],
+    "textEdit": null,
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "service",
+    "kind": [
+      
+    ],
+    "detail": null,
+    "documentation": null,
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": null,
+    "filterText": null,
+    "insertText": "service",
+    "insertTextFormat": [
+      
+    ],
+    "textEdit": null,
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  }
+]

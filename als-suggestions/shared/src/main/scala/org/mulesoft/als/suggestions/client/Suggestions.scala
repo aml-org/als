@@ -12,6 +12,7 @@ import org.mulesoft.als.suggestions.aml.avroschema.AvroCompletionPluginRegistry
 import org.mulesoft.als.suggestions.aml.jsonschema.{JsonSchema2019CompletionPluginRegistry, JsonSchema4CompletionPluginRegistry, JsonSchema7CompletionPluginRegistry}
 import org.mulesoft.als.suggestions.aml.webapi._
 import org.mulesoft.als.suggestions.aml.{AmlCompletionRequestBuilder, MetaDialectPluginRegistry, VocabularyDialectPluginRegistry}
+import org.mulesoft.als.suggestions.antlr.AntlrCompletionProvider
 import org.mulesoft.als.suggestions.interfaces.CompletionProvider
 import org.mulesoft.amfintegration.amfconfiguration.{ALSConfigurationState, AmfParseContext}
 import org.mulesoft.amfintegration.dialect.dialects.ExternalFragmentDialect
@@ -87,6 +88,8 @@ class Suggestions(
         EmptyAvroCompletionProvider.build(url,
           LspRangeConverter.toLspPosition(DtoPosition(position, content))
         )
+      case _ if url.toLowerCase.endsWith(".proto") =>
+        AntlrCompletionProvider.apply(result.unit, DtoPosition(position, content), result.context.state)
       case _ =>
         buildCompletionProviderAST(
           result.unit,

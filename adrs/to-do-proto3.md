@@ -1,0 +1,16 @@
+- js NOT SUPPORTED
+  - check what we should disable and override in order to avoid errors when building/compiling for js
+  - in case we would want to support JS, most code referring to the ANTLR parser (mostly completions) should be duplicated for the js antlr library
+- amf-integration
+  - check empty specs throwing UnsupportedDomainForDocumentException instead of report
+  - check resolution pipeline (non defined today, should probably have a editing pipeline as most others)
+  - check linkage when resolution is available (this will probably unleash new linking visitors to enable goto/find and rename features, not estimated for this scope)
+  - check error when defining a message and not having a package, it throws indexOutOfBounds
+  - ask some antlr changes in AMF so we can access the internal parser
+- completion
+  - check if antlr structure is useful
+  - create a simple snippet factory for basic features
+  - check AMF objects when available to see if they correlate to the document in a useful manner
+  - check lexicals from AMF to see if it is useful to detect most specific object
+  - in case there are amf objects and we are able to identify the approximate location, create custom snippets/completion
+  - review if instead of a token by token completion approach, we better create a snippet repository and try to make a best effort on suggesting where each applies (maybe like the AgentTopic structures)
