@@ -2,6 +2,7 @@ package org.mulesoft.als.suggestions.antlr
 
 import amf.core.client.scala.model.document.BaseUnit
 import org.mulesoft.als.common.dtoTypes.{Position => DtoPosition}
+import org.mulesoft.als.suggestions.antlr.plugins.grpc.GRPCSnippetsCompletionPlugin
 import org.mulesoft.als.suggestions.antlr.plugins.{AntlrStructureCompletionPlugin, CompletionPlugin}
 import org.mulesoft.als.suggestions.interfaces.CompletionProvider
 import org.mulesoft.amfintegration.amfconfiguration.ALSConfigurationState
@@ -27,6 +28,7 @@ class JvmAntlrCompletionProvider(
       content <- baseUnit.raw.map(r => r.substring(0, position.offset(r)))
       location <- baseUnit.location()
     } yield {
+      completionPlugins.enqueue(GRPCSnippetsCompletionPlugin)
       completionPlugins.enqueue(new AntlrStructureCompletionPlugin(content, location, position, parser))
     }
     Future.sequence(completionPlugins.map(_.suggest())).map(_.flatten)

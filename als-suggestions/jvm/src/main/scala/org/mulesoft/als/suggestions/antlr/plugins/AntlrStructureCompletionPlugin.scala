@@ -12,11 +12,6 @@ class AntlrStructureCompletionPlugin(text: String, location: String, position: D
   def suggest(): Future[Seq[CompletionItem]] = {
     val collection = getTokensForParser
 
-    println("tokens")
-    println(collection.tokens)
-    println("rules")
-    println(collection.rules) // maybe this could be snippets?
-
     val tokenLabels = collection.tokens.values.flatMap(_._1).toSeq
 
     Future.successful(tokenLabels.map(label => CompletionItem.apply(label, insertText = Some(label))))
@@ -40,4 +35,22 @@ class AntlrStructureCompletionPlugin(text: String, location: String, position: D
       position.line + 1, // starts at 1 instead of 0 as we do with DtoPosition
       position.column
     ) + 1
+}
+
+
+// todo: check with AMF if they can fix the grammar so the grammar to a name is not the same as the type
+// it is really troublesome for us to have `ident | KEYWORD` as a name identifier because we suggest every
+//   KEYWORD as if it were a name, which should be no literal at all
+object AMFIgnoredRules {
+  def protobuf: Seq[String] = Seq(
+    "messageName",
+    "enumName",
+    "fieldName",
+    "oneofName",
+    "mapName",
+    "serviceName",
+    "rpcName",
+  )
+
+  def all: Seq[String] = protobuf
 }

@@ -1,53 +1,5 @@
 [
   {
-    "label": ".",
-    "kind": [
-      
-    ],
-    "detail": null,
-    "documentation": null,
-    "deprecated": [
-      
-    ],
-    "preselect": [
-      
-    ],
-    "sortText": null,
-    "filterText": null,
-    "insertText": ".",
-    "insertTextFormat": [
-      
-    ],
-    "textEdit": null,
-    "additionalTextEdits": null,
-    "commitCharacters": null,
-    "command": null
-  },
-  {
-    "label": ";",
-    "kind": [
-      
-    ],
-    "detail": null,
-    "documentation": null,
-    "deprecated": [
-      
-    ],
-    "preselect": [
-      
-    ],
-    "sortText": null,
-    "filterText": null,
-    "insertText": ";",
-    "insertTextFormat": [
-      
-    ],
-    "textEdit": null,
-    "additionalTextEdits": null,
-    "commitCharacters": null,
-    "command": null
-  },
-  {
     "label": "bool",
     "kind": [
       
@@ -975,30 +927,6 @@
     "sortText": null,
     "filterText": null,
     "insertText": "weak",
-    "insertTextFormat": [
-      
-    ],
-    "textEdit": null,
-    "additionalTextEdits": null,
-    "commitCharacters": null,
-    "command": null
-  },
-  {
-    "label": "}",
-    "kind": [
-      
-    ],
-    "detail": null,
-    "documentation": null,
-    "deprecated": [
-      
-    ],
-    "preselect": [
-      
-    ],
-    "sortText": null,
-    "filterText": null,
-    "insertText": "}",
     "insertTextFormat": [
       
     ],

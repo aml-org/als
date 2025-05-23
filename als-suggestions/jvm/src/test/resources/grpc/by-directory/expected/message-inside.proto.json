@@ -360,6 +360,150 @@
     "command": null
   },
   {
+    "label": "new enum",
+    "kind": [
+      15
+    ],
+    "detail": null,
+    "documentation": null,
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "00enum",
+    "filterText": null,
+    "insertText": "enum ${1:name} {\n  $2\n}$0",
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": null,
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "new import",
+    "kind": [
+      15
+    ],
+    "detail": null,
+    "documentation": null,
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "00import",
+    "filterText": null,
+    "insertText": "import ${1| |weak |public |}\"$2\";\n$0",
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": null,
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "new message",
+    "kind": [
+      15
+    ],
+    "detail": null,
+    "documentation": null,
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "00message",
+    "filterText": null,
+    "insertText": "message ${1:name} {\n  $2\n}$0",
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": null,
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "new option",
+    "kind": [
+      15
+    ],
+    "detail": null,
+    "documentation": null,
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "00option",
+    "filterText": null,
+    "insertText": "option ${1:option name} = ${2:option};\n$0",
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": null,
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "new package",
+    "kind": [
+      15
+    ],
+    "detail": null,
+    "documentation": null,
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "00package",
+    "filterText": null,
+    "insertText": "package ${1:package name};\n$0",
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": null,
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "new syntax",
+    "kind": [
+      15
+    ],
+    "detail": "defines a protobuf 3 document",
+    "documentation": null,
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "00syntax",
+    "filterText": null,
+    "insertText": "syntax = \"proto3\";\n$0",
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": null,
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
     "label": "oneof",
     "kind": [
       

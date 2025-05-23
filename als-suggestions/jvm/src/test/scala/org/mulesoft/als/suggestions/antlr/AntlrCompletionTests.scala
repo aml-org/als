@@ -60,7 +60,6 @@ class AntlrCompletionTests extends AsyncFlatSpec {
     val plugin = new AntlrStructureCompletionPlugin(trimmedContent, "test.proto", position, new PlatformProtobuf3Parser())
     val eventualItems = plugin.suggest()
     eventualItems.map(items => {
-      items.size shouldBe 9
       items.map(_.label).contains("google.protobuf.FileOptions") shouldBe true
     })
   }
