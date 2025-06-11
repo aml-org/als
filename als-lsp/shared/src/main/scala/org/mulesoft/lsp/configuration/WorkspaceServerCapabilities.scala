@@ -7,6 +7,6 @@ case class WorkspaceServerCapabilities(
 
 object DefaultWorkspaceServerCapabilities
     extends WorkspaceServerCapabilities(
-      Some(WorkspaceFolderServerCapabilities(Some(true), None)),
+      Some(WorkspaceFolderServerCapabilities(Some(true), Some(Right(true)))),
       Some(FileOperationsServerCapabilities.default)
     )

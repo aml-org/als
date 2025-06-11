@@ -4,12 +4,8 @@ import org.eclipse.lsp4j
 import org.eclipse.lsp4j._
 import org.eclipse.lsp4j.services.WorkspaceService
 import org.mulesoft.als.server.protocol.LanguageServer
-import org.mulesoft.lsp.workspace.{
-  DidChangeWatchedFilesParams,
-  FileChangeType,
-  FileEvent,
-  ExecuteCommandParams => InternalCommandParams
-}
+import org.mulesoft.lsp.configuration.WorkspaceFolder
+import org.mulesoft.lsp.workspace.{DidChangeWatchedFilesParams, FileChangeType, FileEvent, WorkspaceFoldersChangeEvent, DidChangeWorkspaceFoldersParams => InternalDidChangeWorkspaceFoldersParams, ExecuteCommandParams => InternalCommandParams}
 
 import java.util.concurrent.CompletableFuture
 import scala.collection.JavaConverters._
@@ -59,5 +55,15 @@ class WorkspaceServiceImpl(private val inner: LanguageServer) extends WorkspaceS
     workspaceService.didChangeWatchedFiles(
       DidChangeWatchedFilesParams(events)
     )
+  }
+
+  override def didChangeWorkspaceFolders(params: DidChangeWorkspaceFoldersParams): Unit = {
+    val internalParams = InternalDidChangeWorkspaceFoldersParams(
+      WorkspaceFoldersChangeEvent(
+        params.getEvent.getAdded.asScala.map(clientWF => WorkspaceFolder(clientWF.getUri)).toList,
+        params.getEvent.getRemoved.asScala.map(clientWF => WorkspaceFolder(clientWF.getUri)).toList
+      )
+    )
+    inner.workspaceService.didChangeWorkspaceFolders(internalParams)
   }
 }
