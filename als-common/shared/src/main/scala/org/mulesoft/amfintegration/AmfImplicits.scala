@@ -340,12 +340,12 @@ object AmfImplicits {
 
     def documentMapping(documentDefinition: DocumentDefinition): Option[DocumentMapping] = bu match {
       case fragment: Fragment            => documentForFragment(fragment, documentDefinition)
-      case d: Document if d.root.value() => Some(documentDefinition.documents().root())
+      case d: Document if d.root.value() => documentDefinition.documents().map(_.root())
       case _                             => None
     }
 
     private def documentForFragment(fragment: Fragment, documentDefinition: DocumentDefinition): Option[DocumentMapping] =
-      documentDefinition.documents().fragments().find(doc => fragment.encodes.metaURIs.exists(_.equals(doc.encoded().value())))
+      documentDefinition.documents().flatMap(_.fragments().find(doc => fragment.encodes.metaURIs.exists(_.equals(doc.encoded().value()))))
 
     def isValidationProfile: Boolean =
       bu match {

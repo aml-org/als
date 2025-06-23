@@ -9,7 +9,8 @@ import amf.core.client.scala.resource.ResourceLoader
 import amf.core.client.scala.validation.payload.AMFShapePayloadValidationPlugin
 import amf.core.internal.remote.Spec
 import amf.graphql.client.scala.GraphQLConfiguration
-import amf.shapes.client.scala.config.{JsonLDSchemaConfiguration, JsonSchemaConfiguration}
+import amf.shapes.client.scala.config.JsonSchemaConfiguration
+import amf.shapes.client.scala.model.document.JsonSchemaDocument
 import org.mulesoft.als.logger.Logger
 import org.mulesoft.amfintegration.AmfImplicits.DialectInstanceImp
 import org.mulesoft.amfintegration.dialect.integration.BaseAlsDefinitionsProvider
@@ -35,26 +36,19 @@ case class EditorConfiguration(
     .withResourceLoaders(resourceLoaders.toList)
     .withPlugins(validationPlugin.toList)
 
-
-  val baseJsonSchemaConfiguration: JsonLDSchemaConfiguration = JsonLDSchemaConfiguration
-    .JsonLDSchema()
-    .withResourceLoaders(resourceLoaders.toList)
-
   // laziness is necessary when communicating through socket as the initialization must be done for that.
   private lazy val inMemoryDefinitions: Future[Seq[DocumentDefinition]] =
     Future.sequence(BaseAlsDefinitionsProvider.rawDefinitions)
 
   private var dialects: Seq[String]                = Seq.empty
-  private var jsonSchemas: Seq[String]                = Seq.empty
   private var parsedDialects: Future[Seq[DocumentDefinition]] = parseDialects
-  private var parsedJsonSchemas: Future[Seq[DocumentDefinition]] = parseJsonSchemas
 
   private var profiles: Seq[String]                          = Seq.empty
   private var parsedProfiles: Future[Seq[ValidationProfile]] = parseProfiles
 
   private val vocabularyRegistry: AlsVocabularyRegistry = AlsVocabularyRegistry(DefaultVocabularies.all)
 
-  private def getDefinitions: Future[Seq[DocumentDefinition]] = Future.sequence(Seq(parsedDialects, parsedJsonSchemas)).map(_.flatten)
+  private def getDefinitions: Future[Seq[DocumentDefinition]] = parsedDialects
 
   private def getRawAndLocalDefinitions: Future[Seq[DocumentDefinition]] =
     for {
@@ -68,6 +62,12 @@ case class EditorConfiguration(
         case DialectDocumentDefinition(definition) => definition
       })
 
+  private def getRawAndLocalSchemas: Future[Seq[JsonSchemaDocument]] =
+    getRawAndLocalDefinitions
+      .map(_.collect{
+        case JsonSchemaDocumentDefinition(definition) => definition
+      })
+
   private def parseDialects: Future[Seq[DocumentDefinition]] =
     Future.sequence(
       dialects.map(
@@ -76,18 +76,6 @@ case class EditorConfiguration(
           .baseUnitClient()
           .parseDialect(_)
           .map(_.dialect)
-          .map(DocumentDefinition(_))
-      )
-    )
-
-  private def parseJsonSchemas: Future[Seq[DocumentDefinition]] =
-    Future.sequence(
-      jsonSchemas.map(
-        baseJsonSchemaConfiguration
-          .withResourceLoader(BaseAlsDefinitionsProvider.globalDefinitionsResourceLoader)
-          .baseUnitClient()
-          .parseJsonLDSchema(_)
-          .map(_.jsonDocument)
           .map(DocumentDefinition(_))
       )
     )
@@ -117,10 +105,12 @@ case class EditorConfiguration(
   override def getState: Future[EditorConfigurationState] =
     for {
       dialects <- getRawAndLocalDialects
+      schemas <- getRawAndLocalSchemas
       profiles <- parsedProfiles
     } yield EditorConfigurationState(
       resourceLoaders,
       dialects,
+      schemas,
       profiles,
       vocabularyRegistry,
       syntaxPlugins,
@@ -129,13 +119,6 @@ case class EditorConfiguration(
 
   def withDialect(uri: String): EditorConfiguration = synchronized {
     dialects = uri +: dialects
-    parsedDialects = parseDialects
-    Logger.debug(s"New editor dialect: $uri", "EditorConfiguration", "indexDialect")
-    this
-  }
-
-  def withJsonSchema(uri: String): EditorConfiguration = synchronized {
-    jsonSchemas = uri +: jsonSchemas
     parsedDialects = parseDialects
     Logger.debug(s"New editor dialect: $uri", "EditorConfiguration", "indexDialect")
     this
@@ -152,6 +135,7 @@ case class EditorConfiguration(
 case class EditorConfigurationState(
     resourceLoader: Seq[ResourceLoader],
     dialects: Seq[Dialect],
+    schemas: Seq[JsonSchemaDocument],
     profiles: Seq[ValidationProfile],
     vocabularyRegistry: AlsVocabularyRegistry = AlsVocabularyRegistry(DefaultVocabularies.all),
     syntaxPlugin: Seq[AMFSyntaxParsePlugin],
@@ -169,7 +153,7 @@ case class EditorConfigurationState(
 
 object EditorConfigurationState {
   def empty: EditorConfigurationState =
-    EditorConfigurationState(Nil, Nil, Nil, syntaxPlugin = Nil, validationPlugin = Nil)
+    EditorConfigurationState(Nil, Nil, Nil, Nil, syntaxPlugin = Nil, validationPlugin = Nil)
 }
 
 object EditorConfiguration extends AlsPlatformSecrets {

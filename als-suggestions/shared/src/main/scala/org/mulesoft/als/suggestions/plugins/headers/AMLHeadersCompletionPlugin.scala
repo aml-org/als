@@ -14,7 +14,7 @@ object AMLHeadersCompletionPlugin extends HeaderCompletionPlugin {
   def allHeaders(amfConfiguration: AmfParseContext): Seq[String] =
     (amfConfiguration.state.allDefinitions
       .filterNot(d => Configuration.internalDialects.contains(d.baseUnit.id))
-      .filterNot(d => Option(d.documents()).exists(_.keyProperty().value())) ++ Seq(
+      .filterNot(d => d.documents().exists(_.keyProperty().value())) ++ Seq(
       DocumentDefinition(MetaDialect.dialect),
       DocumentDefinition(VocabularyDialect.dialect)
     ))
@@ -31,10 +31,10 @@ object AMLHeadersCompletionPlugin extends HeaderCompletionPlugin {
 
   private def computeHeaders(documentDefinition: DocumentDefinition) =
     Seq(s"#%${documentDefinition.nameAndVersion()}") ++
-      Option(documentDefinition.documents())
+      documentDefinition.documents()
         .flatMap(d => Option(d.library()))
         .map(_ => s"#%Library / ${documentDefinition.nameAndVersion()}") ++
-      Option(documentDefinition.documents())
+      documentDefinition.documents()
         .map(_.fragments())
         .getOrElse(Seq.empty)
         .map { fragment =>

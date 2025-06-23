@@ -21,11 +21,12 @@ class AMLRootDeclarationsCompletionPlugin(params: AmlCompletionRequest) {
 
   private def getSuggestions: Seq[(String, String)] =
     params.baseUnit match {
-      case _: DeclaresModel if params.actualDocumentDefinition.documents().declarationsPath().option().isDefined =>
+      case _: DeclaresModel if params.actualDocumentDefinition.documents().flatMap(_.declarationsPath().option()).isDefined =>
         params.actualDocumentDefinition
           .documents()
-          .declarationsPath()
-          .option()
+          .flatMap(_
+            .declarationsPath()
+            .option())
           .map(v => (v, "\n  "))
           .toSeq // todo: should this be indentation from config?
       case _: DeclaresModel =>
@@ -33,21 +34,21 @@ class AMLRootDeclarationsCompletionPlugin(params: AmlCompletionRequest) {
           case _: DialectInstanceLibrary | _: Module =>
             params.actualDocumentDefinition
               .documents()
-              .library()
-              .declaredNodes()
+              .toSeq
+              .flatMap(_.root().declaredNodes())
               .map(extractText)
           case _ =>
             params.actualDocumentDefinition
               .documents()
-              .root()
-              .declaredNodes()
+              .toSeq
+              .flatMap(_.root().declaredNodes())
               .map(extractText)
         }
       case _ => Nil
     }
 
   def usesSuggestion(): Option[(String, String)] =
-    params.actualDocumentDefinition.documents().fields.getValueAsOption(DocumentsModelModel.Library).map(_ => ("uses", "\n  "))
+    params.actualDocumentDefinition.documents().flatMap(_.fields.getValueAsOption(DocumentsModelModel.Library)).map(_ => ("uses", "\n  "))
 
   def resolve(classTerm: String): Future[Seq[RawSuggestion]] =
     Future {

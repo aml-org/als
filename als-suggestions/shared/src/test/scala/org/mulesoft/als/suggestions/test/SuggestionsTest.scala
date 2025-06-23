@@ -138,8 +138,10 @@ trait SuggestionsTest extends AsyncFunSuite with BaseSuggestionsForTest {
 
   case class ModelResult(u: BaseUnit, url: String, position: Int, originalContent: Option[String])
 
-  def parseAMF(url: String): Future[BaseUnit] =
+  def parseAMF(url: String): Future[BaseUnit] = {
+    // todo: add mcp check, maybe global object getConfig(uri): Option[ShapeConf]
     APIConfiguration.APIWithJsonSchema().baseUnitClient().parse(url).map(_.baseUnit)
+  }
 
   def filePath(path: String): String = {
     var result =

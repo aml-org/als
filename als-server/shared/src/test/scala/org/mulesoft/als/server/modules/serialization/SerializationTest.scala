@@ -355,6 +355,95 @@ class SerializationTest extends LanguageServerBaseTest with ChangesWorkspaceConf
     }
   }
 
+  test("Request serialized model - simple MCP Json Schema Defined") {
+    val alsClient: MockAlsClientNotifier = new MockAlsClientNotifier
+    val serializationProps: SerializationProps[StringWriter] =
+      new SerializationProps[StringWriter](alsClient) {
+        override def newDocBuilder(prettyPrint: Boolean): DocBuilder[StringWriter] =
+          JsonOutputBuilder(prettyPrint)
+      }
+    withServer(buildServer(serializationProps)) { server =>
+      val content = """{
+                      |    "protocolVersion": "2025-03-26",
+                      |    "transport": "Streamable HTTP",
+                      |    "tools": [
+                      |        {
+                      |            "name": "calculator",
+                      |            "description": "Calculator that is expects two numbers and an operator",
+                      |            "inputSchema": {
+                      |                "type": "object",
+                      |                "properties": {
+                      |                    "operand1": {
+                      |                        "type": "string",
+                      |                        "description": "The first operand"
+                      |                    },
+                      |                    "operand2": {
+                      |                        "type": "string",
+                      |                        "description": "The second operand"
+                      |                    },
+                      |                    "operation": {
+                      |                        "type": "string",
+                      |                        "description": "The arithmetic operation to perform",
+                      |                        "enum": [
+                      |                            "add",
+                      |                            "subtract",
+                      |                            "multiply",
+                      |                            "divide"
+                      |                        ]
+                      |                    }
+                      |                },
+                      |                "required": [
+                      |                    "operand1",
+                      |                    "operand2",
+                      |                    "operation"
+                      |                ],
+                      |                "additionalProperties": false
+                      |            }
+                      |        }
+                      |    ],
+                      |    "resources": [
+                      |        {
+                      |            "uri": "file://users.txt",
+                      |            "name": "users",
+                      |            "description": "",
+                      |            "mimeType": "",
+                      |            "annotations": {
+                      |                "audience": [],
+                      |                "priority": 0
+                      |            }
+                      |        }
+                      |    ],
+                      |    "prompts": [
+                      |        {
+                      |            "name": "Test",
+                      |            "description": "A test description",
+                      |            "arguments": [
+                      |                {
+                      |                    "name": "Name",
+                      |                    "description": "Your Name",
+                      |                    "required": true
+                      |                },
+                      |                {
+                      |                    "name": "Age",
+                      |                    "description": "Your Age",
+                      |                    "required": false
+                      |                }
+                      |            ]
+                      |        }
+                      |    ]
+                      |}""".stripMargin
+
+      val api = "file://api.mcp.json"
+      for {
+        _ <- openFile(server)(api, content)
+        _ <- alsClient.nextCall.map(_.model.toString)
+        s <- serialize(server, api, serializationProps, clean = true, sourcemaps = true)
+      } yield {
+        assert(s.contains("\"doc:sourceSpec\": \"MCP\""))
+      }
+    }
+  }
+
   test("GraphQL test", Flaky) {
     val alsClient: MockAlsClientNotifier = new MockAlsClientNotifier
     val serializationProps: SerializationProps[StringWriter] =

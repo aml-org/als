@@ -26,7 +26,7 @@ trait DeclarationCreator {
     Seq(fdp.declarableKey(documentDefinition), declarationPathForDialect(documentDefinition)).flatten
 
   def declarationPathForDialect(documentDefinition: DocumentDefinition): Option[String] =
-    documentDefinition.documents().declarationsPath().option()
+    documentDefinition.documents().flatMap(_.declarationsPath().option())
 
   def findExistingKeyPart(bu: BaseUnit, uri: String, keyPath: Seq[String]): Seq[YMapEntry] = {
     val maybePart = bu.references

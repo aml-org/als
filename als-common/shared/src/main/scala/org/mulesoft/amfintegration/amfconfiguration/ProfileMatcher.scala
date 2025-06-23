@@ -40,7 +40,8 @@ object ProfileMatcher {
       case Spec.ASYNC25     => ProfileNames.ASYNC20
       case Spec.ASYNC26     => ProfileNames.ASYNC26
       case Spec.AML         => ProfileNames.AML
-      case Spec.GRAPHQL     => ProfileNames.GRPC
+      case Spec.GRAPHQL     => ProfileNames.GRAPHQL
+      case Spec.GRPC        => ProfileNames.GRPC
       case Spec.JSONSCHEMA  => ProfileNames.JSONSCHEMA
       case Spec.AVRO_SCHEMA => ProfileNames.AVROSCHEMA
       case _                => ProfileNames.AMF

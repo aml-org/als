@@ -54,7 +54,7 @@ object RefToParameters extends AMLCompletionPlugin {
   }
 
   private def declarationPath(dialect: DocumentDefinition) = {
-    dialect.documents().declarationsPath().option().map(_ + "/").getOrElse("")
+    dialect.documents().flatMap(_.declarationsPath().option()).map(_ + "/").getOrElse("")
   }
 
   private def declarations(request: AmlCompletionRequest, filterFn: DomainElement => Boolean): Seq[String] = {

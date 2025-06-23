@@ -19,7 +19,7 @@ trait AmfObjectKnowledge {
     val iri = amfObject.metaURIs.head
 
     documentDefinition.declares
-      .find(nm => documentDefinition.documents().root().encoded().option().contains(nm.id))
+      .find(nm => documentDefinition.documents().flatMap(_.root().encoded().option()).contains(nm.id))
       .collectFirst({ case d: NodeMapping if d.nodetypeMapping.option().contains(iri) => d })
       .isDefined || hasFragmentParent(branchStack)
   }

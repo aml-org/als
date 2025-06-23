@@ -7,7 +7,7 @@ import org.mulesoft.amfintegration.amfconfiguration.DocumentDefinition
 object DialectKnowledge {
 
   def isStyleValue(style: String, documentDefinition: DocumentDefinition): Boolean =
-    Option(documentDefinition.documents()).forall(d => d.referenceStyle().is(style) || d.referenceStyle().isNullOrEmpty)
+    documentDefinition.documents().forall(d => d.referenceStyle().is(style) || d.referenceStyle().isNullOrEmpty)
 
   def isRamlInclusion(yPartBranch: YPartBranch, documentDefinition: DocumentDefinition): Boolean =
     yPartBranch.hasIncludeTag && isStyleValue(ReferenceStyles.RAML, documentDefinition)

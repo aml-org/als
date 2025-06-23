@@ -23,8 +23,8 @@ object AMLComponentKeyCompletionPlugin extends AMLCompletionPlugin {
     if (inRoot(params.amfObject, params.actualDocumentDefinition) && params.astPartBranch.isKey) {
       params.actualDocumentDefinition
         .documents()
-        .declarationsPath()
-        .option()
+        .flatMap(_.declarationsPath()
+          .option())
         .map(_.split('/').last) match {
         case Some(keyDeclarations) if isSonOf(keyDeclarations, params.astPartBranch) =>
           buildDeclaredKeys(params.actualDocumentDefinition)
@@ -36,9 +36,9 @@ object AMLComponentKeyCompletionPlugin extends AMLCompletionPlugin {
   private def inRoot(amfObject: AmfObject, documentDefinition: DocumentDefinition): Boolean = {
     documentDefinition
       .documents()
-      .root()
-      .encoded()
-      .option()
+      .flatMap(_.root()
+        .encoded()
+        .option())
       .flatMap(id => documentDefinition.declares.collectFirst({ case n: NodeMapping if id == n.id => n }))
       .exists(i => amfObject.metaURIs.contains(i.nodetypeMapping.value())) ||
     amfObject.isInstanceOf[Module]
@@ -47,8 +47,9 @@ object AMLComponentKeyCompletionPlugin extends AMLCompletionPlugin {
   private def buildDeclaredKeys(documentDefinition: DocumentDefinition) = {
     documentDefinition
       .documents()
-      .root()
-      .declaredNodes()
+      .toSeq
+      .flatMap(_.root()
+        .declaredNodes())
       .flatMap(node => node.name().option())
       .map(RawSuggestion.forObject(_, "unknown"))
   }

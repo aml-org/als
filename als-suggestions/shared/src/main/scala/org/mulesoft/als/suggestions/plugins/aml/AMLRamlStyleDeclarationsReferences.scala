@@ -79,7 +79,7 @@ object AMLRamlStyleDeclarationsReferences extends AMLDeclarationReferences {
     })
 
   private def styleOrEmpty(documentDefinition: DocumentDefinition) =
-    documentDefinition.documents().referenceStyle().option().forall(_ == ReferenceStyles.RAML)
+    documentDefinition.documents().flatMap(_.referenceStyle().option()).forall(_ == ReferenceStyles.RAML)
 
 }
 

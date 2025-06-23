@@ -181,5 +181,5 @@ object TemplateTools {
     }
 
   private def declarationPathForDefinition(documentDefinition: DocumentDefinition): Option[String] =
-    documentDefinition.documents().declarationsPath().option()
+    documentDefinition.documents().flatMap(_.declarationsPath().option())
 }

@@ -30,7 +30,7 @@ class AMLJsonSchemaStyleDeclarationReferences(
 ) {
 
   def resolve(dp: DeclarationProvider): Seq[RawSuggestion] = {
-    val declarationsPath = documentDefinition.documents().declarationsPath().option().map(_ + "/").getOrElse("")
+    val declarationsPath = documentDefinition.documents().flatMap(_.declarationsPath().option()).map(_ + "/").getOrElse("")
     val routes = ids.flatMap { id =>
       dp.forNodeType(id).filter(n => !actualName.contains(n)).map { name =>
         nameForIri(id).fold(s"#/$name")(n => s"#/$declarationsPath$n/$name")
@@ -54,8 +54,8 @@ trait AbstractAMLJsonSchemaStyleDeclarationReferences extends AMLDeclarationRefe
   def applies(request: AmlCompletionRequest): Boolean = {
     request.astPartBranch.isValue && request.astPartBranch.parentEntryIs("$ref") && request.actualDocumentDefinition
       .documents()
-      .referenceStyle()
-      .option()
+      .flatMap(_.referenceStyle()
+        .option())
       .forall(_ == ReferenceStyles.JSONSCHEMA) && isLocal(request.astPartBranch)
   }
 
@@ -85,8 +85,9 @@ trait AbstractAMLJsonSchemaStyleDeclarationReferences extends AMLDeclarationRefe
 
     val iriToPath: Map[String, String] = request.actualDocumentDefinition
       .documents()
-      .root()
-      .declaredNodes()
+      .toSeq
+      .flatMap(_.root()
+        .declaredNodes())
       .flatMap(dn =>
         mappings
           .find(_.id == dn.mappedNode().value())

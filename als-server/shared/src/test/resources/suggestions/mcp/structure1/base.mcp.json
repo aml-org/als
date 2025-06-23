@@ -1,0 +1,5 @@
+{
+  "protocolVersion": "2025-03-26",
+  "transport": "Streamable HTTP",
+  "*"
+}

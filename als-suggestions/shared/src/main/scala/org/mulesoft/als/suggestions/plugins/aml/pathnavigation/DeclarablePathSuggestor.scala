@@ -65,7 +65,7 @@ sealed case class ComponentSuggestor(component: ComponentModule, prefix: String,
         }
       case named: NamedDomainElement if targetClass.forall(tc => named.metaURIs.contains(tc)) =>
         for {
-          componentsKey <- DocumentDefinition(OAS30Dialect.dialect).documents().declarationsPath().option()
+          componentsKey <- OAS30Dialect.dialect.documents().declarationsPath().option()
           declaredKey   <- named.declarableKey(DocumentDefinition(OAS30Dialect.dialect))
           name          <- named.name.option()
         } yield {

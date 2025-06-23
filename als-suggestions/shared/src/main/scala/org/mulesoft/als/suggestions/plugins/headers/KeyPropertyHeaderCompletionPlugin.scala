@@ -71,7 +71,7 @@ class KeyPropertyHeaderCompletionPlugin(
 
   private def getSuggestions: Seq[RawSuggestion] = {
     configurationState.allDefinitions
-      .filter(d => Option(d.documents()).exists(_.keyProperty().value()))
+      .filter(d => d.documents().exists(_.keyProperty().value()))
       .filter(compliesFormat)
       .map(d => {
         val Flavour(text, label, isASnippet) =

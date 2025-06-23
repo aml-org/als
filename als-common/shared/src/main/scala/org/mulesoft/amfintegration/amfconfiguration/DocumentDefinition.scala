@@ -2,18 +2,20 @@ package org.mulesoft.amfintegration.amfconfiguration
 
 import amf.aml.client.scala.model.document.Dialect
 import amf.aml.client.scala.model.domain.{DocumentsModel, NodeMapping}
+import amf.aml.internal.metamodel.document.DialectModel.Documents
 import amf.core.client.scala.model.document.BaseUnit
 import amf.core.client.scala.model.domain.DomainElement
 import amf.core.internal.metamodel.document.BaseUnitModel
 import amf.core.internal.parser.domain.{Annotations, Fields}
 import amf.shapes.client.scala.model.document.JsonSchemaDocument
+import amf.shapes.internal.document.metamodel.JsonSchemaDocumentModel
 import org.mulesoft.amfintegration.AmfImplicits.DialectImplicits
 
 trait DocumentDefinition {
   def nameAndVersion(): String
   def name(): Option[String]
   def version(): Option[String]
-  def documents(): DocumentsModel
+  def documents(): Option[DocumentsModel]
   def declarationsMapTerms: Map[String, String]
   def findNodeMappingByTerm(term: String): Option[NodeMapping]
   def findNodeMapping(mappingId: String): Option[NodeMapping]
@@ -30,7 +32,7 @@ sealed case class DialectDocumentDefinition(override val baseUnit: Dialect) exte
 
   override def version(): Option[String] = baseUnit.version().option()
 
-  override def documents(): DocumentsModel = baseUnit.documents()
+  override def documents(): Option[DocumentsModel] = Option(baseUnit.documents())
 
   override def declarationsMapTerms: Map[String, String] = baseUnit.declarationsMapTerms
 
@@ -48,21 +50,21 @@ sealed case class DialectDocumentDefinition(override val baseUnit: Dialect) exte
 sealed case class JsonSchemaDocumentDefinition(override val baseUnit: JsonSchemaDocument) extends DocumentDefinition {
   override def nameAndVersion(): String = baseUnit.schemaVersion.option().getOrElse(baseUnit.id)
 
-  override def name(): Option[String] = ???
+  override def name(): Option[String] = None
 
   override def version(): Option[String] = baseUnit.schemaVersion.option()
 
-  override def documents(): DocumentsModel = ???
+  override def documents(): Option[DocumentsModel] = None
 
-  override def declarationsMapTerms: Map[String, String] = ???
+  override def declarationsMapTerms: Map[String, String] = Map.empty
 
-  override def findNodeMappingByTerm(term: String): Option[NodeMapping] = ???
+  override def findNodeMappingByTerm(term: String): Option[NodeMapping] = None
 
-  override def findNodeMapping(mappingId: String): Option[NodeMapping] = ???
+  override def findNodeMapping(mappingId: String): Option[NodeMapping] = None
 
-  override def declares: Seq[DomainElement] = ???
+  override def declares: Seq[DomainElement] = baseUnit.declares
 
-  override def termsForId: Map[String, String] = ???
+  override def termsForId: Map[String, String] = Map.empty
 
   override def isJsonStyle: Boolean = true
 }

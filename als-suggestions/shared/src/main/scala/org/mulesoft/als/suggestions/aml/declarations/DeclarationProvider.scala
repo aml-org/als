@@ -103,7 +103,7 @@ class DeclarationProvider(componentId: Option[String] = None) {
 
 object DeclarationProvider {
   def apply(bu: BaseUnit, d: Option[DocumentDefinition]): DeclarationProvider = {
-    val provider = new DeclarationProvider(d.flatMap(_.documents().declarationsPath().option()))
+    val provider = new DeclarationProvider(d.flatMap(_.documents()).flatMap(_.declarationsPath().option()))
 
     populateDeclarables(d, provider)
 
@@ -130,7 +130,7 @@ object DeclarationProvider {
 
   private def populateDeclarables(d: Option[DocumentDefinition], provider: DeclarationProvider): Unit = {
     val declaredIds = d
-      .map(_.documents())
+      .flatMap(_.documents())
       .map(documents => {
         val libDec: Seq[String] = Option(documents.library())
           .map(_.declaredNodes().flatMap(_.fields.fields()).map(_.value.toString))

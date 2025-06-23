@@ -3,7 +3,8 @@ package org.mulesoft.amfintegration.dialect.integration
 import amf.core.client.common.remote.Content
 import amf.core.client.scala.lexer.CharSequenceStream
 import amf.core.client.scala.resource.ResourceLoader
-import amf.custom.validation.internal.report.loaders.ProfileDialectLoader
+import amf.custom.validation.internal.report.loaders.{InMemoryResourceLoader, ProfileDialectLoader}
+import amf.shapes.client.scala.config.JsonLDSchemaConfiguration
 import org.mulesoft.amfintegration.amfconfiguration.DocumentDefinition
 import org.mulesoft.amfintegration.dialect.InMemoryDocument
 import org.mulesoft.amfintegration.dialect.dialects.InMemoryDialect
@@ -18,7 +19,7 @@ import org.mulesoft.amfintegration.dialect.dialects.metadialect.MetaDialect
 import org.mulesoft.amfintegration.dialect.dialects.oas.{OAS20Dialect, OAS30Dialect}
 import org.mulesoft.amfintegration.dialect.dialects.raml.raml08.Raml08TypesDialect
 import org.mulesoft.amfintegration.dialect.dialects.raml.raml10.Raml10TypesDialect
-import org.mulesoft.amfintegration.dialect.jsonschemas.InMemoryJsonSchema
+import org.mulesoft.amfintegration.dialect.jsonschemas.{InMemoryJsonSchema, MCPJsonSchema}
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
@@ -43,8 +44,6 @@ object BaseAlsDefinitionsProvider {
 
   lazy val allBaseDefinitions: Set[DocumentDefinition] = apiDefinitions + DocumentDefinition(MetaDialect())
 
-  val rawDefinitions: Seq[Future[DocumentDefinition]] = Seq(ProfileDialectLoader.dialect.map(DocumentDefinition(_)))
-
   val globalDefinitionsResourceLoader: ResourceLoader = new ResourceLoader {
     override def fetch(resource: String): Future[Content] = Future {
       indexedDefinitions
@@ -55,6 +54,19 @@ object BaseAlsDefinitionsProvider {
 
     override def accepts(resource: String): Boolean =
       indexedDefinitions.contains(resource)
+  }
+
+  lazy val rawDefinitions: Seq[Future[DocumentDefinition]] = {
+    val eventualMcpDefinition = JsonLDSchemaConfiguration.JsonLDSchema()
+      .withResourceLoader(InMemoryResourceLoader(MCPJsonSchema.uri, MCPJsonSchema.fileContent))
+      .baseUnitClient()
+      .parseJsonLDSchema(MCPJsonSchema.uri)
+      .map(_.jsonDocument)
+      .map(DocumentDefinition(_))
+    Seq(
+      ProfileDialectLoader.dialect.map(DocumentDefinition(_)),
+      eventualMcpDefinition
+    )
   }
 
   private var indexedDefinitions: Map[String, InMemoryDocument] = Map()
