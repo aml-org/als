@@ -17,7 +17,7 @@ object ResponsesDeclarationCodes extends AMLCompletionPlugin {
       new AMLKnownValueCompletions(
         ResponseModel.StatusCode,
         ResponseModel.`type`.head.iri(),
-        request.actualDialect,
+        request.actualDocumentDefinition,
         request.astPartBranch.isKey,
         request.astPartBranch.isInArray || request.astPartBranch.isArray,
         true

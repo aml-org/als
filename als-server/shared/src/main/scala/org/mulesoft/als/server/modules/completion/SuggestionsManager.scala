@@ -35,7 +35,7 @@ class SuggestionsManager(
     new Suggestions(configurationProvider.getConfiguration, directoryResolver, accessBundle)
 
   private def accessBundle: String => Future[UnitBundle] =
-    workspace.getLastUnit(_, UUID.randomUUID().toString).map(r => UnitBundle(r.unit, r.definedBy, r.context))
+    workspace.getLastUnit(_, UUID.randomUUID().toString).map(r => UnitBundle(r.unit, r.documentDefinition, r.context))
 
   private def snippetSupport: Boolean =
     conf

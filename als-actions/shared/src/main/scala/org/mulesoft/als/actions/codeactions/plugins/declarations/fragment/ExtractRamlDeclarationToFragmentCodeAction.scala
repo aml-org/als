@@ -27,7 +27,7 @@ case class ExtractRamlDeclarationToFragmentCodeAction(params: CodeActionRequestP
   override protected val kindTitle: CodeActionKindTitle = ExtractRamlTypeToFragmentCodeAction
 
   override lazy val amfObject: Option[AmfObject] = {
-    val maybeObject = extractAmfObject(maybeTree, params.definedBy)
+    val maybeObject = extractAmfObject(maybeTree, params.documentDefinition)
     fragmentBundleForObject(maybeObject).fold { // if empty
       maybeTree.flatMap(t => t.stack.headOption).collect { case d: CustomDomainProperty =>
         d // declared annotation type

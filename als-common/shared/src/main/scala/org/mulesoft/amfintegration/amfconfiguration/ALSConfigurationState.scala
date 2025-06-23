@@ -20,7 +20,7 @@ import org.mulesoft.amfintegration.AmfImplicits._
 import org.mulesoft.amfintegration.ValidationProfile
 import org.mulesoft.amfintegration.dialect.dialects.ExternalFragmentDialect
 import org.mulesoft.amfintegration.dialect.dialects.metadialect.{MetaDialect, VocabularyDialect}
-import org.mulesoft.amfintegration.dialect.integration.BaseAlsDialectProvider
+import org.mulesoft.amfintegration.dialect.integration.BaseAlsDefinitionsProvider
 import org.mulesoft.amfintegration.platform.AlsPlatformSecrets
 import org.yaml.builder.DocBuilder
 
@@ -44,10 +44,10 @@ case class ALSConfigurationState(
 
   private def rootConfiguration(asMain: Boolean): AMFConfiguration = projectState.rootProjectConfiguration(asMain)
 
-  def configForDialect(d: Dialect): AMLSpecificConfiguration =
+  def configForDefinition(d: DocumentDefinition): AMLSpecificConfiguration =
     ProfileMatcher.spec(d) match {
       case Some(Spec.AML)
-          if d
+          if d.baseUnit
             .location()
             .contains(
               "file://vocabularies/dialects/metadialect.yaml"
@@ -101,7 +101,7 @@ case class ALSConfigurationState(
     getAmfConfig(base, asMain = true) // todo: check if asMain = true has any inconvenience
   }
 
-  def allDialects: Seq[Dialect]        = dialects ++ BaseAlsDialectProvider.allBaseDialects
+  def allDefinitions: Seq[DocumentDefinition]        = dialects.map(DocumentDefinition(_)) ++ BaseAlsDefinitionsProvider.allBaseDefinitions
   def dialects: Seq[Dialect]           = projectState.extensions ++ editorState.dialects
   def profiles: Seq[ValidationProfile] = projectState.profiles ++ editorState.profiles
 
@@ -213,44 +213,44 @@ case class ALSConfigurationState(
       .baseUnitClient()
       .renderGraphToBuilder(resolved.cloneUnit(), builder)
 
-  private def allDialects(configurationState: AMLConfigurationState) =
-    configurationState.getDialects().toSet ++ BaseAlsDialectProvider.allBaseDialects
+  private def allDialects(configurationState: AMLConfigurationState): Set[DocumentDefinition] =
+    (configurationState.getDialects().map(DocumentDefinition(_)).toSet ++ BaseAlsDefinitionsProvider.allBaseDefinitions)
 
-  def definitionFor(bu: BaseUnit): Option[Dialect] = {
+  def definitionFor(bu: BaseUnit): Option[DocumentDefinition] = {
     val configurationState = predefinedWithDialects.configurationState()
 
     def defaultDefinitionSearch =
       allDialects(configurationState).find(d => ProfileMatcher.spec(d).contains(bu.sourceSpec.getOrElse(Spec.AMF)))
 
-    def overwrittenSpecs: Option[Dialect] =
+    def overwrittenSpecs: Option[DocumentDefinition] =
       if (bu.sourceSpec.exists(_.isAsync))
         allDialects(configurationState).find(d => ProfileMatcher.spec(d).contains(Spec.ASYNC20))
       else None
 
     bu match {
       case di: DialectInstanceUnit =>
-        allDialects(configurationState).find(d => di.definedBy().option().contains(d.id))
+        allDialects(configurationState).find(d => di.definedBy().option().contains(d.baseUnit.id))
       case _: Dialect =>
-        Some(MetaDialect.dialect)
+        Some(DocumentDefinition(MetaDialect.dialect))
       case _: Vocabulary =>
-        Some(VocabularyDialect.dialect)
+        Some(DocumentDefinition(VocabularyDialect.dialect))
       case _: ExternalFragment =>
-        Some(ExternalFragmentDialect.dialect)
+        Some(DocumentDefinition(ExternalFragmentDialect.dialect))
       case jsonSchema: JsonSchemaDocument if jsonSchema.schemaVersion.nonEmpty =>
         // all drafts use same Spec, so we must differentiate with version
         allDialects(configurationState)
-          .find(d => d.version().option().contains(jsonSchema.schemaVersion.value()))
+          .find(d => d.version().contains(jsonSchema.schemaVersion.value()))
           .orElse(defaultDefinitionSearch)
       case _ =>
         defaultDefinitionSearch.orElse(overwrittenSpecs)
     }
   }
 
-  def definitionFor(spec: Spec): Option[Dialect] = {
+  def definitionFor(spec: Spec): Option[DocumentDefinition] = {
     val configurationState = predefinedWithDialects.configurationState()
     spec match {
       case AmlDialectSpec(id) =>
-        allDialects(configurationState).find(_.id == id)
+        allDialects(configurationState).find(_.baseUnit.id == id)
       case _ => allDialects(configurationState).find(d => ProfileMatcher.spec(d).contains(spec))
     }
   }

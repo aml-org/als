@@ -13,6 +13,7 @@ import org.mulesoft.als.common.cache.{ASTPartBranchCached, ObjectInTreeCached}
 import org.mulesoft.als.common.dtoTypes.{Position, PositionRange}
 import org.mulesoft.als.convert.LspRangeConverter
 import org.mulesoft.amfintegration.AmfImplicits._
+import org.mulesoft.amfintegration.amfconfiguration.DocumentDefinition
 import org.mulesoft.amfintegration.vocabularies.AmlCoreVocabulary
 import org.mulesoft.amfintegration.vocabularies.integration.VocabularyProvider
 import org.mulesoft.amfintegration.vocabularies.propertyterms.NamePropertyTerm
@@ -20,13 +21,13 @@ import org.mulesoft.lsp.feature.hover.Hover
 import org.yaml.model.YMapEntry
 
 case class HoverAction(
-    bu: BaseUnit,
-    tree: ObjectInTreeCached,
-    astPartBranchCached: ASTPartBranchCached,
-    dtoPosition: Position,
-    location: String,
-    provider: VocabularyProvider,
-    definedBy: Dialect
+                        bu: BaseUnit,
+                        tree: ObjectInTreeCached,
+                        astPartBranchCached: ASTPartBranchCached,
+                        dtoPosition: Position,
+                        location: String,
+                        provider: VocabularyProvider,
+                        documentDefinition: DocumentDefinition
 ) {
 
   private val objectInTree: ObjectInTree = tree.getCachedOrNew(dtoPosition, location)
@@ -113,7 +114,7 @@ case class HoverAction(
   }
 
   private def getDeclarationValueType(entry: YMapEntry): Option[ValueType] =
-    definedBy.declarationsMapTerms
+    documentDefinition.declarationsMapTerms
       .find(_._2 == entry.key.value.toString)
       .map(a => {
         ValueType(a._1)
@@ -144,10 +145,10 @@ case class HoverAction(
       })
 
   def getPatchedHover: Option[(Seq[String], Option[AmfPositionRange])] =
-    patchedHover.getHover(objectInTree.obj, yPartBranch, definedBy)
+    patchedHover.getHover(objectInTree.obj, yPartBranch, documentDefinition)
 
   private lazy val patchedHover =
-    PatchedHover(provider, Seq(DialectTerms(bu, definedBy)))
+    PatchedHover(provider, Seq(DocumentTerms(bu, documentDefinition)))
 }
 
-sealed case class DialectTerms(bu: BaseUnit, definedBy: Dialect)
+sealed case class DocumentTerms(bu: BaseUnit, documentDefinition: DocumentDefinition)

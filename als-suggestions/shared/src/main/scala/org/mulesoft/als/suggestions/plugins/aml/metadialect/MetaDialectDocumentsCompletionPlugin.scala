@@ -1,6 +1,5 @@
 package org.mulesoft.als.suggestions.plugins.aml.metadialect
 
-import amf.aml.client.scala.model.document.Dialect
 import amf.aml.client.scala.model.domain.{DocumentsModel, NodeMapping}
 import amf.core.client.scala.model.domain.AmfObject
 import amf.core.client.scala.vocabulary.Namespace.XsdTypes
@@ -11,6 +10,7 @@ import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
 import org.mulesoft.als.suggestions.interfaces.ResolveIfApplies
 import org.mulesoft.als.suggestions.plugins.aml.{AMLStructureCompletionsPlugin, BooleanSuggestions, EnumSuggestions}
 import org.mulesoft.amfintegration.AmfImplicits.AmfObjectImp
+import org.mulesoft.amfintegration.amfconfiguration.DocumentDefinition
 import org.mulesoft.amfintegration.dialect.dialects.metadialect.{DocumentsObjectNode, MetaDialect}
 
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -20,7 +20,7 @@ object MetaDialectDocumentsCompletionPlugin extends ResolveIfApplies with Boolea
 
   lazy val documents: Map[String, NodeMapping] =
     DocumentsObjectNode.properties.foldLeft(Map[String, NodeMapping]())({ case (acc, pm) =>
-      getDeclaredNode(MetaDialect(), pm.objectRange().head.value())
+      getDeclaredNode(DocumentDefinition(MetaDialect()), pm.objectRange().head.value())
         .map(nm => acc + (pm.name().value() -> nm))
         .getOrElse(acc)
     })
@@ -38,27 +38,27 @@ object MetaDialectDocumentsCompletionPlugin extends ResolveIfApplies with Boolea
 
   def getSuggestion(params: AmlCompletionRequest): Option[Future[Seq[RawSuggestion]]] = {
     if (params.astPartBranch.isKey) {
-      suggestDocumentKeys(params.amfObject, params.astPartBranch, params.actualDialect)
+      suggestDocumentKeys(params.amfObject, params.astPartBranch, params.actualDocumentDefinition)
     } else {
       params.fieldEntry.map(suggestValuesForDocumentKey(params.astPartBranch, _))
     }
   }
 
-  def getDeclaredNode(dialect: Dialect, id: String): Option[NodeMapping] =
-    dialect.declares.collectFirst({
+  def getDeclaredNode(documentDefinition: DocumentDefinition, id: String): Option[NodeMapping] =
+    documentDefinition.declares.collectFirst({
       case declaration: NodeMapping if declaration.id == id => declaration
     })
 
   def suggestDocumentKeys(
-      amfObject: AmfObject,
-      astPart: ASTPartBranch,
-      dialect: Dialect
+                           amfObject: AmfObject,
+                           astPart: ASTPartBranch,
+                           documentDefinition: DocumentDefinition
   ): Option[Future[Seq[RawSuggestion]]] = {
     documents
       .collectFirst { case (key, mapping) if astPart.parentEntryIs(key) => mapping }
       .map(a =>
         Future {
-          new AMLStructureCompletionsPlugin(a.propertiesMapping(), dialect).resolve(amfObject.metaURIs.head)
+          new AMLStructureCompletionsPlugin(a.propertiesMapping(), documentDefinition).resolve(amfObject.metaURIs.head)
         }
       )
   }

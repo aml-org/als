@@ -14,10 +14,10 @@ object AMLDeclaredStructureTemplate {
       params.astPartBranch.isKey &&
       TemplateTools.isInsideDeclaration(params)
     ) {
-      val decKey = params.nodeDialect.declarationsMapTerms
+      val decKey = params.nodeDocumentDefinition.declarationsMapTerms
         .find(t => params.astPartBranch.parentKey.contains(t._2))
         .map(_._1)
-      val nm           = decKey.flatMap(DialectNodeFinder.find(_, params.nodeDialect))
+      val nm           = decKey.flatMap(DialectNodeFinder.find(_, params.nodeDocumentDefinition))
       val usedMappings = nm.map(_.propertiesMapping()).getOrElse(Seq.empty).filter(_.minCount().value() > 0)
       usedMappings.flatMap(TemplateTools.getFirstLevelTemplate(_, params)) match {
         case Nil => Seq.empty

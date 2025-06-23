@@ -1,6 +1,5 @@
 package org.mulesoft.amfintegration.amfconfiguration
 
-import amf.aml.client.scala.model.document.Dialect
 import amf.core.client.common.validation.{ProfileName, ProfileNames}
 import amf.core.client.scala.model.document.BaseUnit
 import amf.core.internal.remote.Spec
@@ -9,7 +8,7 @@ import amf.shapes.internal.spec.common.{
   JSONSchemaDraft4SchemaVersion,
   JSONSchemaDraft7SchemaVersion
 }
-import org.mulesoft.amfintegration.DialectWithVendor
+import org.mulesoft.amfintegration.DefinitionWithVendor
 import org.mulesoft.amfintegration.dialect.dialects.asyncapi20.AsyncApi20Dialect
 import org.mulesoft.amfintegration.dialect.dialects.asyncapi26.AsyncApi26Dialect
 import org.mulesoft.amfintegration.dialect.dialects.avro.AvroDialect
@@ -47,24 +46,24 @@ object ProfileMatcher {
       case _                => ProfileNames.AMF
     }
 
-  private lazy val webApiDialects: Set[DialectWithVendor] = Set(
-    DialectWithVendor(Raml08TypesDialect(), Spec.RAML08),
-    DialectWithVendor(Raml10TypesDialect(), Spec.RAML10),
-    DialectWithVendor(OAS20Dialect(), Spec.OAS20),
-    DialectWithVendor(OAS30Dialect(), Spec.OAS30),
-    DialectWithVendor(AsyncApi20Dialect(), Spec.ASYNC20),
-    DialectWithVendor(AsyncApi26Dialect(), Spec.ASYNC26),
-    DialectWithVendor(GraphQLDialect(), Spec.GRAPHQL),
-    DialectWithVendor(JsonSchemaDraft4Dialect(), Spec.JSONSCHEMA, JSONSchemaDraft4SchemaVersion.name),
-    DialectWithVendor(JsonSchemaDraft7Dialect(), Spec.JSONSCHEMA, JSONSchemaDraft7SchemaVersion.name),
-    DialectWithVendor(JsonSchemaDraft2019Dialect(), Spec.JSONSCHEMA, JSONSchemaDraft201909SchemaVersion.name),
-    DialectWithVendor(AvroDialect(), Spec.AVRO_SCHEMA),
-    DialectWithVendor(MetaDialect(), Spec.AML)
+  private lazy val webApiDefinitions: Set[DefinitionWithVendor] = Set(
+    DefinitionWithVendor(DocumentDefinition(Raml08TypesDialect()), Spec.RAML08),
+    DefinitionWithVendor(DocumentDefinition(Raml10TypesDialect()), Spec.RAML10),
+    DefinitionWithVendor(DocumentDefinition(OAS20Dialect()), Spec.OAS20),
+    DefinitionWithVendor(DocumentDefinition(OAS30Dialect()), Spec.OAS30),
+    DefinitionWithVendor(DocumentDefinition(AsyncApi20Dialect()), Spec.ASYNC20),
+    DefinitionWithVendor(DocumentDefinition(AsyncApi26Dialect()), Spec.ASYNC26),
+    DefinitionWithVendor(DocumentDefinition(GraphQLDialect()), Spec.GRAPHQL),
+    DefinitionWithVendor(DocumentDefinition(JsonSchemaDraft4Dialect()), Spec.JSONSCHEMA, JSONSchemaDraft4SchemaVersion.name),
+    DefinitionWithVendor(DocumentDefinition(JsonSchemaDraft7Dialect()), Spec.JSONSCHEMA, JSONSchemaDraft7SchemaVersion.name),
+    DefinitionWithVendor(DocumentDefinition(JsonSchemaDraft2019Dialect()), Spec.JSONSCHEMA, JSONSchemaDraft201909SchemaVersion.name),
+    DefinitionWithVendor(DocumentDefinition(AvroDialect()), Spec.AVRO_SCHEMA),
+    DefinitionWithVendor(DocumentDefinition(MetaDialect()), Spec.AML)
   )
 
-  def dialect(spec: Spec): Option[Dialect] =
-    webApiDialects.find(_.spec == spec).map(_.dialect)
+  def dialect(spec: Spec): Option[DocumentDefinition] =
+    webApiDefinitions.find(_.spec == spec).map(_.documentDefinition)
 
-  def spec(dialect: Dialect): Option[Spec] =
-    webApiDialects.find(_.dialect == dialect).map(_.spec)
+  def spec(documentDefinition: DocumentDefinition): Option[Spec] =
+    webApiDefinitions.find(_.documentDefinition == documentDefinition).map(_.spec)
 }

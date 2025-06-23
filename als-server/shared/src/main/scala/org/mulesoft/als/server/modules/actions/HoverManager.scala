@@ -58,7 +58,7 @@ class HoverManager(wm: WorkspaceManager) extends RequestModule[HoverClientCapabi
           dtoPosition,
           params.textDocument.uri,
           cu.context.state.editorState.vocabularyRegistry,
-          cu.definedBy
+          cu.documentDefinition
         ).getHover
       // if sequence, we could show all the semantic hierarchy?
       }

@@ -5,6 +5,7 @@ import amf.aml.client.scala.model.domain.{NodeMapping, PropertyMapping}
 import amf.core.client.scala.vocabulary.Namespace.XsdTypes.{xsdBoolean, xsdDouble, xsdFloat, xsdInteger}
 import org.mulesoft.als.suggestions._
 import org.mulesoft.als.suggestions.plugins.aml.categories.CategoryRegistry
+import org.mulesoft.amfintegration.amfconfiguration.DocumentDefinition
 
 package object aml {
 
@@ -23,13 +24,13 @@ package object aml {
 
   implicit class NodeMappingWrapper(nodeMapping: NodeMapping) {
 
-    def propertiesRaw(category: Option[String] = None, fromDialect: Dialect): Seq[RawSuggestion] =
+    def propertiesRaw(category: Option[String] = None, fromDefinition: DocumentDefinition): Seq[RawSuggestion] =
       nodeMapping
         .propertiesMapping()
         .filterNot(_.name().isNullOrEmpty) // todo: should centralize PropertyMappingFilter logic
         .map { p =>
           val c =
-            category.getOrElse(CategoryRegistry(nodeMapping.nodetypeMapping.value(), p.name().value(), fromDialect.id))
+            category.getOrElse(CategoryRegistry(nodeMapping.nodetypeMapping.value(), p.name().value(), fromDefinition.baseUnit.id))
           p.toRaw(c)
         }
 

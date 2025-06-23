@@ -12,6 +12,7 @@ import org.mulesoft.als.common.dtoTypes.PositionRange
 import org.mulesoft.als.convert.LspRangeConverter
 import org.mulesoft.als.declarations.DeclarationCreator
 import org.mulesoft.amfintegration.AmfImplicits.{AmfAnnotationsImp, AmfObjectImp, BaseUnitImp, DialectImplicits}
+import org.mulesoft.amfintegration.amfconfiguration.DocumentDefinition
 import org.mulesoft.lsp.edit.TextEdit
 import org.mulesoft.lsp.feature.common.Range
 import org.yaml.model._
@@ -29,7 +30,7 @@ trait BaseElementDeclarableExtractors extends TreeKnowledge with DeclarationCrea
 
   private lazy val baseName: String =
     amfObject
-      .flatMap(ExtractorCommon.declarationName(_, params.definedBy))
+      .flatMap(ExtractorCommon.declarationName(_, params.documentDefinition))
       .getOrElse("newDeclaration")
 
   /** Placeholder for the new name (key and reference)
@@ -37,18 +38,18 @@ trait BaseElementDeclarableExtractors extends TreeKnowledge with DeclarationCrea
   protected def newName: String = ExtractorCommon.nameNotInList(baseName, params.bu.declaredNames.toSet)
 
   protected lazy val amfObject: Option[AmfObject] =
-    extractAmfObject(maybeTree, params.definedBy)
+    extractAmfObject(maybeTree, params.documentDefinition)
 
   /** Selected object if there is a clean match in the range and it is a declarable, or the parents range
     */
-  protected final def extractAmfObject(maybeTree: Option[ObjectInTree], dialect: Dialect): Option[AmfObject] =
-    extractable(maybeTree.map(_.obj), dialect) orElse
-      extractable(maybeTree.flatMap(_.stack.headOption), dialect)
+  protected final def extractAmfObject(maybeTree: Option[ObjectInTree], documentDefinition: DocumentDefinition): Option[AmfObject] =
+    extractable(maybeTree.map(_.obj), documentDefinition) orElse
+      extractable(maybeTree.flatMap(_.stack.headOption), documentDefinition)
 
-  protected def extractable(maybeObject: Option[AmfObject], dialect: Dialect): Option[AmfObject] =
+  protected def extractable(maybeObject: Option[AmfObject], documentDefinition: DocumentDefinition): Option[AmfObject] =
     maybeObject
       .filterNot(_.isInstanceOf[Document])
-      .find(o => o.declarableKey(dialect).isDefined)
+      .find(o => o.declarableKey(documentDefinition).isDefined)
 
   /** The original node with lexical info for the declared node
     */
@@ -110,7 +111,7 @@ trait BaseElementDeclarableExtractors extends TreeKnowledge with DeclarationCrea
             JsonRender.render(rl.getOrElse(jsonRefEntry), entryIndentation + jsonOptions.indentationSize, jsonOptions)
           )
         )
-      else if (params.definedBy.isJsonStyle)
+      else if (params.documentDefinition.isJsonStyle)
         entryRange.map(
           TextEdit(
             _,

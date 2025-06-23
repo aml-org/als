@@ -16,6 +16,7 @@ import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
 import org.mulesoft.als.suggestions.aml.declarations.DeclarationProvider
 import org.mulesoft.als.suggestions.interfaces.AMLCompletionPlugin
 import org.mulesoft.amfintegration.AmfImplicits._
+import org.mulesoft.amfintegration.amfconfiguration.DocumentDefinition
 import org.mulesoft.common.client.lexical.ASTElement
 import org.yaml.model.YMapEntry
 
@@ -66,7 +67,7 @@ object AMLRamlStyleDeclarationsReferences extends AMLDeclarationReferences {
 
   override def resolve(params: AmlCompletionRequest): Future[Seq[RawSuggestion]] =
     Future.successful({
-      if (params.astPartBranch.isValue && styleOrEmpty(params.actualDialect)) {
+      if (params.astPartBranch.isValue && styleOrEmpty(params.actualDocumentDefinition)) {
         val actualName = params.amfObject.elementIdentifier()
         new AMLRamlStyleDeclarationsReferences(
           getObjectRangeIds(params),
@@ -77,8 +78,8 @@ object AMLRamlStyleDeclarationsReferences extends AMLDeclarationReferences {
       } else Seq.empty
     })
 
-  private def styleOrEmpty(dialect: Dialect) =
-    dialect.documents().referenceStyle().option().forall(_ == ReferenceStyles.RAML)
+  private def styleOrEmpty(documentDefinition: DocumentDefinition) =
+    documentDefinition.documents().referenceStyle().option().forall(_ == ReferenceStyles.RAML)
 
 }
 

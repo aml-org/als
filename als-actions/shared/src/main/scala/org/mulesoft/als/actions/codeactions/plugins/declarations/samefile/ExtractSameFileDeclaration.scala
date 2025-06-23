@@ -39,7 +39,7 @@ trait ExtractSameFileDeclaration extends CodeActionResponsePlugin with ShapeExtr
 
   protected def appliesToDocument(): Boolean =
     !params.bu.isFragment || params.bu
-      .documentMapping(params.definedBy)
+      .documentMapping(params.documentDefinition)
       .exists(_.declaredNodes().exists(dn => amfObject.exists(_.id == dn.mappedNode().value())))
 
   protected lazy val declaredElementTextEdit: Option[TextEdit] =
@@ -52,7 +52,7 @@ trait ExtractSameFileDeclaration extends CodeActionResponsePlugin with ShapeExtr
     ExtractorCommon
       .declaredEntry(
         amfObject,
-        params.definedBy,
+        params.documentDefinition,
         params.bu,
         params.uri,
         name,
@@ -85,7 +85,7 @@ trait ExtractSameFileDeclaration extends CodeActionResponsePlugin with ShapeExtr
           l.annotations += DeclaredElement()
         val linkDe: DomainElement = l.link(newName)
         linkDe.annotations += ForceEntry() // raml explicit types
-        params.alsConfigurationState.configForDialect(params.definedBy).emit(linkDe)
+        params.alsConfigurationState.configForDefinition(params.documentDefinition).emit(linkDe)
       }
   }
 

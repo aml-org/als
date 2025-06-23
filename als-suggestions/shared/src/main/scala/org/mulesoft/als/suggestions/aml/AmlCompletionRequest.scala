@@ -16,44 +16,44 @@ import org.mulesoft.als.suggestions.aml.declarations.DeclarationProvider
 import org.mulesoft.als.suggestions.interfaces.AMLCompletionPlugin
 import org.mulesoft.als.suggestions.styler.{SuggestionRender, SuggestionStylerBuilder}
 import org.mulesoft.amfintegration.AmfImplicits.BaseUnitImp
-import org.mulesoft.amfintegration.amfconfiguration.ALSConfigurationState
+import org.mulesoft.amfintegration.amfconfiguration.{ALSConfigurationState, DocumentDefinition}
 import org.mulesoft.common.client.lexical.{Position => AmfPosition}
 import org.yaml.lexer.YamlToken
 import org.yaml.model.YNode.MutRef
 import org.yaml.model._
 
 class AmlCompletionRequest(
-    val baseUnit: BaseUnit,
-    val position: DtoPosition,
-    val actualDialect: Dialect,
-    val directoryResolver: DirectoryResolver,
-    val styler: SuggestionRender,
-    val astPartBranch: ASTPartBranch,
-    val configurationReader: AlsConfigurationReader,
-    private val objectInTree: ObjectInTree,
-    val inheritedProvider: Option[DeclarationProvider] = None,
-    val rootUri: Option[String],
-    val completionsPluginHandler: CompletionsPluginHandler,
-    val alsConfigurationState: ALSConfigurationState
+                            val baseUnit: BaseUnit,
+                            val position: DtoPosition,
+                            val actualDocumentDefinition: DocumentDefinition,
+                            val directoryResolver: DirectoryResolver,
+                            val styler: SuggestionRender,
+                            val astPartBranch: ASTPartBranch,
+                            val configurationReader: AlsConfigurationReader,
+                            private val objectInTree: ObjectInTree,
+                            val inheritedProvider: Option[DeclarationProvider] = None,
+                            val rootUri: Option[String],
+                            val completionsPluginHandler: CompletionsPluginHandler,
+                            val alsConfigurationState: ALSConfigurationState
 ) {
 
   lazy val branchStack: Seq[AmfObject] = objectInTree.stack
 
   lazy val amfObject: AmfObject = objectInTree.obj
 
-  val nodeDialect: Dialect =
+  val nodeDocumentDefinition: DocumentDefinition =
     objectInTree
       .objSpec(alsConfigurationState.findSemanticByName)
       .flatMap(alsConfigurationState.definitionFor)
-      .getOrElse(actualDialect)
+      .getOrElse(actualDocumentDefinition)
 
-  val currentNode: Option[NodeMapping] = DialectNodeFinder.find(objectInTree.obj, None, nodeDialect)
+  val currentNode: Option[NodeMapping] = DialectNodeFinder.find(objectInTree.obj, None, nodeDocumentDefinition)
 
   private def entryAndMapping: Option[(FieldEntry, Boolean)] =
     objectInTree.fieldValue
       .map(fe => (fe, false))
       .orElse({
-        FieldEntrySearcher(objectInTree.obj, currentNode, astPartBranch, actualDialect)
+        FieldEntrySearcher(objectInTree.obj, currentNode, astPartBranch, actualDocumentDefinition)
           .search(objectInTree.stack.headOption)
       })
 
@@ -67,7 +67,7 @@ class AmlCompletionRequest(
   val propertyMapping: List[PropertyMapping] = {
     val mappings: List[PropertyMapping] = currentNode match {
       case Some(nm: NodeMapping) =>
-        PropertyMappingFilter(objectInTree, nodeDialect, nm).filter().toList
+        PropertyMappingFilter(objectInTree, nodeDocumentDefinition, nm).filter().toList
       case _ => Nil
     }
 
@@ -87,13 +87,13 @@ class AmlCompletionRequest(
   }
 
   lazy val declarationProvider: DeclarationProvider =
-    inheritedProvider.getOrElse(DeclarationProvider(baseUnit, Some(actualDialect)))
+    inheritedProvider.getOrElse(DeclarationProvider(baseUnit, Some(actualDocumentDefinition)))
 
-  def withDialect(dialect: Dialect): AmlCompletionRequest =
+  def withDefinition(documentDefinition: DocumentDefinition): AmlCompletionRequest =
     new AmlCompletionRequest(
       this.baseUnit,
       this.position,
-      dialect,
+      documentDefinition,
       this.directoryResolver,
       this.styler,
       this.astPartBranch,
@@ -110,15 +110,15 @@ class AmlCompletionRequest(
 object AmlCompletionRequestBuilder {
 
   def build(
-      baseUnit: BaseUnit,
-      position: AmfPosition,
-      dialect: Dialect,
-      directoryResolver: DirectoryResolver,
-      snippetSupport: Boolean,
-      rootLocation: Option[String],
-      configuration: AlsConfigurationReader,
-      completionsPluginHandler: CompletionsPluginHandler,
-      alsConfigurationState: ALSConfigurationState
+             baseUnit: BaseUnit,
+             position: AmfPosition,
+             documentDefinition: DocumentDefinition,
+             directoryResolver: DirectoryResolver,
+             snippetSupport: Boolean,
+             rootLocation: Option[String],
+             configuration: AlsConfigurationReader,
+             completionsPluginHandler: CompletionsPluginHandler,
+             alsConfigurationState: ALSConfigurationState
   ): AmlCompletionRequest = {
     val partBranch: ASTPartBranch = {
       NodeBranchBuilder
@@ -145,12 +145,12 @@ object AmlCompletionRequestBuilder {
     new AmlCompletionRequest(
       baseUnit,
       dtoPosition,
-      dialect,
+      documentDefinition,
       directoryResolver,
       styler,
       partBranch,
       configuration,
-      objInTree(baseUnit, dialect, partBranch),
+      objInTree(baseUnit, documentDefinition, partBranch),
       rootUri = rootLocation,
       completionsPluginHandler = completionsPluginHandler,
       alsConfigurationState = alsConfigurationState
@@ -160,8 +160,8 @@ object AmlCompletionRequestBuilder {
       objInTree knowledge could be used in other features, if we start keeping track of every branch in a Unit it could
       be a nice idea to have general cache for a `(BaseUnit, position) -> lazy objectInTree branch` (an ObjectInTreeManager)
    */
-  private def objInTree(baseUnit: BaseUnit, definedBy: Dialect, astPartBranch: ASTPartBranch): ObjectInTree = {
-    val objectInTree = ObjectInTreeBuilder.fromUnit(baseUnit, baseUnit.identifier, definedBy, astPartBranch)
+  private def objInTree(baseUnit: BaseUnit, documentDefinition: DocumentDefinition, astPartBranch: ASTPartBranch): ObjectInTree = {
+    val objectInTree = ObjectInTreeBuilder.fromUnit(baseUnit, baseUnit.identifier, documentDefinition, astPartBranch)
     objectInTree.obj match {
       case d: EncodesModel if d.fields.exists(DocumentModel.Encodes) =>
         ObjectInTree(d.encodes, Seq(objectInTree.obj) ++ objectInTree.stack, None, astPartBranch)
@@ -247,13 +247,13 @@ object AmlCompletionRequestBuilder {
         element,
         parent.baseUnit.identifier,
         newStack,
-        parent.actualDialect,
+        parent.actualDocumentDefinition,
         parent.astPartBranch
       )
     new AmlCompletionRequest(
       parent.baseUnit,
       parent.position,
-      parent.actualDialect,
+      parent.actualDocumentDefinition,
       parent.directoryResolver,
       parent.styler,
       parent.astPartBranch,

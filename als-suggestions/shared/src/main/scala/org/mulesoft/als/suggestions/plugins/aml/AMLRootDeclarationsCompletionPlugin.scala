@@ -21,8 +21,8 @@ class AMLRootDeclarationsCompletionPlugin(params: AmlCompletionRequest) {
 
   private def getSuggestions: Seq[(String, String)] =
     params.baseUnit match {
-      case _: DeclaresModel if params.actualDialect.documents().declarationsPath().option().isDefined =>
-        params.actualDialect
+      case _: DeclaresModel if params.actualDocumentDefinition.documents().declarationsPath().option().isDefined =>
+        params.actualDocumentDefinition
           .documents()
           .declarationsPath()
           .option()
@@ -31,13 +31,13 @@ class AMLRootDeclarationsCompletionPlugin(params: AmlCompletionRequest) {
       case _: DeclaresModel =>
         params.baseUnit match {
           case _: DialectInstanceLibrary | _: Module =>
-            params.actualDialect
+            params.actualDocumentDefinition
               .documents()
               .library()
               .declaredNodes()
               .map(extractText)
           case _ =>
-            params.actualDialect
+            params.actualDocumentDefinition
               .documents()
               .root()
               .declaredNodes()
@@ -47,12 +47,12 @@ class AMLRootDeclarationsCompletionPlugin(params: AmlCompletionRequest) {
     }
 
   def usesSuggestion(): Option[(String, String)] =
-    params.actualDialect.documents().fields.getValueAsOption(DocumentsModelModel.Library).map(_ => ("uses", "\n  "))
+    params.actualDocumentDefinition.documents().fields.getValueAsOption(DocumentsModelModel.Library).map(_ => ("uses", "\n  "))
 
   def resolve(classTerm: String): Future[Seq[RawSuggestion]] =
     Future {
       (getSuggestions ++ usesSuggestion())
-        .map(s => RawSuggestion.forObject(s._1, CategoryRegistry(classTerm, s._1, params.actualDialect.id)))
+        .map(s => RawSuggestion.forObject(s._1, CategoryRegistry(classTerm, s._1, params.actualDocumentDefinition.baseUnit.id)))
     }
 }
 

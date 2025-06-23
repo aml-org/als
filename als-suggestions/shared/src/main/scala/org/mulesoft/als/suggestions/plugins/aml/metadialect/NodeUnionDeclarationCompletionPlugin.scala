@@ -8,6 +8,7 @@ import org.mulesoft.als.suggestions.RawSuggestion
 import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
 import org.mulesoft.als.suggestions.interfaces.ResolveIfApplies
 import org.mulesoft.als.suggestions.plugins.aml.{PropertyMappingWrapper, UnionSuggestions}
+import org.mulesoft.amfintegration.amfconfiguration.DocumentDefinition
 import org.mulesoft.amfintegration.dialect.dialects.metadialect.{NodeMappingObjectNode, UnionMappingObjectNode}
 
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -28,7 +29,7 @@ class NodeUnionDeclarationCompletionPlugin(
     override protected val yPartBranch: YPartBranch
 ) extends UnionSuggestions {
   override protected val amfObject: AmfObject = params.amfObject
-  override protected val dialect: Dialect     = params.actualDialect
+  override protected val documentDefinition: DocumentDefinition     = params.actualDocumentDefinition
   def applies(): Boolean =
     params.astPartBranch.isKey && params.amfObject.isInstanceOf[NodeMapping]
 

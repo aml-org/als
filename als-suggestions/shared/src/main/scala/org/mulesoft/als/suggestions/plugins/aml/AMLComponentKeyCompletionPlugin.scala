@@ -9,6 +9,7 @@ import org.mulesoft.als.suggestions.RawSuggestion
 import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
 import org.mulesoft.als.suggestions.interfaces.AMLCompletionPlugin
 import org.mulesoft.amfintegration.AmfImplicits.AmfObjectImp
+import org.mulesoft.amfintegration.amfconfiguration.DocumentDefinition
 
 import scala.concurrent.Future
 
@@ -19,32 +20,32 @@ object AMLComponentKeyCompletionPlugin extends AMLCompletionPlugin {
     Future.successful(resolvedSeq(params))
 
   private def resolvedSeq(params: AmlCompletionRequest): Seq[RawSuggestion] = {
-    if (inRoot(params.amfObject, params.actualDialect) && params.astPartBranch.isKey) {
-      params.actualDialect
+    if (inRoot(params.amfObject, params.actualDocumentDefinition) && params.astPartBranch.isKey) {
+      params.actualDocumentDefinition
         .documents()
         .declarationsPath()
         .option()
         .map(_.split('/').last) match {
         case Some(keyDeclarations) if isSonOf(keyDeclarations, params.astPartBranch) =>
-          buildDeclaredKeys(params.actualDialect)
+          buildDeclaredKeys(params.actualDocumentDefinition)
         case _ => Seq()
       }
     } else Seq()
   }
 
-  private def inRoot(amfObject: AmfObject, dialect: Dialect): Boolean = {
-    dialect
+  private def inRoot(amfObject: AmfObject, documentDefinition: DocumentDefinition): Boolean = {
+    documentDefinition
       .documents()
       .root()
       .encoded()
       .option()
-      .flatMap(id => dialect.declares.collectFirst({ case n: NodeMapping if id == n.id => n }))
+      .flatMap(id => documentDefinition.declares.collectFirst({ case n: NodeMapping if id == n.id => n }))
       .exists(i => amfObject.metaURIs.contains(i.nodetypeMapping.value())) ||
     amfObject.isInstanceOf[Module]
   }
 
-  private def buildDeclaredKeys(dialect: Dialect) = {
-    dialect
+  private def buildDeclaredKeys(documentDefinition: DocumentDefinition) = {
+    documentDefinition
       .documents()
       .root()
       .declaredNodes()

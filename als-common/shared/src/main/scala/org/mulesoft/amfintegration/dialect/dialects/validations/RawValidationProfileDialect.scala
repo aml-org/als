@@ -4,7 +4,7 @@ import org.mulesoft.amfintegration.dialect.dialects.InMemoryDialect
 
 object RawValidationProfileDialect extends InMemoryDialect {
   val name: String = "validation-profile"
-  lazy val yaml: String =
+  lazy val fileContent: String =
     """#%Dialect 1.0
       |
       |dialect: Validation Profile

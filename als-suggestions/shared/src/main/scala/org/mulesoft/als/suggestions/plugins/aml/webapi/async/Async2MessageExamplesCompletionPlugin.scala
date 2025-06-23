@@ -23,7 +23,7 @@ object Async2MessageExamplesCompletionPlugin extends AMLCompletionPlugin with As
   override def resolve(params: AmlCompletionRequest): Future[Seq[RawSuggestion]] = {
     if (isExampleAtPayload(params))
       Future.successful(
-        examplesNode(params.nodeDialect.nameAndVersion()).Obj.propertiesRaw(fromDialect = params.actualDialect)
+        examplesNode(params.nodeDocumentDefinition.nameAndVersion()).Obj.propertiesRaw(fromDefinition = params.actualDocumentDefinition)
       )
     else emptySuggestion
   }

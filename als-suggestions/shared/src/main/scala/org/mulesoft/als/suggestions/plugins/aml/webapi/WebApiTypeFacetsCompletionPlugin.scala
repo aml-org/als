@@ -14,6 +14,7 @@ import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
 import org.mulesoft.als.suggestions.interfaces.AMLCompletionPlugin
 import org.mulesoft.als.suggestions.plugins.aml.NodeMappingWrapper
 import org.mulesoft.amfintegration.AmfImplicits.AmfObjectImp
+import org.mulesoft.amfintegration.amfconfiguration.DocumentDefinition
 
 import scala.concurrent.Future
 
@@ -26,14 +27,14 @@ trait WebApiTypeFacetsCompletionPlugin extends AMLCompletionPlugin with WritingS
             params.astPartBranch,
             shape,
             params.branchStack,
-            params.actualDialect
+            params.actualDocumentDefinition
           ) && params.fieldEntry.isEmpty =>
-        resolveShape(shape, params.branchStack, params.actualDialect)
+        resolveShape(shape, params.branchStack, params.actualDocumentDefinition)
       case _ => Nil
     })
   }
 
-  def resolveShape(shape: Shape, branchStack: Seq[AmfObject], dialect: Dialect, default: Option[NodeMapping] = getSuggestionsForAnyShapeNode): Seq[RawSuggestion] = {
+  def resolveShape(shape: Shape, branchStack: Seq[AmfObject], documentDefinition: DocumentDefinition, default: Option[NodeMapping] = getSuggestionsForAnyShapeNode): Seq[RawSuggestion] = {
     val node = shape match {
       case scalar: ScalarShape =>
         scalar.dataType.option() match {
@@ -52,19 +53,19 @@ trait WebApiTypeFacetsCompletionPlugin extends AMLCompletionPlugin with WritingS
         s
     }
 
-    resolveSuggestionForShape(node, shape, branchStack, dialect)
+    resolveSuggestionForShape(node, shape, branchStack, documentDefinition)
   }
 
-  private def resolveSuggestionForShape(node: Option[NodeMapping], shape: Shape, branchStack: Seq[AmfObject], dialect: Dialect)
+  private def resolveSuggestionForShape(node: Option[NodeMapping], shape: Shape, branchStack: Seq[AmfObject], documentDefinition: DocumentDefinition)
   : Seq[RawSuggestion] = {
     val classSuggestions: Seq[RawSuggestion] =
-      node.map(n => n.propertiesRaw(fromDialect = dialect)).getOrElse(Nil)
+      node.map(n => n.propertiesRaw(fromDefinition = documentDefinition)).getOrElse(Nil)
 
     // corner case, property shape should suggest facets of the range PLUS required
     val finalSuggestions: Iterable[RawSuggestion] = (branchStack.headOption match {
       case Some(_: PropertyShape) =>
         (propertyShapeNode
-          .map(_.propertiesRaw(fromDialect = dialect))
+          .map(_.propertiesRaw(fromDefinition = documentDefinition))
           .getOrElse(Nil) ++ classSuggestions).toSet
       case _ => classSuggestions
     }) ++ defaults(shape)

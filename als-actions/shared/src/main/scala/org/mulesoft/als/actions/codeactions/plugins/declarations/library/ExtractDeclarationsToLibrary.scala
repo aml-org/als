@@ -146,7 +146,7 @@ trait ExtractDeclarationsToLibrary extends CodeActionResponsePlugin with Creates
           .map(_.start)
           .map(p => params.astPartBranchCached.getCachedOrNew(p, params.uri)),
         params.bu,
-        params.definedBy
+        params.documentDefinition
       )
       // as it is just for RAML (ergo YAML), we will take the whole line as the entry to be erased
       .map(range => Range(Position(range.start.line, 0), LspRangeConverter.toLspPosition(range.`end`)))

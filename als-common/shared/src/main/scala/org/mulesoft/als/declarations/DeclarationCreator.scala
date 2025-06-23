@@ -1,6 +1,5 @@
 package org.mulesoft.als.declarations
 
-import amf.aml.client.scala.model.document.Dialect
 import amf.apicontract.internal.metamodel.domain.api.BaseApiModel
 import amf.core.client.scala.model.document.{BaseUnit, EncodesModel, Module}
 import amf.core.client.scala.model.domain.AmfObject
@@ -9,6 +8,7 @@ import amf.core.internal.utils.InflectorBase.Inflector
 import org.mulesoft.als.common.NodeBranchBuilder
 import org.mulesoft.als.common.dtoTypes.{Position, PositionRange}
 import org.mulesoft.amfintegration.AmfImplicits.{AmfAnnotationsImp, AmfObjectImp, BaseUnitImp}
+import org.mulesoft.amfintegration.amfconfiguration.DocumentDefinition
 import org.mulesoft.common.client.lexical.ASTElement
 import org.yaml.model._
 
@@ -16,17 +16,17 @@ import scala.annotation.tailrec
 
 trait DeclarationCreator {
 
-  def declarationName(amfObject: AmfObject, dialect: Dialect): Option[String] =
+  def declarationName(amfObject: AmfObject, documentDefinition: DocumentDefinition): Option[String] =
     amfObject
-      .declarableKey(dialect)
+      .declarableKey(documentDefinition)
       .map(_.singularize)
       .map(t => s"new$t")
 
-  def declarationPath(fdp: AmfObject, dialect: Dialect): Seq[String] =
-    Seq(fdp.declarableKey(dialect), declarationPathForDialect(dialect)).flatten
+  def declarationPath(fdp: AmfObject, documentDefinition: DocumentDefinition): Seq[String] =
+    Seq(fdp.declarableKey(documentDefinition), declarationPathForDialect(documentDefinition)).flatten
 
-  def declarationPathForDialect(dialect: Dialect): Option[String] =
-    dialect.documents().declarationsPath().option()
+  def declarationPathForDialect(documentDefinition: DocumentDefinition): Option[String] =
+    documentDefinition.documents().declarationsPath().option()
 
   def findExistingKeyPart(bu: BaseUnit, uri: String, keyPath: Seq[String]): Seq[YMapEntry] = {
     val maybePart = bu.references

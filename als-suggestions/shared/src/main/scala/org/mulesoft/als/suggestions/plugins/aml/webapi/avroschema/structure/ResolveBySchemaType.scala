@@ -1,6 +1,5 @@
 package org.mulesoft.als.suggestions.plugins.aml.webapi.avroschema.structure
 
-import amf.aml.client.scala.model.document.Dialect
 import amf.core.client.scala.model.domain.AmfObject
 import amf.shapes.client.scala.model.domain.ScalarShape
 import amf.shapes.internal.annotations.AVROSchemaType
@@ -10,6 +9,7 @@ import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
 import org.mulesoft.als.suggestions.interfaces.ResolveIfApplies
 import org.mulesoft.als.suggestions.plugins.aml._
 import org.mulesoft.amfintegration.AmfImplicits.AmfAnnotationsImp
+import org.mulesoft.amfintegration.amfconfiguration.DocumentDefinition
 import org.mulesoft.amfintegration.dialect.dialects.avro.{AvroEnumNode, AvroFixedNode, AvroMapNode}
 import org.mulesoft.amfintegration.dialect.dialects.oas.nodes.DialectNode
 import org.mulesoft.common.client.lexical.ASTElement
@@ -26,7 +26,7 @@ trait ResolveBySchemaType[T <: AmfObject] extends ResolveIfApplies {
   override def resolve(request: AmlCompletionRequest): Option[Future[Seq[RawSuggestion]]] = {
     request.amfObject match {
       case obj: T if isSchemaType(obj) && isSameLevel(obj.annotations.astElement(), request.astPartBranch) =>
-        applies(mapNodeSuggestions(request.actualDialect))
+        applies(mapNodeSuggestions(request.actualDocumentDefinition))
       case _ =>
         notApply
     }
@@ -48,7 +48,7 @@ trait ResolveBySchemaType[T <: AmfObject] extends ResolveIfApplies {
     case _ => false
   }
 
-  private def mapNodeSuggestions(d: Dialect): Future[Seq[RawSuggestion]] =
+  private def mapNodeSuggestions(d: DocumentDefinition): Future[Seq[RawSuggestion]] =
     Future(node.Obj.propertiesRaw(Some("schemas"), d))
 }
 

@@ -16,12 +16,12 @@ object ResolveParameterInRequest extends ResolveIfApplies {
     request.amfObject match {
       case o: Operation if o.graph.containsProperty(OperationModel.Request.value.iri()) =>
         val branch =
-          o.request.findSon(o.location().getOrElse(""), request.actualDialect, request.astPartBranch)
+          o.request.findSon(o.location().getOrElse(""), request.actualDocumentDefinition, request.astPartBranch)
         if (branch.obj.isInstanceOf[Parameter] && branch.fe.isEmpty)
           applies(
             Future.successful(
               Oas30ParamObject.Obj
-                .propertiesRaw(fromDialect = request.actualDialect) ++ AMLRefTagCompletionPlugin.refSuggestion
+                .propertiesRaw(fromDefinition = request.actualDocumentDefinition) ++ AMLRefTagCompletionPlugin.refSuggestion
             )
           )
         else notApply

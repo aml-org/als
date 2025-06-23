@@ -21,7 +21,7 @@ object ExampleStructure extends AMLCompletionPlugin {
             if request.fieldEntry.exists(_.field == ExampleModel.Name) && request.astPartBranch.stringValue != e.name
               .option()
               .getOrElse("") && request.astPartBranch.isKey =>
-          Raml10DialectNodes.ExampleNode.propertiesRaw(fromDialect = request.actualDialect)
+          Raml10DialectNodes.ExampleNode.propertiesRaw(fromDefinition = request.actualDocumentDefinition)
         case _ => Nil
       }
     }

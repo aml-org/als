@@ -18,7 +18,7 @@ case class ExtractElementCodeAction(params: CodeActionRequestParams) extends Ext
 
   override lazy val isApplicable: Boolean =
     homogeneousVendor && !spec.isRaml && amfObject.isDefined && positionIsExtracted &&
-      params.definedBy != MetaDialect.dialect && appliesToDocument()
+      params.documentDefinition.baseUnit != MetaDialect.dialect && appliesToDocument()
 
   override protected def msg(params: CodeActionRequestParams): String =
     s"Extract element to declaration: \n\t${params.uri}\t${params.range}"

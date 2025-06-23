@@ -9,6 +9,7 @@ import amf.shapes.client.scala.model.document.JsonSchemaDocument
 import amf.shapes.internal.annotations.DocumentDeclarationKey
 import org.mulesoft.als.suggestions.RawSuggestion
 import org.mulesoft.amfintegration.AmfImplicits.AmfObjectImp
+import org.mulesoft.amfintegration.amfconfiguration.DocumentDefinition
 import org.mulesoft.amfintegration.dialect.dialects.oas.OAS30Dialect
 
 import scala.concurrent.Future
@@ -64,8 +65,8 @@ sealed case class ComponentSuggestor(component: ComponentModule, prefix: String,
         }
       case named: NamedDomainElement if targetClass.forall(tc => named.metaURIs.contains(tc)) =>
         for {
-          componentsKey <- OAS30Dialect.dialect.documents().declarationsPath().option()
-          declaredKey   <- named.declarableKey(OAS30Dialect.dialect)
+          componentsKey <- DocumentDefinition(OAS30Dialect.dialect).documents().declarationsPath().option()
+          declaredKey   <- named.declarableKey(DocumentDefinition(OAS30Dialect.dialect))
           name          <- named.name.option()
         } yield {
           s"/$componentsKey/$declaredKey/$name"

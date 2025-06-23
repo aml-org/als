@@ -8,6 +8,7 @@ import amf.core.internal.annotations.Aliases
 import amf.core.internal.metamodel.domain.DomainElementModel
 import org.mulesoft.als.common.SemanticNamedElement.ElementNameExtractor
 import org.mulesoft.amfintegration.AmfImplicits.AmfObjectImp
+import org.mulesoft.amfintegration.amfconfiguration.DocumentDefinition
 
 import scala.collection.mutable
 
@@ -101,7 +102,7 @@ class DeclarationProvider(componentId: Option[String] = None) {
 }
 
 object DeclarationProvider {
-  def apply(bu: BaseUnit, d: Option[Dialect]): DeclarationProvider = {
+  def apply(bu: BaseUnit, d: Option[DocumentDefinition]): DeclarationProvider = {
     val provider = new DeclarationProvider(d.flatMap(_.documents().declarationsPath().option()))
 
     populateDeclarables(d, provider)
@@ -127,7 +128,7 @@ object DeclarationProvider {
 
   }
 
-  private def populateDeclarables(d: Option[Dialect], provider: DeclarationProvider): Unit = {
+  private def populateDeclarables(d: Option[DocumentDefinition], provider: DeclarationProvider): Unit = {
     val declaredIds = d
       .map(_.documents())
       .map(documents => {

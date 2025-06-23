@@ -1,22 +1,22 @@
 package org.mulesoft.als.suggestions.aml
 
-import amf.aml.client.scala.model.document.Dialect
 import amf.aml.client.scala.model.domain.{NodeMapping, PropertyMapping}
 import amf.core.client.scala.model.domain.{AmfObject, AmfScalar}
 import amf.core.internal.parser.domain.{FieldEntry, Value}
-import org.mulesoft.als.common.{ASTPartBranch, YPartBranch}
-import org.mulesoft.amfintegration.AmfImplicits.{AmfObjectImp, DialectImplicits}
+import org.mulesoft.als.common.ASTPartBranch
+import org.mulesoft.amfintegration.AmfImplicits.AmfObjectImp
+import org.mulesoft.amfintegration.amfconfiguration.DocumentDefinition
 
 import scala.collection.immutable
 
 case class FieldEntrySearcher(
-    amfObject: AmfObject,
-    currentNode: Option[NodeMapping],
-    astPartBranch: ASTPartBranch,
-    actualDialect: Dialect
+                               amfObject: AmfObject,
+                               currentNode: Option[NodeMapping],
+                               astPartBranch: ASTPartBranch,
+                               actualDocumentDefinition: DocumentDefinition
 ) {
   val currentIds: immutable.Seq[String] =
-    amfObject.metaURIs.flatMap(uri => actualDialect.termsForId.find(_._2 == uri).map(_._1))
+    amfObject.metaURIs.flatMap(uri => actualDocumentDefinition.termsForId.find(_._2 == uri).map(_._1))
 
   private def findReferringProperty(mappings: Seq[PropertyMapping]) =
     mappings.filter(np => currentIds.exists(np.objectRange().map(_.value()).contains)) match {
@@ -39,7 +39,7 @@ case class FieldEntrySearcher(
   def search(father: Option[AmfObject]): Option[(FieldEntry, Boolean)] =
     for {
       parent <- father
-      nm     <- DialectNodeFinder.find(parent, None, actualDialect)
+      nm     <- DialectNodeFinder.find(parent, None, actualDocumentDefinition)
       rp     <- findReferringProperty(nm.propertiesMapping())
       mm     <- findValueFromTerm(rp)
     } yield (FieldEntry(mm.toField, Value(AmfScalar(""), amfObject.annotations)), true)

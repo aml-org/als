@@ -22,14 +22,12 @@ import scala.collection.mutable
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
-class ProjectConfigurationNotFound(folder: String) extends Exception(s"Couldn't find configuration for folder: $folder")
-
 sealed class ConfigurationMap {
   case class ConfigurationContainer(
       configuration: Future[DefaultProjectConfiguration],
       projectConfig: ProjectConfiguration
   )
-  var configurations: Map[String, ConfigurationContainer] = Map()
+  private var configurations: Map[String, ConfigurationContainer] = Map()
 
   def get(folder: String): Option[ConfigurationContainer] = synchronized {
     configurations.get(folder)
@@ -152,7 +150,6 @@ class DefaultProjectConfigurationProvider(
       )
       .map(_.flatMap(r => {
         if (r._1.baseUnit.isValidationProfile && r._1.conforms) {
-//          updateUnit(uuid, r, isDependency = true) //todo: cache
           r._1.dialectInstance match {
             case instance: DialectInstance =>
               Logger.debug(
@@ -218,7 +215,6 @@ class CacheBuilder(
         case Some(bu) => Future.successful(CachedReference(url, bu))
         case _        => Future.failed(new Exception("Unit not found"))
       }
-  def cachedUnits: Seq[BaseUnit] = cache.values.toSeq
 
   def updateCache(main: AMFResult, units: Map[String, ParsedUnit]): Future[Unit] = {
     Future

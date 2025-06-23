@@ -24,7 +24,7 @@ case class ExtractRamlTypeCodeAction(params: CodeActionRequestParams)
 
   override lazy val isApplicable: Boolean =
     homogeneousVendor && spec.isRaml && positionIsExtracted &&
-      amfObject.exists(o => ExtractorCommon.declarationPath(o, params.definedBy) == Seq("types")) && appliesToDocument()
+      amfObject.exists(o => ExtractorCommon.declarationPath(o, params.documentDefinition) == Seq("types")) && appliesToDocument()
 
   override lazy val linkEntry: Future[Option[TextEdit]] =
     renderLink.map(

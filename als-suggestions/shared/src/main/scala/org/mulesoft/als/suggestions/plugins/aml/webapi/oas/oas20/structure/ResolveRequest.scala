@@ -20,10 +20,10 @@ object ResolveRequest extends ResolveIfApplies with ParameterKnowledge {
           applies(Future.successful(Seq()))
         else if (request.fieldEntry.isEmpty && !definingParam(request.astPartBranch))
           applies(Future {
-            request.actualDialect.declares
+            request.actualDocumentDefinition.declares
               .collect({ case n: NodeMapping => n })
               .find(_.nodetypeMapping.option().contains(OperationModel.`type`.head.iri()))
-              .map(_.propertiesRaw(fromDialect = request.actualDialect))
+              .map(_.propertiesRaw(fromDefinition = request.actualDocumentDefinition))
               .getOrElse(Nil)
           })
         else notApply

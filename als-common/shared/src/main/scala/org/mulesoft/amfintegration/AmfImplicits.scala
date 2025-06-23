@@ -22,6 +22,7 @@ import org.mulesoft.als.common.ASTElementWrapper._
 import org.mulesoft.als.common.YPartASTWrapper.{AlsYMapOps, AlsYPart}
 import org.mulesoft.als.common.dtoTypes.{Position, PositionRange}
 import org.mulesoft.als.common.{ASTElementWrapper, ASTPartBranch}
+import org.mulesoft.amfintegration.amfconfiguration.DocumentDefinition
 import org.mulesoft.antlrast.ast.Node
 import org.mulesoft.common.client.lexical.{ASTElement, Position => AmfPosition, PositionRange => AmfPositionRange}
 import org.yaml.model._
@@ -223,9 +224,9 @@ object AmfImplicits {
   }
 
   implicit class AmfObjectImp(amfObject: AmfObject) {
-    def declarableKey(dialect: Dialect): Option[String] =
+    def declarableKey(documentDefinition: DocumentDefinition): Option[String] =
       amfObject.metaURIs
-        .flatMap(dialect.declarationsMapTerms.get(_))
+        .flatMap(documentDefinition.declarationsMapTerms.get(_))
         .headOption
 
     def metaURIs: List[String] = amfObject.meta.`type` match {
@@ -337,14 +338,14 @@ object AmfImplicits {
         })
         .getOrElse(0)
 
-    def documentMapping(dialect: Dialect): Option[DocumentMapping] = bu match {
-      case fragment: Fragment            => documentForFragment(fragment, dialect)
-      case d: Document if d.root.value() => Some(dialect.documents().root())
+    def documentMapping(documentDefinition: DocumentDefinition): Option[DocumentMapping] = bu match {
+      case fragment: Fragment            => documentForFragment(fragment, documentDefinition)
+      case d: Document if d.root.value() => Some(documentDefinition.documents().root())
       case _                             => None
     }
 
-    private def documentForFragment(fragment: Fragment, dialect: Dialect): Option[DocumentMapping] =
-      dialect.documents().fragments().find(doc => fragment.encodes.metaURIs.exists(_.equals(doc.encoded().value())))
+    private def documentForFragment(fragment: Fragment, documentDefinition: DocumentDefinition): Option[DocumentMapping] =
+      documentDefinition.documents().fragments().find(doc => fragment.encodes.metaURIs.exists(_.equals(doc.encoded().value())))
 
     def isValidationProfile: Boolean =
       bu match {

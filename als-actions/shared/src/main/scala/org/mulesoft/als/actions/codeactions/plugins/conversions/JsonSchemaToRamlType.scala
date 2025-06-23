@@ -95,7 +95,7 @@ class JsonSchemaToRamlType(override protected val params: CodeActionRequestParam
 
   private def renderRamlType(shape: AnyShape): Future[String] = Future {
     shape.annotations.reject(_.isInstanceOf[ParsedJSONSchema])
-    val node: Option[YNode] = declaredElementNode(Some(shape), params.definedBy, alsConfigurationState)
+    val node: Option[YNode] = declaredElementNode(Some(shape), params.documentDefinition, alsConfigurationState)
     val parent              = yPartBranch.flatMap(_.closestEntry)
     node
       .map(

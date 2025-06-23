@@ -17,7 +17,7 @@ object RamlPayloadMediaTypeCompletionPlugin extends AMLCompletionPlugin with Pay
     Future {
       if (isWritingKeyMediaType(request)) {
         PatchedSuggestionsForDialect
-          .getKnownValues(request.actualDialect.id, PayloadModel.`type`.head.iri(), PayloadModel.MediaType.value.iri())
+          .getKnownValues(request.actualDocumentDefinition.baseUnit.id, PayloadModel.`type`.head.iri(), PayloadModel.MediaType.value.iri())
           .map(p =>
             RawSuggestion
               .forObject(
@@ -25,7 +25,7 @@ object RamlPayloadMediaTypeCompletionPlugin extends AMLCompletionPlugin with Pay
                 CategoryRegistry(
                   PayloadModel.`type`.head.iri(),
                   PayloadModel.MediaType.value.name,
-                  request.actualDialect.id
+                  request.actualDocumentDefinition.baseUnit.id
                 )
               )
           )

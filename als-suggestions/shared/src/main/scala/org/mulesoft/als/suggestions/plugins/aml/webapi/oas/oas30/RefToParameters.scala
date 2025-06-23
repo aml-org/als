@@ -1,6 +1,5 @@
 package org.mulesoft.als.suggestions.plugins.aml.webapi.oas.oas30
 
-import amf.aml.client.scala.model.document.Dialect
 import amf.apicontract.client.scala.model.domain.Parameter
 import amf.apicontract.internal.metamodel.domain.ParameterModel
 import amf.core.client.scala.model.domain.{DomainElement, NamedDomainElement}
@@ -9,6 +8,7 @@ import org.mulesoft.als.suggestions.RawSuggestion
 import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
 import org.mulesoft.als.suggestions.interfaces.AMLCompletionPlugin
 import org.mulesoft.als.suggestions.plugins.aml.AMLJsonSchemaStyleDeclarationReferences
+import org.mulesoft.amfintegration.amfconfiguration.DocumentDefinition
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
@@ -46,14 +46,14 @@ object RefToParameters extends AMLCompletionPlugin {
       path: String,
       fn: DomainElement => Boolean
   ): Seq[RawSuggestion] = {
-    val dcl     = declarationPath(request.actualDialect)
+    val dcl     = declarationPath(request.actualDocumentDefinition)
     val strings = declarations(request, fn).map(d => s"#/$dcl$path/$d")
 
     AMLJsonSchemaStyleDeclarationReferences
       .resolveRoutes(strings, request.astPartBranch)
   }
 
-  private def declarationPath(dialect: Dialect) = {
+  private def declarationPath(dialect: DocumentDefinition) = {
     dialect.documents().declarationsPath().option().map(_ + "/").getOrElse("")
   }
 

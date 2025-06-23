@@ -22,9 +22,9 @@ object ResolveShapeAndSecurity extends ResolveIfApplies {
       case _: Request =>
         applies(
           Future {
-            request.actualDialect
+            request.actualDocumentDefinition
               .findNodeMappingByTerm(OperationModel.`type`.head.iri())
-              .map(n => n.propertiesRaw(fromDialect = request.actualDialect))
+              .map(n => n.propertiesRaw(fromDefinition = request.actualDocumentDefinition))
               .getOrElse(Nil)
           }
         )

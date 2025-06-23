@@ -1,6 +1,5 @@
 package org.mulesoft.als.suggestions.plugins.aml.webapi
 
-import amf.aml.client.scala.model.document.Dialect
 import amf.apicontract.internal.metamodel.domain.PayloadModel
 import amf.core.client.common.validation.{ProfileName, ProfileNames}
 import amf.core.client.scala.model.domain._
@@ -15,18 +14,18 @@ import org.mulesoft.als.suggestions.RawSuggestion
 import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
 import org.mulesoft.als.suggestions.interfaces.AMLCompletionPlugin
 import org.mulesoft.amfintegration.LocalIgnoreErrorHandler
-import org.mulesoft.amfintegration.amfconfiguration.ALSConfigurationState
+import org.mulesoft.amfintegration.amfconfiguration.{ALSConfigurationState, DocumentDefinition}
 import org.mulesoft.amfintegration.dialect.dialects.oas.OAS20Dialect
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
 case class ObjectExamplePropertiesCompletionPlugin(
-    node: DataNode,
-    dialect: Dialect,
-    override val anyShape: AnyShape,
-    example: Example,
-    override protected val alsConfigurationState: ALSConfigurationState
+                                                    node: DataNode,
+                                                    documentDefinition: DocumentDefinition,
+                                                    override val anyShape: AnyShape,
+                                                    example: Example,
+                                                    override protected val alsConfigurationState: ALSConfigurationState
 ) extends ShapePropertiesSuggestions {
 
   override protected def shapeForObj: Option[NodeShape] = resolved.flatMap(findNode(_, example.structuredValue, node))
@@ -55,19 +54,19 @@ case class ObjectExamplePropertiesCompletionPlugin(
 
 trait ShapePropertiesSuggestions {
   val anyShape: AnyShape
-  protected val dialect: Dialect
+  protected val documentDefinition: DocumentDefinition
   protected def shapeForObj: Option[NodeShape]
   protected val alsConfigurationState: ALSConfigurationState
 
   def suggest(): Seq[RawSuggestion] = shapeForObj.map(_.properties.map(propToRaw)).getOrElse(Nil)
 
   private def profile: ProfileName =
-    if (dialect.id == OAS20Dialect.dialect.id) ProfileNames.OAS20 else ProfileNames.RAML10
+    if (documentDefinition.baseUnit.id == OAS20Dialect.dialect.id) ProfileNames.OAS20 else ProfileNames.RAML10
 
   // todo: use specific amf configuration for resolution?
   protected val resolved: Option[AnyShape] =
     new CompleteShapeTransformationPipeline(anyShape, LocalIgnoreErrorHandler, profile)
-      .transform(alsConfigurationState.configForDialect(dialect).config) match {
+      .transform(alsConfigurationState.configForDefinition(documentDefinition).config) match {
       case a: AnyShape => Some(a)
       case _           => None
     }
@@ -83,9 +82,9 @@ trait ShapePropertiesSuggestions {
 }
 
 case class PureShapePropertiesSuggestions(
-    override val anyShape: AnyShape,
-    dialect: Dialect,
-    override protected val alsConfigurationState: ALSConfigurationState
+                                           override val anyShape: AnyShape,
+                                           documentDefinition: DocumentDefinition,
+                                           override protected val alsConfigurationState: ALSConfigurationState
 ) extends ShapePropertiesSuggestions {
   override protected def shapeForObj: Option[NodeShape] = resolved.collectFirst({ case n: NodeShape => n })
 }
@@ -105,7 +104,7 @@ trait ExampleSuggestionPluginBuilder {
       .filter(fe => fe.field == ExamplesField.Examples)
       .flatMap(_ => {
         isFatherShape(Some(request.amfObject))
-          .map(s => PureShapePropertiesSuggestions(s, request.actualDialect, request.alsConfigurationState))
+          .map(s => PureShapePropertiesSuggestions(s, request.actualDocumentDefinition, request.alsConfigurationState))
       })
   }
 
@@ -116,7 +115,7 @@ trait ExampleSuggestionPluginBuilder {
             ExampleModel.StructuredValue
           ) =>
         findShape(e, e +: request.branchStack).map(s =>
-          PureShapePropertiesSuggestions(s._2, request.actualDialect, request.alsConfigurationState)
+          PureShapePropertiesSuggestions(s._2, request.actualDocumentDefinition, request.alsConfigurationState)
         )
       case _ => None
     }
@@ -131,7 +130,7 @@ trait ExampleSuggestionPluginBuilder {
       .map(obj =>
         new ObjectExamplePropertiesCompletionPlugin(
           obj,
-          request.actualDialect,
+          request.actualDocumentDefinition,
           anyShape,
           e,
           request.alsConfigurationState

@@ -20,8 +20,8 @@ abstract class AbstractRuntimeExpressionsCompletionPlugin extends AMLCompletionP
   protected def isApplicable(request: AmlCompletionRequest): Boolean =
     request.astPartBranch match {
       case yPartBranch: YPartBranch =>
-        !(DialectKnowledge.isRamlInclusion(yPartBranch, request.actualDialect) ||
-          DialectKnowledge.isJsonInclusion(yPartBranch, request.actualDialect)) &&
+        !(DialectKnowledge.isRamlInclusion(yPartBranch, request.actualDocumentDefinition) ||
+          DialectKnowledge.isJsonInclusion(yPartBranch, request.actualDocumentDefinition)) &&
         appliesToField(request)
       case _ => false
     }

@@ -21,7 +21,7 @@ object NodeShapeDiscriminatorProperty extends AMLCompletionPlugin {
     Future {
       request.amfObject match {
         case node: NodeShape if request.fieldEntry.exists(t => t.field == NodeShapeModel.Discriminator) =>
-          nodeProperties(node, request.alsConfigurationState.configForDialect(request.actualDialect))
+          nodeProperties(node, request.alsConfigurationState.configForDefinition(request.actualDocumentDefinition))
             .map(RawSuggestion.apply(_, isAKey = false))
         case _ => Nil
       }

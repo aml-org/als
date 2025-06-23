@@ -28,7 +28,7 @@ object AnnotationFacets extends AMLCompletionPlugin {
         case s: Shape
             if request.branchStack.headOption
               .exists(_.isInstanceOf[CustomDomainProperty]) && isWrittingFacet(request) =>
-          Raml10TypesDialect.AnnotationType.propertiesRaw(fromDialect = request.actualDialect)
+          Raml10TypesDialect.AnnotationType.propertiesRaw(fromDefinition = request.actualDocumentDefinition)
         case _ => Nil
       }
     }
@@ -42,12 +42,12 @@ object AnnotationFacets extends AMLCompletionPlugin {
 
   private def typeFacets(request: AmlCompletionRequest) = {
     val plugin =
-      if (request.actualDialect.id == Raml08TypesDialect.DialectLocation) Raml08TypeFacetsCompletionPlugin
+      if (request.actualDocumentDefinition.baseUnit.id == Raml08TypesDialect.DialectLocation) Raml08TypeFacetsCompletionPlugin
       else Raml10TypeFacetsCompletionPlugin
     plugin.resolveShape(
       ScalarShape().set(ScalarShapeModel.DataType, AmfScalar("string"), Annotations() += Inferred()),
       Nil,
-      request.actualDialect
+      request.actualDocumentDefinition
     )
   }
 }

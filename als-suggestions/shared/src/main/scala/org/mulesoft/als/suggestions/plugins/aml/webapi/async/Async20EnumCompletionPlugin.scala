@@ -11,6 +11,7 @@ import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
 import org.mulesoft.als.suggestions.interfaces.AMLCompletionPlugin
 import org.mulesoft.als.suggestions.plugins.aml.{AMLEnumCompletionPlugin, EnumSuggestions}
 import org.mulesoft.als.suggestions.util.DialectFinderByMediaType
+import org.mulesoft.amfintegration.amfconfiguration.DocumentDefinition
 import org.mulesoft.amfintegration.dialect.dialects.asyncapi20.MessageObjectNode
 import org.mulesoft.amfintegration.dialect.dialects.asyncapi26.Message26ObjectNode
 
@@ -42,17 +43,17 @@ trait AsyncEnumCompletionPlugin extends AMLCompletionPlugin with EnumSuggestions
   private def isInsideAvro(params: AmlCompletionRequest) = {
     // skip cases in the root because they are not handled in the other specific plugins (we should delegate it in the future)
     params.branchStack.tail.collectFirst { case p: Payload => p }.exists { p =>
-      findDialectFromPayload(p).name().option().contains("avro")
+      findDialectFromPayload(p).name().contains("avro")
     }
   }
 
   private def cloneParamsForSchemaMediaType(params: AmlCompletionRequest) =
     params.branchStack
       .collectFirst {
-        case p: Payload => params.withDialect(getDialectBySchemaMediaType(p))
+        case p: Payload => params.withDefinition(getDialectBySchemaMediaType(p))
       }.getOrElse(params)
 
-  private def getDialectBySchemaMediaType(payload: Payload): Dialect =
+  private def getDialectBySchemaMediaType(payload: Payload): DocumentDefinition =
     findDialectFromPayload(payload)
 }
 case object Async20EnumCompletionPlugin extends AsyncEnumCompletionPlugin {

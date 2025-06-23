@@ -2,7 +2,7 @@ package org.mulesoft.amfintegration.dialect.dialects
 
 object CanonicalApiDialect extends InMemoryDialect {
   override val name: String = "webapi-spec"
-  override val yaml: String = CanonicalApiContent.part1 + CanonicalApiContent.part2
+  override val fileContent: String = CanonicalApiContent.part1 + CanonicalApiContent.part2
 }
 
 private object CanonicalApiContent {

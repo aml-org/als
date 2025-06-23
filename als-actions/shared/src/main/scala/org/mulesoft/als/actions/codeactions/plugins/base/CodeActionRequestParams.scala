@@ -7,22 +7,22 @@ import org.mulesoft.als.common.DirectoryResolver
 import org.mulesoft.als.common.cache.{ASTPartBranchCached, ObjectInTreeCached}
 import org.mulesoft.als.common.dtoTypes.PositionRange
 import org.mulesoft.als.configuration.AlsConfigurationReader
-import org.mulesoft.amfintegration.amfconfiguration.ALSConfigurationState
+import org.mulesoft.amfintegration.amfconfiguration.{ALSConfigurationState, DocumentDefinition}
 import org.mulesoft.amfintegration.relationships.RelationshipLink
 import org.mulesoft.lsp.feature.codeactions.CodeActionParams
 
 case class CodeActionRequestParams(
-    uri: String,
-    range: PositionRange,
-    bu: BaseUnit,
-    tree: ObjectInTreeCached,
-    astPartBranchCached: ASTPartBranchCached,
-    definedBy: Dialect,
-    configuration: AlsConfigurationReader,
-    allRelationships: Seq[RelationshipLink],
-    alsConfigurationState: ALSConfigurationState,
-    uuid: String,
-    directoryResolver: DirectoryResolver
+                                    uri: String,
+                                    range: PositionRange,
+                                    bu: BaseUnit,
+                                    tree: ObjectInTreeCached,
+                                    astPartBranchCached: ASTPartBranchCached,
+                                    documentDefinition: DocumentDefinition,
+                                    configuration: AlsConfigurationReader,
+                                    allRelationships: Seq[RelationshipLink],
+                                    alsConfigurationState: ALSConfigurationState,
+                                    uuid: String,
+                                    directoryResolver: DirectoryResolver
 ) {
 
   val findDialectForSemantic: String => Option[(SemanticExtension, Dialect)] =
@@ -32,15 +32,15 @@ case class CodeActionRequestParams(
 object CodeActionParamsImpl {
   implicit class CodeActionParamsImpl(param: CodeActionParams) {
     def toRequestParams(
-        bu: BaseUnit,
-        tree: ObjectInTreeCached,
-        astPartBranch: ASTPartBranchCached,
-        dialect: Dialect,
-        configuration: AlsConfigurationReader,
-        allRelationships: Seq[RelationshipLink],
-        alsConfigurationState: ALSConfigurationState,
-        uuid: String,
-        directoryResolver: DirectoryResolver
+                         bu: BaseUnit,
+                         tree: ObjectInTreeCached,
+                         astPartBranch: ASTPartBranchCached,
+                         documentDefinition: DocumentDefinition,
+                         configuration: AlsConfigurationReader,
+                         allRelationships: Seq[RelationshipLink],
+                         alsConfigurationState: ALSConfigurationState,
+                         uuid: String,
+                         directoryResolver: DirectoryResolver
     ): CodeActionRequestParams =
       CodeActionRequestParams(
         param.textDocument.uri,
@@ -48,7 +48,7 @@ object CodeActionParamsImpl {
         bu,
         tree,
         astPartBranch,
-        dialect,
+        documentDefinition,
         configuration,
         allRelationships,
         alsConfigurationState,

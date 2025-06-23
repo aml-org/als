@@ -31,7 +31,7 @@ trait AMLRefTagCompletionPlugin extends AMLCompletionPlugin {
 
   override def resolve(request: AmlCompletionRequest): Future[Seq[RawSuggestion]] =
     Future {
-      getSuggestion(request, Option(request.nodeDialect.documents()).flatMap(_.referenceStyle().option()))
+      getSuggestion(request, Option(request.nodeDocumentDefinition.documents()).flatMap(_.referenceStyle().option()))
     }
 
   private def isDeclarable(params: AmlCompletionRequest): Boolean =

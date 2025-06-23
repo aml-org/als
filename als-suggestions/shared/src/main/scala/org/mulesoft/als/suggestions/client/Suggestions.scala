@@ -13,7 +13,7 @@ import org.mulesoft.als.suggestions.aml.jsonschema.{JsonSchema2019CompletionPlug
 import org.mulesoft.als.suggestions.aml.webapi._
 import org.mulesoft.als.suggestions.aml.{AmlCompletionRequestBuilder, MetaDialectPluginRegistry, VocabularyDialectPluginRegistry}
 import org.mulesoft.als.suggestions.interfaces.CompletionProvider
-import org.mulesoft.amfintegration.amfconfiguration.{ALSConfigurationState, AmfParseContext}
+import org.mulesoft.amfintegration.amfconfiguration.{ALSConfigurationState, AmfParseContext, DocumentDefinition}
 import org.mulesoft.amfintegration.dialect.dialects.ExternalFragmentDialect
 import org.mulesoft.lsp.feature.common.Position
 import org.mulesoft.lsp.feature.completion.CompletionItem
@@ -69,7 +69,7 @@ class Suggestions(
       rootLocation: Option[String]
   ): CompletionProvider = {
     val content = result.unit.raw.getOrElse("")
-    result.definedBy match {
+    result.documentDefinition.baseUnit match {
       case ExternalFragmentDialect.dialect if isHeader(position, content) =>
         if (!url.toLowerCase().endsWith(".raml"))
           HeaderCompletionProviderBuilder
@@ -83,6 +83,8 @@ class Suggestions(
         else
           RamlHeaderCompletionProvider
             .build(url, content, DtoPosition(position, content))
+
+      // todo: case JSON Schema defined
       case d: Dialect if d.nameAndVersion() == "avro " && content.isEmpty =>
         EmptyAvroCompletionProvider.build(url,
           LspRangeConverter.toLspPosition(DtoPosition(position, content))
@@ -90,7 +92,7 @@ class Suggestions(
       case _ =>
         buildCompletionProviderAST(
           result.unit,
-          result.definedBy,
+          result.documentDefinition,
           DtoPosition(position, content),
           snippetSupport,
           rootLocation,
@@ -109,12 +111,12 @@ class Suggestions(
   }
 
   private def buildCompletionProviderAST(
-      bu: BaseUnit,
-      dialect: Dialect,
-      pos: DtoPosition,
-      snippetSupport: Boolean,
-      rootLocation: Option[String],
-      alsConfiguration: ALSConfigurationState
+                                          bu: BaseUnit,
+                                          documentDefinition: DocumentDefinition,
+                                          pos: DtoPosition,
+                                          snippetSupport: Boolean,
+                                          rootLocation: Option[String],
+                                          alsConfiguration: ALSConfigurationState
   ): CompletionProviderAST = {
 
     val amfPosition: AmfPosition = pos.toAmfPosition
@@ -123,7 +125,7 @@ class Suggestions(
         .build(
           bu,
           amfPosition,
-          dialect,
+          documentDefinition,
           directoryResolver,
           snippetSupport,
           rootLocation,
@@ -135,4 +137,4 @@ class Suggestions(
   }
 }
 
-case class UnitBundle(unit: BaseUnit, definedBy: Dialect, context: AmfParseContext)
+case class UnitBundle(unit: BaseUnit, documentDefinition: DocumentDefinition, context: AmfParseContext)

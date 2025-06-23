@@ -8,6 +8,7 @@ import org.mulesoft.als.suggestions.RawSuggestion
 import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
 import org.mulesoft.als.suggestions.interfaces.AMLCompletionPlugin
 import org.mulesoft.als.suggestions.plugins.aml.webapi.WebApiTypeFacetsCompletionPlugin
+import org.mulesoft.amfintegration.amfconfiguration.DocumentDefinition
 import org.mulesoft.amfintegration.dialect.dialects.raml.raml10.Raml10TypesDialect
 
 import scala.concurrent.Future
@@ -38,7 +39,7 @@ abstract class RamlParamsCompletionPlugin(
       branchStack: Seq[AmfObject],
       typeFacetsCompletionPlugin: WebApiTypeFacetsCompletionPlugin
   ): Seq[RawSuggestion] = {
-    typeFacetsCompletionPlugin.resolveShape(param.schema, branchStack, Raml10TypesDialect(), Some(typeFacetsCompletionPlugin.stringShapeNode)) ++ withOthers
+    typeFacetsCompletionPlugin.resolveShape(param.schema, branchStack, DocumentDefinition(Raml10TypesDialect()), Some(typeFacetsCompletionPlugin.stringShapeNode)) ++ withOthers
   }
 
   private def isNotName(params: AmlCompletionRequest): Boolean = {
