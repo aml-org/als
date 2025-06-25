@@ -1,6 +1,5 @@
 package org.mulesoft.als.common
 
-import amf.aml.client.scala.model.document.Dialect
 import amf.aml.client.scala.model.domain.DialectDomainElement
 import amf.aml.internal.metamodel.domain.DialectDomainElementModel
 import amf.apicontract.client.scala.model.domain.Payload
@@ -14,13 +13,8 @@ import amf.core.internal.parser.domain.FieldEntry
 import amf.shapes.internal.domain.metamodel.AnyShapeModel
 import org.mulesoft.als.common.ASTElementWrapper._
 import org.mulesoft.als.common.AlsAmfElement._
-import org.mulesoft.amfintegration.AmfImplicits.{
-  AmfAnnotationsImp,
-  AmfObjectImp,
-  DialectImplicits,
-  FieldEntryImplicit,
-  NodeMappingImplicit
-}
+import org.mulesoft.amfintegration.AmfImplicits.{AmfAnnotationsImp, AmfObjectImp, DialectImplicits, FieldEntryImplicit, NodeMappingImplicit}
+import org.mulesoft.amfintegration.amfconfiguration.DocumentDefinition
 import org.mulesoft.common.client.lexical.PositionRange
 import org.yaml.model.{YMap, YMapEntry}
 
@@ -30,10 +24,10 @@ object AmfSonElementFinder {
 
   implicit class AlsAmfObject(obj: AmfObject) {
 
-    def findSon(location: String, definedBy: Dialect, astBranch: ASTPartBranch): SonFinder#Branch =
-      SonFinder(location, definedBy, astBranch: ASTPartBranch).find(obj, definedBy)
+    def findSon(location: String, documentDefinition: DocumentDefinition, astBranch: ASTPartBranch): SonFinder#Branch =
+      SonFinder(location, documentDefinition, astBranch: ASTPartBranch).find(obj, documentDefinition)
 
-    case class SonFinder(location: String, definedBy: Dialect, astBranch: ASTPartBranch) {
+    case class SonFinder(location: String, documentDefinition: DocumentDefinition, astBranch: ASTPartBranch) {
 
       private val fieldAstFilter: FieldEntry => Boolean = (f: FieldEntry) =>
         f.value.annotations
@@ -56,9 +50,9 @@ object AmfSonElementFinder {
       private def appliesReduction(fe: FieldEntry) =
         (!fe.value.annotations.isInferred) || fe.value.value.annotations.containsAstBranch(astBranch).getOrElse(false)
 
-      def find(obj: AmfObject, definedBy: Dialect): Branch = {
+      def find(obj: AmfObject, documentDefinition: DocumentDefinition): Branch = {
         val entryPoint = Branch(obj, Nil, None)
-        find(entryPoint, definedBy) match {
+        find(entryPoint, documentDefinition) match {
           case Nil => entryPoint
           case list =>
             pickOne(filterCandidates(list))
@@ -98,10 +92,10 @@ object AmfSonElementFinder {
           }
         })
 
-      private def find(branch: Branch, definedBy: Dialect): Seq[Branch] = {
+      private def find(branch: Branch, documentDefinition: DocumentDefinition): Seq[Branch] = {
         val children: Seq[Either[AmfObject, FieldEntry]] =
           filterFields(branch.obj).flatMap(fe => {
-            val seq = nextObject(fe, branch.obj, definedBy).map(Left(_))
+            val seq = nextObject(fe, branch.obj, documentDefinition).map(Left(_))
             if (seq.nonEmpty) seq
             else Seq(Right(fe))
           })
@@ -110,7 +104,7 @@ object AmfSonElementFinder {
           children.flatMap {
             case Left(obj) =>
               if (branch.branch.contains(obj)) Some(branch)
-              else find(branch.newLeaf(obj), definedBy)
+              else find(branch.newLeaf(obj), documentDefinition)
             case Right(fe)
                 // todo: check this clause, it is a weird predicate
                 if !fe.value.annotations.isInferred || fe.value.value.containsYPart(astBranch) =>
@@ -132,12 +126,12 @@ object AmfSonElementFinder {
         def forField(fe: FieldEntry): Branch = copy(fe = Some(fe))
       }
 
-      private def nextObject(fe: FieldEntry, parent: AmfObject, definedBy: Dialect): Seq[AmfObject] =
+      private def nextObject(fe: FieldEntry, parent: AmfObject, documentDefinition: DocumentDefinition): Seq[AmfObject] =
         if (fe.objectSon && fe.value.value.location().forall(l => l.isEmpty || l == location))
           fe.value.value match {
             case e: AmfArray =>
               // todo: here "if e.containsYPart(yPartBranch)" is not possible because some tests depend on this matching incorrect nodes
-              val objects = nextObject(e, definedBy)
+              val objects = nextObject(e, documentDefinition)
               if (objects.isEmpty) buildFromMeta(parent, fe, e).toSeq
               else objects
             case o: AmfObject if o.containsYPart(astBranch) || o.annotations.isVirtual =>
@@ -148,25 +142,25 @@ object AmfSonElementFinder {
         else Seq.empty
 
       def buildFromMeta(parent: AmfObject, fe: FieldEntry, arr: AmfArray): Option[AmfObject] =
-        if (explicitArray(fe, parent, definedBy)) matchInnerArrayElement(fe, arr, definedBy, parent)
+        if (explicitArray(fe, parent, documentDefinition)) matchInnerArrayElement(fe, arr, documentDefinition, parent)
         else None
 
       /** @param amfObject
-        * @param definedBy
+        * @param documentDefinition
         * @return
         *   true if this object should be filtered OUT
         */
-      private def exceptionCase(amfObject: AmfObject, definedBy: Dialect): Boolean =
-        exceptionList.exists(_(amfObject, definedBy))
+      private def exceptionCase(amfObject: AmfObject, documentDefinition: DocumentDefinition): Boolean =
+        exceptionList.exists(_(amfObject, documentDefinition))
 
-      private val exceptionList: Seq[(AmfObject, Dialect) => Boolean] = Seq(
+      private val exceptionList: Seq[(AmfObject, DocumentDefinition) => Boolean] = Seq(
         exceptionAsyncPayload
       )
 
       /** TODO: Remove and fix annotation of Async Payload in AMF
         */
-      private def exceptionAsyncPayload(amfObject: AmfObject, definedBy: Dialect): Boolean = amfObject match {
-        case p: Payload if definedBy.nameAndVersion() == "asyncapi 2.0.0" =>
+      private def exceptionAsyncPayload(amfObject: AmfObject, documentDefinition: DocumentDefinition): Boolean = amfObject match {
+        case p: Payload if documentDefinition.nameAndVersion() == "asyncapi 2.0.0" =>
           val correctAstContains = p.annotations
             .astElement()
             .flatMap {
@@ -183,7 +177,7 @@ object AmfSonElementFinder {
         case _ => false
       }
 
-      def nextObject(array: AmfArray, definedBy: Dialect): Seq[AmfObject] =
+      def nextObject(array: AmfArray, documentDefinition: DocumentDefinition): Seq[AmfObject] =
 //        if (array.containsYPart(yPartBranch)) {
         // todo: this array comparison is rancid, we should see why the containsYPart is not sufficient
         //  (why we expect a virtual/synthetized to always match even if no element inside does)
@@ -191,7 +185,7 @@ object AmfSonElementFinder {
           val objects = array.values.collect({ case o: AmfObject => o })
           val candidates = objects
             .filter(_.containsYPart(astBranch))
-            .filterNot(exceptionCase(_, definedBy))
+            .filterNot(exceptionCase(_, documentDefinition))
           if (candidates.isEmpty)
             objects.filter(v =>
               (v.annotations.isVirtual && v.annotations
@@ -213,19 +207,19 @@ object AmfSonElementFinder {
       def filterFields(amfObject: AmfObject): Seq[FieldEntry] =
         amfObject.fields.fields().filter(f => fieldFilters.forall(fn => fn(f))).toSeq
 
-      private def explicitArray(entry: FieldEntry, parent: AmfObject, definedBy: Dialect) =
-        (entry.astValueArray() && isExplicitArray(entry, parent, definedBy) || !entry
+      private def explicitArray(entry: FieldEntry, parent: AmfObject, documentDefinition: DocumentDefinition) =
+        (entry.astValueArray() && isExplicitArray(entry, parent, documentDefinition) || !entry
           .astValueArray()) && astBranch.position.column > 0 // TODO: Check why this hack (pos > 0) is necessary
 
-      private def isExplicitArray(entry: FieldEntry, parent: AmfObject, definedBy: Dialect) =
-        definedBy
+      private def isExplicitArray(entry: FieldEntry, parent: AmfObject, documentDefinition: DocumentDefinition) =
+        documentDefinition
           .findNodeMappingByTerm(parent.meta.`type`.head.iri())
           .flatMap { nm =>
             nm.findPropertyByTerm(entry.field.value.iri())
           }
           .exists(p => p.allowMultiple().value())
 
-      private def matchInnerArrayElement(entry: FieldEntry, e: AmfArray, definedBy: Dialect, parent: AmfObject) =
+      private def matchInnerArrayElement(entry: FieldEntry, e: AmfArray, documentDefinition: DocumentDefinition, parent: AmfObject) =
         entry.field.`type`.asInstanceOf[ArrayLike].element match {
           case d: DialectDomainElementModel =>
             val maybeMapping = parent match {
@@ -238,7 +232,7 @@ object AmfSonElementFinder {
             maybeMapping
               .flatMap(_.objectRange().headOption)
               .flatMap(_.option())
-              .flatMap(definedBy.findNodeMapping)
+              .flatMap(documentDefinition.findNodeMapping)
               .map { nodeMapping =>
                 DialectDomainElement()
                   .withInstanceTypes(nodeMapping.nodetypeMapping.value() +: d.`type`.map(_.iri()))

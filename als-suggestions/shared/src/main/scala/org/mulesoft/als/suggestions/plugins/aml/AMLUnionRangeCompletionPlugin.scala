@@ -8,6 +8,7 @@ import org.mulesoft.als.common.YPartBranch
 import org.mulesoft.als.suggestions.RawSuggestion
 import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
 import org.mulesoft.als.suggestions.interfaces.ResolveIfApplies
+import org.mulesoft.amfintegration.amfconfiguration.DocumentDefinition
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
@@ -24,7 +25,7 @@ object AMLUnionRangeCompletionPlugin extends ResolveIfApplies {
 class AMLUnionRangeCompletionPlugin(params: AmlCompletionRequest, override protected val yPartBranch: YPartBranch)
     extends UnionSuggestions {
   override protected val amfObject: AmfObject = params.amfObject
-  override protected val dialect: Dialect     = params.actualDialect
+  override protected val documentDefinition: DocumentDefinition     = params.actualDocumentDefinition
 
   lazy val possibleMappings: Seq[String] = fromUnionRangeMapping(amfObject)
 

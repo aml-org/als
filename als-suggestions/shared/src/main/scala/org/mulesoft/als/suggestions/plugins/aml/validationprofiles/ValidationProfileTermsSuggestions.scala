@@ -16,7 +16,7 @@ object ValidationProfileTermsSuggestions extends ResolveIfApplies {
 
   lazy val classMap: Future[Map[String, Seq[String]]] = {
     val dialect: Future[Dialect] =
-      AMFParser.parseContent(CanonicalApiDialect.yaml, AMLConfiguration.predefined()).map { r =>
+      AMFParser.parseContent(CanonicalApiDialect.fileContent, AMLConfiguration.predefined()).map { r =>
         r.baseUnit.asInstanceOf[Dialect]
       }
 
@@ -66,7 +66,7 @@ object ValidationProfileTermsSuggestions extends ResolveIfApplies {
   }
 
   override def resolve(request: AmlCompletionRequest): Option[Future[Seq[RawSuggestion]]] = {
-    if (request.actualDialect.name().value() == "Validation Profile") {
+    if (request.actualDocumentDefinition.name().getOrElse("") == "Validation Profile") {
       if (request.astPartBranch.parentEntryIs("targetClass")) Some(suggestClasses())
       else if (request.astPartBranch.isKeyDescendantOf("propertyConstraints")) Some(suggestProperties(request))
       else notApply

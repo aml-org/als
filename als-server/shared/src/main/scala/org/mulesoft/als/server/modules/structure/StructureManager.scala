@@ -80,6 +80,6 @@ class StructureManager(
   }
 
   def getStructureFromAST(cu: CompilableUnit, uuid: String): List[DocumentSymbol] =
-    StructureBuilder.listSymbols(cu.unit, cu.definedBy)
+    StructureBuilder.listSymbols(cu.unit, cu.documentDefinition)
 
 }

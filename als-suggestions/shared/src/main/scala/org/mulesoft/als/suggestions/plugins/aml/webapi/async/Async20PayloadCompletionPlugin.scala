@@ -8,6 +8,7 @@ import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
 import org.mulesoft.als.suggestions.interfaces.AMLCompletionPlugin
 import org.mulesoft.als.suggestions.plugins.aml.webapi.WebApiTypeFacetsCompletionPlugin
 import org.mulesoft.als.suggestions.plugins.aml.webapi.avroschema.FieldTypeKnowledge
+import org.mulesoft.amfintegration.amfconfiguration.DocumentDefinition
 import org.mulesoft.amfintegration.dialect.dialects.asyncapi20.AsyncApi20Dialect
 
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -32,16 +33,16 @@ object Async20PayloadCompletionPlugin
           request.amfObject match {
             case s: Shape =>
               if (p.schemaMediaType.isNullOrEmpty)
-                Future(Async20TypeFacetsCompletionPlugin.resolveShape(s, branchStack, AsyncApi20Dialect()))
+                Future(Async20TypeFacetsCompletionPlugin.resolveShape(s, branchStack, DocumentDefinition(AsyncApi20Dialect())))
               else
                 findPluginForMediaType(p)
                   .map {
                     case wf: WebApiTypeFacetsCompletionPlugin =>
-                      Future(wf.resolveShape(s, branchStack, AsyncApi20Dialect()))
+                      Future(wf.resolveShape(s, branchStack, DocumentDefinition(AsyncApi20Dialect())))
                     case generic =>
                       generic.resolve(request)
                   }
-                  .getOrElse(Future(Async20TypeFacetsCompletionPlugin.resolveShape(s, branchStack, AsyncApi20Dialect())))
+                  .getOrElse(Future(Async20TypeFacetsCompletionPlugin.resolveShape(s, branchStack, DocumentDefinition(AsyncApi20Dialect()))))
           }
         case _ => emptySuggestion
       }

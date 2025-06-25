@@ -1,7 +1,7 @@
 package org.mulesoft.amfintegration.amfconfiguration
+import amf.aml.client.scala.{AMLConfiguration, AMLConfigurationState}
 import amf.aml.client.scala.model.document.{Dialect, DialectInstanceUnit, Vocabulary}
 import amf.aml.client.scala.model.domain.{AnnotationMapping, SemanticExtension}
-import amf.aml.client.scala.{AMLConfiguration, AMLConfigurationState}
 import amf.apicontract.client.scala._
 import amf.core.client.common.remote.Content
 import amf.core.client.scala.config.{RenderOptions, UnitCache}
@@ -11,6 +11,7 @@ import amf.core.client.scala.{AMFParseResult => AMFParsingResult}
 import amf.core.internal.remote.Spec.{AMF, GRAPHQL}
 import amf.core.internal.remote.{AmlDialectSpec, Spec}
 import amf.graphql.client.scala.GraphQLConfiguration
+import amf.shapes.client.scala.ShapesConfiguration
 import amf.shapes.client.scala.config.JsonSchemaConfiguration
 import amf.shapes.client.scala.model.document.JsonSchemaDocument
 import amf.shapes.client.scala.model.domain.AnyShape
@@ -20,9 +21,11 @@ import org.mulesoft.amfintegration.AmfImplicits._
 import org.mulesoft.amfintegration.ValidationProfile
 import org.mulesoft.amfintegration.dialect.dialects.ExternalFragmentDialect
 import org.mulesoft.amfintegration.dialect.dialects.metadialect.{MetaDialect, VocabularyDialect}
-import org.mulesoft.amfintegration.dialect.integration.BaseAlsDialectProvider
+import org.mulesoft.amfintegration.dialect.integration.BaseAlsDefinitionsProvider
+import org.mulesoft.amfintegration.dialect.jsonschemas.MCPJsonSchema
 import org.mulesoft.amfintegration.platform.AlsPlatformSecrets
 import org.yaml.builder.DocBuilder
+import amf.mcp.internal.plugins.parse.schema.MCPSchemaLoader
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
@@ -42,12 +45,12 @@ case class ALSConfigurationState(
   def configForUnit(unit: BaseUnit): AMLSpecificConfiguration =
     configForSpec(unit.sourceSpec.getOrElse(Spec.AML))
 
-  private def rootConfiguration(asMain: Boolean): AMFConfiguration = projectState.rootProjectConfiguration(asMain)
+  private def rootConfiguration(asMain: Boolean): ShapesConfiguration = projectState.rootProjectConfiguration(asMain)
 
-  def configForDialect(d: Dialect): AMLSpecificConfiguration =
+  def configForDefinition(d: DocumentDefinition): AMLSpecificConfiguration =
     ProfileMatcher.spec(d) match {
       case Some(Spec.AML)
-          if d
+          if d.baseUnit
             .location()
             .contains(
               "file://vocabularies/dialects/metadialect.yaml"
@@ -64,7 +67,7 @@ case class ALSConfigurationState(
       )
     )
 
-  private def apiConfigurationForSpec(spec: Spec): Option[AMFConfiguration] =
+  private def apiConfigurationForSpec(spec: Spec): Option[ShapesConfiguration] =
     spec match {
       case Spec.RAML10       => Some(RAMLConfiguration.RAML10())
       case Spec.RAML08       => Some(RAMLConfiguration.RAML08())
@@ -75,23 +78,26 @@ case class ALSConfigurationState(
       case Spec.GRAPHQL      => Some(ConfigurationAdapter.adapt(GraphQLConfiguration.GraphQL()))
       case Spec.JSONSCHEMA   => Some(ConfigurationAdapter.adapt(JsonSchemaConfiguration.JsonSchema()))
       case Spec.AVRO_SCHEMA  => Some(AvroConfiguration.Avro())
+      case Spec.MCP          => Some(projectState.getMCPProjectConfig(true))
       case _ if spec.isAsync => Some(AsyncAPIConfiguration.Async20())
       case _                 => None
     }
 
-  def getAmfConfig(url: String, asMain: Boolean): AMFConfiguration = {
-    val base =
+  def getAmfConfig(url: String, asMain: Boolean): ShapesConfiguration = {
+    val base: ShapesConfiguration =
       if (url.endsWith("graphql"))
         projectState.getGraphQLProjectConfig(asMain)
       else if (url.endsWith("avsc"))
         projectState.getAvroProjectConfig(asMain).withPlugins(editorState.alsParsingPlugins)
+      else if (MCPJsonSchema.isMcpFile(url))
+        projectState.getMCPProjectConfig(asMain).withPlugins(editorState.alsParsingPlugins)
       else getAmfConfig(asMain).withPlugins(editorState.alsParsingPlugins)
     getAmfConfig(base, asMain)
   }
 
-  def getAmfConfig(asMain: Boolean): AMFConfiguration = getAmfConfig(rootConfiguration(asMain), asMain)
+  def getAmfConfig(asMain: Boolean): ShapesConfiguration = getAmfConfig(rootConfiguration(asMain), asMain)
 
-  def getAmfConfig(spec: Spec): AMFConfiguration = {
+  def getAmfConfig(spec: Spec): ShapesConfiguration = {
     val base = spec match {
       case GRAPHQL => GraphQLConfiguration.GraphQL()
       // case GRPC =>
@@ -101,7 +107,7 @@ case class ALSConfigurationState(
     getAmfConfig(base, asMain = true) // todo: check if asMain = true has any inconvenience
   }
 
-  def allDialects: Seq[Dialect]        = dialects ++ BaseAlsDialectProvider.allBaseDialects
+  def allDefinitions: Seq[DocumentDefinition]        = dialects.map(DocumentDefinition(_)) ++ BaseAlsDefinitionsProvider.allBaseDefinitions
   def dialects: Seq[Dialect]           = projectState.extensions ++ editorState.dialects
   def profiles: Seq[ValidationProfile] = projectState.profiles ++ editorState.profiles
 
@@ -123,8 +129,9 @@ case class ALSConfigurationState(
     dialects.foldLeft(configuration)((c, dialect) => c.withDialect(dialect))
   }
 
-  def getAmfConfig(base: AMFConfiguration, asMain: Boolean): AMFConfiguration =
-    projectState.customSetUp(getAmlConfig(base).asInstanceOf[AMFConfiguration], asMain)
+
+  def getAmfConfig(base: ShapesConfiguration, asMain: Boolean): ShapesConfiguration =
+    projectState.customSetUp(getAmlConfig(base).asInstanceOf[ShapesConfiguration], asMain) // todo: this .asInstanceOf[ShapesConfiguration] is horrible, look for a better way
 
   def findSemanticByName(name: String): Option[(SemanticExtension, Dialect)] =
     configForSpec(Spec.AML).config.configurationState().findSemanticByName(name)
@@ -132,7 +139,7 @@ case class ALSConfigurationState(
   def parse(url: String, asMain: Boolean = false, maxFileSize: Option[Int] = None): Future[AmfParseResult] =
     parse(getAmfConfig(url, asMain), url, maxFileSize)
 
-  private def parse(amfConfiguration: AMFConfiguration, uri: String, maxFileSize: Option[Int]): Future[AmfParseResult] =
+  private def parse(amfConfiguration: ShapesConfiguration, uri: String, maxFileSize: Option[Int]): Future[AmfParseResult] =
     wrapLoadersIfNeeded(amfConfiguration, maxFileSize)
       .baseUnitClient()
       .parse(uri)
@@ -140,7 +147,7 @@ case class ALSConfigurationState(
         toResult(uri, r)
       }
 
-  private def wrapLoadersIfNeeded(amfConfiguration: AMFConfiguration, maxFileSize: Option[Int]) =
+  private def wrapLoadersIfNeeded(amfConfiguration: ShapesConfiguration, maxFileSize: Option[Int]) =
     maxFileSize match {
       case Some(maxSize) if maxSize > 0 =>
         val counter = new MaxSizeCounter(maxSize)
@@ -213,44 +220,46 @@ case class ALSConfigurationState(
       .baseUnitClient()
       .renderGraphToBuilder(resolved.cloneUnit(), builder)
 
-  private def allDialects(configurationState: AMLConfigurationState) =
-    configurationState.getDialects().toSet ++ BaseAlsDialectProvider.allBaseDialects
+  private def allDialects(configurationState: AMLConfigurationState): Set[DocumentDefinition] =
+    (configurationState.getDialects().map(DocumentDefinition(_)).toSet ++ BaseAlsDefinitionsProvider.allBaseDefinitions)
 
-  def definitionFor(bu: BaseUnit): Option[Dialect] = {
+  def definitionFor(bu: BaseUnit): Option[DocumentDefinition] = {
     val configurationState = predefinedWithDialects.configurationState()
 
     def defaultDefinitionSearch =
       allDialects(configurationState).find(d => ProfileMatcher.spec(d).contains(bu.sourceSpec.getOrElse(Spec.AMF)))
 
-    def overwrittenSpecs: Option[Dialect] =
+    def overwrittenSpecs: Option[DocumentDefinition] =
       if (bu.sourceSpec.exists(_.isAsync))
         allDialects(configurationState).find(d => ProfileMatcher.spec(d).contains(Spec.ASYNC20))
+      else if (bu.sourceSpec.exists(_.toString == "Mcp")) // ask for AMF to expose a way to identify this better, or wrap `editorState.schemas` so it has a (spec -> DD)
+        Some(DocumentDefinition(MCPSchemaLoader.doc))// editorState.schemas.headOption.map(DocumentDefinition(_)) // todo: implement a search mechanism to support more than one def
       else None
 
     bu match {
       case di: DialectInstanceUnit =>
-        allDialects(configurationState).find(d => di.definedBy().option().contains(d.id))
+        allDialects(configurationState).find(d => di.definedBy().option().contains(d.baseUnit.id))
       case _: Dialect =>
-        Some(MetaDialect.dialect)
+        Some(DocumentDefinition(MetaDialect.dialect))
       case _: Vocabulary =>
-        Some(VocabularyDialect.dialect)
+        Some(DocumentDefinition(VocabularyDialect.dialect))
       case _: ExternalFragment =>
-        Some(ExternalFragmentDialect.dialect)
+        Some(DocumentDefinition(ExternalFragmentDialect.dialect))
       case jsonSchema: JsonSchemaDocument if jsonSchema.schemaVersion.nonEmpty =>
         // all drafts use same Spec, so we must differentiate with version
         allDialects(configurationState)
-          .find(d => d.version().option().contains(jsonSchema.schemaVersion.value()))
+          .find(d => d.version().contains(jsonSchema.schemaVersion.value()))
           .orElse(defaultDefinitionSearch)
       case _ =>
         defaultDefinitionSearch.orElse(overwrittenSpecs)
     }
   }
 
-  def definitionFor(spec: Spec): Option[Dialect] = {
+  def definitionFor(spec: Spec): Option[DocumentDefinition] = {
     val configurationState = predefinedWithDialects.configurationState()
     spec match {
       case AmlDialectSpec(id) =>
-        allDialects(configurationState).find(_.id == id)
+        allDialects(configurationState).find(_.baseUnit.id == id)
       case _ => allDialects(configurationState).find(d => ProfileMatcher.spec(d).contains(spec))
     }
   }

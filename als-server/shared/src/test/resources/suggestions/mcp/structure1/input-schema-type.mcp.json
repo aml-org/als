@@ -1,0 +1,17 @@
+{
+  "name": "test-mcp-server",
+  "protocolVersion": "2024-11-05",
+  "capabilities": {
+    "tools": true,
+    "resources": true,
+    "prompts": true,
+    "logging": true
+  },
+  "tools": [
+    {
+      "inputSchema": {
+        "type": "*"
+      }
+    }
+  ]
+}

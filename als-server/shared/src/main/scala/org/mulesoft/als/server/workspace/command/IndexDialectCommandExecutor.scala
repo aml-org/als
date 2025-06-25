@@ -4,7 +4,7 @@ import amf.apicontract.client.scala.APIConfiguration
 import amf.core.internal.parser.YMapOps
 import org.mulesoft.als.server.protocol.textsync.IndexDialectParams
 import org.mulesoft.als.server.workspace.WorkspaceManager
-import org.mulesoft.amfintegration.dialect.integration.BaseAlsDialectProvider
+import org.mulesoft.amfintegration.dialect.integration.BaseAlsDefinitionsProvider
 import org.mulesoft.amfintegration.platform.AlsPlatformSecrets
 import org.yaml.model.YMap
 
@@ -43,7 +43,7 @@ class IndexDialectCommandExecutor(workspaceManager: WorkspaceManager)
       .map(Future(_))
       .getOrElse(loadFromEnv(param.uri))
       .map(content => {
-        BaseAlsDialectProvider.indexDialect(param.uri, content)
+        BaseAlsDefinitionsProvider.indexDialect(param.uri, content)
         workspaceManager.editorConfiguration.withDialect(param.uri)
       })
 

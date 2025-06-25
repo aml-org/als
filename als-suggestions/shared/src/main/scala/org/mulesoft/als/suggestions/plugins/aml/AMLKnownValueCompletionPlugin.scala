@@ -1,6 +1,5 @@
 package org.mulesoft.als.suggestions.plugins.aml
 
-import amf.aml.client.scala.model.document.Dialect
 import amf.apicontract.internal.metamodel.domain.ResponseModel
 import amf.core.internal.metamodel.Field
 import amf.core.internal.metamodel.Type.{ArrayLike, Scalar}
@@ -9,22 +8,23 @@ import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
 import org.mulesoft.als.suggestions.interfaces.AMLCompletionPlugin
 import org.mulesoft.als.suggestions.plugins.aml.patched.{PatchedSuggestion, PatchedSuggestionsForDialect}
 import org.mulesoft.amfintegration.AmfImplicits._
+import org.mulesoft.amfintegration.amfconfiguration.DocumentDefinition
 import org.mulesoft.amfintegration.dialect.dialects.oas.OAS30Dialect
 
 import scala.concurrent.Future
 
 sealed class AMLKnownValueCompletions(
-    field: Field,
-    classTerm: String,
-    dialect: Dialect,
-    isKey: Boolean,
-    inArray: Boolean,
-    obj: Boolean
+                                       field: Field,
+                                       classTerm: String,
+                                       documentDefinition: DocumentDefinition,
+                                       isKey: Boolean,
+                                       inArray: Boolean,
+                                       obj: Boolean
 ) {
 
   private def getSuggestions: Seq[PatchedSuggestion] =
     PatchedSuggestionsForDialect
-      .getKnownValues(dialect.id, classTerm, field.toString)
+      .getKnownValues(documentDefinition.baseUnit.id, classTerm, field.toString)
 
   def resolve(): Future[Seq[RawSuggestion]] =
     Future.successful({
@@ -53,7 +53,7 @@ sealed class AMLKnownValueCompletions(
     if (
       (field == ResponseModel.StatusCode || field == ResponseModel.Name) && input.forall(
         _.isDigit
-      ) && dialect.id != OAS30Dialect.dialect.id
+      ) && documentDefinition.baseUnit.id != OAS30Dialect.dialect.id
     ) // hack for oas 3.0 status codes
       NumberScalarRange
     else StringScalarRange
@@ -92,7 +92,7 @@ trait AbstractKnownValueCompletionPlugin extends AMLCompletionPlugin {
     new AMLKnownValueCompletions(
       field,
       classTerm,
-      params.actualDialect,
+      params.actualDocumentDefinition,
       params.astPartBranch.isKey,
       // todo: check if the alternative "if strict" is still necessary or just a leftover from json patcher
       params.astPartBranch.isArray || (params.astPartBranch.strict && params.astPartBranch.isInArray),

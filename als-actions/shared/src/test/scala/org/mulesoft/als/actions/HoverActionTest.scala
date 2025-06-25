@@ -72,7 +72,7 @@ class HoverActionTest extends AsyncFunSuite with BaseHoverTest {
     val positions: List[Position] = r.result.baseUnit.ast.map(extract).getOrElse(List.empty)
     val yPart                     = new ASTPartBranchCached(r.result.baseUnit)
     val value =
-      r.definedBy // always is going to exists in this test and if not, the exception is an advice good enough.
+      r.documentDefinition // always is going to exists in this test and if not, the exception is an advice good enough.
     val cached = new ObjectInTreeCached(r.result.baseUnit, value)
     positions.map { p =>
       val hover =

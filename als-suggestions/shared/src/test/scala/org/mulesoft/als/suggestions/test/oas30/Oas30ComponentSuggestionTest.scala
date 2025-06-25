@@ -3,6 +3,7 @@ package org.mulesoft.als.suggestions.test.oas30
 import amf.apicontract.client.scala.{AMFConfiguration, OASConfiguration}
 import amf.core.client.scala.AMFGraphConfiguration
 import amf.core.client.scala.resource.ResourceLoader
+import amf.shapes.client.scala.ShapesConfiguration
 import org.mulesoft.als.configuration.ProjectConfiguration
 import org.mulesoft.als.suggestions.test.{BaseSuggestionsForTest, TestProjectConfigurationState}
 import org.mulesoft.amfintegration.amfconfiguration.{ALSConfigurationState, EditorConfigurationState}
@@ -93,7 +94,7 @@ class Oas30ComponentSuggestionTest extends AsyncFunSuite with BaseSuggestionsFor
       resourceLoader: ResourceLoader
   ): ALSConfigurationState =
     new ALSConfigurationState(configurationState.editorState, configurationState.projectState, Some(resourceLoader)) {
-      override def getAmfConfig(asMain: Boolean = false): AMFConfiguration =
+      override def getAmfConfig(asMain: Boolean = false): ShapesConfiguration =
         getAmfConfig(OASConfiguration.OAS30Component(), asMain)
     }
 }

@@ -8,12 +8,7 @@ import org.mulesoft.als.common.diff.FileAssertionTest
 import org.mulesoft.als.common.dtoTypes.PositionRange
 import org.mulesoft.als.common.{PlatformDirectoryResolver, WorkspaceEditSerializer}
 import org.mulesoft.als.configuration.AlsConfiguration
-import org.mulesoft.amfintegration.amfconfiguration.{
-  ALSConfigurationState,
-  AmfParseResult,
-  EditorConfiguration,
-  EmptyProjectConfigurationState
-}
+import org.mulesoft.amfintegration.amfconfiguration.{ALSConfigurationState, AmfParseResult, DocumentDefinition, EditorConfiguration, EmptyProjectConfigurationState}
 import org.mulesoft.amfintegration.relationships.RelationshipLink
 import org.mulesoft.amfintegration.visitors.AmfElementDefaultVisitors
 import org.mulesoft.lsp.edit.WorkspaceEdit
@@ -112,7 +107,7 @@ trait BaseCodeActionTests extends AsyncFlatSpec with Matchers with FileAssertion
         cu.unit,
         cu.tree,
         cu.astPartBranch,
-        amfResult.definedBy,
+        amfResult.documentDefinition,
         AlsConfiguration(),
         relationShip,
         alsConfigurationState,
@@ -126,10 +121,10 @@ trait BaseCodeActionTests extends AsyncFlatSpec with Matchers with FileAssertion
         .flatMap { af =>
           val relativaf = relativeUri(af)
           amfResult.result.baseUnit.references.find(r => r.location().getOrElse(r.id) == relativaf).map { unit =>
-            DummyCompilableUnit(unit, amfResult.definedBy)
+            DummyCompilableUnit(unit, amfResult.documentDefinition)
           }
         }
-        .getOrElse(DummyCompilableUnit(amfResult.result.baseUnit, amfResult.definedBy))
+        .getOrElse(DummyCompilableUnit(amfResult.result.baseUnit, amfResult.documentDefinition))
     }
   }
   protected def buildPreParam(uri: String, result: AmfParseResult): PreCodeActionRequestParams = {
@@ -145,7 +140,7 @@ trait BaseCodeActionTests extends AsyncFlatSpec with Matchers with FileAssertion
       range: PositionRange,
       alsConfigurationState: ALSConfigurationState
   ): CodeActionRequestParams = {
-    val cu       = DummyCompilableUnit(result.result.baseUnit, result.definedBy)
+    val cu       = DummyCompilableUnit(result.result.baseUnit, result.documentDefinition)
     val visitors = AmfElementDefaultVisitors.build(cu.unit)
     visitors.applyAmfVisitors(cu.unit, alsConfigurationState.amfParseContext)
     val visitors1: Seq[RelationshipLink] = visitors.getRelationshipsFromVisitors
@@ -155,7 +150,7 @@ trait BaseCodeActionTests extends AsyncFlatSpec with Matchers with FileAssertion
       cu.unit,
       cu.tree,
       cu.astPartBranch,
-      result.definedBy,
+      result.documentDefinition,
       AlsConfiguration(),
       visitors1,
       alsConfigurationState,
@@ -165,4 +160,4 @@ trait BaseCodeActionTests extends AsyncFlatSpec with Matchers with FileAssertion
   }
 }
 
-case class DummyCompilableUnit(unit: BaseUnit, override protected val definedBy: Dialect) extends UnitWithCaches
+case class DummyCompilableUnit(unit: BaseUnit, override protected val documentDefinition: DocumentDefinition) extends UnitWithCaches

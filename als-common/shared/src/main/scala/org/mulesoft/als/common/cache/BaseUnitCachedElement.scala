@@ -4,14 +4,8 @@ import amf.aml.client.scala.model.document.Dialect
 import amf.core.client.scala.model.document.BaseUnit
 import amf.core.internal.remote.Spec.GRAPHQL
 import org.mulesoft.als.common.dtoTypes.{Position, PositionRange}
-import org.mulesoft.als.common.{
-  ASTElementPartBranch,
-  ASTPartBranch,
-  NodeBranchBuilder,
-  ObjectInTree,
-  ObjectInTreeBuilder,
-  YPartBranch
-}
+import org.mulesoft.als.common.{ASTElementPartBranch, ASTPartBranch, NodeBranchBuilder, ObjectInTree, ObjectInTreeBuilder, YPartBranch}
+import org.mulesoft.amfintegration.amfconfiguration.DocumentDefinition
 
 import scala.collection.mutable
 
@@ -39,13 +33,13 @@ trait BaseUnitCachedElement[T] {
 
 case class Location(position: Position, uri: String)
 
-class ObjectInTreeCached(override val unit: BaseUnit, val definedBy: Dialect)
+class ObjectInTreeCached(override val unit: BaseUnit, val documentDefinition: DocumentDefinition)
     extends BaseUnitCachedElement[ObjectInTree] {
   override protected def createElement(location: Location): ObjectInTree =
     ObjectInTreeBuilder.fromUnit(
       unit,
       location.uri,
-      definedBy,
+      documentDefinition,
       NodeBranchBuilder.build(unit, location.position.toAmfPosition, strict = false)
     )
 
@@ -66,7 +60,7 @@ class ASTPartBranchCached(override val unit: BaseUnit) extends BaseUnitCachedEle
 
 trait UnitWithCaches {
   protected val unit: BaseUnit
-  protected val definedBy: Dialect
-  val tree          = new ObjectInTreeCached(unit, definedBy)
+  protected val documentDefinition: DocumentDefinition
+  val tree          = new ObjectInTreeCached(unit, documentDefinition)
   val astPartBranch = new ASTPartBranchCached(unit)
 }

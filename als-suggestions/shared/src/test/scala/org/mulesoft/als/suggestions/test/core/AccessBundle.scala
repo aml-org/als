@@ -9,5 +9,5 @@ import scala.concurrent.Future
 trait AccessBundle {
 
   def accessBundle(alsConfigurationState: ALSConfigurationState)(uri: String): Future[UnitBundle] =
-    alsConfigurationState.parse(uri).map(r => UnitBundle(r.result.baseUnit, r.definedBy, r.context))
+    alsConfigurationState.parse(uri).map(r => UnitBundle(r.result.baseUnit, r.documentDefinition, r.context))
 }

@@ -28,7 +28,7 @@ object OaslikeSecurityScopesCompletionPlugin extends AMLCompletionPlugin {
                 category = CategoryRegistry(
                   OAuth2FlowModel.`type`.head.iri(),
                   OAuth2FlowModel.Scopes.value.iri(),
-                  request.actualDialect.id
+                  request.actualDocumentDefinition.baseUnit.id
                 ),
                 mandatory = false
               )

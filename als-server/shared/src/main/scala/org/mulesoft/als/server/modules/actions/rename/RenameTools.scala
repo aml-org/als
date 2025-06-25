@@ -22,10 +22,10 @@ trait RenameTools {
   protected def isDeclarable(cu: CompilableUnit, tree: ObjectInTree): Boolean =
     (!tree.obj.isAbstract &&
       !tree.obj.isInstanceOf[Document] &&
-      tree.obj.declarableKey(cu.definedBy).isDefined)
+      tree.obj.declarableKey(cu.documentDefinition).isDefined)
 
   protected def isDeclarableKey(cu: CompilableUnit, position: Position, uri: String): Boolean =
-    (isDeclarable(cu, tree(cu, position, uri)) || cu.definedBy == MetaDialect.dialect) &&
+    (isDeclarable(cu, tree(cu, position, uri)) || cu.documentDefinition.baseUnit == MetaDialect.dialect) &&
       branch(cu, position, uri).isKey
 
   protected def keyCleanRange(uri: String, position: Position, bu: CompilableUnit): PositionRange =

@@ -23,7 +23,7 @@ class DeclaresFieldSymbolBuilder(override val value: AmfArray, override val elem
     override implicit val ctx: StructureContext
 ) extends ArrayFieldTypeSymbolBuilder {
 
-  private lazy val terms: Map[String, String] = ctx.dialect.declarationsMapTerms
+  private lazy val terms: Map[String, String] = ctx.documentDefinition.declarationsMapTerms
 
   private val groupedDeclarations: Map[String, Seq[AmfObject]] = value.values
     .collect({

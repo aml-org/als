@@ -1,13 +1,12 @@
 package org.mulesoft.amfintegration.amfconfiguration
 
-import amf.aml.client.scala.model.document.Dialect
-import amf.apicontract.client.scala.AMFConfiguration
 import amf.core.client.scala.AMFResult
 import amf.core.client.scala.validation.AMFValidationResult
+import amf.shapes.client.scala.ShapesConfiguration
 import org.mulesoft.amfintegration.AmfImplicits.BaseUnitImp
 import org.mulesoft.common.collections._
 
-case class AmfParseContext(amfConfiguration: AMFConfiguration, state: ALSConfigurationState)
+case class AmfParseContext(amfConfiguration: ShapesConfiguration, state: ALSConfigurationState)
 
 class AmfResult(val result: AMFResult) {
   val location: String = result.baseUnit.location().getOrElse(result.baseUnit.id)
@@ -21,8 +20,8 @@ class AmfResult(val result: AMFResult) {
 }
 
 class AmfParseResult(
-    override val result: AMFResult,
-    val definedBy: Dialect,
-    val context: AmfParseContext,
-    val uri: String
+                      override val result: AMFResult,
+                      val documentDefinition: DocumentDefinition,
+                      val context: AmfParseContext,
+                      val uri: String
 ) extends AmfResult(result)

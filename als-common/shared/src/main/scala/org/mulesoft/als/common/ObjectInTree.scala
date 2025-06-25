@@ -9,12 +9,13 @@ import amf.core.internal.annotations.{DeclaredElement, DefinedBySpec, SourceYPar
 import amf.core.internal.metamodel.domain.LinkableElementModel
 import amf.core.internal.parser.domain.{Annotations, FieldEntry}
 import amf.core.internal.remote.{AmlDialectSpec, Spec}
-import amf.shapes.internal.annotations.AVROSchemaType
-import org.mulesoft.als.common.YPartASTWrapper.AlsYPart
+import amf.shapes.client.scala.model.document.JsonLDInstanceDocument
 import org.mulesoft.als.common.AmfSonElementFinder.AlsAmfObject
+import org.mulesoft.als.common.YPartASTWrapper.AlsYPart
 import org.mulesoft.als.common.dtoTypes.{Position, PositionRange}
 import org.mulesoft.amfintegration.AmfImplicits.AmfAnnotationsImp
 import org.mulesoft.amfintegration.FieldEntryOrdering
+import org.mulesoft.amfintegration.amfconfiguration.DocumentDefinition
 import org.yaml.model.YMapEntry
 
 case class ObjectInTree(
@@ -104,20 +105,27 @@ case class ObjectInTree(
 
 object ObjectInTreeBuilder {
 
-  def fromUnit(bu: BaseUnit, location: String, definedBy: Dialect, astBranch: ASTPartBranch): ObjectInTree = {
+  def fromUnit(bu: BaseUnit, location: String, documentDefinition: DocumentDefinition, astBranch: ASTPartBranch): ObjectInTree = {
+    val obj: AmfObject = bu match {
+      case json: JsonLDInstanceDocument =>
+        json.encodes.collectFirst{case amfObject: AmfObject => amfObject}
+          .getOrElse(bu) // todo: this won't work for the finding but better than an exception, check how to handle it better in the future
+      case _ => bu
+    }
+
     val branch =
-      bu.findSon(location, definedBy, astBranch)
+      obj.findSon(location, documentDefinition, astBranch)
     ObjectInTree(branch.obj, branch.branch, branch.fe, astBranch)
   }
 
   def fromSubTree(
-      element: DomainElement,
-      location: String,
-      previousStack: Seq[AmfObject],
-      definedBy: Dialect,
-      astPartBranch: ASTPartBranch
+                   element: DomainElement,
+                   location: String,
+                   previousStack: Seq[AmfObject],
+                   documentDefinition: DocumentDefinition,
+                   astPartBranch: ASTPartBranch
   ): ObjectInTree = {
-    val branch = element.findSon(location, definedBy, astPartBranch)
+    val branch = element.findSon(location, documentDefinition, astPartBranch)
     ObjectInTree(branch.obj, branch.branch ++ previousStack, branch.fe, astPartBranch)
   }
 }

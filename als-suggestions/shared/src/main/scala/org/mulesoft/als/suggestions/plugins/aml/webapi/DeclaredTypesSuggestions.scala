@@ -68,5 +68,5 @@ trait DeclaredTypesSuggestions extends BooleanSuggestions {
   // today the only case in which this applies is raml types on async2
   // if any other case appears, check if this is still a valid mean to know if one can use declarations from other specs
   protected def canUseDeclared(params: AmlCompletionRequest): Boolean =
-    params.nodeDialect == params.actualDialect
+    params.nodeDocumentDefinition == params.actualDocumentDefinition
 }

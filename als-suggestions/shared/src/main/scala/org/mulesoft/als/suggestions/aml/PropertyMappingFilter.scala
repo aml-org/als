@@ -1,6 +1,5 @@
 package org.mulesoft.als.suggestions.aml
 
-import amf.aml.client.scala.model.document.Dialect
 import amf.aml.client.scala.model.domain.{NodeMapping, PropertyMapping}
 import amf.core.client.scala.model.document.BaseUnit
 import amf.core.client.scala.model.domain.AmfObject
@@ -8,26 +7,26 @@ import amf.core.internal.metamodel.domain.common.{NameFieldSchema, NameFieldShac
 import amf.core.internal.parser.domain.FieldEntry
 import org.mulesoft.als.common.ObjectInTree
 import org.mulesoft.amfintegration.AmfImplicits.AmfObjectImp
+import org.mulesoft.amfintegration.amfconfiguration.DocumentDefinition
 
-case class PropertyMappingFilter(objectInTree: ObjectInTree, actualDialect: Dialect, nm: NodeMapping) {
+case class PropertyMappingFilter(objectInTree: ObjectInTree, actualDocumentDefinition: DocumentDefinition, nm: NodeMapping) {
 
   private def parentTermKey(): Seq[PropertyMapping] =
     objectInTree.stack.headOption
-      .flatMap(DialectNodeFinder.find(_, None, actualDialect))
+      .flatMap(DialectNodeFinder.find(_, None, actualDocumentDefinition))
       .collectFirst({ case n: NodeMapping => n })
       .map(_.propertiesMapping())
       .getOrElse(Nil)
       .filter(p => p.mapTermKeyProperty().option().isDefined)
 
   private def isInDeclarations(nm: NodeMapping): Boolean =
-    Option(
-      actualDialect
-        .documents()
-        .root()
-    ).exists(root =>
-      root.declaredNodes().exists(_.mappedNode().option().contains(nm.id)) && objectInTree.stack.last
-        .isInstanceOf[BaseUnit]
-    )
+    actualDocumentDefinition
+      .documents()
+      .flatMap(d => Option(d.root()))
+      .exists(root =>
+        root.declaredNodes().exists(_.mappedNode().option().contains(nm.id)) && objectInTree.stack.last
+          .isInstanceOf[BaseUnit]
+      )
 
   private val semanticNameIris: Seq[String] = Seq(NameFieldSchema.Name.value.iri(), NameFieldShacl.Name.value.iri())
 
@@ -57,10 +56,10 @@ case class PropertyMappingFilter(objectInTree: ObjectInTree, actualDialect: Dial
 }
 
 object DialectNodeFinder {
-  def find(amfObject: AmfObject, fieldEntry: Option[FieldEntry], actualDialect: Dialect): Option[NodeMapping] = {
+  def find(amfObject: AmfObject, fieldEntry: Option[FieldEntry], actualDocumentDefinition: DocumentDefinition): Option[NodeMapping] = {
     val elements = amfObject.metaURIs
       .flatMap { v =>
-        actualDialect.declares.find {
+        actualDocumentDefinition.declares.find {
           case s: NodeMapping =>
             s.nodetypeMapping.value() == v && containsAllFields(s, fieldEntry)
           case _ => false
@@ -68,7 +67,7 @@ object DialectNodeFinder {
       }
     elements
       .collectFirst({ case nm: NodeMapping => nm })
-      .orElse(findById(amfObject, fieldEntry, actualDialect))
+      .orElse(findById(amfObject, fieldEntry, actualDocumentDefinition))
   }
 
   private def containsAllFields(nodeMapping: NodeMapping, fieldEntry: Option[FieldEntry]): Boolean = {
@@ -87,13 +86,13 @@ object DialectNodeFinder {
   /** Handles the case where the AML definition has no classTerm defined
     */
   private def findById(
-      amfObject: AmfObject,
-      fieldEntry: Option[FieldEntry],
-      actualDialect: Dialect
+                        amfObject: AmfObject,
+                        fieldEntry: Option[FieldEntry],
+                        actualDocumentDefinition: DocumentDefinition
   ): Option[NodeMapping] = {
     amfObject.metaURIs
       .flatMap { v =>
-        actualDialect.declares.find {
+        actualDocumentDefinition.declares.find {
           case s: NodeMapping =>
             s.id == v && containsAllFields(s, fieldEntry)
           case _ => false
@@ -102,8 +101,8 @@ object DialectNodeFinder {
       .collectFirst({ case nm: NodeMapping => nm })
   }
 
-  def find(metaUri: String, actualDialect: Dialect): Option[NodeMapping] =
-    actualDialect.declares
+  def find(metaUri: String, actualDocumentDefinition: DocumentDefinition): Option[NodeMapping] =
+    actualDocumentDefinition.declares
       .find {
         case s: NodeMapping =>
           s.nodetypeMapping.value() == metaUri

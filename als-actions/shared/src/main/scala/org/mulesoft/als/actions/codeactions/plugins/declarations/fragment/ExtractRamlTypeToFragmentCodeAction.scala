@@ -29,7 +29,7 @@ case class ExtractRamlTypeToFragmentCodeAction(params: CodeActionRequestParams)
     spec.isRaml && positionIsExtracted &&
       amfObject.exists(o =>
         ExtractorCommon
-          .declarationPath(o, params.alsConfigurationState.definitionFor(spec).getOrElse(params.definedBy)) == Seq(
+          .declarationPath(o, params.alsConfigurationState.definitionFor(spec).getOrElse(params.documentDefinition)) == Seq(
           "types"
         )
       )

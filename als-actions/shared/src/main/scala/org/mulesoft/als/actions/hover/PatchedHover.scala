@@ -1,13 +1,12 @@
 package org.mulesoft.als.actions.hover
 
-import amf.aml.client.scala.model.document.Dialect
 import amf.aml.client.scala.model.domain.ClassTerm
-import org.mulesoft.common.client.lexical.{PositionRange => AmfPositionRange}
 import amf.core.client.scala.model.domain.AmfObject
 import amf.core.client.scala.vocabulary.ValueType
 import amf.core.internal.annotations.Aliases
-import org.mulesoft.als.common.{ASTPartBranch, YPartBranch}
+import org.mulesoft.als.common.ASTPartBranch
 import org.mulesoft.amfintegration.AmfImplicits.AmfObjectImp
+import org.mulesoft.amfintegration.amfconfiguration.DocumentDefinition
 import org.mulesoft.amfintegration.dialect.dialects.asyncapi20.AsyncApi20Dialect
 import org.mulesoft.amfintegration.dialect.dialects.asyncapi26.AsyncApi26Dialect
 import org.mulesoft.amfintegration.dialect.dialects.oas.{OAS20Dialect, OAS30Dialect}
@@ -16,6 +15,7 @@ import org.mulesoft.amfintegration.dialect.dialects.raml.raml10.Raml10TypesDiale
 import org.mulesoft.amfintegration.vocabularies.AlsPatchedVocabulary
 import org.mulesoft.amfintegration.vocabularies.integration.{AlsVocabularyRegistry, VocabularyProvider}
 import org.mulesoft.amfintegration.vocabularies.propertyterms.patched.raml.raml10.Raml10UsesKeyTerm
+import org.mulesoft.common.client.lexical.{PositionRange => AmfPositionRange}
 import org.yaml.model.YMapEntry
 
 class PatchedHover private (provider: VocabularyProvider) {
@@ -31,13 +31,13 @@ class PatchedHover private (provider: VocabularyProvider) {
     )
 
   def getHover(
-      obj: AmfObject,
-      branch: ASTPartBranch,
-      dialect: Dialect
+                obj: AmfObject,
+                branch: ASTPartBranch,
+                documentDefinition: DocumentDefinition
   ): Option[(Seq[String], Option[AmfPositionRange])] =
     obj.metaURIs.headOption.flatMap(metaUri => {
       branch.closestEntry match {
-        case Some(entry: YMapEntry) => getPatchedHover(metaUri, entry, dialect.id)
+        case Some(entry: YMapEntry) => getPatchedHover(metaUri, entry, documentDefinition.baseUnit.id)
         case _                      => None
       }
 
@@ -82,22 +82,22 @@ class PatchedHover private (provider: VocabularyProvider) {
     indexAliasTerms(aliases, dialectName)
   }
 
-  private def init(dialect: Dialect, aliases: Aliases): Unit = {
-    patches(dialectNames.getOrElse(dialect.id, "unknown"), aliases)
+  private def init(documentDefinition: DocumentDefinition, aliases: Aliases): Unit = {
+    patches(dialectNames.getOrElse(documentDefinition.baseUnit.id, "unknown"), aliases)
   }
 
 }
 
 object PatchedHover {
 
-  def apply(provider: VocabularyProvider, dialectTerms: Seq[DialectTerms]): PatchedHover = {
+  def apply(provider: VocabularyProvider, dialectTerms: Seq[DocumentTerms]): PatchedHover = {
     val ph = new PatchedHover(provider)
     provider match {
       case _: AlsVocabularyRegistry =>
         dialectTerms.foreach(t => {
           t.bu.annotations
             .find(classOf[Aliases])
-            .foreach(aliases => ph.init(t.definedBy, aliases))
+            .foreach(aliases => ph.init(t.documentDefinition, aliases))
         })
       case _ =>
     }

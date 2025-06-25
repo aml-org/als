@@ -4,12 +4,7 @@ import amf.core.client.scala.AMFResult
 import amf.core.client.scala.model.document.BaseUnit
 import org.mulesoft.als.server.modules.workspace.{ParsedUnit, WorkspaceParserRepository}
 import org.mulesoft.amfintegration.AmfImplicits.BaseUnitImp
-import org.mulesoft.amfintegration.amfconfiguration.{
-  ALSConfigurationState,
-  AmfParseResult,
-  EditorConfiguration,
-  EmptyProjectConfigurationState
-}
+import org.mulesoft.amfintegration.amfconfiguration.{ALSConfigurationState, AmfParseResult, DocumentDefinition, EditorConfiguration, EmptyProjectConfigurationState}
 import org.mulesoft.amfintegration.dialect.dialects.ExternalFragmentDialect
 import org.mulesoft.amfintegration.platform.AlsPlatformSecrets
 import org.scalatest.funsuite.AsyncFunSuite
@@ -98,7 +93,7 @@ class WorkspaceParserRepositoryTest
           apiPU.parsedResult.result.results
         ) // this `result.result.results` looks hideous, i know
 
-      r.updateUnit(new AmfParseResult(moddedBU, ExternalFragmentDialect(), apiPU.parsedResult.context, api.uri))
+      r.updateUnit(new AmfParseResult(moddedBU, DocumentDefinition(ExternalFragmentDialect()), apiPU.parsedResult.context, api.uri))
       val moddedPU = getParsedUnitOrFail(r, "file://newLocation/api.raml")
       assert(
         moddedPU.parsedResult.result.baseUnit.id == apiPU.parsedResult.result.baseUnit.id

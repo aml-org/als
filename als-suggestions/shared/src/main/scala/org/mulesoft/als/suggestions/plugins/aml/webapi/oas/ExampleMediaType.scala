@@ -21,7 +21,7 @@ object ExampleMediaType extends AMLCompletionPlugin {
         new AMLKnownValueCompletions(
           ExampleModel.MediaType,
           ExampleModel.`type`.head.iri(),
-          request.actualDialect,
+          request.actualDocumentDefinition,
           request.astPartBranch.isKey,
           request.astPartBranch.isInArray || request.astPartBranch.isArray,
           true

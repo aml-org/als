@@ -1,6 +1,5 @@
 package org.mulesoft.als.suggestions.plugins.aml
 
-import amf.aml.client.scala.model.document.Dialect
 import amf.aml.client.scala.model.domain.NodeMapping
 import amf.apicontract.internal.metamodel.domain.templates.{ResourceTypeModel, TraitModel}
 import amf.apicontract.internal.metamodel.domain.{MessageModel, RequestModel, ResponseModel}
@@ -17,20 +16,21 @@ import org.mulesoft.als.suggestions.RawSuggestion
 import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
 import org.mulesoft.als.suggestions.aml.declarations.DeclarationProvider
 import org.mulesoft.amfintegration.AmfImplicits.AmfAnnotationsImp
+import org.mulesoft.amfintegration.amfconfiguration.DocumentDefinition
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
 class AMLJsonSchemaStyleDeclarationReferences(
-    dialect: Dialect,
-    ids: Seq[String],
-    actualName: Option[String],
-    astPartBranch: ASTPartBranch,
-    iriToPath: Map[String, String]
+                                               documentDefinition: DocumentDefinition,
+                                               ids: Seq[String],
+                                               actualName: Option[String],
+                                               astPartBranch: ASTPartBranch,
+                                               iriToPath: Map[String, String]
 ) {
 
   def resolve(dp: DeclarationProvider): Seq[RawSuggestion] = {
-    val declarationsPath = dialect.documents().declarationsPath().option().map(_ + "/").getOrElse("")
+    val declarationsPath = documentDefinition.documents().flatMap(_.declarationsPath().option()).map(_ + "/").getOrElse("")
     val routes = ids.flatMap { id =>
       dp.forNodeType(id).filter(n => !actualName.contains(n)).map { name =>
         nameForIri(id).fold(s"#/$name")(n => s"#/$declarationsPath$n/$name")
@@ -52,10 +52,10 @@ trait AbstractAMLJsonSchemaStyleDeclarationReferences extends AMLDeclarationRefe
   override def id: String = "AMLJsonSchemaStyleDeclarationReferences"
 
   def applies(request: AmlCompletionRequest): Boolean = {
-    request.astPartBranch.isValue && request.astPartBranch.parentEntryIs("$ref") && request.actualDialect
+    request.astPartBranch.isValue && request.astPartBranch.parentEntryIs("$ref") && request.actualDocumentDefinition
       .documents()
-      .referenceStyle()
-      .option()
+      .flatMap(_.referenceStyle()
+        .option())
       .forall(_ == ReferenceStyles.JSONSCHEMA) && isLocal(request.astPartBranch)
   }
 
@@ -81,12 +81,13 @@ trait AbstractAMLJsonSchemaStyleDeclarationReferences extends AMLDeclarationRefe
         case _ => getObjectRangeIds(request)
       }
 
-    val mappings: Seq[NodeMapping] = request.actualDialect.declares.collect({ case n: NodeMapping => n })
+    val mappings: Seq[NodeMapping] = request.actualDocumentDefinition.declares.collect({ case n: NodeMapping => n })
 
-    val iriToPath: Map[String, String] = request.actualDialect
+    val iriToPath: Map[String, String] = request.actualDocumentDefinition
       .documents()
-      .root()
-      .declaredNodes()
+      .toSeq
+      .flatMap(_.root()
+        .declaredNodes())
       .flatMap(dn =>
         mappings
           .find(_.id == dn.mappedNode().value())
@@ -96,7 +97,7 @@ trait AbstractAMLJsonSchemaStyleDeclarationReferences extends AMLDeclarationRefe
       .toMap
 
     new AMLJsonSchemaStyleDeclarationReferences(
-      request.actualDialect,
+      request.actualDocumentDefinition,
       ids,
       actualName,
       request.astPartBranch,

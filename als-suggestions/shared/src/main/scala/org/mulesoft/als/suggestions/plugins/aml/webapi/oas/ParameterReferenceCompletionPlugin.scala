@@ -21,7 +21,7 @@ object ParameterReferenceCompletionPlugin extends AMLCompletionPlugin {
         request.amfObject match {
           case _: Parameter =>
             new AMLJsonSchemaStyleDeclarationReferences(
-              request.actualDialect,
+              request.actualDocumentDefinition,
               paramIriMaps.keys.toSeq,
               request.amfObject.elementIdentifier(),
               request.astPartBranch,

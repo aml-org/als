@@ -35,7 +35,7 @@ trait ConverterExtractor[Original <: AmfObject, Result <: AmfObject]
       newName,
       params.bu,
       params.uri,
-      params.definedBy,
+      params.documentDefinition,
       params.configuration,
       jsonOptions,
       yamlOptions,

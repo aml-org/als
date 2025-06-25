@@ -17,7 +17,7 @@ object Async2HeadersSchema extends ResolveIfApplies {
         .isInstanceOf[Parameter] && request.astPartBranch.isKeyDescendantOf("headers") && request.branchStack.headOption
         .exists(_.isInstanceOf[Response])
     )
-      Some(Future(AnyShapeAsync2Node.Obj.propertiesRaw(fromDialect = request.actualDialect)))
+      Some(Future(AnyShapeAsync2Node.Obj.propertiesRaw(fromDefinition = request.actualDocumentDefinition)))
     else notApply
   }
 }

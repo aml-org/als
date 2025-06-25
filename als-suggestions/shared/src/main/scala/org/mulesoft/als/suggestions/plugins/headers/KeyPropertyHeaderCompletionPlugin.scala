@@ -1,12 +1,11 @@
 package org.mulesoft.als.suggestions.plugins.headers
 
-import amf.aml.client.scala.model.document.Dialect
 import amf.core.internal.remote.{FileMediaType, Spec}
 import org.mulesoft.als.common.dtoTypes.Position
-import org.mulesoft.als.configuration.{AlsConfigurationReader, Configuration, TemplateTypes}
+import org.mulesoft.als.configuration.{AlsConfigurationReader, TemplateTypes}
 import org.mulesoft.als.suggestions.interfaces.HeaderCompletionPlugin
 import org.mulesoft.als.suggestions.{HeaderCompletionParams, RawSuggestion}
-import org.mulesoft.amfintegration.amfconfiguration.ALSConfigurationState
+import org.mulesoft.amfintegration.amfconfiguration.{ALSConfigurationState, DocumentDefinition}
 
 import scala.concurrent.Future
 
@@ -71,14 +70,14 @@ class KeyPropertyHeaderCompletionPlugin(
     s"{\n${text.linesIterator.map(l => s"  $l").mkString("\n")}\n}"
 
   private def getSuggestions: Seq[RawSuggestion] = {
-    configurationState.allDialects
-      .filter(d => Option(d.documents()).exists(_.keyProperty().value()))
+    configurationState.allDefinitions
+      .filter(d => d.documents().exists(_.keyProperty().value()))
       .filter(compliesFormat)
       .map(d => {
         val Flavour(text, label, isASnippet) =
           if (isJson)
-            jsonFlavour(purgeName(d), d.version().value(), hasBracket, position)
-          else yamlFlavour(purgeName(d), d.version().value())
+            jsonFlavour(purgeName(d), d.version().getOrElse(""), hasBracket, position)
+          else yamlFlavour(purgeName(d), d.version().getOrElse(""))
 
         new RawSuggestion(text, label.trim, s"Define a ${purgedNameAndVersion(d)} file", Seq(), children = Nil)
       })
@@ -86,22 +85,22 @@ class KeyPropertyHeaderCompletionPlugin(
   }
 
   /** only suggest $schema for json documents
-    * @param dialect
+    * @param documentDefinition
     * @return
     */
-  private def compliesFormat(dialect: Dialect): Boolean =
+  private def compliesFormat(documentDefinition: DocumentDefinition): Boolean =
     if (!isJson)
-      !isJsonSchema(dialect)
+      !isJsonSchema(documentDefinition)
     else true
 
-  private def isJsonSchema(dialect: Dialect) =
-    dialect.name().option().contains(Spec.JSONSCHEMA.toString)
+  private def isJsonSchema(documentDefinition: DocumentDefinition) =
+    documentDefinition.name().contains(Spec.JSONSCHEMA.toString)
 
-  private def purgeName(d: Dialect) =
+  private def purgeName(d: DocumentDefinition) =
     if (isJsonSchema(d)) "$schema"
-    else d.name().value()
+    else d.name().getOrElse("")
 
-  private def purgedNameAndVersion(d: Dialect) = {
+  private def purgedNameAndVersion(d: DocumentDefinition) = {
     val nameAndVersion = d.nameAndVersion()
     if (nameAndVersion == "swagger 2.0") "openapi 2.0"
     else nameAndVersion

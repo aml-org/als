@@ -25,12 +25,12 @@ object Raml08TypeFacetsCompletionPlugin extends WebApiTypeFacetsCompletionPlugin
   override def resolve(params: AmlCompletionRequest): Future[Seq[RawSuggestion]] = {
     Future.successful(params.amfObject match {
       case shape: Shape
-          if isWritingFacet(params.astPartBranch, shape, params.branchStack, params.actualDialect) &&
+          if isWritingFacet(params.astPartBranch, shape, params.branchStack, params.actualDocumentDefinition) &&
             !isWritingKeyMediaType(params) &&
             !insideMediaType(params) =>
-        resolveShape(shape, params.branchStack, params.actualDialect)
+        resolveShape(shape, params.branchStack, params.actualDocumentDefinition)
       case shape: Shape
-          if isWritingFacet(params.astPartBranch, shape, params.branchStack, params.actualDialect) &&
+          if isWritingFacet(params.astPartBranch, shape, params.branchStack, params.actualDocumentDefinition) &&
             !isWritingKeyMediaType(params) =>
         {
           if (insideFormMediaType(params))

@@ -11,7 +11,7 @@ import org.mulesoft.als.common.dtoTypes.PositionRange
 import org.mulesoft.als.configuration.AlsConfigurationReader
 import org.mulesoft.als.declarations.DeclarationCreator
 import org.mulesoft.amfintegration.AmfImplicits.{AmfAnnotationsImp, AmfObjectImp, BaseUnitImp}
-import org.mulesoft.amfintegration.amfconfiguration.ALSConfigurationState
+import org.mulesoft.amfintegration.amfconfiguration.{ALSConfigurationState, DocumentDefinition}
 import org.mulesoft.common.collections._
 import org.yaml.model._
 import org.yaml.render.{JsonRender, JsonRenderOptions, YamlRender, YamlRenderOptions}
@@ -22,17 +22,17 @@ object ExtractorCommon extends DeclarationCreator {
     !bu.declarations.forall(objs.contains)
 
   def existAnyDeclaration(
-      objs: Seq[AmfObject],
-      astPartBranch: Option[ASTPartBranch],
-      bu: BaseUnit,
-      dialect: Dialect
+                           objs: Seq[AmfObject],
+                           astPartBranch: Option[ASTPartBranch],
+                           bu: BaseUnit,
+                           documentDefinition: DocumentDefinition
   ): Seq[PositionRange] =
     if (!existAnyOtherDeclaration(objs, bu))
-      deleteAll(objs, astPartBranch, bu, dialect)
-    else deleteDeclarationGroup(objs, bu, dialect)
+      deleteAll(objs, astPartBranch, bu, documentDefinition)
+    else deleteDeclarationGroup(objs, bu, documentDefinition)
 
-  private def deleteAll(objs: Seq[AmfObject], astPartBranch: Option[ASTPartBranch], bu: BaseUnit, dialect: Dialect) =
-    declarationPathForDialect(dialect) match {
+  private def deleteAll(objs: Seq[AmfObject], astPartBranch: Option[ASTPartBranch], bu: BaseUnit, documentDefinition: DocumentDefinition) =
+    declarationPathForDialect(documentDefinition) match {
       case Some(d) =>
         val flatten: Option[YMapEntry] = astPartBranch
           .map(_.stack)
@@ -41,11 +41,11 @@ object ExtractorCommon extends DeclarationCreator {
           .collectFirst({ case m: YMap => m.entries.find(_.key.asScalar.exists(_.text == d)) })
           .flatten
         flatten.map(_.range).map(PositionRange(_)).toSeq
-      case _ => deleteDeclarationGroup(objs, bu, dialect)
+      case _ => deleteDeclarationGroup(objs, bu, documentDefinition)
     }
 
-  private def deleteDeclarationGroup(objs: Seq[AmfObject], bu: BaseUnit, dialect: Dialect): Seq[PositionRange] = {
-    val objsByKey: Map[Option[String], Seq[AmfObject]] = objs.legacyGroupBy(_.declarableKey(dialect))
+  private def deleteDeclarationGroup(objs: Seq[AmfObject], bu: BaseUnit, documentDefinition: DocumentDefinition): Seq[PositionRange] = {
+    val objsByKey: Map[Option[String], Seq[AmfObject]] = objs.legacyGroupBy(_.declarableKey(documentDefinition))
     val allRanges =
       if (!objsByKey.keySet.contains(None))
         objsByKey.iterator.flatMap { t =>
@@ -69,20 +69,20 @@ object ExtractorCommon extends DeclarationCreator {
     *   Element as YNode
     */
   def declaredElementNode(
-      amfObject: Option[AmfObject],
-      dialect: Dialect,
-      alsConfigurationState: ALSConfigurationState
+                           amfObject: Option[AmfObject],
+                           documentDefinition: DocumentDefinition,
+                           alsConfigurationState: ALSConfigurationState
   ): Option[YNode] =
     amfObject
       .collect { case e: DomainElement =>
-        alsConfigurationState.configForDialect(dialect).emit(e)
+        alsConfigurationState.configForDefinition(documentDefinition).emit(e)
       }
 
   /** The complete node and the entry where it belongs, contemplating the path for the declaration and existing AST
     */
   def wrappedDeclaredEntry(
       amfObject: Option[AmfObject],
-      dialect: Dialect,
+      dialect: DocumentDefinition,
       bu: BaseUnit,
       uri: String,
       newName: String,
@@ -103,17 +103,17 @@ object ExtractorCommon extends DeclarationCreator {
   /** Render for the new declaration, and the top entry on which it should be nested
     */
   def declaredEntry(
-      amfObject: Option[AmfObject],
-      dialect: Dialect,
-      bu: BaseUnit,
-      uri: String,
-      newName: String,
-      configurationReader: AlsConfigurationReader,
-      jsonOptions: JsonRenderOptions,
-      yamlOptions: YamlRenderOptions,
-      alsConfigurationState: ALSConfigurationState
+                     amfObject: Option[AmfObject],
+                     documentDefinition: DocumentDefinition,
+                     bu: BaseUnit,
+                     uri: String,
+                     newName: String,
+                     configurationReader: AlsConfigurationReader,
+                     jsonOptions: JsonRenderOptions,
+                     yamlOptions: YamlRenderOptions,
+                     alsConfigurationState: ALSConfigurationState
   ): Option[(String, Option[YMapEntry])] = {
-    val wrapped = wrappedDeclaredEntry(amfObject, dialect, bu, uri, newName, alsConfigurationState)
+    val wrapped = wrappedDeclaredEntry(amfObject, documentDefinition, bu, uri, newName, alsConfigurationState)
     val maybeParent: Option[YMapEntry] = wrapped.flatMap(_._2)
     wrapped
       .map(_._1)

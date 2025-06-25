@@ -20,7 +20,7 @@ object OperationRequest extends AMLCompletionPlugin {
       request.amfObject match {
         case _: Request
             if request.branchStack.headOption.exists(_.isInstanceOf[Operation]) && request.fieldEntry.isEmpty =>
-          val nodeMapping: Option[NodeMapping] = request.actualDialect.declares
+          val nodeMapping: Option[NodeMapping] = request.actualDocumentDefinition.declares
             .collect({ case d: NodeMapping => d })
             .find(n =>
               n.nodetypeMapping.option().exists(uri => OperationModel.`type`.headOption.map(_.iri()).contains(uri))
@@ -30,7 +30,7 @@ object OperationRequest extends AMLCompletionPlugin {
               n.propertiesMapping()
                 .map(p =>
                   p.toRaw(
-                    CategoryRegistry(OperationModel.`type`.head.iri(), p.name().value(), request.actualDialect.id)
+                    CategoryRegistry(OperationModel.`type`.head.iri(), p.name().value(), request.actualDocumentDefinition.baseUnit.id)
                   )
                 )
             )

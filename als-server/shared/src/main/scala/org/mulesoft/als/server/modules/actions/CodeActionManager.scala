@@ -53,7 +53,7 @@ class CodeActionManager(
                     bu.unit,
                     bu.tree,
                     bu.astPartBranch,
-                    bu.definedBy,
+                    bu.documentDefinition,
                     configuration,
                     allr,
                     configurationBuilder,

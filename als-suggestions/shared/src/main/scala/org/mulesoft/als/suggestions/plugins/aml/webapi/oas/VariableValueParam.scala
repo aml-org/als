@@ -24,7 +24,7 @@ trait VariableValueParam extends ExceptionPlugin {
   protected val variableDialectNode: DialectNode
   override def resolve(request: AmlCompletionRequest): Future[Seq[RawSuggestion]] =
     if (applies(request)) Future {
-      variableDialectNode.Obj.propertiesRaw(fromDialect = request.actualDialect).filter(_.displayText != "name")
+      variableDialectNode.Obj.propertiesRaw(fromDefinition = request.actualDocumentDefinition).filter(_.displayText != "name")
     }
     else
       emptySuggestion

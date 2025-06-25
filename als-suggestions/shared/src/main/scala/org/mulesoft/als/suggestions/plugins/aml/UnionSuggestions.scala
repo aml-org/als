@@ -1,21 +1,21 @@
 package org.mulesoft.als.suggestions.plugins.aml
 
-import amf.aml.client.scala.model.document.Dialect
 import amf.aml.client.scala.model.domain._
 import amf.aml.internal.annotations.FromUnionNodeMapping
 import amf.core.client.scala.model.StrField
 import amf.core.client.scala.model.domain.{AmfObject, DomainElement}
 import org.mulesoft.als.common.YPartBranch
 import org.mulesoft.amfintegration.AmfImplicits.AmfObjectImp
+import org.mulesoft.amfintegration.amfconfiguration.DocumentDefinition
 
 trait UnionSuggestions {
   protected val amfObject: AmfObject
-  protected val dialect: Dialect
+  protected val documentDefinition: DocumentDefinition
   protected val yPartBranch: YPartBranch
 
   private def getUnionTypeFromMeta: Option[UnionNodeMapping] =
     amfObject.metaURIs.flatMap { v =>
-      dialect.declares.collectFirst({
+      documentDefinition.declares.collectFirst({
         case d: UnionNodeMapping if d.id == v => d
       })
     }.headOption
@@ -25,13 +25,13 @@ trait UnionSuggestions {
 
   private def getUnionTypeFromAnnotation: Option[UnionNodeMapping] =
     amfObject.annotations.find(classOf[FromUnionNodeMapping]).flatMap { ann: FromUnionNodeMapping =>
-      dialect.declares.collectFirst({
+      documentDefinition.declares.collectFirst({
         case d: UnionNodeMapping if d.id == ann.id => d
       })
     }
 
   protected def getDeclaredDomainElement(id: String): Option[DomainElement] =
-    dialect.declares.collectFirst({
+    documentDefinition.declares.collectFirst({
       case d if d.id == id => d
     })
 

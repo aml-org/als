@@ -79,7 +79,7 @@ class CleanDiagnosticTreeTest extends AsyncFlatSpec {
         val manager = new DummyCleanDiagnosticTreeManager(
           Map(
             mainPath -> ALSConfigurationState(
-              EditorConfigurationState(Seq(dRL, mfRL), Nil, Nil, syntaxPlugin = Nil, validationPlugin = Nil),
+              EditorConfigurationState(Seq(dRL, mfRL), Nil, Nil, Nil, syntaxPlugin = Nil, validationPlugin = Nil),
               state,
               None
             )
@@ -106,6 +106,7 @@ class CleanDiagnosticTreeTest extends AsyncFlatSpec {
             mainPath -> ALSConfigurationState(
               EditorConfigurationState(
                 configuration.resourceLoaders,
+                Nil,
                 Nil,
                 Nil,
                 syntaxPlugin = Nil,
@@ -135,7 +136,7 @@ class CleanDiagnosticTreeTest extends AsyncFlatSpec {
     Logger.withTelemetry(DummyTelemetryProvider)
 
     val emptyConfig: ALSConfigurationState = ALSConfigurationState(
-      EditorConfigurationState(Nil, Nil, Nil, syntaxPlugin = Nil, validationPlugin = Nil),
+      EditorConfigurationState(Nil, Nil, Nil, Nil, syntaxPlugin = Nil, validationPlugin = Nil),
       EmptyProjectConfigurationState,
       None
     )

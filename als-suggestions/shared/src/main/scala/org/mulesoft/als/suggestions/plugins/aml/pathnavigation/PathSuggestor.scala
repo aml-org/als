@@ -52,7 +52,7 @@ object PathSuggestor {
     } yield {
       cached match {
         case Some(schema: DeclaresModel) => DeclarablePathSuggestor(schema, prefix, targetClass)
-        case None                        => PathNavigation(fileUri, navPath, prefix, alsConfiguration, containsHashtag)
+        case _                        => PathNavigation(fileUri, navPath, prefix, alsConfiguration, containsHashtag)
       }
     }
   }

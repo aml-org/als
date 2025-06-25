@@ -10,6 +10,7 @@ import amf.core.client.scala.model.document.BaseUnit
 import amf.core.client.scala.model.domain.DomainElement
 import amf.core.client.scala.model.domain.templates.AbstractDeclaration
 import amf.core.internal.annotations.SourceYPart
+import amf.shapes.client.scala.ShapesConfiguration
 import org.mulesoft.als.logger.Logger
 import org.mulesoft.amfintegration.AmfImplicits._
 import org.mulesoft.amfintegration.amfconfiguration.ProfileMatcher.profile
@@ -34,7 +35,7 @@ object AbstractDeclarationInformation {
   def extractInformation(
       declaration: AbstractDeclaration,
       bu: BaseUnit,
-      amfConfiguration: AMFConfiguration
+      amfConfiguration: ShapesConfiguration
   ): Option[ElementInfo] = {
     getTarget(declaration) match {
       case r: ResourceType =>

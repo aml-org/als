@@ -1,0 +1,73 @@
+{
+  "name": "test-mcp-server",
+  "protocolVersion": "2024-11-05",
+  "capabilities": {
+    "tools": true,
+    "resources": true,
+    "prompts": true,
+    "logging": true
+  },
+  "tools": [
+    {
+      "name": "echo",
+      "description": "Echo back the provided text",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "text": {
+            "type": "string",
+            "description": "The text to echo back"
+          }
+        },
+        "required": [
+          "text"
+        ]
+      }
+    },
+    {*},
+    {
+      "name": "add",
+      "description": "Add two numbers together",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "a": {
+            "type": "number",
+            "description": "First number"
+          },
+          "b": {
+            "type": "number",
+            "description": "Second number"
+          }
+        },
+        "required": [
+          "a",
+          "b"
+        ]
+      }
+    }
+  ],
+  "resources": [
+    {
+      "uri": "test://example",
+      "name": "Example Resource",
+      "description": "A test resource",
+      "mimeType": "text/plain"
+    }
+  ],
+  "prompts": [
+    {
+      "name": "greeting",
+      "description": "A friendly greeting prompt",
+      "arguments": [
+        {
+          "name": "name",
+          "description": "Name to greet",
+          "required": true
+        }
+      ]
+    }
+  ],
+  "introspectedAt": "Thu Jun 05 09:38:22 PDT 2025",
+  "connectionStatus": "success"
+}

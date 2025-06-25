@@ -37,9 +37,9 @@ object AMLPathCompletionPlugin extends AMLCompletionPlugin {
   private def ramlOrJsonInclusion(params: AmlCompletionRequest) = {
     params.astPartBranch match {
       case yPartBranch: YPartBranch =>
-        DialectKnowledge.isRamlInclusion(yPartBranch, params.nodeDialect) || DialectKnowledge.isJsonInclusion(
+        DialectKnowledge.isRamlInclusion(yPartBranch, params.nodeDocumentDefinition) || DialectKnowledge.isJsonInclusion(
           yPartBranch,
-          params.nodeDialect
+          params.nodeDocumentDefinition
         )
       case _ => false
     }

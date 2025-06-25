@@ -70,7 +70,7 @@ class DeleteDeclaredNodeCodeAction(override val params: CodeActionRequestParams)
 
   private def removeObj(obj: AmfObject) =
     ExtractorCommon
-      .existAnyDeclaration(Seq(obj), yPartBranch, params.bu, params.definedBy)
+      .existAnyDeclaration(Seq(obj), yPartBranch, params.bu, params.documentDefinition)
       .map(toLspRange)
       .map(r => TextEdit(r.copy(start = r.start.copy(character = 0)), ""))
       .headOption

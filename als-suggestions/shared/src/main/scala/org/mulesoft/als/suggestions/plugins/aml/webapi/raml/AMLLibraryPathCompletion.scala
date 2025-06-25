@@ -17,7 +17,7 @@ object AMLLibraryPathCompletion extends AMLCompletionPlugin {
     if (
       (request.amfObject
         .isInstanceOf[BaseUnit] ||
-        isEncodes(request.amfObject, request.actualDialect, request.branchStack)) && matchesAST(request)
+        isEncodes(request.amfObject, request.actualDocumentDefinition, request.branchStack)) && matchesAST(request)
     ) {
       AMLPathCompletionPlugin.resolveInclusion(
         request.baseUnit.location().getOrElse(""),

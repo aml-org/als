@@ -21,38 +21,39 @@ class AMLRootDeclarationsCompletionPlugin(params: AmlCompletionRequest) {
 
   private def getSuggestions: Seq[(String, String)] =
     params.baseUnit match {
-      case _: DeclaresModel if params.actualDialect.documents().declarationsPath().option().isDefined =>
-        params.actualDialect
+      case _: DeclaresModel if params.actualDocumentDefinition.documents().flatMap(_.declarationsPath().option()).isDefined =>
+        params.actualDocumentDefinition
           .documents()
-          .declarationsPath()
-          .option()
+          .flatMap(_
+            .declarationsPath()
+            .option())
           .map(v => (v, "\n  "))
           .toSeq // todo: should this be indentation from config?
       case _: DeclaresModel =>
         params.baseUnit match {
           case _: DialectInstanceLibrary | _: Module =>
-            params.actualDialect
+            params.actualDocumentDefinition
               .documents()
-              .library()
-              .declaredNodes()
+              .toSeq
+              .flatMap(_.root().declaredNodes())
               .map(extractText)
           case _ =>
-            params.actualDialect
+            params.actualDocumentDefinition
               .documents()
-              .root()
-              .declaredNodes()
+              .toSeq
+              .flatMap(_.root().declaredNodes())
               .map(extractText)
         }
       case _ => Nil
     }
 
   def usesSuggestion(): Option[(String, String)] =
-    params.actualDialect.documents().fields.getValueAsOption(DocumentsModelModel.Library).map(_ => ("uses", "\n  "))
+    params.actualDocumentDefinition.documents().flatMap(_.fields.getValueAsOption(DocumentsModelModel.Library)).map(_ => ("uses", "\n  "))
 
   def resolve(classTerm: String): Future[Seq[RawSuggestion]] =
     Future {
       (getSuggestions ++ usesSuggestion())
-        .map(s => RawSuggestion.forObject(s._1, CategoryRegistry(classTerm, s._1, params.actualDialect.id)))
+        .map(s => RawSuggestion.forObject(s._1, CategoryRegistry(classTerm, s._1, params.actualDocumentDefinition.baseUnit.id)))
     }
 }
 

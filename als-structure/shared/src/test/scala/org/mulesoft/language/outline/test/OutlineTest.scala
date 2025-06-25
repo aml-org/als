@@ -7,11 +7,7 @@ import amf.core.client.scala.resource.ResourceLoader
 import amf.core.internal.remote.Platform
 import org.mulesoft.als.common.MarkerFinderTest
 import org.mulesoft.als.common.diff.FileAssertionTest
-import org.mulesoft.amfintegration.amfconfiguration.{
-  ALSConfigurationState,
-  EditorConfiguration,
-  EmptyProjectConfigurationState
-}
+import org.mulesoft.amfintegration.amfconfiguration.{ALSConfigurationState, DocumentDefinition, EditorConfiguration, EmptyProjectConfigurationState}
 import org.mulesoft.amfintegration.platform.AlsPlatformSecrets
 import org.scalatest.compatible.Assertion
 import org.scalatest.funsuite.AsyncFunSuite
@@ -23,7 +19,7 @@ trait OutlineTest[T] extends AsyncFunSuite with FileAssertionTest with AlsPlatfo
   implicit override def executionContext: ExecutionContext =
     scala.concurrent.ExecutionContext.Implicits.global
 
-  def readDataFromAST(unit: BaseUnit, definedBy: Dialect): T
+  def readDataFromAST(unit: BaseUnit, documentDefinition: DocumentDefinition): T
 
   def writeDataToString(data: T): String
 
@@ -70,7 +66,7 @@ trait OutlineTest[T] extends AsyncFunSuite with FileAssertionTest with AlsPlatfo
 
         //        val fileContentsStr = content.stream.toString
         //        configuration.withResourceLoader(loader(url, fileContentsStr))
-        configuration.parse(url, asMain = true).map(cu => (cu.result.baseUnit, cu.definedBy))
+        configuration.parse(url, asMain = true).map(cu => (cu.result.baseUnit, cu.documentDefinition))
       })
       .map {
         case (amfUnit, d) =>

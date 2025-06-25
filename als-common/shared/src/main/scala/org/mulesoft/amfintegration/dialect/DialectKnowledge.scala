@@ -1,26 +1,26 @@
 package org.mulesoft.amfintegration.dialect
 
-import amf.aml.client.scala.model.document.Dialect
 import amf.plugins.document.vocabularies.plugin.ReferenceStyles
 import org.mulesoft.als.common.{ASTPartBranch, YPartBranch}
+import org.mulesoft.amfintegration.amfconfiguration.DocumentDefinition
 
 object DialectKnowledge {
 
-  def isStyleValue(style: String, dialect: Dialect): Boolean =
-    Option(dialect.documents()).forall(d => d.referenceStyle().is(style) || d.referenceStyle().isNullOrEmpty)
+  def isStyleValue(style: String, documentDefinition: DocumentDefinition): Boolean =
+    documentDefinition.documents().forall(d => d.referenceStyle().is(style) || d.referenceStyle().isNullOrEmpty)
 
-  def isRamlInclusion(yPartBranch: YPartBranch, dialect: Dialect): Boolean =
-    yPartBranch.hasIncludeTag && isStyleValue(ReferenceStyles.RAML, dialect)
+  def isRamlInclusion(yPartBranch: YPartBranch, documentDefinition: DocumentDefinition): Boolean =
+    yPartBranch.hasIncludeTag && isStyleValue(ReferenceStyles.RAML, documentDefinition)
 
-  def isJsonInclusion(yPartBranch: YPartBranch, dialect: Dialect): Boolean =
-    yPartBranch.isValue && isStyleValue(ReferenceStyles.JSONSCHEMA, dialect) &&
+  def isJsonInclusion(yPartBranch: YPartBranch, documentDefinition: DocumentDefinition): Boolean =
+    yPartBranch.isValue && isStyleValue(ReferenceStyles.JSONSCHEMA, documentDefinition) &&
       yPartBranch.parentEntry.exists(p => p.key.asScalar.exists(_.text == "$ref"))
 
-  def isInclusion(yPartBranch: YPartBranch, dialect: Dialect): Boolean =
-    isRamlInclusion(yPartBranch, dialect) || isJsonInclusion(yPartBranch, dialect)
+  def isInclusion(yPartBranch: YPartBranch, documentDefinition: DocumentDefinition): Boolean =
+    isRamlInclusion(yPartBranch, documentDefinition) || isJsonInclusion(yPartBranch, documentDefinition)
 
-  def isInclusion(astPartBranch: ASTPartBranch, dialect: Dialect): Boolean = astPartBranch match {
-    case yPart: YPartBranch => isInclusion(yPart, dialect)
+  def isInclusion(astPartBranch: ASTPartBranch, documentDefinition: DocumentDefinition): Boolean = astPartBranch match {
+    case yPart: YPartBranch => isInclusion(yPart, documentDefinition)
     case _                  => false
   }
 

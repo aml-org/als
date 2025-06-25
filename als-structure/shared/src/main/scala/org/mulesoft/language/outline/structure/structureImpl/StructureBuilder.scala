@@ -3,18 +3,7 @@ package org.mulesoft.language.outline.structure.structureImpl
 import amf.aml.client.scala.model.document.{Dialect, DialectFragment, DialectLibrary, Vocabulary}
 import amf.apicontract.internal.metamodel.domain.api.WebApiModel
 import amf.apicontract.internal.metamodel.domain.templates.{ResourceTypeModel, TraitModel}
-import amf.apicontract.internal.metamodel.domain.{
-  EndPointModel,
-  OperationModel,
-  ParameterModel,
-  ParametersFieldModel,
-  PayloadModel,
-  RequestModel,
-  ResponseModel,
-  ServerModel,
-  TagModel,
-  TagsModel
-}
+import amf.apicontract.internal.metamodel.domain.{EndPointModel, OperationModel, ParameterModel, ParametersFieldModel, PayloadModel, RequestModel, ResponseModel, ServerModel, TagModel, TagsModel}
 import amf.core.client.scala.model.document.BaseUnit
 import amf.core.client.scala.model.domain.{AmfElement, DomainElement, ObjectNode}
 import amf.core.internal.metamodel.Field
@@ -24,20 +13,12 @@ import amf.core.internal.metamodel.domain.extensions.{CustomDomainPropertyModel,
 import amf.core.internal.remote._
 import amf.shapes.internal.domain.metamodel.CreativeWorkModel
 import org.mulesoft.language.outline.structure.structureImpl.SymbolKinds.SymbolKind
-import org.mulesoft.language.outline.structure.structureImpl.factory.amlfactory.{
-  AmlBuilderFactory,
-  AmlMetaDialectBuilderFactory,
-  AmlVocabularyBuilderFactory
-}
-import org.mulesoft.language.outline.structure.structureImpl.factory.webapi.{
-  Async20BuilderFactory,
-  Oas20BuilderFactory,
-  Oas30BuilderFactory,
-  RamlBuilderFactory
-}
+import org.mulesoft.language.outline.structure.structureImpl.factory.amlfactory.{AmlBuilderFactory, AmlMetaDialectBuilderFactory, AmlVocabularyBuilderFactory}
+import org.mulesoft.language.outline.structure.structureImpl.factory.webapi.{Async20BuilderFactory, Oas20BuilderFactory, Oas30BuilderFactory, RamlBuilderFactory}
 import amf.core.internal.metamodel.Type
+import org.mulesoft.amfintegration.amfconfiguration.DocumentDefinition
 
-class StructureBuilder(unit: BaseUnit, definedBy: Dialect) {
+class StructureBuilder(unit: BaseUnit, documentDefinition: DocumentDefinition) {
 
   // todo: general amf model dialect?
   private val factory: BuilderFactory = {
@@ -55,7 +36,7 @@ class StructureBuilder(unit: BaseUnit, definedBy: Dialect) {
   }
 
   private val context = new StructureContextBuilder(unit)
-    .withDialect(definedBy)
+    .withDefinition(documentDefinition)
     .withFactory(factory)
     .build() // todo: change for default amf model dialect
 
@@ -64,8 +45,8 @@ class StructureBuilder(unit: BaseUnit, definedBy: Dialect) {
 }
 
 object StructureBuilder {
-  def listSymbols(unit: BaseUnit, definedBy: Dialect): List[DocumentSymbol] =
-    new StructureBuilder(unit, definedBy).listSymbols()
+  def listSymbols(unit: BaseUnit, documentDefinition: DocumentDefinition): List[DocumentSymbol] =
+    new StructureBuilder(unit, documentDefinition).listSymbols()
 }
 
 object KindForResultMatcher {

@@ -12,6 +12,7 @@ import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
 import org.mulesoft.als.suggestions.interfaces.AMLCompletionPlugin
 import org.mulesoft.als.suggestions.plugins.aml._
 import org.mulesoft.als.suggestions.plugins.aml.categories.CategoryRegistry
+import org.mulesoft.amfintegration.amfconfiguration.DocumentDefinition
 import org.mulesoft.amfintegration.dialect.dialects.oas.OAS20Dialect
 import org.mulesoft.amfintegration.dialect.dialects.oas.nodes.Oas20ParamObject
 import org.mulesoft.amfintegration.dialect.dialects.oas.nodes.Oas20ParamObject.allowEmptyValue
@@ -53,7 +54,7 @@ object Oas20ParameterStructure extends AMLCompletionPlugin {
 
   def bodySuggestions(astPartBranch: ASTPartBranch, p: Parameter): Seq[RawSuggestion] =
     if (p.name.value() != astPartBranch.stringValue)
-      Oas20TypeFacetsCompletionPlugin.resolveShape(Option(p.schema).getOrElse(AnyShape()), Nil, OAS20Dialect())
+      Oas20TypeFacetsCompletionPlugin.resolveShape(Option(p.schema).getOrElse(AnyShape()), Nil, DocumentDefinition(OAS20Dialect()))
     else Nil
 
   def suggestions(amfObject: AmfObject): Seq[RawSuggestion] =

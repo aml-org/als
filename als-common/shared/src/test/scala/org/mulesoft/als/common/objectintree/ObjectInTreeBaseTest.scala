@@ -5,12 +5,7 @@ import amf.aml.internal.metamodel.domain.DialectDomainElementModel
 import org.mulesoft.als.common.dtoTypes.Position
 import org.mulesoft.als.common.{NodeBranchBuilder, ObjectInTree, ObjectInTreeBuilder}
 import org.mulesoft.amfintegration.AmfImplicits.BaseUnitImp
-import org.mulesoft.amfintegration.amfconfiguration.{
-  ALSConfigurationState,
-  AmfParseResult,
-  EditorConfiguration,
-  EmptyProjectConfigurationState
-}
+import org.mulesoft.amfintegration.amfconfiguration.{ALSConfigurationState, AmfParseResult, DocumentDefinition, EditorConfiguration, EmptyProjectConfigurationState}
 import org.mulesoft.amfintegration.platform.AlsPlatformSecrets
 import org.mulesoft.common.client.lexical.{Position => AmfPosition}
 import org.scalatest.compatible.Assertion
@@ -34,11 +29,11 @@ case class ObjectInTreeBaseTest(instanceFile: String, dialectFile: String) exten
       )
     } yield result
   }
-  private def fn(pos: AmfPosition, result: AmfParseResult, dialect: Dialect): ObjectInTree =
+  private def fn(pos: AmfPosition, result: AmfParseResult, documentDefinition: DocumentDefinition): ObjectInTree =
     ObjectInTreeBuilder.fromUnit(
       result.result.baseUnit,
       result.result.baseUnit.identifier,
-      dialect,
+      documentDefinition,
       NodeBranchBuilder.build(result.result.baseUnit, pos, strict = false)
     )
 
@@ -46,7 +41,7 @@ case class ObjectInTreeBaseTest(instanceFile: String, dialectFile: String) exten
     for {
       dialect <- global.getState.map(_.dialects.find(_.location().exists(_.contains(dialectFile))))
       result  <- eventualResult
-    } yield fn(_, result, dialect.get)
+    } yield fn(_, result, DocumentDefinition(dialect.get))
 
   private def assertTypeIri(expectedTypeIri: String, tree: ObjectInTree) =
     tree.obj.meta match {

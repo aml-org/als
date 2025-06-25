@@ -9,6 +9,7 @@ import org.mulesoft.als.suggestions.aml.{AmlCompletionRequest, DialectNodeFinder
 import org.mulesoft.amfintegration.AmfImplicits.{AmfObjectImp, DialectImplicits}
 import org.yaml.model.YMapEntry
 import amf.core.internal.utils.InflectorBase.Inflector
+import org.mulesoft.amfintegration.amfconfiguration.DocumentDefinition
 
 object TemplateTools {
   val fullPrefix          = "New full"
@@ -16,11 +17,11 @@ object TemplateTools {
   val category            = "template"
   private val defaultName = "element"
 
-  private def maybeDeclarableName(amfObject: AmfObject, dialect: Dialect): Option[String] =
-    amfObject.declarableKey(dialect)
+  private def maybeDeclarableName(amfObject: AmfObject, documentDefinition: DocumentDefinition): Option[String] =
+    amfObject.declarableKey(documentDefinition)
 
   private def getName(params: AmlCompletionRequest) =
-    maybeDeclarableName(params.amfObject, params.nodeDialect)
+    maybeDeclarableName(params.amfObject, params.nodeDocumentDefinition)
       .orElse(params.astPartBranch.parentKey)
       .map(_.singularize)
       .getOrElse(defaultName)
@@ -59,7 +60,7 @@ object TemplateTools {
 
   def parentTermKey(params: AmlCompletionRequest): Option[PropertyMapping] =
     params.branchStack.headOption
-      .flatMap(DialectNodeFinder.find(_, None, params.actualDialect))
+      .flatMap(DialectNodeFinder.find(_, None, params.actualDocumentDefinition))
       .flatMap(_.propertiesMapping().find(_.mapTermKeyProperty().option().isDefined))
       .filterNot(pm =>
         params.amfObject.fields
@@ -73,7 +74,7 @@ object TemplateTools {
 
   def isInsideDeclaration(params: AmlCompletionRequest): Boolean =
     params.astPartBranch.parentKey
-      .exists(k => params.nodeDialect.declarationsMapTerms.values.to[Seq].contains(k)) &&
+      .exists(k => params.nodeDocumentDefinition.declarationsMapTerms.values.to[Seq].contains(k)) &&
       hasCorrectDeclarationNesting(params)
 
   private def getRecursiveChildren(
@@ -98,10 +99,10 @@ object TemplateTools {
       .map { _.value.value }
       .collect { case AmfArray(values, _) => values }
       .flatMap(_.collectFirst { case s: AmfScalar => s.toString })
-      .map(mappingsForNode(_, params.actualDialect))
+      .map(mappingsForNode(_, params.actualDocumentDefinition))
       .getOrElse(Seq.empty)
 
-  private def mappingsForNode(nodeType: String, d: Dialect): Seq[PropertyMapping] =
+  private def mappingsForNode(nodeType: String, d: DocumentDefinition): Seq[PropertyMapping] =
     d.declares
       .find(de => de.id == nodeType)
       .collect { case nm: NodeMapping => nm.propertiesMapping() }
@@ -168,7 +169,7 @@ object TemplateTools {
   }
 
   private def hasCorrectDeclarationNesting(params: AmlCompletionRequest) =
-    declarationPathForDialect(params.nodeDialect) match {
+    declarationPathForDefinition(params.nodeDocumentDefinition) match {
       case Some(dp) =>
         params.astPartBranch.stack.drop(3).collectFirst { case e: YMapEntry => e } match {
           case Some(entry) =>
@@ -179,6 +180,6 @@ object TemplateTools {
         params.astPartBranch.stack.size <= 4 // document -> map -> entry -> (node of previous declaration)
     }
 
-  private def declarationPathForDialect(dialect: Dialect): Option[String] =
-    dialect.documents().declarationsPath().option()
+  private def declarationPathForDefinition(documentDefinition: DocumentDefinition): Option[String] =
+    documentDefinition.documents().flatMap(_.declarationsPath().option())
 }

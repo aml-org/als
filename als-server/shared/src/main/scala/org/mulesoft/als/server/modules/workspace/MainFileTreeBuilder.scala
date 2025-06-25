@@ -5,7 +5,7 @@ import amf.core.client.scala.AMFResult
 import amf.core.client.scala.model.document.BaseUnit
 import org.mulesoft.als.logger.Logger
 import org.mulesoft.amfintegration.AmfImplicits.BaseUnitImp
-import org.mulesoft.amfintegration.amfconfiguration.{AmfParseContext, AmfParseResult, ProfileMatcher}
+import org.mulesoft.amfintegration.amfconfiguration.{AmfParseContext, AmfParseResult, DocumentDefinition, ProfileMatcher}
 import org.mulesoft.amfintegration.dialect.dialects.ExternalFragmentDialect
 import org.mulesoft.amfintegration.relationships.{AliasInfo, RelationshipLink}
 import org.mulesoft.amfintegration.visitors.AmfElementVisitors
@@ -16,12 +16,12 @@ import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
 class ParsedMainFileTree(
-    val main: AMFResult,
-    private val innerNodeRelationships: Seq[RelationshipLink],
-    private val innerDocumentLinks: Map[String, Seq[DocumentLink]],
-    private val innerAliases: Seq[AliasInfo],
-    definedBy: Dialect,
-    private val parseContext: AmfParseContext
+                          val main: AMFResult,
+                          private val innerNodeRelationships: Seq[RelationshipLink],
+                          private val innerDocumentLinks: Map[String, Seq[DocumentLink]],
+                          private val innerAliases: Seq[AliasInfo],
+                          documentDefinition: DocumentDefinition,
+                          private val parseContext: AmfParseContext
 ) extends MainFileTree {
 
   private val units: mutable.Map[String, AMFResult] = mutable.Map.empty
@@ -30,23 +30,23 @@ class ParsedMainFileTree(
     units
       .map(t =>
         t._1 -> {
-          val definedBy = getDialectForBaseUnit(t._2.baseUnit)
+          val documentDefinition = getDefinitionForBaseUnit(t._2.baseUnit)
           ParsedUnit(
             new AmfParseResult(
               t._2,
-              definedBy,
+              documentDefinition,
               parseContext,
               t._1
             ),
             inTree = true,
-            definedBy
+            documentDefinition
           )
         }
       )
       .toMap
 
-  private def getDialectForBaseUnit(baseUnit: BaseUnit): Dialect =
-    baseUnit.sourceSpec.flatMap(ProfileMatcher.dialect).getOrElse(ExternalFragmentDialect.dialect)
+  private def getDefinitionForBaseUnit(baseUnit: BaseUnit): DocumentDefinition =
+    baseUnit.sourceSpec.flatMap(ProfileMatcher.dialect).getOrElse(DocumentDefinition(ExternalFragmentDialect.dialect))
 
   override def references: Map[String, Seq[DocumentLink]] = documentLinks
 
@@ -64,36 +64,40 @@ class ParsedMainFileTree(
   override def aliases: Seq[AliasInfo] = innerAliases
 
   override val profiles: Map[String, ParsedUnit] = parseContext.state.profiles
-    .map(p =>
+    .map(p => {
+      val definition = DocumentDefinition(p.definedBy)
       p.path -> ParsedUnit(
-        new AmfParseResult(AMFResult(p.model, Nil), p.definedBy, parseContext, p.path),
+        new AmfParseResult(AMFResult(p.model, Nil), definition, parseContext, p.path),
         false,
-        p.definedBy
+        definition
       )
+    }
     )
     .toMap
 
   override val dialects: Map[String, ParsedUnit] = parseContext.state.dialects
-    .map(d =>
+    .map(d => {
+      val definition = DocumentDefinition(d) // should this be the meta dialect?
       d.identifier -> ParsedUnit(
-        new AmfParseResult(AMFResult(d, Nil), d, parseContext, d.identifier),
+        new AmfParseResult(AMFResult(d, Nil), definition, parseContext, d.identifier),
         false,
-        d
+        definition
       )
+    }
     )
     .toMap
 }
 
 object ParsedMainFileTree {
   def apply(
-      main: AMFResult,
-      nodeRelationships: Seq[RelationshipLink],
-      documentLinks: Map[String, Seq[DocumentLink]],
-      aliases: Seq[AliasInfo],
-      definedBy: Dialect,
-      parseContext: AmfParseContext
+             main: AMFResult,
+             nodeRelationships: Seq[RelationshipLink],
+             documentLinks: Map[String, Seq[DocumentLink]],
+             aliases: Seq[AliasInfo],
+             documentDefinition: DocumentDefinition,
+             parseContext: AmfParseContext
   ): ParsedMainFileTree =
-    new ParsedMainFileTree(main, nodeRelationships, documentLinks, aliases, definedBy, parseContext)
+    new ParsedMainFileTree(main, nodeRelationships, documentLinks, aliases, documentDefinition, parseContext)
 }
 
 object MainFileTreeBuilder {
@@ -108,7 +112,7 @@ object MainFileTreeBuilder {
       visitors.getRelationshipsFromVisitors,
       visitors.getDocumentLinksFromVisitors,
       visitors.getAliasesFromVisitors,
-      amfParseResult.definedBy,
+      amfParseResult.documentDefinition,
       amfParseResult.context
     )
     tree.index(refs)

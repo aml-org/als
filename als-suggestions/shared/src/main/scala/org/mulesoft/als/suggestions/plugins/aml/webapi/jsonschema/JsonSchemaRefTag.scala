@@ -1,4 +1,4 @@
-package org.mulesoft.als.suggestions.plugins.aml.webapi.jsonSchema
+package org.mulesoft.als.suggestions.plugins.aml.webapi.jsonschema
 
 import org.mulesoft.als.common.YPartBranch
 import org.mulesoft.als.suggestions.plugins.aml.AMLRefTagCompletionPlugin
