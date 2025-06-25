@@ -3,7 +3,7 @@ import org.mulesoft.als.suggestions.AMLBaseCompletionPlugins
 import org.mulesoft.als.suggestions.aml.webapi.WebApiCompletionPluginRegistry
 import org.mulesoft.als.suggestions.interfaces.AMLCompletionPlugin
 import org.mulesoft.als.suggestions.plugins.aml.validationprofiles.ValidationProfileTermsSuggestions
-import org.mulesoft.als.suggestions.plugins.aml.webapi.jsonSchema.{
+import org.mulesoft.als.suggestions.plugins.aml.webapi.jsonschema.{
   JsonSchemaRefTag,
   JsonSchemaRequiredObjectCompletionPlugin,
   ResolveJsonSchemaRequiredProperties

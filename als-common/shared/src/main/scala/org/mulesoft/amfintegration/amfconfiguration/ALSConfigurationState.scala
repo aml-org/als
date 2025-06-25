@@ -22,8 +22,10 @@ import org.mulesoft.amfintegration.ValidationProfile
 import org.mulesoft.amfintegration.dialect.dialects.ExternalFragmentDialect
 import org.mulesoft.amfintegration.dialect.dialects.metadialect.{MetaDialect, VocabularyDialect}
 import org.mulesoft.amfintegration.dialect.integration.BaseAlsDefinitionsProvider
+import org.mulesoft.amfintegration.dialect.jsonschemas.MCPJsonSchema
 import org.mulesoft.amfintegration.platform.AlsPlatformSecrets
 import org.yaml.builder.DocBuilder
+import amf.mcp.internal.plugins.parse.schema.MCPSchemaLoader
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
@@ -87,7 +89,7 @@ case class ALSConfigurationState(
         projectState.getGraphQLProjectConfig(asMain)
       else if (url.endsWith("avsc"))
         projectState.getAvroProjectConfig(asMain).withPlugins(editorState.alsParsingPlugins)
-      else if (url.endsWith(".mcp.json"))
+      else if (MCPJsonSchema.isMcpFile(url))
         projectState.getMCPProjectConfig(asMain).withPlugins(editorState.alsParsingPlugins)
       else getAmfConfig(asMain).withPlugins(editorState.alsParsingPlugins)
     getAmfConfig(base, asMain)
@@ -231,7 +233,7 @@ case class ALSConfigurationState(
       if (bu.sourceSpec.exists(_.isAsync))
         allDialects(configurationState).find(d => ProfileMatcher.spec(d).contains(Spec.ASYNC20))
       else if (bu.sourceSpec.exists(_.toString == "Mcp")) // ask for AMF to expose a way to identify this better, or wrap `editorState.schemas` so it has a (spec -> DD)
-        editorState.schemas.headOption.map(DocumentDefinition(_)) // todo: implement a search mechanism to support more than one def
+        Some(DocumentDefinition(MCPSchemaLoader.doc))// editorState.schemas.headOption.map(DocumentDefinition(_)) // todo: implement a search mechanism to support more than one def
       else None
 
     bu match {

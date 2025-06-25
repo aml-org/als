@@ -22,7 +22,7 @@ case class PropertyMappingFilter(objectInTree: ObjectInTree, actualDocumentDefin
   private def isInDeclarations(nm: NodeMapping): Boolean =
     actualDocumentDefinition
       .documents()
-      .map(_.root())
+      .flatMap(d => Option(d.root()))
       .exists(root =>
         root.declaredNodes().exists(_.mappedNode().option().contains(nm.id)) && objectInTree.stack.last
           .isInstanceOf[BaseUnit]

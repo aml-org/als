@@ -17,6 +17,7 @@ import amf.core.internal.parser.domain.{Annotations, FieldEntry, Value}
 import amf.core.internal.remote.Spec
 import amf.custom.validation.internal.report.loaders.ProfileDialectLoader
 import amf.plugins.document.vocabularies.plugin.ReferenceStyles
+import amf.shapes.client.scala.model.document.JsonLDInstanceDocument
 import amf.shapes.internal.annotations._
 import org.mulesoft.als.common.ASTElementWrapper._
 import org.mulesoft.als.common.YPartASTWrapper.{AlsYMapOps, AlsYPart}
@@ -265,6 +266,10 @@ object AmfImplicits {
         .map(_ => bu)
         .orElse(
           bu match {
+            case json: JsonLDInstanceDocument =>
+              json.encodes.headOption.collect{
+                case e: AmfObject => e // todo: all seems super dangerous, check if AMF has a prettier way of organizing this
+              }
             case e: EncodesModel if e.encodes.annotations.yPart().isDefined =>
               Some(e.encodes)
             case _ => None

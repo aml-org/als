@@ -12,6 +12,7 @@ import amf.shapes.internal.document.metamodel.JsonSchemaDocumentModel
 import org.mulesoft.amfintegration.AmfImplicits.DialectImplicits
 
 trait DocumentDefinition {
+  // todo: check if all this is needed, I think most don't apply for other than Dialects
   def nameAndVersion(): String
   def name(): Option[String]
   def version(): Option[String]

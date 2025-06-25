@@ -1,10 +1,12 @@
 package org.mulesoft.als.suggestions
 
+import amf.shapes.client.scala.model.document.JsonSchemaDocument
 import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
 import org.mulesoft.als.suggestions.interfaces.AMLCompletionPlugin
 import org.mulesoft.als.suggestions.plugins.aml.validationprofiles.ValidationProfileTermsSuggestions
 import org.mulesoft.als.suggestions.plugins.aml.webapi.extensions.OasLikeSemanticExtensionsFlavour
 import org.mulesoft.als.suggestions.plugins.aml.{StructureCompletionPlugin, _}
+import org.mulesoft.als.suggestions.plugins.jsonschema.JsonSchemaStructureCompletionPlugin
 import org.mulesoft.amfintegration.amfconfiguration.DocumentDefinition
 
 import scala.collection.mutable
@@ -70,7 +72,13 @@ class CompletionsPluginHandler {
 
   private def getRegistryForDefinition(documentDefinition: DocumentDefinition) =
     registries
-      .getOrElse(documentDefinition.baseUnit.id, AMLBaseCompletionPlugins.base)
+      .getOrElse(documentDefinition.baseUnit.id, getBasePluginsForDefinition(documentDefinition))
+
+  private def getBasePluginsForDefinition(documentDefinition: DocumentDefinition) =
+    documentDefinition.baseUnit match {
+      case _: JsonSchemaDocument => JsonSchemaBaseCompletionPlugins.base
+      case _ => AMLBaseCompletionPlugins.base
+    }
 
   def registerPlugin(plugin: AMLCompletionPlugin, dialect: String): Unit =
     registries.get(dialect) match {
@@ -114,6 +122,23 @@ object AMLBaseCompletionPlugins {
     AMLBooleanPropertyValue,
     AMLJsonSchemaStyleDeclarationReferences,
     AMLUnionDiscriminatorCompletionPlugin,
+    OasLikeSemanticExtensionsFlavour
+  )
+
+  val base: CompletionPluginsRegistryAML = {
+    val b = new CompletionPluginsRegistryAML
+    all.foreach(b.registerPlugin)
+    b
+  }
+}
+
+object JsonSchemaBaseCompletionPlugins {
+  lazy val all: Seq[AMLCompletionPlugin] = CustomBaseCompletionPlugins.custom ++ Seq(
+    JsonSchemaStructureCompletionPlugin,
+    AMLRefTagCompletionPlugin,
+    AMLPathCompletionPlugin,
+    AMLBooleanPropertyValue,
+    AMLJsonSchemaStyleDeclarationReferences,
     OasLikeSemanticExtensionsFlavour
   )
 

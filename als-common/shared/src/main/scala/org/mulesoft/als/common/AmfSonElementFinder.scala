@@ -1,6 +1,5 @@
 package org.mulesoft.als.common
 
-import amf.aml.client.scala.model.document.Dialect
 import amf.aml.client.scala.model.domain.DialectDomainElement
 import amf.aml.internal.metamodel.domain.DialectDomainElementModel
 import amf.apicontract.client.scala.model.domain.Payload

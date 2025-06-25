@@ -1,6 +1,5 @@
 package org.mulesoft.amfintegration.amfconfiguration
 
-import amf.aml.client.scala.AMLConfiguration
 import amf.aml.client.scala.model.document.Dialect
 import amf.apicontract.client.scala.{APIConfiguration, AvroConfiguration}
 import amf.core.client.scala.AMFParseResult
