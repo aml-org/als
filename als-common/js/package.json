@@ -7,7 +7,7 @@
   },
   "dependencies": {
     "@aml-org/amf-antlr-parsers": "0.8.28",
-    "ajv": "6.12.6",
+    "ajv": "8.18.0",
     "avro-js": "1.12.0"
   },
   "author": "",
